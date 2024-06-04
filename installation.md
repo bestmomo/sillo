@@ -6,11 +6,13 @@ Vous voulez participer ? Vous pouvez facilement installer le projet en local.
 
 Clonez le code :
 
-`git clone git@github.com:bestmomo/sillo`
+`git clone git@github.com:bestmomo/sillo.git`
 
-Créez un fichier **.env** avec vos éléments pour la connexion à la base de données et procédez à l'installation :
+Créez un fichier **.env** avec vos éléments pour la connexion à la base de données et fixez la langue à **fr** puis procédez à l'installation :
 
 `composer install`
+`php artisan key:generate`
+`php artisan storage:link` 
 `npm install`
 `php artisan migrate --seed`
 `npm run dev`
