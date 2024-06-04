@@ -6,7 +6,6 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsAdminOrRedac;
 
 Volt::route('/', 'index');
-Volt::route('/test', 'test');
 Volt::route('/contact', 'contact')->name('contact');
 Volt::route('/category/{slug}', 'index');
 Volt::route('/serie/{slug}', 'index');
