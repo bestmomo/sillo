@@ -2,9 +2,9 @@
 
 [Retour à la table des matières](README.md)
 
-Je suis ravi de présenter mon projet de création de blog. Ce projet, dont le développement est déjà bien avancé, vise à offrir une plateforme complète et intuitive pour la publication et la gestion de contenu. L'idée première est de remplacer Wordpress que j'utilise depuis plus de 10 ans pour mon blog par une application réalisée avec Larave.
+Je suis ravi de présenter mon projet de création de blog. Ce projet, dont le développement est déjà bien avancé, vise à offrir une plateforme complète et intuitive pour la publication et la gestion de contenu. L'idée première est de remplacer WordPress que j'utilise depuis plus de 10 ans pour mon blog par une application réalisée avec Laravel.
 
-Laravel évole rapidement, de nouvelles technologies comme Volt, Livewire et MaryUI sont désormais à notre disposition, transformant radicalement notre façon de coder.
+Laravel évolue rapidement, de nouvelles technologies comme Volt, Livewire et MaryUI sont désormais à notre disposition, transformant radicalement notre façon de coder.
 
 La solution se compose de deux parties principales : le frontend et le backend, chacune avec des fonctionnalités spécifiques.
 
@@ -40,7 +40,7 @@ Le backend est la partie de l'application où l'administrateur et les rédacteur
     * Création et gestion des catégories.
 
 * Gestion des séries :
-    * Création et gestion de séries d'articles sur un même thème. c’est quelque chose qui manque dans WordPress où les articles s’enchainent en fonction des dates.
+    * Création et gestion de séries d'articles sur un même thème. c’est quelque chose qui manque dans WordPress où les articles s’enchaînent en fonction des dates.
 
 * Gestion des menus et sous-menus :
     * Personnalisation de la navigation sur le site.
@@ -48,7 +48,7 @@ Le backend est la partie de l'application où l'administrateur et les rédacteur
 * Gestion des profils utilisateurs :
     * Gestion des rôles des utilisateurs :
       * Le niveau principal et administrateur qui a tous les droits
-      * Ensuite les rédacteurs pour réidger des articles et gérer les commentaires correspondants
+      * Ensuite les rédacteurs pour rédiger des articles et gérer les commentaires correspondants
       * Enfin les utilisateurs peuvent juste ajouter et gérer des commentaires
 
 * Gestion des contacts :
