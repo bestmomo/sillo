@@ -2,8 +2,8 @@
 
 ## Table des matières
 
-[Presentation](presentation.md)
-[Installation](installation.md)
+[Presentation](presentation.md)<br>
+[Installation](installation.md)<br>
 [Base de données](database.md)
 
 ## License
