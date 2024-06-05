@@ -18,6 +18,8 @@ export default {
         themes: ["light", "dark", "cupcake", "dracula"],
     },
 
-    // Add daisyUI
-    plugins: [require("daisyui")]
+    plugins: [
+        require("@tailwindcss/typography"), 
+        require("daisyui"),
+    ]
 }

@@ -25,7 +25,7 @@
 
         <x-slot:content>            
             <!-- Drawer toggle for "main-drawer" -->
-            <label for="main-drawer" class="lg:hidden mr-3">
+            <label for="main-drawer" class="mr-3 lg:hidden">
                 <x-icon name="o-bars-3" class="cursor-pointer" />
             </label>
             {{ $slot }}

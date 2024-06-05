@@ -72,7 +72,7 @@ new class extends Component {
         @endif        
     </div>
     <x-header title="{!! $post->title !!}" subtitle="{{ $post->created_at->isoFormat('LL') }} "  />
-    <div class="relative items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
+    <div class="relative items-center w-full px-5 py-5 mx-auto prose md:px-12 max-w-7xl">
         <div class="flex flex-col items-center mb-4">
             <img src="{{ asset('storage/photos/' . $post->image) }}" />
         </div>
