@@ -8,15 +8,25 @@ use Illuminate\Support\Collection;
 
 new class extends Component 
 {
-    public Collection$menus;
+    // Collection de menus
+    public Collection $menus;
 
-    // Initialise le composant avec les menus donnés.
-    public function mount($menus)
+    /**
+     * Initialise le composant avec les menus donnés.
+     * 
+     * @param Collection $menus
+     * @return void
+     */
+    public function mount(Collection $menus): void
     {
         $this->menus = $menus;
     }
 
-    // Déconnecte l'utilisateur actuellement authentifié.
+    /**
+     * Déconnecte l'utilisateur actuellement authentifié.
+     * 
+     * @return void
+     */
     public function logout(): void
     {
         Auth::guard('web')->logout();
@@ -26,41 +36,46 @@ new class extends Component
 
         $this->redirect('/');
     }
-
-}; ?>
+};
+?>
 
 <x-nav sticky full-width>
+    <!-- Marque du site -->
     <x-slot:brand>
-        <label for="main-drawer" class="lg:hidden mr-3">
+        <label for="main-drawer" class="mr-3 lg:hidden">
             <x-icon name="o-bars-3" class="cursor-pointer" />
         </label>
     </x-slot:brand>
 
-    <x-slot:actions> 
+    <!-- Actions de la barre de navigation -->
+    <x-slot:actions>
         <span class="hidden lg:block">
             @if($user = auth()->user())
+                <!-- Menu déroulant pour l'utilisateur connecté -->
                 <x-dropdown>
                     <x-slot:trigger>
-                        <x-button label="{{ $user->name }} " class="btn-ghost" />
+                        <x-button label="{{ $user->name }}" class="btn-ghost" />
                     </x-slot:trigger>
                     <x-menu-item title="{{ __('Profile') }}" link="{{ route('profile') }}" />
                     <x-menu-item title="{{ __('Logout') }}" wire:click="logout" />
                     @if($user->isAdminOrRedac())
                         <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin') }}" />
                     @endif
-                </x-dropdown>   
+                </x-dropdown>
             @else
+                <!-- Bouton de connexion pour les utilisateurs non connectés -->
                 <x-button label="{{ __('Login') }}" link="/login" class="btn-ghost" />
             @endif
 
-            @foreach ($menus as $menu)                
+            <!-- Menus dynamiques -->
+            @foreach ($menus as $menu)
                 @if($menu->submenus->isNotEmpty())
                     <x-dropdown>
                         <x-slot:trigger>
-                            <x-button label="{{$menu->label}}" class="btn-ghost" />
+                            <x-button label="{{ $menu->label }}" class="btn-ghost" />
                         </x-slot:trigger>
                         @foreach ($menu->submenus as $submenu)
-                            <x-menu-item title="{{ $submenu->label }}"  link="{{ $submenu->link }}" style="min-width: max-content;" />
+                            <x-menu-item title="{{ $submenu->label }}" link="{{ $submenu->link }}" style="min-width: max-content;" />
                         @endforeach
                     </x-dropdown>
                 @else
@@ -69,7 +84,6 @@ new class extends Component
             @endforeach
         </span>
         <x-theme-toggle />
-        <livewire:search />  
+        <livewire:search />
     </x-slot:actions>
 </x-nav>
-
