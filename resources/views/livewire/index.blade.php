@@ -9,9 +9,9 @@ new class extends Component {
 
     // Propriétés de la classe
     public string $slug = ''; // Slug pour identifier une catégorie ou une série
-    public ?Category $category = null; // Catégorie actuelle (ou null si aucune)
-    public ?Serie $serie = null; // Série actuelle (ou null si aucune)
     public string $param = ''; // Paramètre de recherche optionnel
+    public ?Category $category = null; // Catégorie actuelle (ou null si aucune)
+    public ?Serie $serie = null; // Série actuelle (ou null si aucune)    
     
     /**
      * Méthode de montage initiale appelée lors de la création du composant.
