@@ -1,55 +1,77 @@
 <?php
 
 use Livewire\Volt\Component;
-use App\Models\{ Comment, Post };
+use App\Models\Post;
 use App\Repositories\PostRepository;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Livewire\Attributes\Rule;
 
-new class extends Component {
-
+// Création d'une nouvelle classe anonyme étendant Component
+new class extends Component 
+{
+    // Propriétés publiques du composant
     public Post $post;
-    public Post|null $next;
-    public Post|null $previous;
+    public ?Post $next;
+    public ?Post $previous;
     public Collection $comments;
     public bool $listComments = false;
     public int $commentsCount;
 
+    // Attribut de validation pour le message des commentaires
     #[Rule('required|max:1000')]
     public string $message = '';
     
     // Initialise le composant avec le post spécifié.
     public function mount($slug): void
     {
+        // Instanciation d'un nouveau repository de post
         $postRepository = new PostRepository;
-
+        
+        // Récupération du post par le slug
         $this->post = $postRepository->getPostBySlug($slug);
-        $this->fill( 
-            $this->post->only('next', 'previous'), 
-        ); 
+        
+        // Remplissage des propriétés next et previous du post
+        $this->fill($this->post->only('next', 'previous')); 
+        
+        // Comptage des commentaires valides du post
         $this->commentsCount = $this->post->valid_comments_count;
+        
+        // Initialisation d'une collection de commentaires
         $this->comments = new Collection();
     }
 
     // Méthode pour cloner un article
     public function clonePost(int $postId): void
     {
+        // Récupération du post original à cloner
         $originalPost = Post::findOrFail($postId);
+        
+        // Clonage du post
         $clonedPost = $originalPost->replicate();
+        
+        // Instanciation d'un nouveau repository de post
         $postRepository = new PostRepository;
+        
+        // Génération d'un slug unique pour le post cloné
         $clonedPost->slug = $postRepository->generateUniqueSlug($originalPost->slug);
+        
+        // Désactivation du post cloné
         $clonedPost->active = false;
+        
+        // Enregistrement du post cloné
         $clonedPost->save();
 
+        // Redirection vers la page d'édition du post cloné
         redirect()->route('posts.edit', $clonedPost->slug);
     }
 
-    // Montre les commentaires associés au post.
+    // Méthode pour afficher les commentaires du post
     public function showComments(): void
     {
+        // Activation de l'affichage des commentaires
         $this->listComments = true;
 
+        // Récupération des commentaires valides du post avec les informations utilisateur
         $this->comments = $this->post->validComments()
                             ->with(['user' => function ($query) {
                                 $query->select('id', 'name', 'email', 'role')->withCount('comments');
@@ -61,17 +83,27 @@ new class extends Component {
 }; ?>
 
 <div>
+    <!-- Actions disponibles pour les utilisateurs authentifiés -->
     <div class="flex justify-end gap-4">
-        @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->id == $post->user_id))
-            <x-button icon="c-pencil-square" link="{{ route('posts.edit', $post) }}" tooltip-left="{{ __('Edit') }}" spinner class="btn-ghost btn-sm" />
-            <x-button icon="o-finger-print" wire:click="clonePost({{ $post->id }})" tooltip-left="{{ __('Clone') }}" spinner class="btn-ghost btn-sm" />
-        @endif   
+        @auth
+            <!-- Bouton pour modifier le post -->
+            @if(Auth::user()->isAdmin() || Auth::user()->id == $post->user_id)
+                <x-button icon="c-pencil-square" link="{{ route('posts.edit', $post) }}" tooltip-left="{{ __('Edit') }}" spinner class="btn-ghost btn-sm" />
+                <x-button icon="o-finger-print" wire:click="clonePost({{ $post->id }})" tooltip-left="{{ __('Clone') }}" spinner class="btn-ghost btn-sm" />
+            @endif
+        @endauth   
+        <!-- Bouton pour afficher la catégorie du post -->
         <x-button class="btn-sm"><a href="{{ url('/category/' . $post->category->slug) }}">{{ $post->category->title }}</a></x-button>
+        <!-- Bouton pour afficher la série du post (s'il existe) -->
         @if($post->serie)
             <x-button class="btn-sm"><a href="{{ url('/serie/' . $post->serie->slug) }}">{{ $post->serie->title }}</a></x-button>
         @endif        
     </div>
+    
+    <!-- Titre et date du post -->
     <x-header title="{!! $post->title !!}" subtitle="{{ $post->created_at->isoFormat('LL') }} "  />
+    
+    <!-- Contenu du post -->
     <div class="relative items-center w-full px-5 py-5 mx-auto prose md:px-12 max-w-7xl">
         <div class="flex flex-col items-center mb-4">
             <img src="{{ asset('storage/photos/' . $post->image) }}" />
@@ -81,17 +113,19 @@ new class extends Component {
     </div>
     <br><hr>
 
+    <!-- Informations sur l'auteur et le nombre de commentaires -->
     <div class="flex justify-between">
         <p>@lang('By ') {{ $post->user->name }}</p>
         <em>
-            @if($this->commentsCount != 0) 
-                @lang('Number of comments: ') {{ $this->commentsCount }}
+            @if($commentsCount != 0) 
+                @lang('Number of comments: ') {{ $commentsCount }}
             @else
                 @lang('No comments')
             @endif
         </em>
     </div>
 
+    <!-- Navigation entre les posts de la série -->
     @if($post->serie)
         <br>
         <div class="{{ $previous ? 'flex justify-between' : 'flex justify-end' }}">
@@ -104,27 +138,32 @@ new class extends Component {
         </div>        
     @endif
 
+    <!-- Section des commentaires -->
     <div class="relative items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
-        @if($this->listComments)
+        @if($listComments)
+            <!-- Afficher les commentaires -->
             <x-card title="{{ __('Comments') }}" shadow separator >
                 @foreach ($comments as $comment)
                     @if(!$comment->parent_id)
                         <livewire:posts.comment :$comment :$comments :depth="0" :key="$comment->id" />
                     @endif
                 @endforeach
-                @if(Auth::check())
-                    <livewire:posts.commentBase :postId="$this->post->id" />
-                @endif
+                <!-- Formulaire pour ajouter un nouveau commentaire -->
+                @auth
+                    <livewire:posts.commentBase :postId="$post->id" />
+                @endauth
             </x-card>
         @else
-            @if($this->commentsCount > 0)
+            <!-- Afficher le bouton pour afficher les commentaires -->
+            @if($commentsCount > 0)
                 <div class="flex justify-center">            
-                    <x-button label="{{ $this->commentsCount > 1 ? __('View comments') : __('View comment') }}" wire:click="showComments" class="btn-outline" />
+                    <x-button label="{{ $commentsCount > 1 ? __('View comments') : __('View comment') }}" wire:click="showComments" class="btn-outline" />
                 </div>
+            <!-- Afficher le formulaire pour ajouter un commentaire si aucun commentaire n'est disponible -->
             @else
-                @if(Auth::check())
-                    <livewire:posts.commentBase :postId="$this->post->id" />
-                @endif
+                @auth
+                    <livewire:posts.commentBase :postId="$post->id" />
+                @endauth
             @endif            
         @endif
     </div>
