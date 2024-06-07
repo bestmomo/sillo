@@ -18,19 +18,7 @@
 
     {{-- FOOTER --}}
     <hr><br>
-
-    <footer class="flex justify-center gap-x-2 text-gray-200">
-        <a href="/" class="hover:text-gray-500 mr-2">
-            @lang('Home')
-        </a>
-        <a href="#" class=" hover:text-gray-500 mr-2">
-            @lang('About')
-        </a>
-        <a href="/contact" class=" hover:text-gray-500 mr-2">
-            @lang('Contact')
-        </a>
-        <div>© 2024 - Bestmomo</div>     
-    </footer>
+        <livewire:navigation.footer /> 
     <br>
 
     {{--  TOAST area --}}
