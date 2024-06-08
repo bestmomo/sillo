@@ -36,12 +36,16 @@ class extends Component {
         ];
     }
 
-    // Méthode appelée avant la mise à jour d'une propriété
-    public function updating($property, $value)
+    // Méthode appelée avant la mise à jour de la propriété $title
+    public function updatedTitle($value): void
     {
-        if($property == 'title') {
-            $this->slug = Str::of($value)->slug('-');
-        }
+        $this->generateSlug($value);
+    }
+
+    // Méthode pour générer le slug à partir du titre
+    private function generateSlug(string $title): void
+    {
+        $this->slug = Str::of($title)->slug('-');
     }
 
     // Méthode pour supprimer une catégorie
@@ -56,6 +60,7 @@ class extends Component {
     public function save(): void
     {
         $data = $this->validate();
+
         Category::create($data);
 
         $this->success(__('Category created with success.'));
@@ -71,25 +76,52 @@ class extends Component {
     }
 
 }; ?>
-
 <div>
-    <x-header title="{{__('Categories')}}" separator progress-indicator />
+    <x-header title="{{ __('Categories') }}" separator progress-indicator />
+
     <x-card>
-        <x-table striped :headers="$headers" :rows="$categories" :sort-by="$sortBy" link="/admin/categories/{id}/edit" with-pagination >
+        <x-table 
+            striped 
+            :headers="$headers" 
+            :rows="$categories" 
+            :sort-by="$sortBy" 
+            link="/admin/categories/{id}/edit" 
+            with-pagination
+        >
             @scope('actions', $category)
-                <x-button icon="o-trash" wire:click="delete({{ $category->id }})" wire:confirm="{{__('Are you sure to delete this category?')}}" tooltip-left="{{ __('Delete') }}" spinner class="btn-ghost btn-sm text-red-500" />
+                <x-button 
+                    icon="o-trash" 
+                    wire:click="delete({{ $category->id }})" 
+                    wire:confirm="{{ __('Are you sure to delete this category?') }}" 
+                    tooltip-left="{{ __('Delete') }}" 
+                    spinner 
+                    class="text-red-500 btn-ghost btn-sm" 
+                />
             @endscope
         </x-table>
     </x-card>
-    <x-card class="" title="{{__('Create a new category')}}">
- 
+
+    <x-card title="{{ __('Create a new category') }}">
         <x-form wire:submit="save"> 
-            <x-input label="{{__('Title')}}" wire:model="title" wire:change="$refresh" />
-            <x-input type="text" wire:model="slug" label="{{ __('Slug') }}" />   
+            <x-input 
+                label="{{ __('Title') }}" 
+                wire:model.debounce.500ms="title" 
+                wire:change="$refresh"
+            />
+            <x-input 
+                type="text" 
+                wire:model="slug" 
+                label="{{ __('Slug') }}" 
+            />
             <x-slot:actions>
-                <x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+                <x-button 
+                    label="{{ __('Save') }}" 
+                    icon="o-paper-airplane" 
+                    spinner="save" 
+                    type="submit" 
+                    class="btn-primary" 
+                />
             </x-slot:actions>
         </x-form>
-
     </x-card>
 </div>

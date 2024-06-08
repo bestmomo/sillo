@@ -49,7 +49,7 @@ class extends Component {
     <x-card>
         <x-table striped :headers="$headers" :rows="$pages" link="/admin/pages/{slug}/edit" >
             @scope('actions', $page)
-                <x-button icon="o-trash" wire:click="deletePage({{ $page->id }})" tooltip-left="{{ __('Delete') }}" wire:confirm="{{ __('Are you sure to delete this page?') }}" spinner class="btn-ghost btn-sm text-red-500" />
+                <x-button icon="o-trash" wire:click="deletePage({{ $page->id }})" tooltip-left="{{ __('Delete') }}" wire:confirm="{{ __('Are you sure to delete this page?') }}" spinner class="text-red-500 btn-ghost btn-sm" />
             @endscope
         </x-table>
     </x-card>

@@ -14,7 +14,7 @@ class extends Component {
 
     public Menu $menu;
     public string $label = '';
-    public string|null $link = null;
+    public ?string $link = null;
 
     // Initialise le composant avec le menu donné.
     public function mount(Menu $menu): void
@@ -44,16 +44,14 @@ class extends Component {
 }; ?>
 
 <div>
-    <x-card class="" title="{{__('Edit a menu')}}">
- 
-        <x-form wire:submit="save"> 
-            <x-input label="{{__('Title')}}" wire:model="label" />
-            <x-input type="text" wire:model="link" label="{{ __('Link') }}" />   
+    <x-card title="{{ __('Edit a menu') }}">
+        <x-form wire:submit="save">
+            <x-input label="{{ __('Title') }}" wire:model="label" />
+            <x-input type="text" wire:model="link" label="{{ __('Link') }}" />
             <x-slot:actions>
-                <x-button label="{{__('Cancel')}}" icon="o-hand-thumb-down" class="btn-outline" link="/admin/menus/index" />
-                <x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+                <x-button label="{{ __('Cancel') }}" icon="o-hand-thumb-down" class="btn-outline" link="/admin/menus/index" />
+                <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
             </x-slot:actions>
         </x-form>
-
     </x-card>
 </div>

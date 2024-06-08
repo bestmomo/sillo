@@ -10,10 +10,9 @@ new class extends Component {
     public Page $page;
   
     // Méthode de montage pour initialiser la page
-    public function mount($slug): void
+    public function mount(Page $page): void
     {
-        // Récupération de la page par son slug
-        $this->page = Page::where('slug', $slug)->firstOrFail();
+        $this->page = $page;
     }
 
 }; ?>

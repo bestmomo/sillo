@@ -13,7 +13,7 @@ Volt::route('/serie/{slug}', 'index');
 Volt::route('/search/{param}', 'index')->name('posts.search');
 
 Volt::route('/posts/{slug}', 'posts.show')->name('posts.show');
-Volt::route('/pages/{slug}', 'pages.show')->name('pages.show');
+Volt::route('/pages/{page:slug}', 'pages.show')->name('pages.show');
 
 // Routes pour les invités
 Route::middleware('guest')->group(function () {

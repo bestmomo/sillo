@@ -28,18 +28,32 @@ class extends Component {
         $this->fill($this->category->toArray());
     }
 
-    // Méthode appelée avant la mise à jour d'une propriété
-    public function updating($property, $value)
+    // Méthode appelée avant la mise à jour de la propriété $title
+    public function updatedTitle($value): void
     {
-        if ($property == 'title') {
-            $this->slug = Str::of($value)->slug('-');
-        }
+        $this->generateSlug($value);
+    }
+
+    // Méthode pour générer le slug à partir du titre
+    private function generateSlug(string $title): void
+    {
+        $this->slug = Str::of($title)->slug('-');
     }
 
     // Méthode pour sauvegarder les modifications de la catégorie
     public function save(): void
     {
-        $data = $this->validate([
+        $data = $this->validate($this->rules());
+
+        $this->category->update($data);
+
+        $this->success(__('Category updated successfully.'), redirectTo: '/admin/categories/index');
+    }
+
+    // Règles de validation pour les données
+    protected function rules(): array
+    {
+        return [
             'title' => 'required|string|max:255',
             'slug' => [
                 'required',
@@ -48,11 +62,7 @@ class extends Component {
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
                 Rule::unique('categories')->ignore($this->category->id),
             ],
-        ]);
-
-        $this->category->update($data);
-
-        $this->success(__('Category updated with success.'), redirectTo: '/admin/categories/index');
+        ];
     }
 
 }; ?>
@@ -61,11 +71,26 @@ class extends Component {
     <x-card class="" title="{{__('Edit a category')}}">
  
         <x-form wire:submit="save"> 
-            <x-input label="{{__('Title')}}" wire:model="title" wire:change="$refresh" />
-            <x-input type="text" wire:model="slug" label="{{ __('Slug') }}" />   
+            <x-input 
+                label="{{__('Title')}}" 
+                wire:model.debounce.500ms="title" 
+                wire:change="$refresh" />
+            <x-input 
+                type="text" 
+                wire:model="slug" 
+                label="{{ __('Slug') }}" />   
             <x-slot:actions>
-                <x-button label="{{__('Cancel')}}" icon="o-hand-thumb-down" class="btn-outline" link="/admin/categories/index" />
-                <x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+                <x-button 
+                    label="{{__('Cancel')}}" 
+                    icon="o-hand-thumb-down" 
+                    class="btn-outline" 
+                    link="/admin/categories/index" />
+                <x-button 
+                    label="{{__('Save')}}" 
+                    icon="o-paper-airplane" 
+                    spinner="save" 
+                    type="submit" 
+                    class="btn-primary" />
             </x-slot:actions>
         </x-form>
 

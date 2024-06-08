@@ -18,6 +18,7 @@ class extends Component {
     public string $title = '';
     public string $slug = '';
 
+    // Initialise le composant avec la page donnée.
     public function mount(Page $page): void
     {
         $this->page = $page;
@@ -25,13 +26,19 @@ class extends Component {
         $this->fill($this->page);
     }
 
-    public function updating($property, $value)
+    // Méthode appelée avant la mise à jour de la propriété $title
+    public function updatedTitle($value): void
     {
-        if($property == 'title') {
-            $this->slug = Str::slug($value);
-        }
+        $this->generateSlug($value);
     }
 
+    // Méthode pour générer le slug à partir du titre
+    private function generateSlug(string $title): void
+    {
+        $this->slug = Str::of($title)->slug('-');
+    }
+
+    // Enregistre les modifications de la page
     public function save()
     {
         $data = $this->validate([

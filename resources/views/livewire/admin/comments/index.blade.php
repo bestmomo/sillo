@@ -18,6 +18,7 @@ class extends Component {
     public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
     public $role = 'all';
 
+    // Méthode pour supprimer un commentaire
     public function deleteComment(Comment $comment): void
     {
         $comment->delete();
@@ -25,6 +26,7 @@ class extends Component {
         $this->success(__('Comment deleted'));
     }
 
+    // Méthode pour valider un commentaire
     public function validComment(Comment $comment): void
     {
         $comment->user->valid = true;
@@ -33,6 +35,7 @@ class extends Component {
         $this->success(__('Comment validated'));
     }
 
+    // Méthode pour obtenir les en-têtes des colonnes
     public function headers(): array
     {
         return [
@@ -43,6 +46,7 @@ class extends Component {
         ];
     }
 
+    // Méthode pour obtenir la liste des commentaires avec pagination
     public function comments(): LengthAwarePaginator
     {
         return Comment::query()
@@ -56,6 +60,7 @@ class extends Component {
         ->paginate(10);
     }
 
+    // Méthode pour fournir des données additionnelles au composant
     public function with(): array
     {
         return [
@@ -66,22 +71,29 @@ class extends Component {
 }; ?>
 
 <div>
-    <x-header title="{{__('Comments')}}" separator progress-indicator>
+    <x-header title="{{ __('Comments') }}" separator progress-indicator>
         <x-slot:middle class="!justify-end">
-            <x-input placeholder="{{__('Search...')}}"  wire:model.live.debounce="search" clearable icon="o-magnifying-glass" />
+            <x-input placeholder="{{ __('Search...') }}" wire:model.debounce.500ms="search" clearable icon="o-magnifying-glass" />
         </x-slot:middle>
     </x-header>
 
     <x-card>
-        <x-table striped :headers="$headers" :rows="$comments" link="/admin/comments/{id}/edit" :sort-by="$sortBy" with-pagination>
-            @scope('cell_created_at', $comment)      
-                {{ $comment->created_at->isoFormat('LL') }} {{ __('at')}} {{ $comment->created_at->isoFormat('HH:mm') }}
+        <x-table 
+            striped 
+            :headers="$headers" 
+            :rows="$comments" 
+            link="/admin/comments/{id}/edit" 
+            :sort-by="$sortBy" 
+            with-pagination
+        >
+            @scope('cell_created_at', $comment)
+                {{ $comment->created_at->isoFormat('LL') }} {{ __('at') }} {{ $comment->created_at->isoFormat('HH:mm') }}
             @endscope
             @scope('cell_body', $comment)
                 {!! $comment->body !!}
             @endscope
             @scope('cell_user_name', $comment)
-                <x-avatar :image="Gravatar::get($comment->user->email)" >
+                <x-avatar :image="Gravatar::get($comment->user->email)">
                     <x-slot:title>
                         {{ $comment->user->name }}
                     </x-slot:title>
@@ -93,10 +105,30 @@ class extends Component {
             @scope('actions', $comment)
                 <div class="flex">
                     @if(!$comment->user->valid)
-                        <x-button icon="c-eye" wire:click="validComment({{ $comment->id }})" wire:confirm="{{__('Are you sure to valid this comment?')}}" tooltip-left="{!! __('Valider') !!}" spinner class="btn-ghost btn-sm text-yellow-500" />
+                        <x-button 
+                            icon="c-eye" 
+                            wire:click="validComment({{ $comment->id }})" 
+                            wire:confirm="{{ __('Are you sure to validate this comment?') }}" 
+                            tooltip-left="{!! __('Validate') !!}" 
+                            spinner 
+                            class="text-yellow-500 btn-ghost btn-sm" 
+                        />
                     @endif
-                    <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}" tooltip-left="{!! __('Show post') !!}" spinner class="btn-ghost btn-sm" />
-                    <x-button icon="o-trash" wire:click="deleteComment({{ $comment->id }})" wire:confirm="{{__('Are you sure to delete this comment?')}}" tooltip-left="{{ __('Delete') }}" spinner class="btn-ghost btn-sm text-red-500" />
+                    <x-button 
+                        icon="s-document-text" 
+                        link="{{ route('posts.show', $comment->post->slug) }}" 
+                        tooltip-left="{!! __('Show post') !!}" 
+                        spinner 
+                        class="btn-ghost btn-sm" 
+                    />
+                    <x-button 
+                        icon="o-trash" 
+                        wire:click="deleteComment({{ $comment->id }})" 
+                        wire:confirm="{{ __('Are you sure to delete this comment?') }}" 
+                        tooltip-left="{{ __('Delete') }}" 
+                        spinner 
+                        class="text-red-500 btn-ghost btn-sm" 
+                    />
                 </div>
             @endscope
         </x-table>

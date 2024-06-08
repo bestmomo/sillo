@@ -14,13 +14,12 @@ class extends Component {
 
     public Footer $footer;
     public string $label = '';
-    public string|null $link = null;
+    public string $link = '';
 
     // Initialise le composant avec le footer donné.
     public function mount(Footer $footer): void
     {
         $this->footer = $footer;
-
         $this->fill($this->footer);
     }
 
@@ -45,16 +44,14 @@ class extends Component {
 }; ?>
 
 <div>
-    <x-card class="" title="{{__('Edit a footer')}}">
- 
-        <x-form wire:submit="save"> 
-            <x-input label="{{__('Title')}}" wire:model="label" />
-            <x-input type="text" wire:model="link" label="{{ __('Link') }}" />   
+    <x-card title="{{ __('Edit a footer') }}">
+        <x-form wire:submit="save">
+            <x-input label="{{ __('Title') }}" wire:model="label" />
+            <x-input type="text" wire:model="link" label="{{ __('Link') }}" />
             <x-slot:actions>
-                <x-button label="{{__('Cancel')}}" icon="o-hand-thumb-down" class="btn-outline" link="/admin/footers/index" />
-                <x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+                <x-button label="{{ __('Cancel') }}" icon="o-hand-thumb-down" class="btn-outline" link="/admin/footers/index" />
+                <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
             </x-slot:actions>
         </x-form>
-
     </x-card>
 </div>
