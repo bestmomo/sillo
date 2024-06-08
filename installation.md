@@ -4,9 +4,13 @@
 
 Vous voulez participer ? Vous pouvez facilement installer le projet en local.
 
-Clonez le code :
+Clonez le code via SSH :
 
 `git clone git@github.com:bestmomo/sillo.git`
+
+... ou via HTTPS si vous n'avez pas de clé SSH :
+
+`git clone https://github.com/bestmomo/sillo.git`
 
 Créez un fichier **.env** avec vos éléments pour la connexion à la base de données et fixez la langue à **fr** puis procédez à l'installation :
 
