@@ -8,7 +8,7 @@
 
 - Pour 'juste' avoir tout en local en 1 minute
   (Même pas besoin d'avoir de compte GitHub et néanmoins récupérer tout le code pleinement opérationnel !):<br>
-  ![Comment télécharger un dépôt](..\public\storage\imgs_doc\get_repository_by_zip.png)
+  ![Comment télécharger un dépôt](../storage/app/public/imgs_doc/get_repository_by_zip.png)
   Décompressez puis passez au **II /** ci-dessous.
   
 <p align="center">Ou:</p>
@@ -16,12 +16,12 @@
 - Vous voulez avoir tout cela, mais en plus, la possibilité de partager vos propres changements à venir ?<br>
       1. ***Forkez*** le projet **[sillo **de** BestMomo](https://github.com/bestmomo/sillo)**
       <sub>(À ce stade, il vous faut vous loguer dans votre compte Github, voire le créer en 30 seconde si vous n'en avez pas déjà un...)</sub><br>
-      ![Comment Fork un dépôt](..\public\storage\app\public\imgs_doc\fork.png)<br>
+      ![Comment Fork un dépôt](../storage/app/public/imgs_doc/fork.png)<br>
       2. ***Clonez*** le code de **VOTRE** copie du dépôt distant (Chez GitHub) sur votre serveur local via SSH :<br>
     `git clone git@github.com:Votre_Pseudo_GitHub/sillo.git`<br>
     
     *En cas de doute, juste récupérer cela ici:*<br>
-      ![Comment Fork un dépôt](..\public\storage\imgs_doc\clone.png)<br>
+      ![Comment Fork un dépôt](../storage/app/public/imgs_doc/clone.png)<br>
     
     <sub>(Si cela échoue, autant régler le problème, car pour uploader (***push***) vos futurs changements, ne serait-ce sur votre propre dépôt distant, il le faudra! Dans ce cas: [Installez votre clé SSH](https://docs.github.com/fr/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent))</sub>
   
