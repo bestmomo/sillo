@@ -16,7 +16,7 @@
 - Vous voulez avoir tout cela, mais en plus, la possibilité de partager vos propres changements à venir ?<br>
       1. ***Forkez*** le projet **[sillo **de** BestMomo](https://github.com/bestmomo/sillo)**
       <sub>(À ce stade, il vous faut vous loguer dans votre compte Github, voire le créer en 30 seconde si vous n'en avez pas déjà un...)</sub><br>
-      ![Comment Fork un dépôt](..\public\storage\imgs_doc\fork.png)<br>
+      ![Comment Fork un dépôt](..\public\storage\app\public\imgs_doc\fork.png)<br>
       2. ***Clonez*** le code de **VOTRE** copie du dépôt distant (Chez GitHub) sur votre serveur local via SSH :<br>
     `git clone git@github.com:Votre_Pseudo_GitHub/sillo.git`<br>
     
