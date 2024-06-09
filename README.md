@@ -2,10 +2,10 @@
 
 ## Table des matières
 
-[Presentation](presentation.md)<br>
-[Installation](installation.md)<br>
-[Base de données](database.md)<br>
-[Feuille de route](roadmap.md)
+[Presentation](doc/presentation.md)<br>
+[Installation](doc/installation.md)<br>
+[Base de données](doc/database.md)<br>
+[Feuille de route](doc/roadmap.md)
 
 ## License
 
