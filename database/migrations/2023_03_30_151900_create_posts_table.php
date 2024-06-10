@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('body');
-            $table->text('excerpt');
             $table->boolean('active')->default(false);
             $table->string('image')->nullable();
 

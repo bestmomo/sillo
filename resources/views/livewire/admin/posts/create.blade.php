@@ -104,7 +104,6 @@ class extends Component {
             'user_id' => Auth::id(), 
             'category_id' => $this->category_id,
             'image' => $path,
-            'excerpt' => Str::limit($this->body, 300),
         ]);
 
         // Affichage d'un message de succès et redirection

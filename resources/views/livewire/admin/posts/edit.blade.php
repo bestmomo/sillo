@@ -112,7 +112,6 @@ class extends Component {
         $this->post->update(
             $data + [
                 'category_id' => $this->category_id,
-                'excerpt' => Str::limit($this->body, 300),
             ],
         );
 

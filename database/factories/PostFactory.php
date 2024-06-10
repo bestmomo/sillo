@@ -18,7 +18,6 @@ class PostFactory extends Factory
     {
         return [
             'body' => fake()->paragraphs($nb = 8, $asText = true),
-            'excerpt' => $this->faker->paragraph($nbSentences = 4, $variableNbSentences = true),
             'active' => true,
         ];
     }

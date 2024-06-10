@@ -20,12 +20,12 @@ class PostRepository
                     'slug',
                     'image',
                     'title',
-                    'excerpt',
                     'user_id',
                     'category_id',
                     'serie_id',
                     'created_at'
                 )
+                ->selectRaw('SUBSTRING(body, 1, 300) AS excerpt')
                 ->with('user:id,name', 'category', 'serie')
                 ->whereActive(true)
                 ->latest();
