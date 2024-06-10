@@ -131,7 +131,7 @@ new class extends Component {
             </x-card>
         @empty
             <div class="col-span-3">
-                <x-card class="w-full!important" title="{{ __('Nothing to show !') }}">
+                <x-card title="{{ __('Nothing to show !') }}">
                     {{ __('No Post found with these criteria') }}
                 </x-card>
             </div>
