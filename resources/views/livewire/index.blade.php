@@ -108,7 +108,7 @@ new class extends Component {
     <div class="grid w-full grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3 gallery">
         @foreach($posts as $post)
             <x-card title="{{ $post->title }}">
-                <div>{{ $post->excerpt }}</div>
+                <div>{!! $post->excerpt !!}</div>
                 <br><hr>
                 <div class="flex justify-between">
                     <p wire:click="" class="text-left cursor-pointer">{{ $post->user->name }}</p>
