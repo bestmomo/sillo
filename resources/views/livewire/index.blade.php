@@ -1,21 +1,20 @@
 <?php
 
 use Livewire\Volt\Component;
-use App\Models\{ Category, Serie };
+use App\Models\{Category, Serie};
 use App\Repositories\PostRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 new class extends Component {
-
     // Propriétés de la classe
     public string $slug = ''; // Slug pour identifier une catégorie ou une série
     public string $param = ''; // Paramètre de recherche optionnel
     public ?Category $category = null; // Catégorie actuelle (ou null si aucune)
-    public ?Serie $serie = null; // Série actuelle (ou null si aucune)    
-    
+    public ?Serie $serie = null; // Série actuelle (ou null si aucune)
+
     /**
      * Méthode de montage initiale appelée lors de la création du composant.
-     * 
+     *
      * @param string $slug Slug pour identifier une catégorie ou une série
      * @param string $param Paramètre de recherche optionnel
      * @return void
@@ -23,7 +22,7 @@ new class extends Component {
     public function mount(string $slug = '', string $param = ''): void
     {
         $this->slug = $slug;
-        $this->param = $param;        
+        $this->param = $param;
 
         if (!empty($slug)) {
             // Détermine si le slug correspond à une catégorie ou une série
@@ -34,7 +33,7 @@ new class extends Component {
 
     /**
      * Récupère une catégorie en fonction du slug.
-     * 
+     *
      * @param string $slug Slug pour identifier la catégorie
      * @return Category|null La catégorie correspondante ou null
      */
@@ -46,7 +45,7 @@ new class extends Component {
 
     /**
      * Récupère une série en fonction du slug.
-     * 
+     *
      * @param string $slug Slug pour identifier la série
      * @return Serie|null La série correspondante ou null
      */
@@ -57,12 +56,12 @@ new class extends Component {
 
     /**
      * Récupère les posts en fonction de la catégorie, de la série ou du paramètre de recherche.
-     * 
+     *
      * @return LengthAwarePaginator Les posts paginés
      */
     public function getPosts(): LengthAwarePaginator
-    {     
-        $postRepository = new PostRepository;
+    {
+        $postRepository = new PostRepository();
 
         // Recherche les posts si un paramètre de recherche est présent
         if (!empty($this->param)) {
@@ -75,7 +74,7 @@ new class extends Component {
 
     /**
      * Définit les variables passées à la vue.
-     * 
+     *
      * @return array Les variables de la vue
      */
     public function with(): array
@@ -84,14 +83,13 @@ new class extends Component {
             'posts' => $this->getPosts(),
         ];
     }
-
-}; 
+};
 ?>
 
 <div class="relative grid items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
 
     <!-- Affichage du titre en fonction de la catégorie, de la série ou du paramètre de recherche -->
-    @if($category)
+    @if ($category)
         <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" separator />
     @elseif($serie)
         <x-header title="{{ __('Posts for serie ') }} {{ $serie->title }}" separator />
@@ -106,10 +104,11 @@ new class extends Component {
 
     <!-- Liste des posts -->
     <div class="grid w-full grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3 gallery">
-        @foreach($posts as $post)
+        @forelse($posts as $post)
             <x-card title="{{ $post->title }}">
                 <div>{!! $post->excerpt !!}</div>
-                <br><hr>
+                <br>
+                <hr>
                 <div class="flex justify-between">
                     <p wire:click="" class="text-left cursor-pointer">{{ $post->user->name }}</p>
                     <p class="text-right"><em>{{ $post->created_at->isoFormat('LL') }}</em></p>
@@ -120,14 +119,23 @@ new class extends Component {
                     </a>
                 </x-slot:figure>
                 <x-slot:actions>
-                    <x-button label="{{ $post->category->title }}" link="{{ url('/category/' . $post->category->slug) }}" class="btn-outline btn-sm" />
-                    @if($post->serie)
-                        <x-button label="{{ $post->serie->title }}" link="{{ url('/serie/' . $post->serie->slug) }}" class="btn-outline btn-sm" />
+                    <x-button label="{{ $post->category->title }}"
+                        link="{{ url('/category/' . $post->category->slug) }}" class="btn-outline btn-sm" />
+                    @if ($post->serie)
+                        <x-button label="{{ $post->serie->title }}" link="{{ url('/serie/' . $post->serie->slug) }}"
+                            class="btn-outline btn-sm" />
                     @endif
-                    <x-button label="{{ __('Read') }}" link="{{ url('/posts/' . $post->slug) }}" class="btn-outline btn-sm" />
+                    <x-button label="{{ __('Read') }}" link="{{ url('/posts/' . $post->slug) }}"
+                        class="btn-outline btn-sm" />
                 </x-slot:actions>
             </x-card>
-        @endforeach
+        @empty
+            <div class="col-span-3">
+                <x-card title="{{ __('Nothing to show !') }}">
+                    {{ __('No Post found with these criteria') }}
+                </x-card>
+            </div>
+        @endforelse
     </div>
 
     <!-- Pagination inférieure -->
@@ -135,4 +143,3 @@ new class extends Component {
         {{ $posts->links() }}
     </div>
 </div>
-
