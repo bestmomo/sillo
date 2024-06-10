@@ -84,8 +84,7 @@ class PostRepository
     {
         return $this->getBaseQuery()
                     ->where(function ($query) use ($search) {
-                        $query->where('excerpt', 'like', "%$search%")
-                              ->orWhere('body', 'like', "%$search%")
+                        $query->where('body', 'like', "%$search%")
                               ->orWhere('title', 'like', "%$search%");
                     })
                     ->paginate(config('app.pagination'));
