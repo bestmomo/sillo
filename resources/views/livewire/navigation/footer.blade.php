@@ -3,8 +3,7 @@
 use Livewire\Volt\Component;
 use App\Models\Footer;
 
-new class extends Component 
-{
+new class extends Component {
     /**
      * Retourne les données nécessaires à la vue.
      *
@@ -23,11 +22,7 @@ new class extends Component
     @foreach ($footers as $footer)
         <a href="{{ $footer->link }}" class="mr-2 hover:text-gray-500">
             @lang($footer->label)
-        </a>        
+        </a>
     @endforeach
-    <a href="{{ route('contact') }}" class="mr-2 hover:text-gray-500">
-        @lang('Contact')
-    </a>    
-    <div>© 2024 - Bestmomo</div>     
+    <div>© {{ date('Y') }} - BestMomo</div>
 </footer>
-

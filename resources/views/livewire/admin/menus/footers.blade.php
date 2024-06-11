@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\{ Footer };
+use App\Models\{Footer};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -8,10 +8,7 @@ use Livewire\Attributes\Layout;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Rule;
 
-new 
-#[Layout('components.layouts.admin')]
-class extends Component {
-
+new #[Layout('components.layouts.admin')] class extends Component {
     use Toast;
 
     public Collection $footers;
@@ -19,7 +16,7 @@ class extends Component {
     #[Rule('required|max:255|unique:footers,label')]
     public string $label = '';
 
-    #[Rule('nullable|url')]
+    #[Rule('nullable|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/')]
     public string $link = '';
 
     // Méthode appelée lors de l'initialisation du composant.
@@ -38,8 +35,8 @@ class extends Component {
     public function up(Footer $footer): void
     {
         $previousFooter = Footer::where('order', '<', $footer->order)
-                            ->orderBy('order', 'desc')
-                            ->first();
+            ->orderBy('order', 'desc')
+            ->first();
 
         $this->swap($footer, $previousFooter);
     }
@@ -48,8 +45,8 @@ class extends Component {
     public function down(Footer $footer): void
     {
         $previousFooter = Footer::where('order', '>', $footer->order)
-                            ->orderBy('order', 'asc')
-                            ->first();
+            ->orderBy('order', 'asc')
+            ->first();
 
         $this->swap($footer, $previousFooter);
     }
@@ -96,15 +93,14 @@ class extends Component {
 
         $this->success(__('Footer created with success.'));
     }
-
 }; ?>
 
 <div>
-    <x-header title="{{__('Footer')}}" separator progress-indicator />
+    <x-header title="{{ __('Footer') }}" separator progress-indicator />
 
     <x-card>
 
-        @foreach($footers as $footer)
+        @foreach ($footers as $footer)
             <x-list-item :item="$footer" no-separator no-hover>
                 <x-slot:value>
                     {{ $footer->label }}
@@ -113,32 +109,39 @@ class extends Component {
                     {{ $footer->link }}
                 </x-slot:sub-value>
                 <x-slot:actions>
-                    @if($footer->order > 1)
-                        <x-button icon="s-chevron-up" wire:click="up({{ $footer->id }})" tooltip-left="{{ __('Up') }}" spinner />
+                    @if ($footer->order > 1)
+                        <x-button icon="s-chevron-up" wire:click="up({{ $footer->id }})"
+                            tooltip-left="{{ __('Up') }}" spinner />
                     @endif
-                    @if($footer->order < $footers->count())
-                        <x-button icon="s-chevron-down" wire:click="down({{ $footer->id }})" tooltip-left="{{ __('Down') }}" spinner />
+                    @if ($footer->order < $footers->count())
+                        <x-button icon="s-chevron-down" wire:click="down({{ $footer->id }})"
+                            tooltip-left="{{ __('Down') }}" spinner />
                     @endif
-                    <x-button icon="c-arrow-path-rounded-square" link="{{ route('footers.edit', $footer->id) }}" tooltip-left="{{ __('Edit') }}" class="btn-ghost btn-sm text-blue-500" spinner />
-                    <x-button icon="o-trash" wire:click="deleteFooter({{ $footer->id }})" wire:confirm="{{__('Are you sure to delete this footer?')}}" tooltip-left="{{ __('Delete') }}" spinner class="btn-ghost btn-sm text-red-500" />
+                    <x-button icon="c-arrow-path-rounded-square" link="{{ route('footers.edit', $footer->id) }}"
+                        tooltip-left="{{ __('Edit') }}" class="btn-ghost btn-sm text-blue-500" spinner />
+                    <x-button icon="o-trash" wire:click="deleteFooter({{ $footer->id }})"
+                        wire:confirm="{{ __('Are you sure to delete this footer?') }}"
+                        tooltip-left="{{ __('Delete') }}" spinner class="btn-ghost btn-sm text-red-500" />
                 </x-slot:actions>
             </x-list-item>
-
         @endforeach
 
     </x-card>
 
     <br>
 
-    <x-card class="" title="{{__('Create a new footer')}}">
- 
-        <x-form wire:submit="saveFooter"> 
-            <x-input label="{{__('Title')}}" wire:model="label" />
-            <x-input type="text" wire:model="link" label="{{ __('Link') }}" />   
+    <x-card class="" title="{{ __('Create a new footer') }}">
+
+        <x-form wire:submit="saveFooter">
+            <x-input label="{{ __('Title') }}" wire:model="label" />
+            <x-input type="text" wire:model="link"
+                label="{{ __('Link') }} ({{ __('I.e.') }}: /{{ __('my-page') }}, /pages/slug {{ __('or') }} /pages/{{ strtolower(__('Folder')) }}/{{ __('my_page') }}-1)" />
             <x-slot:actions>
-                <x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+                <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
+                    class="btn-primary" />
             </x-slot:actions>
         </x-form>
+        {{-- //2do: rafraichissement de la liste dès validation d'une nouvelle entrée acceptée --}}
 
     </x-card>
 </div>
