@@ -6,7 +6,7 @@
 
 return [
 	'config' => [
-		'language'       => 'fr_FR',
+		'language'       => env('APP_FAKER_LOCALE', 'en_US'),
 		'plugins'        => 'codesample | fullscreen | image',
 		'toolbar'        => 'undo redo style | fontfamily fontsize | alignleft aligncenter alignright alignjustify | bullist numlist | copy cut paste pastetext | hr | codesample | link image quicktable | fullscreen',
 		'toolbar_sticky' => true,
@@ -14,7 +14,7 @@ return [
 		'license_key'    => 'gpl',
 	],
 	'config_comment' => [
-		'language'       => 'fr_FR',
+		'language'       => env('APP_FAKER_LOCALE', 'en_US'),
 		'plugins'        => 'codesample',
 		'toolbar'        => 'undo redo style | fontfamily fontsize | alignleft aligncenter alignright alignjustify | bullist numlist | copy cut paste pastetext | hr | codesample',
 		'toolbar_sticky' => true,
