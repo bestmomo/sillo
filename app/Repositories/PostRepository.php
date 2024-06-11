@@ -10,35 +10,38 @@ class PostRepository
 {
     /**
      * Récupère la requête de base pour les posts.
-     * 
+     *
      * @return Builder
      */
     protected function getBaseQuery(): Builder
     {
+        $adaptedReqForSqliteOrMysql = (env('DB_CONNECTION') == "mysql") ? "LEFT(body, LOCATE(' ', body, 300))" : "substr(body, 1, instr(substr(body, 300), ' '))";
+
         return Post::select(
-                    'id',
-                    'slug',
-                    'image',
-                    'title',
-                    'user_id',
-                    'category_id',
-                    'serie_id',
-                    'created_at'
-                )
-                ->selectRaw("
+            'id',
+            'slug',
+            'image',
+            'title',
+            'user_id',
+            'category_id',
+            'serie_id',
+            'created_at'
+        )
+                        ->selectRaw("
                                 CASE
                                     WHEN LENGTH(body) <= 300 THEN body
-                                    ELSE LEFT(body, LOCATE(' ', body, 300)) 
+                                    ELSE $adaptedReqForSqliteOrMysql 
                                 END AS excerpt
                             ")
-                ->with('user:id,name', 'category', 'serie')
-                ->whereActive(true)
-                ->latest();
+                        ->with('user:id,name', 'category', 'serie')
+                        ->whereActive(true)
+                        ->latest();
+
     }
 
     /**
      * Récupère les posts paginés en fonction de la catégorie ou de la série.
-     * 
+     *
      * @param Category|null $category
      * @param Serie|null $serie
      * @return LengthAwarePaginator
@@ -48,19 +51,19 @@ class PostRepository
         $query = $this->getBaseQuery();
 
         if ($category) {
-            $query->whereBelongsTo($category);  
-        } 
+            $query->whereBelongsTo($category);
+        }
 
         if ($serie) {
-            $query->whereBelongsTo($serie)->oldest();  
-        }             
+            $query->whereBelongsTo($serie)->oldest();
+        }
 
         return $query->paginate(config('app.pagination'));
     }
 
     /**
      * Récupère un post par son slug.
-     * 
+     *
      * @param string $slug
      * @return Post
      */
@@ -81,7 +84,7 @@ class PostRepository
 
     /**
      * Recherche les posts en fonction d'un terme de recherche.
-     * 
+     *
      * @param string $search
      * @return LengthAwarePaginator
      */
@@ -97,7 +100,7 @@ class PostRepository
 
     /**
      * Génère un slug unique pour un post.
-     * 
+     *
      * @param string $slug
      * @return string
      */
