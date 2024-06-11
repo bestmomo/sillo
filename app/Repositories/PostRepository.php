@@ -25,7 +25,12 @@ class PostRepository
                     'serie_id',
                     'created_at'
                 )
-                ->selectRaw('SUBSTRING(body, 1, 300) AS excerpt')
+                ->selectRaw("
+                                CASE
+                                    WHEN LENGTH(body) <= 300 THEN body
+                                    ELSE LEFT(body, LOCATE(' ', body, 300)) 
+                                END AS excerpt
+                            ")
                 ->with('user:id,name', 'category', 'serie')
                 ->whereActive(true)
                 ->latest();

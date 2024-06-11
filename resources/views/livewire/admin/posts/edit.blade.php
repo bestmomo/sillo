@@ -108,6 +108,8 @@ class extends Component {
             ];
         }
 
+        $data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);
+
         // Mise à jour du post
         $this->post->update(
             $data + [

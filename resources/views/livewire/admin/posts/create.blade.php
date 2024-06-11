@@ -99,6 +99,8 @@ class extends Component {
             ];
         }
 
+        $data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);
+
         // Création de l'article
         Post::create($data + [
             'user_id' => Auth::id(), 

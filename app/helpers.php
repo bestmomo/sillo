@@ -35,3 +35,22 @@ if (! function_exists('passwordStrength')) {
         return $score;
     }
 }
+
+// Méthode pour rendre les lien des images relatifs
+if (! function_exists('replaceAbsoluteUrlsWithRelative')) {
+    function replaceAbsoluteUrlsWithRelative(string $content) {
+        $baseUrl = url('/');
+
+        // Assure que le baseUrl se termine par un slash
+        if (substr($baseUrl, -1) !== '/') {
+            $baseUrl .= '/';
+        }
+     
+        // Utilise une expression régulière pour remplacer les URLs absolues par des URLs relatives
+        $pattern = '/<img\s+[^>]*src="(?:https?:\/\/)?' . preg_quote(parse_url($baseUrl, PHP_URL_HOST), '/') . '\/([^"]+)"/i';
+        $replacement = '<img src="/$1"';
+        $content = preg_replace($pattern, $replacement, $content);
+
+        return $content;
+    }
+}
