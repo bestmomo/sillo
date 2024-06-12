@@ -132,9 +132,7 @@ class DatabaseSeeder extends Seeder
 
 		// Pages
 		$items = [
-			['about-us', 'About us'],
 			['terms', 'Terms'],
-			['faq', 'FAQ'],
 			['privacy-policy', 'Privacy Policy'],
 		];
 
@@ -148,10 +146,9 @@ class DatabaseSeeder extends Seeder
 		// Footer
 		DB::table('footers')->insert([
 			['label' => 'Accueil', 'order' => 1, 'link' => '/'],
-			['label' => 'Faq', 'order' => 2, 'link' => '/pages/faq'],
 			['label' => 'Terms', 'order' => 3, 'link' => '/pages/terms'],
 			['label' => 'Policy', 'order' => 4, 'link' => '/pages/privacy-policy'],
-			['label' => 'Contact', 'order' => 99, 'link' => '/contact'],
+			['label' => 'Contact', 'order' => 5, 'link' => '/contact'],
 		]);
 
 		// REPORT

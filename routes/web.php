@@ -26,6 +26,7 @@ Route::middleware('guest')->group(function () {
 // Routes pour les utilisateurs authentifiés
 Route::middleware('auth')->group(function () {
     Volt::route('/profile', 'auth.profile')->name('profile');
+    Volt::route('/chat', 'chat')->name('chat');
     
     // Routes pour les administrateurs et rédacteurs
     Route::middleware(IsAdminOrRedac::class)->prefix('admin')->group(function () {

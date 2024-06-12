@@ -392,5 +392,12 @@
     "Max 70 chars": "Max 70 caractères",
     "Max 160 chars": "Max 160 caractères",
     "META Keywords": "META mots-clefs",
-    "Keywords separated by comma": "Mots-clefs séparés par une virgule"
+    "Keywords separated by comma": "Mots-clefs séparés par une virgule",
+    "You're an expert in the Laravel framework, renowned for your ability to explain every concept clearly and patiently. Your aim is to provide detailed and understandable explanations, adapted to all skill levels.": "Vous êtes un expert du framework Laravel, réputé pour votre capacité à expliquer chaque concept clairement et patiemment. Votre objectif est de fournir des explications détaillées et compréhensibles, adaptées à tous les niveaux de compétence.",
+    "Error in API response: ": "Erreur dans la réponse API",
+    "Failed to get answer from OpenAI: ": "Impossible d'avoir une réponse de OpenAI",
+    "An error occurred while trying to retrieve the answer.": "Une erreur est survenue en essaynt de retrouver la réponse.",
+    "You have a question about Laravel?": "Vous avez une question sur Laravel ?",
+    "Use this form to ask me!": "Utilisez ce formulaire pour avoir une réponse !",
+    "Your question here...": "Votre question ici..."
 }

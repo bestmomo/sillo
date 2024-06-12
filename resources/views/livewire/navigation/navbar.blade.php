@@ -83,6 +83,9 @@ new class extends Component
                 @endif
             @endforeach
         </span>
+        @auth
+            <x-button icon="c-chat-bubble-oval-left" link="/chat" tooltip-bottom="{{ __('Chat')}}" class="btn-circle btn-ghost" />
+        @endauth
         <x-theme-toggle />
         <livewire:search />
     </x-slot:actions>
