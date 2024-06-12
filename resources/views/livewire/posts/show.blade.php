@@ -84,6 +84,11 @@ new class extends Component {
 }; ?>
 
 <div>
+    
+    @section('title', $post->seo_title ?? $post->title)
+    @section('description', $post->meta_description)
+    @section('keywords', $post->meta_keywords)
+
     <!-- Actions disponibles pour les utilisateurs authentifiés -->
     <div class="flex justify-end gap-4">
         @auth

@@ -388,5 +388,9 @@
     "Are you sure to valid this comment?": "Etes-vous sûr de vouloir valider ce commentaire ?",
     "Comment validated": "Commentaire validé",
     "Comment deleted": "Commentaire supprimé",
-    "by": "par"
+    "by": "par",
+    "Max 70 chars": "Max 70 caractères",
+    "Max 160 chars": "Max 160 caractères",
+    "META Keywords": "META mots-clefs",
+    "Keywords separated by comma": "Mots-clefs séparés par une virgule"
 }

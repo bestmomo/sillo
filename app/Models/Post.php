@@ -28,6 +28,9 @@ class Post extends Model
         'serie_id',
         'serie_number',
         'category_id',
+        'seo_title', 
+        'meta_description', 
+        'meta_keywords',
     ];
 
     /**

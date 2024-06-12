@@ -42,6 +42,15 @@ class extends Component {
     #[Rule('required')]
     public bool $active = false;
 
+    #[Rule('required|max:70')]
+    public string $seo_title = '';
+
+    #[Rule('required|max:160')]
+    public string $meta_description = '';
+
+    #[Rule('required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/')]
+    public string $meta_keywords = '';
+
     #[Rule('required|image|max:2000')]
     public TemporaryUploadedFile|null $photo = null;
 
@@ -61,6 +70,7 @@ class extends Component {
         switch ($property) {
             case 'title':
                 $this->slug = Str::slug($value);
+                $this->seo_title = $value;
                 break;              
             case 'serie_id':
                 $this->serie = Serie::find($value);
@@ -147,6 +157,27 @@ class extends Component {
                 label="{{ __('Content') }}"
                 :config="config('tinymce.config')" 
                 folder="{{ 'photos/' . now()->format('Y/m') }}" />
+            <x-card title="{{ __('SEO') }}" shadow separator>
+                <x-input 
+                    placeholder="{{ __('Title') }}" 
+                    wire:model="seo_title" 
+                    hint="{{ __('Max 70 chars') }}"/>
+                    <br>
+                <x-textarea
+                    label="{{ __('META Description') }}"
+                    wire:model="meta_description"
+                    hint="{{ __('Max 160 chars') }}"
+                    rows="2"
+                    inline />
+                    <br>
+                <x-textarea
+                    label="{{ __('META Keywords') }}"
+                    wire:model="meta_keywords"
+                    hint="{{ __('Keywords separated by comma') }}"
+                    rows="1"
+                    inline />
+            </x-card>
+            <hr>
             <x-file wire:model="photo" label="{{__('Featured image')}}" hint="{{ __('Click on the image to modify') }}" accept="image/png, image/jpeg">
                 <img src="{{ $photo == '' ? '/ask.jpg' : $photo }}" class="h-40" />
             </x-file>

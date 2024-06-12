@@ -19,6 +19,9 @@ return new class extends Migration
             $table->text('body');
             $table->boolean('active')->default(false);
             $table->string('image')->nullable();
+            $table->string('seo_title');
+            $table->text('meta_description');
+            $table->text('meta_keywords');
 
             $table->foreignId('user_id')
                 ->constrained()

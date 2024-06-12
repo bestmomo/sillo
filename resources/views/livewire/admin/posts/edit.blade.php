@@ -34,6 +34,9 @@ class extends Component {
     public string $title = '';
     public string $slug = '';
     public bool $active = false;
+    public string $seo_title = '';
+    public string $meta_description = '';
+    public string $meta_keywords = '';
     public TemporaryUploadedFile|null $photo = null;
 
     // Initialisation du composant avec les données du post
@@ -90,6 +93,9 @@ class extends Component {
             'photo' => 'nullable|image|max:2000',
             'active' => 'required',
             'slug' => ['required', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('posts')->ignore($this->post->id)],
+            'seo_title' => 'required|max:70',
+            'meta_description' => 'required|max:160',
+            'meta_keywords' => 'required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/',
         ]);
 
         // Sauvegarde de l'image si elle a été modifiée et suppression de l'ancienne
@@ -155,6 +161,26 @@ class extends Component {
             <x-input type="text" wire:model="slug" label="{{ __('Slug') }}" />
             <x-editor wire:model="body" label="{{ __('Content') }}" :config="config('tinymce.config')"
                 folder="{{ 'photos/' . now()->format('Y/m') }}" />
+            <x-card title="{{ __('SEO') }}" shadow separator>
+                <x-input 
+                    placeholder="{{ __('Title') }}" 
+                    wire:model="seo_title" 
+                    hint="{{ __('Max 70 chars') }}"/>
+                    <br>
+                <x-textarea
+                    label="{{ __('META Description') }}"
+                    wire:model="meta_description"
+                    hint="{{ __('Max 160 chars') }}"
+                    rows="2"
+                    inline />
+                    <br>
+                <x-textarea
+                    label="{{ __('META Keywords') }}"
+                    wire:model="meta_keywords"
+                    hint="{{ __('Keywords separated by comma') }}"
+                    rows="1"
+                    inline />
+            </x-card>
             <x-file wire:model="photo" label="{{ __('Featured image') }}"
                 hint="{{ __('Click on the image to modify') }}" accept="image/png, image/jpeg">
                 <img src="{{ asset('storage/photos/' . $post->image) }}" class="h-40" />

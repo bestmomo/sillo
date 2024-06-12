@@ -278,6 +278,7 @@ return [
         'body' => 'contenu',
         'slug' => 'permalien',
         'title' => 'titre',
-        'excerpt' => 'extrait',
+        'seo_title' => 'seo titre',
+        'meta_keywords' => 'meta mots-clefs',
     ],
 ];
