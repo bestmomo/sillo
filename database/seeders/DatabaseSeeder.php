@@ -162,6 +162,7 @@ class DatabaseSeeder extends Seeder
 	{
 		return Post::factory()->create([
 			'title'       => 'Post ' . $id,
+			'seo_title'   => 'Post ' . $id,
 			'slug'        => Str::of('Post ' . $id)->slug('-'),
 			'user_id'     => rand(1, 2),
 			'image'       => '2024/03/img0' . $id . '.jpg',
