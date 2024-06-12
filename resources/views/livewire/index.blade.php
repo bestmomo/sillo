@@ -139,7 +139,7 @@ new class extends Component {
     </div>
 
     <!-- Pagination inférieure -->
-    <div class="mb-4">
+    <div class="mt-4">
         {{ $posts->links() }}
     </div>
 </div>
