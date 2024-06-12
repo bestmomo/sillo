@@ -28,14 +28,21 @@ class extends Component {
     // Définir les en-têtes de table.
     public function headers(): array
     {
-        return [
+        $headers = [
             ['key' => 'name', 'label' => __('Name')],
             ['key' => 'email', 'label' => 'E-mail'],
             ['key' => 'role', 'label' => __('Role')],
             ['key' => 'valid', 'label' => __('Valid')],
-            ['key' => 'posts_count', 'label' => __('Posts')],
-            ['key' => 'created_at', 'label' => __("Registration")],
+            ['key' => 'comments_count', 'label' => __('Comments')],
         ];
+
+        if ($this->role !== 'user') {
+            $headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
+        }  
+        
+        return array_merge($headers, [
+            ['key' => 'created_at', 'label' => __("Registration")],         
+        ]);
     }
 
     // Récupérer la liste des utilisateurs avec les filtres et tri appliqués.
@@ -44,7 +51,7 @@ class extends Component {
         return User::query()
             ->when($this->search, fn(Builder $q) => $q->where('name', 'like', "%$this->search%"))
             ->when($this->role !== 'all', fn(Builder $q) => $q->where('role', $this->role))
-            ->withCount('posts')
+            ->withCount('posts','comments')
             ->orderBy(...array_values($this->sortBy))
             ->paginate(10);
     }
@@ -94,13 +101,18 @@ class extends Component {
                     <x-badge value="{{ $user->posts_count }}" class="badge-primary" />
                 @endif             
             @endscope
+            @scope('cell_comments_count', $user)
+                @if($user->comments_count > 0)
+                    <x-badge value="{{ $user->comments_count }}" class="badge-success" />
+                @endif             
+            @endscope
             @scope('cell_created_at', $user)      
                 {{ $user->created_at->isoFormat('LL') }}
             @endscope            
             @scope('actions', $user)
                 <div class="flex">
-                    <x-button icon="o-envelope" link="mailto:{{ $user->email }}" tooltip-left="{{ __('Send an email') }}" no-wire-navigate spinner class="btn-ghost btn-sm text-blue-500" />           
-                    <x-button icon="o-trash" wire:click="deleteUser({{ $user->id }})" wire:confirm="{{__('Are you sure to delete this user?')}}" confirm-text="Are you sure?" tooltip-left="{{ __('Delete') }}" spinner class="btn-ghost btn-sm text-red-500" />
+                    <x-button icon="o-envelope" link="mailto:{{ $user->email }}" tooltip-left="{{ __('Send an email') }}" no-wire-navigate spinner class="text-blue-500 btn-ghost btn-sm" />           
+                    <x-button icon="o-trash" wire:click="deleteUser({{ $user->id }})" wire:confirm="{{__('Are you sure to delete this user?')}}" confirm-text="Are you sure?" tooltip-left="{{ __('Delete') }}" spinner class="text-red-500 btn-ghost btn-sm" />
                 </div>
             @endscope
         </x-table>

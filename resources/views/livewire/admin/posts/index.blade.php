@@ -215,7 +215,7 @@ class extends Component {
             @scope('actions', $post)
                 <div class="flex">
                     <x-button icon="o-finger-print" wire:click="clonePost({{ $post->id }})" tooltip-left="{{ __('Clone') }}" spinner class="btn-ghost btn-sm" />
-                    <x-button icon="o-trash" wire:click="deletePost({{ $post->id }})" tooltip-left="{{ __('Delete') }}" wire:confirm="{{ __('Are you sure?') }}" spinner class="btn-ghost btn-sm text-red-500" />
+                    <x-button icon="o-trash" wire:click="deletePost({{ $post->id }})" tooltip-left="{{ __('Delete') }}" wire:confirm="{{ __('Are you sure?') }}" spinner class="text-red-500 btn-ghost btn-sm" />
                 </div>
             @endscope
             </x-table>
