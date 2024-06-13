@@ -68,7 +68,7 @@ class extends Component {
         } catch (\Exception $e) {
             $erreur_obj = json_decode($response->body());
             $error_code = $erreur_obj->error->code;
-            \Log::error('Failed to get answer from OpenAI: ' . $e->getMessage();
+            \Log::error('Failed to get answer from OpenAI: ' . $e->getMessage());
             $this->answer = __('An error occurred while trying to retrieve the answer') . ' (' . __($error_code) . ')' . "\n";
         }
     }
