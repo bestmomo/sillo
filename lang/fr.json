@@ -401,5 +401,7 @@
     "insufficient_quota": "Quota insuffisant",
     "You have a question about Laravel?": "Vous avez une question sur Laravel ?",
     "Use this form to ask me!": "Utilisez ce formulaire pour avoir une réponse !",
-    "Your question here...": "Votre question ici..."
+    "Your question here...": "Votre question ici...",
+    "An answer has been created on your comment": "Une réponse a été apportée à votre commentaire",
+    "Show this answer": "Voir cette réponse"
 }

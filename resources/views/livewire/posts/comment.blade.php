@@ -5,6 +5,7 @@ use App\Models\Comment;
 use Livewire\Attributes\Rule;
 use Illuminate\Support\Collection;
 use App\Notifications\CommentCreated;
+use App\Notifications\CommentAnswerCreated;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 new class extends Component {
@@ -74,12 +75,15 @@ new class extends Component {
 
         // Chargement des relations pour le nouveau commentaire
         $item->load([
-            'post' => function (Builder $query) {$query->with('user')->select('id', 'title', 'user_id');},
+            'post' => function (Builder $query) {$query->with('user')->select('id', 'title', 'user_id', 'slug');},
             'user',
         ]);
 
-        // Notification de l'utilisateur du post
+        // Notification de l'auteur de l'article
         $item->post->user->notify(new CommentCreated($item));
+
+        // Notification de l'auteur du commentaire initial
+        $item->post->user->notify(new CommentAnswerCreated($item));
 
         // Masquage du formulaire de réponse
         $this->toggleAnswerForm(false);

@@ -50,7 +50,7 @@ new class extends Component {
             'user',
         ]);
 
-        // Notification de l'utilisateur du post
+        // Notification de l'auteur de l'article
         $this->comment->post->user->notify(new CommentCreated($this->comment));
 
         // Réinitialisation du message du formulaire
