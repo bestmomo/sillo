@@ -7,16 +7,15 @@ use Livewire\Attributes\Rule;
 use Livewire\Attributes\Layout;
 
 // Définition du composant avec les attributs de titre et de mise en page
-new
-#[Title('Chat')]
-#[Layout('components.layouts.app')]
+new 
+#[Title('Chat')] 
+#[Layout('components.layouts.app')] 
 class extends Component {
-
     use Toast;
 
     #[Rule('required|max:1000')]
     public string $question = '';
-    
+
     public string $answer = '';
 
     public function getAnswer()
@@ -42,16 +41,16 @@ class extends Component {
             'messages' => [
                 [
                     'role' => 'user',
-                    'content' => $messageContent
-                ]
-            ]
+                    'content' => $messageContent,
+                ],
+            ],
         ];
 
         // Envoi de la requête à l'API OpenAI
         try {
             $response = Http::withToken($token)
                 ->withHeaders([
-                    'Content-Type' => 'application/json'
+                    'Content-Type' => 'application/json',
                 ])
                 ->post('https://api.openai.com/v1/chat/completions', $payload);
 
@@ -67,36 +66,29 @@ class extends Component {
                 throw new \Exception(__('Error in API response: ') . $response->body());
             }
         } catch (\Exception $e) {
-            // Gestion des exceptions
-            \Log::error('Failed to get answer from OpenAI: ' . $e->getMessage());
-            $this->answer = __('An error occurred while trying to retrieve the answer.');
+            $erreur_obj = json_decode($response->body());
+            $error_code = $erreur_obj->error->code;
+            \Log::error('Failed to get answer from OpenAI: ' . $e);
+            $this->answer = __('An error occurred while trying to retrieve the answer') . ' (' . __($error_code) . ')' . "\n";
         }
     }
-
 }; ?>
 
 <div>
     <!-- Formulaire de contact encapsulé dans une carte -->
-    <x-card 
-        title="{{__('You have a question about Laravel?')}}" 
-        subtitle="{{ __('Use this form to ask me!') }}"
-        shadow 
-        separator
-        progress-indicator>
+    <x-card title="{{ __('You have a question about Laravel?') }}" subtitle="{{ __('Use this form to ask me!') }}" shadow
+        separator progress-indicator>
         <x-form wire:submit="getAnswer">
             <!-- Champ de message -->
-            <x-textarea
-                wire:model="question"
-                rows="5"
-                placeholder="{{ __('Your question here...')}}"
-                inline />
+            <x-textarea wire:model="question" rows="5" placeholder="{{ __('Your question here...') }}" inline />
             <!-- Boutons d'actions -->
             <x-slot:actions>
-                <x-button label="{{__('Send')}}" type="submit" icon="o-paper-airplane" class="btn-primary" spinner="login" />
+                <x-button label="{{ __('Send') }}" type="submit" icon="o-paper-airplane" class="btn-primary"
+                    spinner="login" />
             </x-slot:actions>
         </x-form>
-        <br>         
-        <!-- Réponse -->       
+        <br>
+        <!-- Réponse -->
         <div class="container mx-auto">
             <div class="prose sm:mx-8 lg:mx-16">
                 {!! nl2br(e($answer)) !!}
