@@ -10,7 +10,12 @@ class Page extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'slug', 'body',
+        'title', 
+        'slug', 
+        'body',
+        'seo_title', 
+        'meta_description', 
+        'meta_keywords',
     ];
 
     public $timestamps = false;

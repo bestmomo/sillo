@@ -18,6 +18,9 @@ class CreatePagesTable extends Migration
             $table->string('slug');
             $table->string('title');
             $table->text('body');
+            $table->string('seo_title');
+            $table->text('meta_description');
+            $table->text('meta_keywords');
         });
     }
 

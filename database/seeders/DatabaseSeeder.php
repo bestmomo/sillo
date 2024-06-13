@@ -139,6 +139,7 @@ class DatabaseSeeder extends Seeder
 		foreach ($items as $item) {
 			Page::factory()->create([
 				'title' => $item[1],
+				'seo_title'   => 'Page ' . $item[1],
 				'slug'  => $item[0],
 			]);
 		}

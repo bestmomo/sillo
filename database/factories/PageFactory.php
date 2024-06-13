@@ -23,6 +23,8 @@ class PageFactory extends Factory
     {
         return [
             'body' => fake()->paragraph(10),
+            'meta_description' => fake()->sentence($nbWords = 6, $variableNbWords = true),
+            'meta_keywords' => implode(',', fake()->words($nb = 3, $asText = false)),
         ];
     }
 }
