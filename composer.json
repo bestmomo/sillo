@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "barryvdh/laravel-debugbar": "^3.13",
         "creativeorange/gravatar": "~1.0",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
