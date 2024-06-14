@@ -32,8 +32,7 @@ class extends Component {
             ['key' => 'name', 'label' => __('Name')],
             ['key' => 'email', 'label' => 'E-mail'],
             ['key' => 'role', 'label' => __('Role')],
-            ['key' => 'valid', 'label' => __('Valid')],
-            ['key' => 'comments_count', 'label' => __('Comments')],
+            ['key' => 'valid', 'label' => __('Valid')],            
         ];
 
         if ($this->role !== 'user') {
@@ -41,6 +40,7 @@ class extends Component {
         }  
         
         return array_merge($headers, [
+            ['key' => 'comments_count', 'label' => __('Comments')],
             ['key' => 'created_at', 'label' => __("Registration")],         
         ]);
     }
@@ -94,6 +94,15 @@ class extends Component {
             @scope('cell_valid', $user)
                 @if($user->valid)
                     <x-icon name="o-check-circle" />
+                @endif
+            @endscope
+            @scope('cell_role', $user)
+                @if($user->role === 'admin')
+                    <x-badge value="{{ __('Administrator') }}" class="badge-error" />
+                @elseif($user->role === 'redac')
+                    <x-badge value="{{ __('Redactor') }}" class="badge-warning" />
+                @elseif($user->role === 'user')
+                    {{ __('User') }}
                 @endif
             @endscope
             @scope('cell_posts_count', $user)
