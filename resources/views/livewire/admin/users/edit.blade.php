@@ -57,7 +57,7 @@ class extends Component {
 }; ?>
 
 <div>
-    <x-card title="{{ __('Edit a user') }}" shadow separator progress-indicator >
+    <x-card title="{{ __('Edit an account') }}" shadow separator progress-indicator >
         <x-form wire:submit="save" >
             <x-input label="{{__('Name')}}" wire:model="name" icon="o-user" inline />
             <x-input label="{{__('E-mail')}}" wire:model="email" icon="o-envelope" inline />
