@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\DB;
 
 new 
 #[Layout('components.layouts.admin')]
@@ -17,6 +18,7 @@ class extends Component {
     public string $search = '';
     public array $sortBy = ['column' => 'name', 'direction' => 'asc'];
     public string $role = 'all';
+    public array $roles = [];
 
     // Supprimer un utilisateur.
     public function deleteUser(User $user): void
@@ -46,14 +48,48 @@ class extends Component {
     }
 
     // Récupérer la liste des utilisateurs avec les filtres et tri appliqués.
-    public function users(): LengthAwarePaginator
+    public function users(): LengthAwarePaginator 
     {
-        return User::query()
-            ->when($this->search, fn(Builder $q) => $q->where('name', 'like', "%$this->search%"))
-            ->when($this->role !== 'all', fn(Builder $q) => $q->where('role', $this->role))
-            ->withCount('posts','comments')
+        // Récupération des utilisateurs paginés
+        $users = User::query()
+            ->when($this->search, function (Builder $query) {
+                $query->where('name', 'like', "%{$this->search}%");
+            })
+            ->when($this->role !== 'all', function (Builder $query) {
+                $query->where('role', $this->role);
+            })
+            ->withCount('posts', 'comments')
             ->orderBy(...array_values($this->sortBy))
             ->paginate(10);
+
+        // Récupération du nombre d'utilisateurs par rôle
+        $userCountsByRole = User::select('role', DB::raw('count(*) as total'))
+            ->groupBy('role')
+            ->pluck('total', 'role');
+
+        // Compter tous les utilisateurs
+        $totalUsers = User::count();
+
+        // Création des rôles pour le choix avec 'all' inclus
+        $roles = collect([
+            'all' => __('All') . " ({$totalUsers})"
+        ])->merge(
+            collect([
+                'admin' => __('Administrators'),
+                'redac' => __('Redactors'),
+                'user' => __('Users'),
+            ])->map(function ($roleName, $roleId) use ($userCountsByRole) {
+                $count = $userCountsByRole->get($roleId, 0); // 0 si le rôle n'est pas trouvé
+                return "{$roleName} ({$count})";
+            })
+        )->map(function ($roleName, $roleId) {
+            return ['name' => $roleName, 'id' => $roleId];
+        })->values()->all();
+
+        $this->roles = $roles;
+
+        // Retourner les utilisateurs paginés
+        return $users;
     }
 
     // Fournir les données nécessaires à la vue.
@@ -61,13 +97,8 @@ class extends Component {
     {
         return [
             'users' => $this->users(),
+            'rolesCount' => $this->users()['userCountsByRole'],
             'headers' => $this->headers(),
-            'roles' => [
-                ['name' => __('All'),'id' => 'all'],
-                ['name' => __('Administrators'),'id' => 'admin'],
-                ['name' => __('Redactors'),'id' => 'redac'],
-                ['name' => __('Users'),'id' => 'user'],                
-            ]
         ];
     }
 }; ?>
