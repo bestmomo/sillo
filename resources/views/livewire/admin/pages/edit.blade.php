@@ -17,6 +17,9 @@ class extends Component {
     public string $body = '';
     public string $title = '';
     public string $slug = '';
+    public string $seo_title = '';
+    public string $meta_description = '';
+    public string $meta_keywords = '';
 
     // Initialise le composant avec la page donnée.
     public function mount(Page $page): void
@@ -51,6 +54,9 @@ class extends Component {
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
                 Rule::unique('pages')->ignore($this->page->id),
             ],
+            'seo_title' => 'required|max:70',
+            'meta_description' => 'required|max:160',
+            'meta_keywords' => 'required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/',
         ]);
 
         $this->page->update($data);
@@ -70,6 +76,26 @@ class extends Component {
                 label="{{ __('Content') }}"
                 :config="config('tinymce.config')" 
                 folder="{{ 'photos/' . now()->format('Y/m') }}" />
+            <x-card title="{{ __('SEO') }}" shadow separator>
+                <x-input 
+                    placeholder="{{ __('Title') }}" 
+                    wire:model="seo_title" 
+                    hint="{{ __('Max 70 chars') }}"/>
+                    <br>
+                <x-textarea
+                    label="{{ __('META Description') }}"
+                    wire:model="meta_description"
+                    hint="{{ __('Max 160 chars') }}"
+                    rows="2"
+                    inline />
+                    <br>
+                <x-textarea
+                    label="{{ __('META Keywords') }}"
+                    wire:model="meta_keywords"
+                    hint="{{ __('Keywords separated by comma') }}"
+                    rows="1"
+                    inline />
+            </x-card>
             <x-slot:actions>
                 <x-button label="{{__('Cancel')}}" icon="o-hand-thumb-down" class="btn-outline" link="/admin/pages/index" />
                 <x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
