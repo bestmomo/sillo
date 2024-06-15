@@ -11,7 +11,7 @@
         "laravel/framework": "^11.10",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
-        "livewire/volt": "^1.6.5",
+        "livewire/volt": "^1.6",
         "robsontenorio/mary": "^1.32",
         "tinymce/tinymce": "^7.1"
     },
