@@ -29,7 +29,7 @@ class PostRepository
 			$builder->whereBelongsTo($serie)->oldest();
 		}
 
-		return $this->getPostsGoodExceptsPaginate($builder);
+		return $this->getPostsWithGoodExceptsAndPaginate($builder);
 	}
 
 	/**
@@ -58,10 +58,10 @@ class PostRepository
 		$builder = $this->getBaseQuery()
 			->where(function ($query) use ($search) {
 				$query->where('body', 'like', "%{$search}%")
-					->orWhere('title', 'like', "%{$search}%");
+					    ->orWhere('title', 'like', "%{$search}%");
 			});
 			
-			return $this->getPostsGoodExceptsPaginate($builder);
+			return $this->getPostsWithGoodExceptsAndPaginate($builder);
 	}
 
 	/**
@@ -109,7 +109,7 @@ class PostRepository
 	 * Récupère les posts paginés avec des extraits de 300 caractères.
 	 * À noter que les mots restent entiers.
 	 */
-	public function getPostsGoodExceptsPaginate(Builder $builder): LengthAwarePaginator
+	public function getPostsWithGoodExceptsAndPaginate(Builder $builder): LengthAwarePaginator
 	{
 		$paginator = $builder->paginate(config('app.pagination'));
 		$posts     = $paginator->items();
