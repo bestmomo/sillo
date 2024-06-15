@@ -4,7 +4,11 @@ include_once 'aa_test.php';
 
 <div>
 
-    <livewire:gc7.abc.sqlite />
+    {{-- <livewire:gc7.abc.sqlite /> --}}
+    
+    <livewire:gc7.abc.livewire />
+    
+    {{-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --}}
     {{-- <x-partials.gc7.helpers.uuu name='Lionel'/> --}}
     {{-- <x-partials.gc7.helpers.form-textarea :postId=$postId title='TheTitle' placeholder='ThePlaceHolder' cancelBtn=1 /> --}}
 
