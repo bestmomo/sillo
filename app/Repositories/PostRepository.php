@@ -19,17 +19,17 @@ class PostRepository
 	 */
 	public function getPostsPaginate(?Category $category, ?Serie $serie): LengthAwarePaginator
 	{
-		$query = $this->getBaseQuery();
+		$builder = $this->getBaseQuery();
 
 		if ($category) {
-			$query->whereBelongsTo($category);
+			$builder->whereBelongsTo($category);
 		}
 
 		if ($serie) {
-			$query->whereBelongsTo($serie)->oldest();
+			$builder->whereBelongsTo($serie)->oldest();
 		}
 
-		return $query->paginate(config('app.pagination'));
+		return $this->getPostsGoodExceptsPaginate($builder);
 	}
 
 	/**
@@ -55,12 +55,13 @@ class PostRepository
 	 */
 	public function search(string $search): LengthAwarePaginator
 	{
-		return $this->getBaseQuery()
+		$builder = $this->getBaseQuery()
 			->where(function ($query) use ($search) {
 				$query->where('body', 'like', "%{$search}%")
 					->orWhere('title', 'like', "%{$search}%");
-			})
-			->paginate(config('app.pagination'));
+			});
+			
+			return $this->getPostsGoodExceptsPaginate($builder);
 	}
 
 	/**
@@ -83,32 +84,43 @@ class PostRepository
 	 */
 	protected function getBaseQuery(): Builder
 	{
-		$specificReq = [
+		$specificReqs = [
 			'mysql'  => "LEFT(body, LOCATE(' ', body, 300))",
-			'sqlite' => "substr(body, 1, instr(substr(body, 300), ' '))",
+			'sqlite' => 'substr(body, 1, 300)',
 			'pgsql'  => "substring(body from '^.{1,300}\\b')",
 		];
 		$usedDbSystem = env('DB_CONNECTION', 'mysql');
-		$adaptedReq   = $specificReq[$usedDbSystem];
+		$adaptedReq   = $specificReqs[$usedDbSystem];
 
-		return Post::select(
-			'id',
-			'slug',
-			'image',
-			'title',
-			'user_id',
-			'category_id',
-			'serie_id',
-			'created_at'
-		)
-			->selectRaw("
-                                CASE
-                                    WHEN LENGTH(body) <= 300 THEN body
-                                    ELSE {$adaptedReq}
-                                END AS excerpt
-                            ")
+		return Post::select('id', 'slug', 'image', 'title', 'user_id', 'category_id', 'serie_id', 'created_at')
+			->selectRaw(
+			 "
+										CASE
+												WHEN LENGTH(body) <= 300 THEN body
+												ELSE {$adaptedReq}
+										END AS excerpt
+									",
+			)
 			->with('user:id,name', 'category', 'serie')
 			->whereActive(true)
 			->latest();
+	}
+	/**
+	 * Récupère les posts paginés avec des extraits de 300 caractères.
+	 * À noter que les mots restent entiers.
+	 */
+	public function getPostsGoodExceptsPaginate(Builder $builder): LengthAwarePaginator
+	{
+		$paginator = $builder->paginate(config('app.pagination'));
+		$posts     = $paginator->items();
+		foreach ($posts as $post) {
+			$post->excerpt = preg_replace('/\s+\S+$/', '', $post->excerpt);
+			$post->excerpt = rtrim($post->excerpt, '-.;,!?…');
+		}
+		 $paginator = new LengthAwarePaginator($posts, $paginator->total(), $paginator->perPage(), $paginator->currentPage(), [
+        'path' => LengthAwarePaginator::resolveCurrentPath(),
+    ]);
+		
+		return $paginator;
 	}
 }
