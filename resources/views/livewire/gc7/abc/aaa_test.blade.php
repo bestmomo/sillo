@@ -4,8 +4,9 @@ include_once 'aa_test.php';
 
 <div>
 
+    <livewire:gc7.abc.sqlite />
     {{-- <x-partials.gc7.helpers.uuu name='Lionel'/> --}}
-    <x-partials.gc7.helpers.form-textarea :postId=$postId title='TheTitle' placeholder='ThePlaceHolder' cancelBtn=1 />
+    {{-- <x-partials.gc7.helpers.form-textarea :postId=$postId title='TheTitle' placeholder='ThePlaceHolder' cancelBtn=1 /> --}}
 
     {{-- 
     <x-partials.helpers.textareahelper postId=5 action='createComment' $title='Leave a comment' placeholder='Your comment' /> --}}
