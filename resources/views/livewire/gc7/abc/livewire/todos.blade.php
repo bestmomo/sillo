@@ -27,6 +27,7 @@ new class extends Component {
     <form wire:submit='add'>
         <div class="flex items-end my-3">
             <x-input type="text" wire:model.debounce.5ms="todo" wire:input="increment" focus></x-input>
+            {{-- https://heroicons.com/ --}}
             <x-button class="btn-primary ml-3" type="submit" icon="o-bars-arrow-up" spiner>Add</x-button>
             <span class='ml-3'>Count: {{ $this->count }}</span>
         </div>
