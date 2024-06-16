@@ -13,7 +13,6 @@ new class extends Component {
         $this->validate();
         $this->todos[] = ucfirst($this->todo);
         $this->reset('todo');
-        $this->reset('count');
         $this->success('Done task added');
     }
 }; ?>
