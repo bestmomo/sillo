@@ -4,13 +4,16 @@ use Livewire\Attributes\Rule;
 use Mary\Traits\Toast;
 new class extends Component {
     use Toast;
-    #[Rule('required')]
+    #[Rule('required|min:3')]
     public $todo = '';
-    public $count = 0, $todos = ['Take out trash', 'Do dishes'];
-    public function increment() {
+    public $count = 0,
+        $todos = ['Take out trash', 'Do dishes'];
+    public function increment()
+    {
         $this->count = strlen($this->todo);
     }
-    public function add() {
+    public function add()
+    {
         $this->validate();
         $this->todos[] = ucfirst($this->todo);
         $this->reset('todo');
