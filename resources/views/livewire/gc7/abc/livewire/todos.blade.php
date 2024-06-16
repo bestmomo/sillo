@@ -16,6 +16,7 @@ new class extends Component {
     {
         $this->todos[] = ucfirst($this->todo);
         $this->reset('todo');
+        $this->reset('count');
     }
 }; ?>
 
@@ -24,9 +25,9 @@ new class extends Component {
 
     <form wire:submit='add'>
         <div class="flex items-center">
-            <x-input type="text" class="my-2" wire:model="todo" wire:keyup="increment" focus></x-input>
+            <x-textarea type="text" wire:model="todo" wire:keyup="increment" placeholder="New Task here"
+                hint='Count: {{ $this->count }}' focus></x-textarea>
             <x-button class="btn-primary ml-3" type="submit">Add</x-button>
-            <span class='ml-3'>Count: {{ $this->count }}</span>
         </div>
     </form>
 
