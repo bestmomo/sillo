@@ -6,8 +6,9 @@ new class extends Component {
     use Toast;
     #[Rule('required|min:3')]
     public $todo = '';
-    public $count = 0,
-        $todos = ['Take out trash', 'Do dishes'];
+    public $count = 0;
+    public $todos = ['Take out trash', 'Do dishes'];
+    
     public function increment()
     {
         $this->count = strlen($this->todo);
@@ -25,9 +26,7 @@ new class extends Component {
     <h2>Todos</h2>
     <form wire:submit='add'>
         <div class="flex items-end my-3">
-            <x-input type="text" wire:model.debounce.5ms="todo" 
-            wire:input="increment" 
-            focus></x-input>
+            <x-input type="text" wire:model.debounce.5ms="todo" wire:input="increment" focus></x-input>
             <x-button class="btn-primary ml-3" type="submit" icon="o-bars-arrow-up" spiner>Add</x-button>
             <span class='ml-3'>Count: {{ $this->count }}</span>
         </div>
