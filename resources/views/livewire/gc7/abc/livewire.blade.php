@@ -12,9 +12,9 @@ new class extends Component {
     <p class="mt-8">
 
         {{-- <livewire:gc7.abc.livewire.hello-world /> --}}
-        <livewire:gc7.abc.livewire.counter />
+        {{-- <livewire:gc7.abc.livewire.counter /> --}}
         {{-- <livewire:gc7.abc.livewire.counter by=3/> --}}
 
-        {{-- <livewire:gc7.abc.livewire.Todos /> --}}
+        <livewire:gc7.abc.livewire.Todos />
     </p>
 </div>

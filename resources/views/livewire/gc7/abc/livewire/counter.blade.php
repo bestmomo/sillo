@@ -11,7 +11,7 @@ new class extends Component {
     }
     public function increment($by = 1)
     {
-        $this->count += $by;
+        $this->count += $this->by ?? $by;
     }
     public function decrement()
     {
@@ -26,7 +26,8 @@ new class extends Component {
         {{-- <x-button class="btn-primary mt-1" wire:mouseenter="increment">+</x-button> --}}
         {{-- <x-button class="btn-primary mt-1" wire:click.window="increment">+</x-button> --}}
         {{-- <x-button class="btn-primary mt-1" wire:click.throttle.3000ms="increment">+</x-button> --}}
-        <x-button class="btn-primary mt-1" wire:click.debounce.0ms="increment(5)">+</x-button>
+        {{-- <x-button class="btn-primary mt-1" wire:click.debounce.0ms="increment(5)">+</x-button> --}}
+        <x-button class="btn-primary mt-1" wire:click.debounce.0ms="increment()">+</x-button>
         <x-button class="btn-primary mt-1" wire:click.debounce.0ms="decrement()">-</x-button>
     </p>
 </div>
