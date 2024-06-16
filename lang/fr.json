@@ -403,5 +403,9 @@
     "Use this form to ask me!": "Utilisez ce formulaire pour avoir une réponse !",
     "Your question here...": "Votre question ici...",
     "An answer has been created on your comment": "Une réponse a été apportée à votre commentaire",
-    "Show this answer": "Voir cette réponse"
+    "Show this answer": "Voir cette réponse",
+    "Comment to valid from ": "Commentaire à valider de ",
+    "Show the comments": "Voir les commentaires",
+    "Are you sure to validate this user for comment?": "Etes-vous sûr de vouloir valider cet utilisateur pour les commentaires ?",
+    "Validate the user": "Valider l'utilisateur"
 }

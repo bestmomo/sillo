@@ -80,6 +80,17 @@ class extends Component {
     </x-collapse>
 
     <br>
+
+    @foreach($comments as $comment)
+        @if(!$comment->user->valid)
+            <x-alert title="{{ __('Comment to valid from ') . $comment->user->name }}" description="{{ $comment->body }}" icon="c-chat-bubble-left" class="alert-warning" >
+                <x-slot:actions>
+                    <x-button link="{{ route('comments.index') }}" label="{!! __('Show the comments') !!}" />
+                </x-slot:actions>
+            </x-alert>
+            <br>
+        @endif
+    @endforeach
     
     <x-collapse>
         <x-slot:heading>
@@ -109,7 +120,7 @@ class extends Component {
         </x-slot:heading>
         <x-slot:content>
             @foreach($comments as $comment)
-                <x-list-item :item="$comment" no-separator no-hover>
+                <x-list-item :item="$comment" no-separator no-hover >
                     <x-slot:avatar>
                         <x-avatar :image="Gravatar::get($comment->user->email)" >
                             <x-slot:title>
