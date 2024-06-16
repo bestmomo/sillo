@@ -2,7 +2,7 @@
 
 use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
-use App\Models\{ Page, Post, Comment, User };
+use App\Models\{ Page, Post, Comment, User, Contact };
 use Illuminate\Support\Str;
 use Mary\Traits\Toast;
 use Illuminate\Database\Eloquent\Builder;
@@ -47,6 +47,7 @@ class extends Component {
                                         fn( Builder $q) => $q->whereRelation('post', 'user_id', Auth::id()))->take(5)
                                     ->get(),
             'users' => User::count(),
+            'contacts' => Contact::whereHandled(false)->get(),
         ];
     }
 
@@ -83,7 +84,7 @@ class extends Component {
 
     @foreach($comments as $comment)
         @if(!$comment->user->valid)
-            <x-alert title="{{ __('Comment to valid from ') . $comment->user->name }}" description="{{ $comment->body }}" icon="c-chat-bubble-left" class="alert-warning" >
+            <x-alert title="{{ __('Comment to valid from ') . $comment->user->name }}" description="{{ $comment->body }}" icon="c-chat-bubble-left" class="alert-warning" shadow >
                 <x-slot:actions>
                     <x-button link="{{ route('comments.index') }}" label="{!! __('Show the comments') !!}" />
                 </x-slot:actions>
@@ -91,6 +92,17 @@ class extends Component {
             <br>
         @endif
     @endforeach
+
+    @if(Auth::user()->isAdmin())
+        @foreach($contacts as $contact)
+            <x-alert title="{{ __('Contact to handle from ') . $contact->name }}" description="{{ $contact->message }}" icon="s-pencil-square" class="alert-info" shadow >
+                <x-slot:actions>
+                    <x-button link="{{ route('contacts.index') }}" label="{!! __('Show the contacts') !!}" />
+                </x-slot:actions>
+            </x-alert>
+            <br>
+        @endforeach
+    @endif
     
     <x-collapse>
         <x-slot:heading>
