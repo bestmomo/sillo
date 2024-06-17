@@ -1,0 +1,104 @@
+nav a:hover {
+    color: white;
+    transition: .5s
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table .archived {
+    background: #ddd;
+}
+
+table th {
+    background-color: #2f2f2f;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* body {
+    display: flex;
+    justify-content: start;
+    margin: 0;
+
+    & nav {
+        position: fixed;
+        width: 5rem;
+        display: flex;
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        border-right: 1px solid black;
+        height: 100vh;
+
+        & a {
+            margin-bottom: .5rem;
+
+            &:visited {
+                color: inherit;
+            }
+
+            &.current {
+                font-weight: 600;
+            }
+        }
+    }
+
+    & div {
+        padding: 1rem;
+        padding-left: 8rem;
+
+        & table {
+            width: 100%;
+            border-collapse: collapse;
+
+            & .archived {
+                background: #ddd;
+            }
+
+            & th {
+                background-color: #f0f0f0;
+                Slightly gray background
+                font-weight: bold;
+                text-align: left;
+                padding: 10px;
+                border-bottom: 2px solid #ccc;
+            }
+
+            & td {
+                padding: 10px;
+                border-bottom: 1px solid #ccc;
+            }
+        }
+
+        & form {
+            & label {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 1rem;
+
+                & em {
+                    font-size: .8rem;
+                }
+
+                & small {
+                    text-align: right;
+                    font-size: .65rem !important;
+                    color: #0009;
+                    align-self: flex-end;
+                    font-size: .8rem;
+                }
+            }
+        }
+    }
+} 
+*/

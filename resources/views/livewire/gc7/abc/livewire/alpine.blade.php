@@ -1,8 +1,10 @@
 <?php
 
 use Livewire\Volt\Component;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Layout;
 
-new class extends Component {
+new #[Title('Blog')] #[Layout('components.layouts.gc7')] class extends Component {
   // https://alpinejs.dev/start-here
 }; ?>
 
@@ -29,7 +31,7 @@ new class extends Component {
         }
     
     }">
-      <input x-model="search" placeholder="Search...">
+      <x-input x-model="search" placeholder="Search..." />
 
         <ul>
           <template x-for="item in filteredItems" :key="item">

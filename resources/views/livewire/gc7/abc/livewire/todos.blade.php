@@ -46,7 +46,9 @@ class extends Component {
     </form>
     <ul>
         @foreach ($todos as $todo)
-            <li>- {{ $todo }}</li>
+        
+            <li wire:key="{{ $loop->index }}">- {{ $todo }}</li>
+            
         @endforeach
     </ul>
 </div>
