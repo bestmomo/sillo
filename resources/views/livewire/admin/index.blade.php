@@ -62,21 +62,25 @@ class extends Component {
             <x-stat 
                 title="{{ __('Posts') }}"
                 value="{{ $posts->count() }}"
-                icon="s-document-text" />
+                icon="s-document-text"
+                class="shadow-md" />
             @if(Auth::user()->isAdmin())
                 <x-stat
                     title="{{ __('Pages') }}"
                     value="{{ $pages->count() }}"
-                    icon="s-document" />
+                    icon="s-document"
+                    class="shadow-md" />
                 <x-stat
                     title="{{ __('Users') }}"
                     value="{{ $users }}"
-                    icon="s-user" />
+                    icon="s-user"
+                    class="shadow-md" />
             @endif
             <x-stat
                 title="{{ __('Comments') }}"
                 value="{{ $commentsNumber }}"
-                icon="c-chat-bubble-left" />
+                icon="c-chat-bubble-left"
+                class="shadow-md" />
         </x-slot:content>
     </x-collapse>
 
