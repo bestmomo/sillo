@@ -15,7 +15,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class PostRepository
 {
 	/**
-	 * Récupère les posts paginés en fonction de la catégorie ou de la série.
+	 * Récupère les articles paginés en fonction de la catégorie ou de la série.
 	 */
 	public function getPostsPaginate(?Category $category, ?Serie $serie): LengthAwarePaginator
 	{
@@ -33,7 +33,7 @@ class PostRepository
 	}
 
 	/**
-	 * Récupère un post par son slug.
+	 * Récupère un article par son slug.
 	 */
 	public function getPostBySlug(string $slug): Post
 	{
@@ -51,7 +51,7 @@ class PostRepository
 	}
 
 	/**
-	 * Recherche les posts en fonction d'un terme de recherche.
+	 * Recherche les articles en fonction d'un terme de recherche.
 	 */
 	public function search(string $search): LengthAwarePaginator
 	{
@@ -64,7 +64,7 @@ class PostRepository
 	}
 
 	/**
-	 * Génère un slug unique pour un post.
+	 * Génère un slug unique pour un article.
 	 */
 	public function generateUniqueSlug(string $slug): string
 	{
@@ -79,29 +79,33 @@ class PostRepository
 	}
 
 	/**
-	 * Récupère la requête de base pour les posts.
+	 * Récupère la requête de base pour les articles.
 	 */
 	protected function getBaseQuery(): Builder
-	{
-		$specificReqs = [
-			'mysql'  => "LEFT(body, LOCATE(' ', body, 350))",
-			'sqlite' => 'substr(body, 1, 350)',
-			'pgsql'  => "substring(body from 1 for 350)",
-		];
-		$usedDbSystem = env('DB_CONNECTION', 'mysql');
-		$adaptedReq   = $specificReqs[$usedDbSystem];
+    {
+        $specificReqs = [
+            'mysql'  => "LEFT(body, LOCATE(' ', body, 350))",
+            'sqlite' => 'substr(body, 1, 350)',
+            'pgsql'  => "substring(body from 1 for 350)",
+        ];
 
-		return Post::select('id', 'slug', 'image', 'title', 'user_id', 'category_id', 'serie_id', 'created_at')
-			->selectRaw(
-				"
-										CASE
-												WHEN LENGTH(body) <= 300 THEN body
-												ELSE {$adaptedReq}
-										END AS excerpt
-									",
-			)
-			->with('user:id,name', 'category', 'serie')
-			->whereActive(true)
-			->latest();
-	}
+        $usedDbSystem = env('DB_CONNECTION', 'mysql');
+
+        if (!isset($specificReqs[$usedDbSystem])) {
+            throw new Exception("Base de données non supportée: {$usedDbSystem}");
+        }
+
+        $adaptedReq = $specificReqs[$usedDbSystem];
+
+        return Post::select('id', 'slug', 'image', 'title', 'user_id', 'category_id', 'serie_id', 'created_at')
+            ->selectRaw(
+                "CASE
+                    WHEN LENGTH(body) <= 300 THEN body
+                    ELSE {$adaptedReq}
+                END AS excerpt"
+            )
+            ->with('user:id,name', 'category', 'serie')
+            ->whereActive(true)
+            ->latest();
+    }
 }
