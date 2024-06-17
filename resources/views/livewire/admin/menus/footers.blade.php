@@ -86,11 +86,9 @@ new #[Layout('components.layouts.admin')] class extends Component {
     public function saveFooter(): void
     {
         $data = $this->validate();
-
         $data['order'] = $this->footers->count() + 1;
-
-        Footer::create($data);
-
+        $newFooter = Footer::create($data);
+        $this->footers->push($newFooter);
         $this->success(__('Footer created with success.'));
     }
 }; ?>
@@ -141,7 +139,6 @@ new #[Layout('components.layouts.admin')] class extends Component {
                     class="btn-primary" />
             </x-slot:actions>
         </x-form>
-        {{-- //2do: rafraichissement de la liste dès validation d'une nouvelle entrée acceptée --}}
 
     </x-card>
 </div>
