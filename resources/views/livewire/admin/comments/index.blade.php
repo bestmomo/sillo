@@ -108,8 +108,8 @@ class extends Component {
                         <x-button 
                             icon="c-eye" 
                             wire:click="validComment({{ $comment->id }})" 
-                            wire:confirm="{{ __('Are you sure to validate this comment?') }}" 
-                            tooltip-left="{!! __('Validate') !!}" 
+                            wire:confirm="{{ __('Are you sure to validate this user for comment?') }}" 
+                            tooltip-left="{!! __('Validate the user') !!}" 
                             spinner 
                             class="text-yellow-500 btn-ghost btn-sm" 
                         />
