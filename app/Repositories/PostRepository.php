@@ -19,17 +19,17 @@ class PostRepository
 	 */
 	public function getPostsPaginate(?Category $category, ?Serie $serie): LengthAwarePaginator
 	{
-		$builder = $this->getBaseQuery();
+		$query = $this->getBaseQuery();
 
 		if ($category) {
-			$builder->whereBelongsTo($category);
+			$query->whereBelongsTo($category);
 		}
 
 		if ($serie) {
-			$builder->whereBelongsTo($serie)->oldest();
+			$query->whereBelongsTo($serie)->oldest();
 		}
 
-		return $this->getPostsWithGoodExceptsAndPaginate($builder);
+		return $query->paginate(config('app.pagination'));
 	}
 
 	/**
@@ -55,13 +55,12 @@ class PostRepository
 	 */
 	public function search(string $search): LengthAwarePaginator
 	{
-		$builder = $this->getBaseQuery()
+		return $this->getBaseQuery()
 			->where(function ($query) use ($search) {
 				$query->where('body', 'like', "%{$search}%")
-					    ->orWhere('title', 'like', "%{$search}%");
-			});
-			
-			return $this->getPostsWithGoodExceptsAndPaginate($builder);
+					->orWhere('title', 'like', "%{$search}%");
+			})
+			->paginate(config('app.pagination'));
 	}
 
 	/**
@@ -85,16 +84,16 @@ class PostRepository
 	protected function getBaseQuery(): Builder
 	{
 		$specificReqs = [
-			'mysql'  => "LEFT(body, LOCATE(' ', body, 300))",
-			'sqlite' => 'substr(body, 1, 300)',
-			'pgsql'  => "substring(body from '^.{1,300}\\b')",
+			'mysql'  => "LEFT(body, LOCATE(' ', body, 350))",
+			'sqlite' => 'substr(body, 1, 350)',
+			'pgsql'  => "substring(body from 1 for 350)",
 		];
 		$usedDbSystem = env('DB_CONNECTION', 'mysql');
 		$adaptedReq   = $specificReqs[$usedDbSystem];
 
 		return Post::select('id', 'slug', 'image', 'title', 'user_id', 'category_id', 'serie_id', 'created_at')
 			->selectRaw(
-			 "
+				"
 										CASE
 												WHEN LENGTH(body) <= 300 THEN body
 												ELSE {$adaptedReq}
@@ -104,23 +103,5 @@ class PostRepository
 			->with('user:id,name', 'category', 'serie')
 			->whereActive(true)
 			->latest();
-	}
-	/**
-	 * Récupère les posts paginés avec des extraits de 300 caractères.
-	 * À noter que les mots restent entiers.
-	 */
-	public function getPostsWithGoodExceptsAndPaginate(Builder $builder): LengthAwarePaginator
-	{
-		$paginator = $builder->paginate(config('app.pagination'));
-		$posts     = $paginator->items();
-		foreach ($posts as $post) {
-			$post->excerpt = preg_replace('/\s+\S+$/', '', $post->excerpt);
-			$post->excerpt = rtrim($post->excerpt, '-.;,!?…');
-		}
-		 $paginator = new LengthAwarePaginator($posts, $paginator->total(), $paginator->perPage(), $paginator->currentPage(), [
-        'path' => LengthAwarePaginator::resolveCurrentPath(),
-    ]);
-		
-		return $paginator;
 	}
 }
