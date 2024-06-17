@@ -11,7 +11,14 @@ use Livewire\Volt\Volt;
 
 // Routes publiques
 Volt::route('/', 'index');
-Volt::route('/t', 'gc7.abc.aaa_test');
+
+Route::prefix('/t')->group(function () {
+	$links = ['todos', 'counter'];
+	Volt::route('/', 'gc7.abc.aaa_test');
+	foreach ($links as $link) {
+		Volt::route("/{$link}", "gc7.abc.livewire.{$link}");
+	}
+});
 
 Volt::route('/contact', 'contact')->name('contact');
 Volt::route('/category/{slug}', 'index');

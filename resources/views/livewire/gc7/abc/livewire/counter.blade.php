@@ -1,8 +1,13 @@
 <?php
 
 use Livewire\Volt\Component;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Layout;
 
-new class extends Component {
+new 
+#[Layout('components.layouts.gc7')] 
+#[Title('Counter')] 
+class extends Component {
     public $count = 10;
     public $by;
     public function mount($by = 1)

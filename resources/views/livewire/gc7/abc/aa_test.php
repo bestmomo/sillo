@@ -5,11 +5,13 @@
  */
 
  
-use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Layout;
 
 new 
-#[Layout('components.layouts.auth')]
+#[Layout('components.layouts.gc7')]
+#[Title('Test')]
 class extends Component {
 	// public $postId = 7;
 	
@@ -20,7 +22,7 @@ class extends Component {
 
 	public function updatedName()
 	{
-		$this->name = strtoupper($this->name);
+		// $this->name = strtoupper($this->name);
 	}
 
 	public function with()
