@@ -128,7 +128,15 @@ return (new PhpCsFixer\Config())
 			'no_binary_string'                  => true,
 			'no_extra_blank_lines'              => [
 				'tokens' => [
-					'break', 'continue', 'extra', 'return', 'throw', 'use', 'parenthesis_brace_block', 'square_brace_block', 'curly_brace_block',
+					'break',
+					'continue',
+					'extra',
+					'return',
+					'throw',
+					'use',
+					'parenthesis_brace_block',
+					'square_brace_block',
+					'curly_brace_block',
 				],
 			],
 			'no_leading_import_slash'                     => true,
@@ -175,16 +183,17 @@ return (new PhpCsFixer\Config())
 			'unary_operator_spaces'                         => true,
 			'whitespace_after_comma_in_array'               => true,
 			'semicolon_after_instruction'                   => true,
-			'single_line_comment_style'                     => true,
+			// 'single_line_comment_style'                     => true,
 			// 'strict_comparison'                             => true,
 			// 'strict_param'                                  => true,
 			// 'string_line_ending'                            => true,
+
 			'ternary_operator_spaces'     => true,
 			'trailing_comma_in_multiline' => true,
 			'trim_array_spaces'           => true,
 			'yoda_style'                  => true,
+			'space_after_semicolon'       => false,
 			'single_blank_line_at_eof'    => true,
-			// 'space_after_semicolon'           => true,
 		]
 	)
 	->setIndent("\t")

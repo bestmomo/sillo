@@ -17,13 +17,13 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7')] class extends Component
     {
         $postId = $post->id;
         $post->delete();
-        $this->info("Post # {$postId} deleted");
+        $this->info("Post # {$postId} deleted !");
         $this->dispatch('refreshPosts');
     }
     public function render(): mixed
     {
         return view('livewire.gc7.abc.livewire.blog', [
-            'posts' => PostGc7::paginate(10),
+            'posts' => PostGc7::orderBy('id', 'desc')->paginate(10),
         ]);
     }
 }; ?>
@@ -59,9 +59,10 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7')] class extends Component
 
                         </a>
                         <x-button type='button' icon="o-trash" wire:click='delete({{ $post->id }})'
-                            wire:confirm="Are you sure you want to delete this post # {{ $post->id }} ?
+                            {{-- wire:confirm="Are you sure you want to delete this post # {{ $post->id }} ?
                     
-Title:  {{ str($post->title)->words(3) }}" />
+Title:  {{ str($post->title)->words(3) }}"  --}}
+/>
                     </td>
                 </tr>
             @endforeach
