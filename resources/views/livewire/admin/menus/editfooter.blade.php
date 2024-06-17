@@ -33,7 +33,7 @@ class extends Component {
                 'max:255',
                 Rule::unique('footers')->ignore($this->footer->id),
             ],
-            'link' => 'url',
+            'link' => 'regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',
         ]);
 
         $this->footer->update($data);

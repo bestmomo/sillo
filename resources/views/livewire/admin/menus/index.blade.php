@@ -19,7 +19,7 @@ class extends Component {
     #[Rule('required|max:255|unique:menus,label')]
     public string $label = '';
 
-    #[Rule('nullable|url')]
+    #[Rule('nullable|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/')]
     public string $link = '';
 
     public string $sublabel = '';

@@ -84,7 +84,7 @@ class extends Component {
                 'max:255',
                 Rule::unique('menus')->ignore($this->submenu->id),
             ],
-            'link' => 'required|url',
+            'link' => 'required|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',
         ]);
 
         $this->submenu  ->update($data);

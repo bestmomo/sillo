@@ -33,7 +33,7 @@ class extends Component {
                 'max:255',
                 Rule::unique('menus')->ignore($this->menu->id),
             ],
-            'link' => 'nullable|url',
+            'link' => 'nullable|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',
         ]);
 
         $this->menu->update($data);
