@@ -407,5 +407,7 @@
     "Comment to valid from ": "Commentaire à valider de ",
     "Show the comments": "Voir les commentaires",
     "Are you sure to validate this user for comment?": "Etes-vous sûr de vouloir valider cet utilisateur pour les commentaires ?",
-    "Validate the user": "Valider l'utilisateur"
+    "Validate the user": "Valider l'utilisateur",
+    "Contact to handle from ": "Contact à traiter de ",
+    "Show the contacts": "Voir les contacts"
 }
