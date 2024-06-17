@@ -67,8 +67,8 @@ class extends Component {
             ->groupBy('role')
             ->pluck('total', 'role');
 
-        // Compter tous les utilisateurs
-        $totalUsers = User::count();
+        // Calculer le nombre total d'utilisateurs à partir des comptes par rôle
+        $totalUsers = $userCountsByRole->sum();
 
         // Création des rôles pour le choix avec 'all' inclus
         $roles = collect([
