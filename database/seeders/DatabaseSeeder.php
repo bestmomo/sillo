@@ -153,7 +153,7 @@ class DatabaseSeeder extends Seeder
 			['label' => 'Contact', 'order' => 5, 'link' => '/contact'],
 		]);
 
-		PostGc7::factory()->count(9)->create();
+		PostGc7::factory()->count(99)->create();
 
 		// REPORT
 		printf('%s%s', str_repeat(' ', 2), "Data tables properly filled.\n\n");
