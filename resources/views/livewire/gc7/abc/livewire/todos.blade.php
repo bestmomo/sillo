@@ -2,11 +2,23 @@
 use Livewire\Volt\Component;
 use Livewire\Attributes\Rule;
 use Mary\Traits\Toast;
+
 new class extends Component {
     use Toast;
     #[Rule('required|min:3')]
     public $todo = '';
-    public $todos = ['Take out trash', 'Do dishes'];
+    public $todos = [];
+
+    public function mount()
+    {
+        // dd('ok');
+        $this->todos = ['Take out trash', 'Do dishes'];
+    }
+
+    public function updated($property, $value)
+    {
+        dd($property, $value);
+    }
 
     public function add()
     {
@@ -16,6 +28,7 @@ new class extends Component {
         $this->success('Done task added');
     }
 }; ?>
+
 <div>
     <h2>Todos</h2>
     <form wire:submit='add'>
