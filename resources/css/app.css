@@ -18,10 +18,31 @@
 }
 
 nav a:hover {
-    color:white;
+    color: white;
     transition: .5s
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table .archived {
+    background: #ddd;
+}
+
+table th {
+    background-color: #2f2f2f;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
 
 /* body {
     display: flex;

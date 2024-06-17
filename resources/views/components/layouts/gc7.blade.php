@@ -21,7 +21,9 @@
                 {{ $slot }}
             </x-slot:content>
         </x-main>
+
     </div>
+
 
     {{-- FOOTER --}}
     <hr><br>
