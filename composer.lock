@@ -3859,16 +3859,16 @@
         },
         {
             "name": "robsontenorio/mary",
-            "version": "1.32.1",
+            "version": "1.33.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/robsontenorio/mary.git",
-                "reference": "68651b52dbcf044e234fee8c07934f268d56d1b3"
+                "reference": "3f16b20b3763fc77aaa99a5580df07dec3cbb665"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/robsontenorio/mary/zipball/68651b52dbcf044e234fee8c07934f268d56d1b3",
-                "reference": "68651b52dbcf044e234fee8c07934f268d56d1b3",
+                "url": "https://api.github.com/repos/robsontenorio/mary/zipball/3f16b20b3763fc77aaa99a5580df07dec3cbb665",
+                "reference": "3f16b20b3763fc77aaa99a5580df07dec3cbb665",
                 "shasum": ""
             },
             "require": {
@@ -3934,7 +3934,7 @@
             ],
             "support": {
                 "issues": "https://github.com/robsontenorio/mary/issues",
-                "source": "https://github.com/robsontenorio/mary/tree/1.32.1"
+                "source": "https://github.com/robsontenorio/mary/tree/1.33.2"
             },
             "funding": [
                 {
@@ -3942,7 +3942,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-06-04T12:25:04+00:00"
+            "time": "2024-06-17T01:56:00+00:00"
         },
         {
             "name": "symfony/clock",
@@ -7353,6 +7353,7 @@
         },
         {
             "name": "laravel-lang/config",
+<<<<<<< HEAD
             "version": "1.4.2",
             "source": {
                 "type": "git",
@@ -7363,6 +7364,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/Laravel-Lang/config/zipball/944e073a245f67315d524943faff04f03ac4a9b3",
                 "reference": "944e073a245f67315d524943faff04f03ac4a9b3",
+=======
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Laravel-Lang/config.git",
+                "reference": "401350e36337338c20cefb0854473d55dc15364d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Laravel-Lang/config/zipball/401350e36337338c20cefb0854473d55dc15364d",
+                "reference": "401350e36337338c20cefb0854473d55dc15364d",
+>>>>>>> 01c8d3a (TinyMCE update)
                 "shasum": ""
             },
             "require": {
@@ -7421,9 +7434,15 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Lang/config/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/Laravel-Lang/config/tree/1.4.2"
             },
             "time": "2024-06-12T12:25:22+00:00"
+=======
+                "source": "https://github.com/Laravel-Lang/config/tree/1.5.0"
+            },
+            "time": "2024-06-17T00:10:27+00:00"
+>>>>>>> 01c8d3a (TinyMCE update)
         },
         {
             "name": "laravel-lang/http-statuses",
@@ -8043,6 +8062,7 @@
         },
         {
             "name": "laravel-lang/routes",
+<<<<<<< HEAD
             "version": "1.1.1",
             "source": {
                 "type": "git",
@@ -8053,14 +8073,32 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/Laravel-Lang/routes/zipball/e02eb7db526c835f81c99382ae356f8a932dfcea",
                 "reference": "e02eb7db526c835f81c99382ae356f8a932dfcea",
+=======
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Laravel-Lang/routes.git",
+                "reference": "fa242a9c6cb887f7a4189e2d6460a2b17008a588"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Laravel-Lang/routes/zipball/fa242a9c6cb887f7a4189e2d6460a2b17008a588",
+                "reference": "fa242a9c6cb887f7a4189e2d6460a2b17008a588",
+>>>>>>> 01c8d3a (TinyMCE update)
                 "shasum": ""
             },
             "require": {
                 "dragon-code/support": "^6.13",
                 "illuminate/config": "^10.0 || ^11.0",
                 "illuminate/http": "^10.0 || ^11.0",
+<<<<<<< HEAD
                 "illuminate/support": "^10.0 || ^11.0",
                 "laravel-lang/config": "^1.4.2",
+=======
+                "illuminate/routing": "^10.0 || ^11.0",
+                "illuminate/support": "^10.0 || ^11.0",
+                "laravel-lang/config": "^1.5",
+>>>>>>> 01c8d3a (TinyMCE update)
                 "laravel-lang/locales": "^2.8",
                 "php": "^8.1"
             },
@@ -8071,6 +8109,16 @@
                 "symfony/var-dumper": "^6.0 || ^7.0"
             },
             "type": "library",
+<<<<<<< HEAD
+=======
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaravelLang\\Routes\\ServiceProvider"
+                    ]
+                }
+            },
+>>>>>>> 01c8d3a (TinyMCE update)
             "autoload": {
                 "psr-4": {
                     "LaravelLang\\Routes\\": "src/"
@@ -8105,7 +8153,11 @@
                 "issues": "https://github.com/Laravel-Lang/routes/issues",
                 "source": "https://github.com/Laravel-Lang/routes"
             },
+<<<<<<< HEAD
             "time": "2024-06-12T12:35:09+00:00"
+=======
+            "time": "2024-06-17T08:54:11+00:00"
+>>>>>>> 01c8d3a (TinyMCE update)
         },
         {
             "name": "laravel/pint",
@@ -9455,16 +9507,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "6.0.1",
+            "version": "6.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "f291e5a317c321c0381fa9ecc796fa2d21b186da"
+                "reference": "1d978d75456094ec0c67692bca1d4662d5ce9c9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/f291e5a317c321c0381fa9ecc796fa2d21b186da",
-                "reference": "f291e5a317c321c0381fa9ecc796fa2d21b186da",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/1d978d75456094ec0c67692bca1d4662d5ce9c9f",
+                "reference": "1d978d75456094ec0c67692bca1d4662d5ce9c9f",
                 "shasum": ""
             },
             "require": {
@@ -9473,12 +9525,12 @@
                 "sebastian/recursion-context": "^6.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^11.0"
+                "phpunit/phpunit": "^11.2"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "6.0-dev"
+                    "dev-main": "6.1-dev"
                 }
             },
             "autoload": {
@@ -9521,7 +9573,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
                 "security": "https://github.com/sebastianbergmann/exporter/security/policy",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/6.0.1"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/6.0.3"
             },
             "funding": [
                 {
@@ -9529,7 +9581,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-02T07:28:20+00:00"
+            "time": "2024-06-17T07:48:18+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -9767,16 +9819,16 @@
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "6.0.0",
+            "version": "6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "b75224967b5a466925c6d54e68edd0edf8dd4ed4"
+                "reference": "2f15508e17af4ea35129bbc32ce28a814d9c7426"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/b75224967b5a466925c6d54e68edd0edf8dd4ed4",
-                "reference": "b75224967b5a466925c6d54e68edd0edf8dd4ed4",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/2f15508e17af4ea35129bbc32ce28a814d9c7426",
+                "reference": "2f15508e17af4ea35129bbc32ce28a814d9c7426",
                 "shasum": ""
             },
             "require": {
@@ -9819,7 +9871,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
                 "security": "https://github.com/sebastianbergmann/recursion-context/security/policy",
-                "source": "https://github.com/sebastianbergmann/recursion-context/tree/6.0.0"
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/6.0.1"
             },
             "funding": [
                 {
@@ -9827,7 +9879,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-02T06:08:48+00:00"
+            "time": "2024-06-17T05:22:57+00:00"
         },
         {
             "name": "sebastian/type",
@@ -10527,5 +10579,5 @@
         "php": "^8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
