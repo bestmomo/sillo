@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Post;
+use App\Models\PostGc7;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
@@ -10,12 +10,12 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7')] class extends Component
     public $posts;
     public function mount()
     {
-        $this->posts = Post::all();
+        $this->posts = PostGc7::all();
     }
 
-    function shortenText($text, $words_count = 5)
+    public function delete(PostGc7 $post)
     {
-        return implode(' ', array_slice(explode(' ', $text), 0, $words_count));
+        $post->delete();
     }
 }; ?>
 
@@ -29,20 +29,21 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7')] class extends Component
     <table>
         <thread>
             <tr>
-                <th>Id</th>
                 <th>Title</th>
                 <th>Content</th>
+                <th></th>
             </tr>
         </thread>
         <tbody>
             @foreach ($posts as $post)
-            
                 <tr wire:key="{{ $post->id }}">
-                    <td>{{ $post->id }}</td>
                     <td>{{ $post->title }}</td>
-                    <td>{{ str($post->body)->words(5) }}</td>
+                    <td>{{ str($post->content)->words(2) }}</td>
+                    <td><x-button type='button' icon="o-trash" wire:click='delete({{ $post->id }})'
+                            wire:confirm="Are you sure you want to delete this post?"
+                        >
+                        </x-button></td>
                 </tr>
-                
             @endforeach
         </tbody>
     </table>

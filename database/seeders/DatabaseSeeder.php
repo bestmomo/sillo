@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\Contact;
 use App\Models\Page;
 use App\Models\Post;
+use App\Models\PostGc7;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -138,9 +139,9 @@ class DatabaseSeeder extends Seeder
 
 		foreach ($items as $item) {
 			Page::factory()->create([
-				'title' => $item[1],
-				'seo_title'   => 'Page ' . $item[1],
-				'slug'  => $item[0],
+				'title'     => $item[1],
+				'seo_title' => 'Page ' . $item[1],
+				'slug'      => $item[0],
 			]);
 		}
 
@@ -151,6 +152,8 @@ class DatabaseSeeder extends Seeder
 			['label' => 'Policy', 'order' => 4, 'link' => '/pages/privacy-policy'],
 			['label' => 'Contact', 'order' => 5, 'link' => '/contact'],
 		]);
+
+		PostGc7::factory()->count(9)->create();
 
 		// REPORT
 		printf('%s%s', str_repeat(' ', 2), "Data tables properly filled.\n\n");
