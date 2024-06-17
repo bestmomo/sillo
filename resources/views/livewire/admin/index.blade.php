@@ -54,7 +54,7 @@ class extends Component {
 }; ?>
 
 <div>
-    <x-collapse wire:model="openGlance">
+    <x-collapse wire:model="openGlance" class="shadow-md" >
         <x-slot:heading>
             @lang('In a glance')
         </x-slot:heading>
@@ -108,7 +108,7 @@ class extends Component {
         @endforeach
     @endif
     
-    <x-collapse>
+    <x-collapse class="shadow-md" >
         <x-slot:heading>
             @lang('Recent posts')
         </x-slot:heading>
@@ -130,7 +130,7 @@ class extends Component {
 
     <br>
 
-    <x-collapse>
+    <x-collapse class="shadow-md" >
         <x-slot:heading>
             @lang('Recent Comments')
         </x-slot:heading>
