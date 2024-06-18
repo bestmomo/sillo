@@ -20,7 +20,7 @@ new class extends Component {
         foreach ($posts as $post) {
             // $post->excerpt = preg_replace("/\r|\n/", " ", $post->excerpt);
             $post->excerpt = rtrim($post->excerpt, '-;,!?….\n\r\t');
-            $post->excerpt = preg_replace('/\s+\S+$/', 'gfdgfd', $post->excerpt);
+            $post->excerpt = preg_replace('/\s+\S+$/', '', $post->excerpt);
         }
         $this->posts = $posts;
         // $this->page = $paginator->currentPage();
@@ -30,6 +30,9 @@ new class extends Component {
         
         $this->data = rtrim($this->data, '-;,!?….\n\r\t');
         $this->data = preg_replace('/\s+\S+$/', 'fdgdfg', $this->data);
+        
+        // All that, in the view: {{ str($post->excerpt)->limits(100) }} or
+        //                        {{ str($post->excerpt)->wordss(30) }}
         
     }
     protected function getBaseQuery(): Builder
