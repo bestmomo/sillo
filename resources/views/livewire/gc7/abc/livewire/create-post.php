@@ -21,7 +21,7 @@ class extends Component {
 	#[Rule('min:3', message: 'Yo, more than 3 chars, please!')]
 	public $title = '';
 
-	#[Rule('required')]
+	#[Rule('required', as: 'content (textarea)')]
 	public $content = '';
 
 	public function save()

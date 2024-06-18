@@ -7,7 +7,9 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 
-new #[Title('Blog')] #[Layout('components.layouts.gc7')] class extends Component {
+new #[Title('Blog')] 
+#[Layout('components.layouts.gc7')] 
+class extends Component {
     use WithPagination;
     use Toast;
 
@@ -32,7 +34,7 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7')] class extends Component
     <x-header title="Blog" shadow separator progress-indicator>
     </x-header>
     <h2 class="text-xl">{{ $posts->count() }} Post{{ $posts->count() > 1 ? 's' : '' }}</h2>
-
+    
     {{-- {{ dd($posts, $posts->withQueryString() )}} --}}
 
     @if ($posts->count())
@@ -46,7 +48,7 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7')] class extends Component
                 <tr>
                     <th>Title</th>
                     <th>Content</th>
-                    <th></th>
+                    <th class='text-center' style='max-width:100px!important;'>Actions</th>
                 </tr>
             </thread>
             <tbody>
@@ -54,7 +56,7 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7')] class extends Component
                     <tr wire:key="{{ $post->id }}">
                         <td>{{ $post->title }}</td>
                         <td>{{ str($post->content)->words(2) }}</td>
-                        <td>
+                        <td  class='text-center p-0'  style='max-width:100px!important;'>
                             <a href='/t/post/edit'>
                                 <x-button type='button' icon="s-pencil" wire:click='edit({{ $post->id }})' />
 
