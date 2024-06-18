@@ -33,6 +33,6 @@ class extends Component {
         {{-- <x-button class="btn-primary mt-1" wire:click.throttle.3000ms="increment">+</x-button> --}}
         {{-- <x-button class="btn-primary mt-1" wire:click.debounce.0ms="increment(5)">+</x-button> --}}
         <x-button class="btn-primary mt-1 text-2xl" wire:click.debounce.0ms="increment(2)"><b>+</b></x-button>
-        <x-button class="btn-primary mt-1 text-2xl" wire:click.debounce.0ms="decrement()"><b>-</b></x-button>
+        <x-button class="btn-primary mt-1 text-2xl px-5" wire:click.debounce.0ms="decrement()"><b>-</b></x-button>
     </p>
 </div>
