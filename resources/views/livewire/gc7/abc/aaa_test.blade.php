@@ -3,13 +3,13 @@ include_once 'aa_test.php';
 ?>
 
 <div>
-
+    Tests
     {{-- <livewire:gc7.abc.livewire.hello-world /> --}}
     {{-- <livewire:gc7.abc.sqlite /> --}}
     
     
     {{-- // --}}
-    <livewire:gc7.abc.livewire />
+    {{-- <livewire:gc7.abc.frameworks /> --}}
     {{-- // --}}
     {{-- <livewire:gc7.abc.alpinejs.alpine /> --}}
     

@@ -7,8 +7,9 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 
-new #[Title('Blog')] 
-#[Layout('components.layouts.gc7')] 
+new 
+#[Title('Blog')] 
+#[Layout('components.layouts.gc7.main')] 
 class extends Component {
     use WithPagination;
     use Toast;
@@ -24,7 +25,8 @@ class extends Component {
     }
     public function render(): mixed
     {
-        return view('livewire.gc7.abc.livewire.blog', [
+        // 2do cf. possibilité de ne pas utiliser le render (sert pour delete())
+        return view('livewire.gc7.frameworks.livewire.blog', [
             'posts' => PostGc7::orderBy('id', 'desc')->paginate(10),
         ]);
     }

@@ -5,7 +5,7 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 
 new 
-#[Layout('components.layouts.gc7')] 
+#[Layout('components.layouts.gc7.main')] 
 #[Title('Counter')] 
 class extends Component {
     public $count = 10;

@@ -6,7 +6,7 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 
 new
-#[Layout('components.layouts.gc7')] 
+#[Layout('components.layouts.gc7.main')] 
 #[Title('Todos')]
 class extends Component {
     use Toast;

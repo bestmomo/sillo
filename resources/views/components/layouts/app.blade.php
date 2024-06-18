@@ -21,7 +21,7 @@
         </a>
     </div>
 
-    <livewire:navigation.gc7 />
+    <livewire:navigation.gc7.main />
     
     {{-- NAVBAR --}}
     <livewire:navigation.navbar :$menus />

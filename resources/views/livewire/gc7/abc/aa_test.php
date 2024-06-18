@@ -4,17 +4,16 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
- 
-use Livewire\Volt\Component;
-use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Volt\Component;
 
-new 
-#[Layout('components.layouts.gc7')]
+new
+#[Layout('components.layouts.gc7.main')]
 #[Title('Test')]
 class extends Component {
 	// public $postId = 7;
-	
+
 	public function mount()
 	{
 		// $this->name = 'abc';

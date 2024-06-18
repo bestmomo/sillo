@@ -12,12 +12,11 @@ use Livewire\Volt\Volt;
 // Routes publiques
 Volt::route('/', 'index');
 
-Route::prefix('/t')->group(function () {
-	$links = ['blog', 'create-post', 'todos', 'counter', 'alpine', 'new-form', 'test'];
-	Volt::route('/', 'gc7.abc.aaa_test');
-	foreach ($links as $link) {
-		Volt::route("/{$link}", "gc7.abc.livewire.{$link}");
-	}
+Volt::route('/t', 'gc7.abc.aaa_test');
+
+Volt::route('/frameworks', 'gc7.frameworks');
+Route::prefix('/framework')->group(function () {
+	getGc7FrameworksLinks();
 });
 
 Volt::route('/contact', 'contact')->name('contact');

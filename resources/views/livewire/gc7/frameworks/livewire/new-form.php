@@ -13,7 +13,7 @@ use Mary\Traits\Toast;
 
 new
 #[Title('New Form')]
-#[Layout('components.layouts.gc7')]
+#[Layout('components.layouts.gc7.main')]
 class extends Component {
 	use Toast;
 

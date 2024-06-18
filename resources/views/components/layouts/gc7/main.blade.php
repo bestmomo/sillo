@@ -14,7 +14,7 @@
 
     <div class="flex">
 
-        <livewire:navigation.aside-menu />
+        <livewire:navigation.gc7.aside-menu />
 
         <x-main full-width>
             <x-slot:content>
