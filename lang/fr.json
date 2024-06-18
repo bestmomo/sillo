@@ -410,5 +410,7 @@
     "Validate the user": "Valider l'utilisateur",
     "Contact to handle from ": "Contact à traiter de ",
     "Show the contacts": "Voir les contacts",
-    "Are you sure to delete this footer?": "Etes-vous sûr de vouloir supprimer ce menu de pied de page ?"
+    "Are you sure to delete this footer?": "Etes-vous sûr de vouloir supprimer ce menu de pied de page ?",
+    "Chars2 used: :n :m": "{0}Aucun caractère utilisé (:m possibles)|{1}Caractère utilisé: :n / :m|{2,:*}Caractères utilisés: :n / :m",
+    "All chars used :m": "Tous les (:m) caractères sont utilisés"
 }
