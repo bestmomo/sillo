@@ -3,8 +3,9 @@
  ?>
 
  <div>
-     <h2 class="text-lg mb-3">New Post</h2>
-
+    <x-header title="New Post" shadow separator progress-indicator>
+    </x-header>
+    
      <form wire:submit="save">
          @error('title') Attention: <em>{{ $message }}</em><br> @enderror
 

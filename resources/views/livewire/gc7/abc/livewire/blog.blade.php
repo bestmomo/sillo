@@ -29,46 +29,46 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7')] class extends Component
 }; ?>
 
 <div>
-    <h1 class="text-center font-bold text-xl">Blog</h1>
+    <x-header title="Blog" shadow separator progress-indicator>
+    </x-header>
+    <h2 class="text-xl">{{ $posts->count() }} Post{{ $posts->count() > 1 ? 's' : '' }}</h2>
 
-    <h2 class="text-lg">Posts</h2>
-    
     {{-- {{ dd($posts, $posts->withQueryString() )}} --}}
 
-    <div class="mb-4">
-        {{ $posts->links() }}
-        {{-- {{ $posts->links('livewire.vendor.pagination.custom-pagination-links') }} --}}
-    </div>
+    @if ($posts->count())
+        <div class="mb-4">
+            {{ $posts->links() }}
+            {{-- {{ $posts->links('livewire.vendor.pagination.custom-pagination-links') }} --}}
+        </div>
 
-    <table>
-        <thread>
-            <tr>
-                <th>Title</th>
-                <th>Content</th>
-                <th></th>
-            </tr>
-        </thread>
-        <tbody>
-            @foreach ($posts as $post)
-                <tr wire:key="{{ $post->id }}">
-                    <td>{{ $post->title }}</td>
-                    <td>{{ str($post->content)->words(2) }}</td>
-                    <td>
-                        <a href='/t/post/edit'>
-                            <x-button type='button' icon="s-pencil" wire:click='edit({{ $post->id }})' />
-
-                        </a>
-                        <x-button type='button' icon="o-trash" wire:click='delete({{ $post->id }})'
-                            {{-- wire:confirm="Are you sure you want to delete this post # {{ $post->id }} ?
-                    
-Title:  {{ str($post->title)->words(3) }}"  --}}
-/>
-                    </td>
+        <table>
+            <thread>
+                <tr>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th></th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thread>
+            <tbody>
+                @foreach ($posts as $post)
+                    <tr wire:key="{{ $post->id }}">
+                        <td>{{ $post->title }}</td>
+                        <td>{{ str($post->content)->words(2) }}</td>
+                        <td>
+                            <a href='/t/post/edit'>
+                                <x-button type='button' icon="s-pencil" wire:click='edit({{ $post->id }})' />
 
+                            </a>
+                            <x-button type='button' icon="o-trash" wire:click='delete({{ $post->id }})'
+                                wire:confirm="Are you sure you want to delete this post # {{ $post->id }} ?
+                    
+Title:  {{ str($post->title)->words(3) }}" />
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
     <div class="my-4">
         {{ $posts->links() }}
     </div>
