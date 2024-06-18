@@ -4,8 +4,11 @@ use Livewire\Volt\Component;
 use App\Models\{Category, Serie};
 use App\Repositories\PostRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Livewire\WithPagination;
 
 new class extends Component {
+
+    use WithPagination;
  
     // Propriétés de la classe
     public string $slug = ''; // Slug pour identifier une catégorie ou une série
