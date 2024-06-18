@@ -12,7 +12,7 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new
-#[Title('New Post')]
+#[Title('New Form')]
 #[Layout('components.layouts.gc7')]
 class extends Component {
 	use Toast;

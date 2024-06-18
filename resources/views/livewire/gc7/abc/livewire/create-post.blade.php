@@ -1,11 +1,44 @@
- <?php
- include_once 'create-post.php';
- ?>
+<?php
+
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ */
+
+use App\Models\PostGc7;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Rule;
+use Livewire\Attributes\Title;
+use Livewire\Volt\Component;
+use Mary\Traits\Toast;
+
+new
+#[Title('New Post')]
+#[Layout('components.layouts.gc7')]
+class extends Component {
+	use Toast;
+
+	#[Rule('required', message: 'Yo, add a title!')]
+	#[Rule('min:3', message: 'Yo, more than 2 chars, please!')]
+	public $title = '';
+
+	#[Rule('required', as: 'content (textarea)')]
+	public $content = '';
+
+	public function save()
+	{
+		$this->validate();
+		PostGc7::create([
+			'title'   => $this->title,
+			'content' => $this->content,
+		]);
+		$this->success('Post added !');
+		$this->redirect('/t/blog');
+	}
+};?>
 
  <div>
-     <x-header title="New Post" shadow separator progress-indicator>
+     <x-header title="New FORM" shadow separator progress-indicator>
      </x-header>
-     {{ env('APP_MAX_NUMBER_OF_CHARS_IN_COMMENTS_FORM') }}
 
      Current title: <span x-text="$wire.title.toUpperCase()"></span>
 
@@ -33,7 +66,7 @@
          <span
              x-text="'{{ trans_choice($messageKey, $contentLength, ['n' => $contentLength, 'm' => $maxChars]) }}'"></span>
 
-         <div class="text-right w-full>
+         <div class="text-right w-full">
              <x-button type="submit" class="btn-primary mt-2 mr-5">
              Save</x-button>
          </div>

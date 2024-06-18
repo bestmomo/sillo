@@ -1,5 +1,5 @@
 @php
-    $links = ['blog', 'create-Post', 'todos', 'counter', 'alpine'];
+    $links = ['blog', 'create-Post', 'todos', 'counter', 'alpine', 'new-form'];
 @endphp
 
 <nav class="flex-col ml-3 border-r border-gray-500">
