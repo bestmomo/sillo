@@ -6,6 +6,7 @@ use App\Repositories\PostRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 new class extends Component {
+ 
     // Propriétés de la classe
     public string $slug = ''; // Slug pour identifier une catégorie ou une série
     public string $param = ''; // Paramètre de recherche optionnel
@@ -98,7 +99,8 @@ new class extends Component {
     @endif
 
     <!-- Pagination supérieure -->
-    <div class="mb-4">
+    <div class="mb-4 mary-table-pagination">
+        <div class="border border-x-0 border-t-0 border-b-1 border-b-base-300 mb-5"></div>
         {{ $posts->links() }}
     </div>
 
@@ -139,7 +141,8 @@ new class extends Component {
     </div>
 
     <!-- Pagination inférieure -->
-    <div class="mt-4">
+    <div class="mb-4 mary-table-pagination">
+        <div class="border border-x-0 border-t-0 border-b-1 border-b-base-300 mb-5"></div>
         {{ $posts->links() }}
     </div>
 </div>
