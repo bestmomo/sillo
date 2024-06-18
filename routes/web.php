@@ -13,7 +13,7 @@ use Livewire\Volt\Volt;
 Volt::route('/', 'index');
 
 Route::prefix('/t')->group(function () {
-	$links = ['blog', 'create-post', 'todos', 'counter', 'alpine', 'new-form'];
+	$links = ['blog', 'create-post', 'todos', 'counter', 'alpine', 'new-form', 'test'];
 	Volt::route('/', 'gc7.abc.aaa_test');
 	foreach ($links as $link) {
 		Volt::route("/{$link}", "gc7.abc.livewire.{$link}");
