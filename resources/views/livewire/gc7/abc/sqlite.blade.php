@@ -31,7 +31,7 @@ new class extends Component {
         $this->data = rtrim($this->data, '-;,!?….\n\r\t');
         $this->data = preg_replace('/\s+\S+$/', 'fdgdfg', $this->data);
         
-        // All that, in the view: {{ str($post->excerpt)->limits(100) }} or
+        // All that, in the view: {{ str($post->excerpt)->limit(100) }} or
         //                        {{ str($post->excerpt)->wordss(30) }}
         
     }
