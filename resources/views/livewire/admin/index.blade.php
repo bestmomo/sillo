@@ -88,7 +88,7 @@ class extends Component {
 
     @foreach($comments as $comment)
         @if(!$comment->user->valid)
-            <x-alert title="{{ __('Comment to valid from ') . $comment->user->name }}" description="{{ $comment->body }}" icon="c-chat-bubble-left" class="alert-warning" shadow >
+            <x-alert title="{{ __('Comment to valid from ') . $comment->user->name }}" description="{{ $comment->body }}" icon="c-chat-bubble-left" class="alert-warning shadow-md" >
                 <x-slot:actions>
                     <x-button link="{{ route('comments.index') }}" label="{!! __('Show the comments') !!}" />
                 </x-slot:actions>
@@ -99,7 +99,7 @@ class extends Component {
 
     @if(Auth::user()->isAdmin())
         @foreach($contacts as $contact)
-            <x-alert title="{{ __('Contact to handle from ') . $contact->name }}" description="{{ $contact->message }}" icon="s-pencil-square" class="alert-info" shadow >
+            <x-alert title="{{ __('Contact to handle from ') . $contact->name }}" description="{{ $contact->message }}" icon="s-pencil-square" class="alert-info shadow-md" >
                 <x-slot:actions>
                     <x-button link="{{ route('contacts.index') }}" label="{!! __('Show the contacts') !!}" />
                 </x-slot:actions>
