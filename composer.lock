@@ -7353,18 +7353,6 @@
         },
         {
             "name": "laravel-lang/config",
-<<<<<<< HEAD
-            "version": "1.4.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Laravel-Lang/config.git",
-                "reference": "944e073a245f67315d524943faff04f03ac4a9b3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/config/zipball/944e073a245f67315d524943faff04f03ac4a9b3",
-                "reference": "944e073a245f67315d524943faff04f03ac4a9b3",
-=======
             "version": "1.5.0",
             "source": {
                 "type": "git",
@@ -7375,7 +7363,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/Laravel-Lang/config/zipball/401350e36337338c20cefb0854473d55dc15364d",
                 "reference": "401350e36337338c20cefb0854473d55dc15364d",
->>>>>>> 01c8d3a (TinyMCE update)
                 "shasum": ""
             },
             "require": {
@@ -7434,15 +7421,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Lang/config/issues",
-<<<<<<< HEAD
-                "source": "https://github.com/Laravel-Lang/config/tree/1.4.2"
-            },
-            "time": "2024-06-12T12:25:22+00:00"
-=======
                 "source": "https://github.com/Laravel-Lang/config/tree/1.5.0"
             },
             "time": "2024-06-17T00:10:27+00:00"
->>>>>>> 01c8d3a (TinyMCE update)
         },
         {
             "name": "laravel-lang/http-statuses",
@@ -8062,18 +8043,6 @@
         },
         {
             "name": "laravel-lang/routes",
-<<<<<<< HEAD
-            "version": "1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Laravel-Lang/routes.git",
-                "reference": "e02eb7db526c835f81c99382ae356f8a932dfcea"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/routes/zipball/e02eb7db526c835f81c99382ae356f8a932dfcea",
-                "reference": "e02eb7db526c835f81c99382ae356f8a932dfcea",
-=======
             "version": "1.2.0",
             "source": {
                 "type": "git",
@@ -8084,21 +8053,15 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/Laravel-Lang/routes/zipball/fa242a9c6cb887f7a4189e2d6460a2b17008a588",
                 "reference": "fa242a9c6cb887f7a4189e2d6460a2b17008a588",
->>>>>>> 01c8d3a (TinyMCE update)
                 "shasum": ""
             },
             "require": {
                 "dragon-code/support": "^6.13",
                 "illuminate/config": "^10.0 || ^11.0",
                 "illuminate/http": "^10.0 || ^11.0",
-<<<<<<< HEAD
-                "illuminate/support": "^10.0 || ^11.0",
-                "laravel-lang/config": "^1.4.2",
-=======
                 "illuminate/routing": "^10.0 || ^11.0",
                 "illuminate/support": "^10.0 || ^11.0",
                 "laravel-lang/config": "^1.5",
->>>>>>> 01c8d3a (TinyMCE update)
                 "laravel-lang/locales": "^2.8",
                 "php": "^8.1"
             },
@@ -8109,8 +8072,6 @@
                 "symfony/var-dumper": "^6.0 || ^7.0"
             },
             "type": "library",
-<<<<<<< HEAD
-=======
             "extra": {
                 "laravel": {
                     "providers": [
@@ -8118,7 +8079,6 @@
                     ]
                 }
             },
->>>>>>> 01c8d3a (TinyMCE update)
             "autoload": {
                 "psr-4": {
                     "LaravelLang\\Routes\\": "src/"
@@ -8153,11 +8113,7 @@
                 "issues": "https://github.com/Laravel-Lang/routes/issues",
                 "source": "https://github.com/Laravel-Lang/routes"
             },
-<<<<<<< HEAD
-            "time": "2024-06-12T12:35:09+00:00"
-=======
             "time": "2024-06-17T08:54:11+00:00"
->>>>>>> 01c8d3a (TinyMCE update)
         },
         {
             "name": "laravel/pint",
@@ -10579,5 +10535,5 @@
         "php": "^8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
