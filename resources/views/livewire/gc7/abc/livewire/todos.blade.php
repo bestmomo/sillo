@@ -36,11 +36,13 @@ class extends Component {
 }; ?>
 
 <div>
-    <h2>Todos</h2>
+    <x-header title="Todos" shadow separator progress-indicator>
+    </x-header>
+    
     <form wire:submit='add'>
         <div class="flex items-end my-3">
-            <x-input type="text" wire:model="todo" placeholder="Type todo..." focus></x-input>
-            <x-button class="btn-primary ml-3" type="submit" icon="o-bars-arrow-up" spiner>Add</x-button>
+            <x-input type="text" wire:model="todo" placeholder="Type todo here..." focus></x-input>
+            <x-button class="btn-primary ml-3 text-lg" type="submit" icon="o-bars-arrow-up" spinner>Add</x-button>
             {{ $todo }}
         </div>
     </form>
