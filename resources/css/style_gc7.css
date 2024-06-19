@@ -25,6 +25,32 @@ table td {
     border-bottom: 1px solid #ccc;
 }
 
+h1 {
+    font-size: 2rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.myBtnEffect {
+    color: cyan;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    /* Pour le support de Safari */
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+
+}
+
+.myBtnEffect :hover {
+    background-color: #2f2f2f;
+}
+
 /* body {
     display: flex;
     justify-content: start;
