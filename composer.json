@@ -13,6 +13,7 @@
         "livewire/livewire": "^3.5",
         "livewire/volt": "^1.6",
         "robsontenorio/mary": "^1.32",
+        "spatie/laravel-sitemap": "^7.2",
         "tinymce/tinymce": "^7.1"
     },
     "require-dev": {

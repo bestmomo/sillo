@@ -3,16 +3,23 @@ include_once 'aa_test.php';
 ?>
 
 <div>
+
+    @php
+        //Appel direct au helper possible dans la Vue
+        $frameworksLinks = getGc7FrameworksLinks();
+        // dd($frameworksLinks);
+    @endphp
+    {{-- {{ dd($frameworksLinks) }} --}}
     Tests
     {{-- <livewire:gc7.abc.livewire.hello-world /> --}}
     {{-- <livewire:gc7.abc.sqlite /> --}}
-    
-    
+
+
     {{-- // --}}
     {{-- <livewire:gc7.abc.frameworks /> --}}
     {{-- // --}}
     {{-- <livewire:gc7.abc.alpinejs.alpine /> --}}
-    
+
     {{-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --}}
     {{-- <x-partials.gc7.helpers.uuu name='Lionel'/> --}}
     {{-- <x-partials.gc7.helpers.form-textarea :postId=$postId title='TheTitle' placeholder='ThePlaceHolder' cancelBtn=1 /> --}}
