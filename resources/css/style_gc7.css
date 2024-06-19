@@ -1,9 +1,16 @@
-nav a:hover {
+nav a:hover,
+a.tab:hover {
     color: white;
-    transition: .5s
+    transition: .7s
 }
 
-table {
+nav a,
+a.tab {
+    transition: 1s
+}
+
+table,
+.tab {
     width: 100%;
     border-collapse: collapse;
 }
@@ -34,21 +41,6 @@ h1 {
 p {
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-.myBtnEffect {
-    color: cyan;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    /* Pour le support de Safari */
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-
-}
-
-.myBtnEffect :hover {
-    background-color: #2f2f2f;
 }
 
 /* body {

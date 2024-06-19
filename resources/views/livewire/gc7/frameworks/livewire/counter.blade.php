@@ -8,7 +8,7 @@ new
 #[Layout('components.layouts.gc7.main')] 
 #[Title('Counter')] 
 class extends Component {
-    public $count = 10;
+    public $count = 100;
     public $by;
     public function mount($by = 1)
     {
@@ -25,8 +25,9 @@ class extends Component {
 }; ?>
 
 <div class="mt-1">
-    <p>
-        Counter: {{ $count }}<br>
+    <x-header title="Counter" shadow separator progress-indicator>
+    </x-header>
+    <p>Counter: {{ $count }}<br>
         {{-- <x-button class="btn-primary mt-1" wire:click="increment">+</x-button> --}}
         {{-- <x-button class="btn-primary mt-1" wire:mouseenter="increment">+</x-button> --}}
         {{-- <x-button class="btn-primary mt-1" wire:click.window="increment">+</x-button> --}}
