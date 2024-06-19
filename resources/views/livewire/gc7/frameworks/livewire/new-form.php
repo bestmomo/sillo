@@ -32,6 +32,6 @@ class extends Component {
 			'content' => $this->content,
 		]);
 		$this->success('Post added !');
-		$this->redirect('/t/blog');
+		$this->redirect('/framework/livewire/blog');
 	}
 };

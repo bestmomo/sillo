@@ -16,7 +16,7 @@ Volt::route('/t', 'gc7.abc.aaa_test');
 
 Volt::route('/frameworks', 'gc7.frameworks');
 Route::prefix('/framework')->group(function () {
-	getGc7FrameworksLinks();
+	getGc7FrameworksRoutes();
 });
 
 Volt::route('/contact', 'contact')->name('contact');

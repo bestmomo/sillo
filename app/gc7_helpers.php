@@ -7,32 +7,24 @@
 use Livewire\Volt\Volt;
 
 if (!function_exists('getGc7FrameworksLinks')) {
-	function getGc7FrameworksLinks($src = 'web')
+	function getGc7FrameworksLinks()
 	{
-		$frameworksLinks = [
+		return [
 			'livewire' => ['basics', 'blog', 'create-post', 'todos', 'counter', 'new-form'],
-			'alpinejs' => ['basics', 'test'],
+			'alpinejs' => ['basics', 'test', 'uuu'],
 		];
+	}
+}
 
-		echo '<ul>';
+if (!function_exists('getGc7FrameworksRoutes')) {
+	function getGc7FrameworksRoutes()
+	{
+		$frameworksLinks = getGc7FrameworksLinks();
+
 		foreach ($frameworksLinks as $framework => $links) {
-			// echo '<li>' . ucfirst($framework) . '</li>';
-
-			echo '<ul>';
 			foreach ($links as $link) {
-				// echo '<li>- ' . ucfirst($link) . '</li>';
-
-				// echo "/{$framework}/{$link} -> /{$framework}/{$link} <br>";
-				Volt::route("/{$framework}/{$link}", "/{$framework}/{$link}");
+				Volt::route("/{$framework}/{$link}", "gc7.frameworks.{$framework}.{$link}")->name("{$framework}.{$link}");
 			}
-
-			echo '</ul>';
 		}
-		echo '</ul>';
-		echo $framework;
-		echo $link;
-		Volt::route('/livewire/blog', 'gc7.frameworks.livewire.blog');
-		// return [
-		// ];
 	}
 }

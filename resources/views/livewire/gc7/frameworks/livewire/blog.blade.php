@@ -35,7 +35,7 @@ class extends Component {
 <div>
     <x-header title="Blog" shadow separator progress-indicator>
     </x-header>
-    <h2 class="text-xl">{{ $posts->count() }} Post{{ $posts->count() > 1 ? 's' : '' }}</h2>
+    <h2 class="text-xl mb-2">{{ $posts->count() }} Post{{ $posts->count() > 1 ? 's' : '' }} / {{ $posts->total() }}</h2>
     
     {{-- {{ dd($posts, $posts->withQueryString() )}} --}}
 
