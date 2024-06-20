@@ -4,14 +4,11 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 
-new 
-#[Title('Blog')] 
-#[Layout('components.layouts.gc7.main')] 
-class extends Component {
-  // https://alpinejs.dev/start-here
+new #[Title('Blog')] #[Layout('components.layouts.gc7.main')] class extends Component {
+    // https://alpinejs.dev/start-here
 }; ?>
 
-  <div>
+<div>
     <div x-data="{
         search: '',
     
@@ -34,22 +31,23 @@ class extends Component {
         }
     
     }">
-      <x-input x-model="search" placeholder="Search..." />
+        <x-input x-model="search" placeholder="Search..." />
 
         <ul>
-          <template x-for="item in filteredItems" :key="item">
-          <li x-transition.duration.7000ms x-text="item"></li>
-        </template>
-      </ul>
-      <p>Actual search: <span x-text='searchMessage'></span></p>
+            <template x-for="item in filteredItems" :key="item">
+                <li x-transition.duration.7000ms x-text="item"></li>
+            </template>
+        </ul>
+        <p>Actual search: <span x-text='searchMessage'></span></p>
     </div>
     <hr>
-      <div x-data="{ open: false }" class='my-3'>
+    <div x-data="{ open: false }" class='my-3'>
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             @click="open = ! open">Toggle</button>
 
-      <div x-transition.duration.700ms x-cloak x-show="open" @click.outside="open = false">Contents...</div>
-    </div >
+        <span x-transition.duration.700ms x-cloak x-show="open" @click.outside="open = false"
+            class="p-2">Contents...</span>
+    </div>
     <hr>
     <div x-data="{ count: 0 }" class='my-3'>
         <x-button class="btn-primary" @click.window="count++">Increment
