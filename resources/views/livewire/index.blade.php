@@ -108,7 +108,7 @@ new class extends Component {
     </div>
 
     <!-- Liste des posts -->
-    <div class="grid w-full grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3 gallery">
+    <div class="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3">
         @forelse($posts as $post)
             <x-card title="{{ $post->title }}">
                 <div class="text-justify">{!! str($post->excerpt)->words(config('app.excerptSize')) !!}</div>
