@@ -17,21 +17,21 @@ include_once 'pets.php';
             console.log('OK! Ready.')
         },
         ucfirst: window.ucFirst
-    }" x-init="{ pets } = await (await fetch('https://learnwebcode.github.io/json-example/pets-data.json')).json(); affLog()">
+    }" x-init="{ pets } = await (await fetch('https://learnwebcode.github.io/json-example/pets-data.json')).json();
+    affLog()">
 
-        <template class="all-pets flex flex-column mx-auto max-w-[700px] justify-center mt-5" x-for="pet in pets">
+        <template class="all-pets flex flex-column mx-auto max-w-[700px] justify-center mt-5"
+            x-for="(pet, index) in pets">
 
-            <div class="pet-card card bg-base-100 mb-3 max-y-[100] overflow-hidden h-[200px]">
+            <div class="pet-card card bg-base-100 mb-3 max-y-[100] overflow-hidden h-[200px] justify-center">
                 <div class="flex">
 
-                    {{-- <figure class="pet-image"> --}}
-                    {{-- <img class="w-[300px] object-cover" src='<span x-text="pet.photo"></span>' alt="dog1"> --}}
-                    {{-- </figure> --}}
+                    <img class="pet-image w-[40%] object-cover" :src="pet.photo" alt="animal">
 
                     <div class="pet-text card-body w-full sm:w-[400px] pt-5">
 
                         {{-- NAME --}}
-                        <div class="card-title text-xs sm:text-base"><strong x-text="pet.name"></strong></div>
+                        <div class="card-title"><strong x-text="pet.name"></strong></div>
 
                         {{-- SPECIES --}}
                         <p class="specie my-0 py-0 text-xs sm:text-base"><span x-text="pet.species"></span></p>
