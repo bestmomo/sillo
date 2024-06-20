@@ -13,8 +13,11 @@ include_once 'pets.php';
 
     <div x-data="{
         pets: [],
+        affLog: function() {
+            console.log('OK! Ready.')
+        },
         ucfirst: window.ucFirst
-    }" x-init="{ pets } = await (await fetch('https://learnwebcode.github.io/json-example/pets-data.json')).json()">
+    }" x-init="{ pets } = await (await fetch('https://learnwebcode.github.io/json-example/pets-data.json')).json(); affLog()">
 
         <template class="all-pets flex flex-column mx-auto max-w-[700px] justify-center mt-5" x-for="pet in pets">
 
