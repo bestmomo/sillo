@@ -410,5 +410,11 @@
     "Validate the user": "Valider l'utilisateur",
     "Contact to handle from ": "Contact à traiter de ",
     "Show the contacts": "Voir les contacts",
-    "Are you sure to delete this footer?": "Etes-vous sûr de vouloir supprimer ce menu de pied de page ?"
+    "Are you sure to delete this footer?": "Etes-vous sûr de vouloir supprimer ce menu de pied de page ?",
+    "Next post: ": "Article suivant : ",
+    "Edit this post": "Modifier cet article",
+    "Clone this post": "Dupliquer cet article",
+    "Show this category": "Voir cette catégorie",
+    "Show this serie": "Voir cette série",
+    "Read this post": "Lire cet article"
 }
