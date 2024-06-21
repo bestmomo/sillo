@@ -5,7 +5,7 @@ use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
 new
-#[Title('Bootstrap')]
+#[Title('Accordion')]
 #[Layout('components.layouts.gc7.main')]
 class extends Component {
     //
