@@ -26,9 +26,8 @@ new #[Title('Alino')] #[Layout('components.layouts.gc7.main')] class extends Com
 
         <p class="opacity-30" :class="open && 'text-4xl'">Okiiii</p>
 
-        <p :class="`opacity-50 ${open ? 'text-4xl opacity-100' : ''}`" :style="{ color: 'red', display: 'flex' }">Okaaa
-        </p>
-
+        <p :class="'opacity-50 ' + (open ? 'text-4xl opacity-100' : '')" :style="{ color: 'red', display: 'flex' }">
+            Okaaa</p>
 
         <div :class="open ? '' : 'hidden'" x-cloak>
             Dropdown Contents...
