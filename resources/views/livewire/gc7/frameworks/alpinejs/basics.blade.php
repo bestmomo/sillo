@@ -10,28 +10,46 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7.main')] class extends Comp
 
 <div>
     <script src="/assets/js/helpers.js"></script>
+
     <div x-data="{
-        search: '',
+        search: 'bar',
+        searchDone: false,
     
         items: ['foo', 'bar', 'baz'],
     
+        list: [],
+        listLength: 0,
+    
+        logSearch: function() {
+            console.log('RECHERCHE de ' + this.search);
+        },
+    
         get filteredItems() {
-            return this.items.filter(
-                i => i.startsWith(this.search)
-            )
+            if (this.searchDone) {
+                return this.list
+            }
+            this.logSearch();
+            this.list = this.items.filter(i => i.startsWith(this.search));
+            this.listLength = this.list.length;
+            this.searchDone = true;
+            return this.list;
+    
         },
     
         get searchMessage() {
             if (this.search.length > 0) {
-                console.log(this.search)
-                return this.search;
+                console.log(this.search + this.filteredItems.length)
+                return this.search + ' → ' + this.listLength + ' answer' +(this.listLength > 1 ? 's' : '');
             } else {
                 console.log('Nothing yet');
-                return 'Nothing yet';
+                return 'Nothing yet (All ' + this.listLength + ' answers are possible).';
             }
         }
     
-    }">
+    }" x-init="$watch('search', value => searchDone = false)">
+
+        <div x-text="search"></div>
+        <div x-text="listLength"></div>
         <x-input x-model="search" placeholder="Search..." />
 
         <ul>
@@ -54,8 +72,7 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7.main')] class extends Comp
 
         <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 rounded w-[110px]" :class="!open && 'font-bold'"
             @click="open = ! open">
-            <span
-                x-text="open ? 'Hide ( ' + openString() + ' )':'Show ( ' + openString() + ' )'"></span>
+            <span x-text="open ? 'Hide ( ' + openString() + ' )':'Show ( ' + openString() + ' )'"></span>
 
         </button>
 
