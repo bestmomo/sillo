@@ -29,7 +29,7 @@ include_once 'accordion/accordion.php';
         }
     }" x-cloak>
 
-        <h1 x-text="active"></h1>
+        <div x-text="active"></div>
         <div class="collapse collapse-arrow join-item border border-base-300">
             <div class="collapse-title text-xl font-medium" x-on:click="toggle('HeadingOne')" name="my-accordion-4"
                 checked=checked :class="{ 'rotate': active === 'HeadingOne' }">

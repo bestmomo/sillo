@@ -1,4 +1,4 @@
-function ucFirst(string) {
+window.ucfirst = function (string) {
   console.log('New Function ucFirst()');
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
