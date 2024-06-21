@@ -13,7 +13,7 @@
     @yield('styles')
 </head>
 
-<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
+<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-[#1c232b]">
 
     <div class="flex">
 
