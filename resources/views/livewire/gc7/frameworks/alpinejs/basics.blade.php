@@ -47,7 +47,7 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7.main')] class extends Comp
     <div x-data="{
         open: false,
         ucfirst: window.ucFirst,
-        affopen: '',
+        openString: function() { return this.ucfirst(this.open.toString()); },
     }" class='my-3'>
 
         <p x-text="ucfirst('okiii')"></p>
@@ -55,7 +55,7 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7.main')] class extends Comp
         <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 rounded w-[110px]" :class="!open && 'font-bold'"
             @click="open = ! open">
             <span
-                x-text="open ? 'Hide ( ' + ucfirst(open.toString()) + ' )':'Show ( ' + ucfirst(open.toString()) + ' )'">
+                x-text="open ? 'Hide ( ' + openString() + ' )':'Show ( ' + openString() + ' )'"></span>
 
         </button>
 
