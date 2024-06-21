@@ -15,6 +15,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,15 +33,24 @@ class DatabaseSeeder extends Seeder
 			'name'  => 'Admin',
 			'email' => 'admin@example.com',
 			'role'  => 'admin',
+			'created_at' => Carbon::now()->subYears(3),
 		]);
 
 		// Create 2 redactors
 		User::factory()->count(2)->create([
 			'role' => 'redac',
+			'created_at' => Carbon::now()->subYears(2),
 		]);
 
 		// Create 3 users
-		User::factory()->count(3)->create();
+		$start = Carbon::now()->subYears(2);  // Il y a 2 ans
+		$end = Carbon::now()->subYear();      // Il y a 1 an		
+		User::factory()->count(3)->create([
+			'created_at' => function () use ($start, $end) {
+				// Copie $start et ajoute un nombre de jours aléatoire
+				return Carbon::instance($start->copy()->addDays(rand(0, $start->diffInDays($end))));
+			},
+		]);
 
 		$nbrUsers = 6;
 
@@ -158,12 +168,14 @@ class DatabaseSeeder extends Seeder
 
 	protected function createPost($id, $category_id, $serie_id = null, $parent_id = null)
 	{
+		$months = ['03', '03', '03', '04', '04', '06', '06', '06', '06'];
+
 		return Post::factory()->create([
 			'title'       => 'Post ' . $id,
 			'seo_title'   => 'Post ' . $id,
 			'slug'        => Str::of('Post ' . $id)->slug('-'),
 			'user_id'     => rand(1, 2),
-			'image'       => '2024/03/img0' . $id . '.jpg',
+			'image'       => '2024/' . $months[$id - 1] . '/img0' . $id . '.jpg',
 			'category_id' => $category_id,
 			'serie_id'    => $serie_id,
 			'parent_id'   => $parent_id,
