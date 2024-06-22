@@ -79,7 +79,9 @@ new #[Title('Blog')] #[Layout('components.layouts.gc7.main')] class extends Comp
         <span x-transition.duration.700ms x-cloak x-show="open" @click.outside="open = false"
             class="p-2">Contents...</span>
     </div>
+    
     <hr>
+    
     <div x-data="{ count: 0 }" class='my-3'>
         <x-button class="btn-primary" @click.window="count++">Increment
             <strong x-text="count"></strong></x-button>
