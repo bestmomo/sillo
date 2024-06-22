@@ -15,7 +15,7 @@ include_once 'accordion/accordion.php';
     <x-header title="Accordion" shadow separator progress-indicator></x-header>
 
     <p>Dynamic Accordion component:</p>
-    <livewire:gc7.frameworks.alpinejs.accordion.accordion_item :items=$items />
+    <livewire:gc7.frameworks.alpinejs.accordion.accordion_items :items=$items />
 
     <hr>
 

@@ -117,7 +117,15 @@
     
             </url>
     <url>
+        <loc>http://127.0.0.1:8000/framework/alpinejs/accordion</loc>
+    
+            </url>
+    <url>
         <loc>http://127.0.0.1:8000/framework/alpinejs/ga</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/alpinejs/divers</loc>
     
             </url>
     <url>
