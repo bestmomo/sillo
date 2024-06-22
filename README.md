@@ -13,7 +13,7 @@
 
 Restez en contact, et soyez informé de la moindre évolution:
 
-<div align ="center">
+<div align ="center" style="font-weight: bold">
 <a style="font-size: 20px; font-weight: bold" href="http://discord.gg/XxTHxCrs" target="_blank">Lien provisoire*</a></div>
 
 
