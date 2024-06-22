@@ -2,19 +2,21 @@
     choice: null,
     include: null,
     btns: {{ $btns }}, // ['Spoiler', 'Tabs']
-    setChoice: function(btn) {
+    setBtnStyle: function(btn) {
         this.choice = btn;
     }
 }">
     <template x-for="btn in btns" :key="btn">
 
-        <button class='mr-3 btn btn-sm' :class="'btn-secondary'" x-on:click="choice=btn">
+        <button class='mr-3 btn btn-sm' :class="choice !== btn ? 'btn-primary':'btn-secondary'" x-on:click="choice = btn"
+        x-if="choice==btn"
+        >
             <span x-text="btn"></span>
         </button>
 
     </template>
 
-    <span x-text="choice"></span>
+    {{-- <span x-text="choice"></span> --}}
 
     <hr class="mt-1">
 
