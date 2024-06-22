@@ -11,6 +11,8 @@
 
         <button class='btn btn-primary ml-2' x-transition.duration.2000ms x-show="!showSpoiler"
             @click="showSpoiler = true">Afficher le spoiler (No .stop)</button>
+        <button class='btn btn-primary ml-2' x-transition.duration.2000ms x-show="!showSpoiler"
+            @click.stop="showSpoiler = true">Avec</button>
 
         <div class="text-justify">
 
@@ -30,12 +32,13 @@
                     Commodi
                     sequi eum quasi quisquam quas aperiam!</p>
             </template>
-            
+
         </div>
 
         <button
             class='btn btn-outline btn-block text-orange-500 hover:bg-orange-500 hover:text-black glass transition duration-[500ms] ease-in-out'
-            x-on:click.stop="showSpoiler = true" x-transition.duration.2000ms x-show="!showSpoiler">Show Spoiler</button>
+            x-on:click.stop="showSpoiler = true" x-transition.duration.2000ms x-show="!showSpoiler">Show
+            Spoiler</button>
 
     </div>
 

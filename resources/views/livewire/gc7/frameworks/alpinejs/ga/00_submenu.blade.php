@@ -1,19 +1,15 @@
 <div class='mt-[-22px]' x-data="{
     choice: null,
     include: null,
-    btns: [
-        { choice: 'Spoiler', include: 'livewire.gc7.frameworks.alpinejs.ga.01_bases' },
-        { choice: 'Tabs', include: 'livewire.gc7.frameworks.alpinejs.ga.02_bases' },
-    ],
+    btns: {{ $btns }}, // ['Spoiler', 'Tabs']
     setChoice: function(btn) {
-        this.choice = btn.choice;
-        this.include = btn.include;
+        this.choice = btn;
     }
 }">
-    <template x-for="btn in btns" :key="btn.choice.toLowerCase()">
+    <template x-for="btn in btns" :key="btn">
 
-        <button class='mr-3 btn btn-sm' :class="'btn-secondary'" x-on:click="setChoice(btn)">
-            <span x-text="btn.choice"></span>
+        <button class='mr-3 btn btn-sm' :class="'btn-secondary'" x-on:click="choice=btn">
+            <span x-text="btn"></span>
         </button>
 
     </template>
