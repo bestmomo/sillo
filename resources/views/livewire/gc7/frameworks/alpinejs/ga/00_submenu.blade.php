@@ -2,9 +2,6 @@
     choice: null,
     include: null,
     btns: {{ $btns }}, // ['Spoiler', 'Tabs']
-    setBtnStyle: function(btn) {
-        this.choice = btn;
-    }
 }">
     <template x-for="btn in btns" :key="btn">
 
