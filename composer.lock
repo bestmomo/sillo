@@ -3980,16 +3980,16 @@
         },
         {
             "name": "robsontenorio/mary",
-            "version": "1.33.2",
+            "version": "1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/robsontenorio/mary.git",
-                "reference": "3f16b20b3763fc77aaa99a5580df07dec3cbb665"
+                "reference": "017b2f4489f79cd5a47defeefa1abf1f9162ab3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/robsontenorio/mary/zipball/3f16b20b3763fc77aaa99a5580df07dec3cbb665",
-                "reference": "3f16b20b3763fc77aaa99a5580df07dec3cbb665",
+                "url": "https://api.github.com/repos/robsontenorio/mary/zipball/017b2f4489f79cd5a47defeefa1abf1f9162ab3e",
+                "reference": "017b2f4489f79cd5a47defeefa1abf1f9162ab3e",
                 "shasum": ""
             },
             "require": {
@@ -4055,7 +4055,7 @@
             ],
             "support": {
                 "issues": "https://github.com/robsontenorio/mary/issues",
-                "source": "https://github.com/robsontenorio/mary/tree/1.33.2"
+                "source": "https://github.com/robsontenorio/mary/tree/1.34.0"
             },
             "funding": [
                 {
@@ -4063,7 +4063,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-06-17T01:56:00+00:00"
+            "time": "2024-06-22T00:29:54+00:00"
         },
         {
             "name": "spatie/browsershot",
@@ -10589,16 +10589,16 @@
         },
         {
             "name": "spatie/error-solutions",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/error-solutions.git",
-                "reference": "202108314a6988ede156fba1b3ea80a784c1734a"
+                "reference": "d60d4d2ef4b7701c86134ded959667cac6215233"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/error-solutions/zipball/202108314a6988ede156fba1b3ea80a784c1734a",
-                "reference": "202108314a6988ede156fba1b3ea80a784c1734a",
+                "url": "https://api.github.com/repos/spatie/error-solutions/zipball/d60d4d2ef4b7701c86134ded959667cac6215233",
+                "reference": "d60d4d2ef4b7701c86134ded959667cac6215233",
                 "shasum": ""
             },
             "require": {
@@ -10651,7 +10651,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/error-solutions/issues",
-                "source": "https://github.com/spatie/error-solutions/tree/1.0.0"
+                "source": "https://github.com/spatie/error-solutions/tree/1.0.1"
             },
             "funding": [
                 {
@@ -10659,7 +10659,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-06-12T14:49:54+00:00"
+            "time": "2024-06-21T10:09:00+00:00"
         },
         {
             "name": "spatie/flare-client-php",

@@ -13,32 +13,33 @@
 
 2) [Apprenez les bases d’AlpineJS en 5 minutes](https://parfaitementweb.fr/cours/apprendre-alpine-js-en-5-minutes) - 5' - 2022 - FR
 
+
+3) [Guide complet déb à expert (22' @ 2024 FR)](https://www.youtube.com/watch?v=YbTkdUNDsTU&ab_channel=AlinoCodes) - 22' 2024 FR
+
 En cours:
 
-1) [Guide complet déb à expert (22' @ 2024 FR)](https://www.youtube.com/watch?v=YbTkdUNDsTU&ab_channel=AlinoCodes) - 22' 2024 FR
-
-//2do doc AlpineJS
 1) [Tutoriel JavaScript : Découvert d'Alpine.js](https://www.youtube.com/watch?v=BRCwRhAcLJA&t=208s) - 35' GA 2024 FR
 
-2) [Redimensionner et recadrer une photo instantanément avec Livewire, AlpineJs et Laravel, Introduction](https://www.youtube.com/watch?v=iK7-hczgGfI&pp=ygUIYWxwaW5lanM%3D) - 6' 2024 FR -> + de notions photo ?
+//2do doc AlpineJS
+1) [Redimensionner et recadrer une photo instantanément avec Livewire, AlpineJs et Laravel, Introduction](https://www.youtube.com/watch?v=iK7-hczgGfI&pp=ygUIYWxwaW5lanM%3D) - 6' 2024 FR -> + de notions photo ?
 
-3) [Redimensionner avec Livewire, AlpineJs et Laravel. Installation d'un nouveau Laravel 11](https://www.youtube.com/watch?v=3fZXKS-g9s0&t=3s) - 10' 2024 FR
+2) [Redimensionner avec Livewire, AlpineJs et Laravel. Installation d'un nouveau Laravel 11](https://www.youtube.com/watch?v=3fZXKS-g9s0&t=3s) - 10' 2024 FR
 
-4) [use API - Animal crossing database](https://www.youtube.com/watch?v=iBg6XNy2XWc) 15' 2023
+3) [use API - Animal crossing database](https://www.youtube.com/watch?v=iBg6XNy2XWc) 15' 2023
 
-5) * [Designing a customer dashboard interface with TailwindCSS and AlpineJS](https://www.youtube.com/watch?v=U4P3CLuFz0M&pp=ygUIYWxwaW5lanM%3D) 2' 2024
+4) * [Designing a customer dashboard interface with TailwindCSS and AlpineJS](https://www.youtube.com/watch?v=U4P3CLuFz0M&pp=ygUIYWxwaW5lanM%3D) 2' 2024
 
-6) [Designing a Products Import Table UI using Rails, TailwindCSS and StimulusJS](https://www.youtube.com/watch?v=3fZXKS-g9s0&t=3s) 2' 2024
+5) [Designing a Products Import Table UI using Rails, TailwindCSS and StimulusJS](https://www.youtube.com/watch?v=3fZXKS-g9s0&t=3s) 2' 2024
 
-7) [CounterDown, Countdown template make with HTML, CSS, TailwindCSS & AlpineJS](https://www.youtube.com/watch?v=1nS5Zna60L0&pp=ygUIYWxwaW5lanM%3D) - 3' 2024
+6) [CounterDown, Countdown template make with HTML, CSS, TailwindCSS & AlpineJS](https://www.youtube.com/watch?v=1nS5Zna60L0&pp=ygUIYWxwaW5lanM%3D) - 3' 2024
 
-8) [Alpine js Search Box | Build Blog with Laravel, Livewire & Filament #7](https://www.youtube.com/watch?v=jxiTVryxono&pp=ygUIYWxwaW5lanM%3D) - 11' 2023-24
+7) [Alpine js Search Box | Build Blog with Laravel, Livewire & Filament #7](https://www.youtube.com/watch?v=jxiTVryxono&pp=ygUIYWxwaW5lanM%3D) - 11' 2023-24
 
-9)  [Serie](https://www.youtube.com/watch?v=Z_QQQdNopp4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&ab_channel=CodewithBurt) Série 7 vidéos 2023-24
+8)  [Serie](https://www.youtube.com/watch?v=Z_QQQdNopp4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&ab_channel=CodewithBurt) Série 7 vidéos 2023-24
     
-10) [Serie](https://www.youtube.com/watch?v=9RMJojxoJYc&list=PLKbhw6n2iYKhVSp9wAOPFcdD6EDlfDxQt&ab_channel=projectworld) - 9 épisodes 2024
+9)  [Serie](https://www.youtube.com/watch?v=9RMJojxoJYc&list=PLKbhw6n2iYKhVSp9wAOPFcdD6EDlfDxQt&ab_channel=projectworld) - 9 épisodes 2024
     
-11) [Doc AlpineJS](https://alpinejs.dev/start-here)
+10) [Doc AlpineJS](https://alpinejs.dev/start-here)
 
 ### Livewire
 
