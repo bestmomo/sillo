@@ -13,8 +13,8 @@
 
 Restez en contact, et soyez informé de la moindre évolution:
 
-<center>
-<a style="font-size: 20px; font-weight: bold" href="http://discord.gg/XxTHxCrs" target="_blank">Lien provisoire*</a></center>
+<div align ="center">
+<a style="font-size: 20px; font-weight: bold" href="http://discord.gg/XxTHxCrs" target="_blank">Lien provisoire*</a></div>
 
 
 ## License
