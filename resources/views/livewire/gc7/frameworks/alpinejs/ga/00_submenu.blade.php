@@ -27,11 +27,12 @@
         // Déclenchement automatique d'un onglet
         window.onload = function() {
             setTimeout(function() {
-                const btnTabs = document.querySelector('button[id="Tabs"]');
+                let tab = 'Tabs';
+                const btnTabs = document.querySelector('button[id=' + tab + ']');
                 if (btnTabs) {
                     btnTabs.click();
                 } else {
-                    console.log("Le bouton 'Tabs' n'a pas été trouvé.");
+                    console.log("Le bouton '" + tab + "' n'a pas été trouvé.");
                 }
             }, 700); // Attend .7 seconde avant d'exécuter le script
         };
