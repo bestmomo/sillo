@@ -44,12 +44,13 @@ En cours:
 ### Livewire
 
 //2do doc Livewire
+1) [Découverte Livewire](https://www.youtube.com/watch?v=zPNdejemUtg) - 52' GA FR
 
-1) https://livewire.laravel.com/screencast/getting_started/installation - Série free: 11 épisodes (Fait 7)
+2) https://livewire.laravel.com/screencast/getting_started/installation - Série free: 11 épisodes (Fait 7)
 
-2) [Super serie](https://www.youtube.com/watch?v=dz6_RFrJQlo&list=PLqDySLfPKRn71KGwiS3JGf9aAseh6Gghz) - Série - 64 épisodes 2024
+3) [Super serie](https://www.youtube.com/watch?v=dz6_RFrJQlo&list=PLqDySLfPKRn71KGwiS3JGf9aAseh6Gghz) - Série - 64 épisodes 2024
 
-3) [Livewire Doc laravel](https://livewire.laravel.com/docs/)
+4) [Livewire Doc laravel](https://livewire.laravel.com/docs/)
 
 ### Volt
 
