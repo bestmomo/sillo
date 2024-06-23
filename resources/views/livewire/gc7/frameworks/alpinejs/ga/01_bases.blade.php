@@ -27,7 +27,7 @@
                     film...</strong> Porro vitae hic est tenetur ipsa ab a unde. Commodi sequi eum quasi quisquam quas
                 aperiam!</p>
 
-            <template x-if="showSpoiler">
+            <template  x-if="showSpoiler">
                 <p><strong>V 2: Ce paragraphe spoile le film...</strong> Porro vitae hic est tenetur ipsa ab a unde.
                     Commodi
                     sequi eum quasi quisquam quas aperiam!</p>
