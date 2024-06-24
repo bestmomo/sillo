@@ -31,13 +31,13 @@
         <div role="tablist" class="tabs tabs-lifted mt-3 border-b border-orange-400">
 
             <button id='tab1' type="radio" role="tab"
-                class="tab brdb0 [--tab-border-color:orange-400] border-orange-400 font-bold text-orange-400" @click="toggleTab($event)" :class="{ 'tab-active': isActive('tab1')}">Tab 1</button>
+                class="tab brdb0 [--tab-border-color:orange-400] border-orange-400 font-bold text-orange-400" @click="toggleTab($event)" :class="{ 'glass': isActive('tab1'), 'tab-active': isActive('tab1')}">Tab 1</button>
 
             <button id='tab2' type="radio" role="tab"
-                class="tab brdb0 [--tab-border-color:orange-400] border-orange-400 font-bold text-orange-400" @click="toggleTab($event)" :class="{ 'tab-active': isActive('tab2')}">Tab 2</button>
+                class="tab brdb0 [--tab-border-color:orange-400] border-orange-400 font-bold text-orange-400" @click="toggleTab($event)" :class="{ 'glass': isActive('tab2'), 'tab-active': isActive('tab2')}">Tab 2</button>
 
             <button id='tab3' type="radio" role="tab"
-                class="tab brdb0 [--tab-border-color:orange-400] border-orange-400 font-bold text-orange-400"@click="toggleTab($event)" :class="{ 'tab-active': isActive('tab3')}">Tab 3</button>
+                class="tab brdb0 [--tab-border-color:orange-400] border-orange-400 font-bold text-orange-400"@click="toggleTab($event)" :class="{ 'glass': isActive('tab3'), 'tab-active': isActive('tab3')}">Tab 3</button>
         </div>
 
         <div>
