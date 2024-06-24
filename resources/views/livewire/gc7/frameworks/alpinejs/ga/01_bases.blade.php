@@ -6,12 +6,13 @@
 
         <span @click.window="if (showSpoiler) showSpoiler = false"></span>
 
-        <x-button class='btn-primary w-[150px]' x-on:click.stop="showSpoiler = !showSpoiler"><span
+        <x-button class='btn-primary w-[150px] text-white glass' x-on:click.stop="showSpoiler = !showSpoiler"><span
                 x-text="!showSpoiler ? 'Montrer le spoiler':'Cacher le spoiler'"></span></x-button>
 
-        <button class='btn btn-primary ml-2' x-transition.duration.2000ms x-show="!showSpoiler"
+        <button class='btn btn-primary ml-2 text-white glass' x-transition.duration.2000ms x-show="!showSpoiler"
             @click="showSpoiler = true">Afficher le spoiler (No .stop)</button>
-        <button class='btn btn-primary ml-2' x-transition.duration.2000ms x-show="!showSpoiler"
+            
+        <button class='btn btn-primary ml-2 text-white glass' x-transition.duration.2000ms x-show="!showSpoiler"
             @click.stop="showSpoiler = true">Avec</button>
 
         <div class="text-justify">

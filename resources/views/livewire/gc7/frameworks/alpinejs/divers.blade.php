@@ -9,6 +9,6 @@ new #[Title('Divers')] #[Layout('components.layouts.gc7.main')] class extends Co
 <div>
     <x-header title="Divers" shadow separator progress-indicator></x-header>
 
-    <p>Ready.</p>
+    <p id="p1" @click="console.log($event)">Ready.</p>
 
 </div>
