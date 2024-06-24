@@ -8,26 +8,47 @@
 
     <script>
         // document.addEventListener("DOMContentLoaded", () => {
-            document.addEventListener("alpine:init", () => {
+        document.addEventListener("alpine:init", () => {
 
-                Alpine.data("tabs", (defaultTab) => ({
-                    tab: defaultTab,
-                    toggleTab(e) {
-                        this.tab = e.target.id;
-                        console.log('tab active: ' + this.tab)
-                        console.log(this.isActive(this.tab));
-                    },
-                    isActive(tab) {
-                        return this.tab === tab;
-                    },
-                }));
+            Alpine.data('tabs', (defaultTab) => ({
+                tab: defaultTab,
+                toggleTab(e) {
+                    this.tab = e.target.id;
+                    console.log('tab active: ' + this.tab)
+                    console.log(this.isActive(this.tab))
+                },
+                isActive(tab) {
+                    return this.tab === tab;
+                },
+            }))
 
-            });
+            Alpine.data('posts', () => ({
+                loading: false,
+                posts: [],
+                loaded: false,
+                loadPosts() {
+                    this.loading = true
+                    setTimeout(() => {
+
+                        fetch('https://jsonplaceholder.typicode.com/posts?_limit=4')
+                            .then(response => response.json())
+                            .then(data => {
+                                this.posts = data;
+                                this.loaded = true;
+                                this.loading = false;
+                            });
+
+                        // Votre code ici après 7 secondes
+                    }, 7000);
+                }
+            }))
+
+        });
         // });
     </script>
 
 
-    <div x-data="tabs('tab1')">
+    <div x-data="tabs('tab2')">
 
         <p x-text="tab"></p>
 
@@ -51,16 +72,30 @@
         <div class="bg-gray-700 glass rounded-b-box mt-3 text-white text-black text-justify">
 
             <template x-if="isActive('tab1')">
-                <div role="tabpanel" class="p-6">Tab content 1
+                <div role="tabpanel" class="p-6">
+                    <h2>Tab content 1</h2>
+                    <p @click="tab='tab3'" class="link">Aller à l'onglet 3</p>
                 </div>
             </template>
 
             <template x-if="isActive('tab2')">
                 <div role="tabpanel" class="p-6">
-                    <h2>Onglet 2</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, libero saepe exercitationem
-                        ducimus dicta cumque nemo, ab esse itaque deleniti sunt atque sequi repudiandae, architecto
-                        alias repellendus consequuntur ipsam pariatur.</p>
+                    <h2>Tab 2</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, libero saepe exercitationem:
+                    </p>
+                    <div x-data="posts()">
+                        <p x-show="!loaded"><button class="btn primary" :disabled="loading"
+                                @click="loadPosts">Charger les
+                                articles</button></p>
+                        <div x-show="loading" x-transition.duration.1000ms class="spinner text-center"><span
+                                class="loading loading-spinner loading-lg">Je fetch...</span></div>
+                        <template x-for="post in posts" :key="post.id">
+                            <article class="card p-2">
+                                <h3 x-text="post.title">T</h3>
+                                <p x-text="post.body"></p>
+                            </article>
+                        </template>
+                    </div>
                 </div>
             </template>
 
