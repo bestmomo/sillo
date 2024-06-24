@@ -42,6 +42,12 @@
                 }
             })
 
+            Alpine.data('posts', () => ({
+                init() {
+                    console.log('Start Posts page');
+                }
+            }))
+
         });
         // });
     </script>
@@ -78,20 +84,21 @@
             </template>
 
             <template x-if="isActive('tab2')">
-                
+
                 <div role="tabpanel" class="p-6">
                     <h2>Tab 2</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, libero saepe exercitationem:
                     </p>
-                    <div x-data="{}">
-                        
-                        <p x-show="!$store.posts.loaded"><button class="btn primary" :disabled="$store.posts.loading"loading"
-                                @click="$store.posts.loadPosts()">Charger les
+                    
+                    <div x-data="posts()">
+
+                        <p x-show="!$store.posts.loaded"><button class="btn primary"
+                                :disabled="$store.posts.loading"loading" @click="$store.posts.loadPosts()">Charger les
                                 articles</button></p>
-                                
-                        <div x-show="$store.posts.loading" x-transition.duration.1000ms class="spinner text-center"><span
-                                class="loading loading-spinner loading-lg"></span></div>
-                                
+
+                        <div x-show="$store.posts.loading" x-transition.duration.1000ms class="spinner text-center">
+                            <span class="loading loading-spinner loading-lg"></span></div>
+
                         <template x-for="post in $store.posts.posts" :key="post.id">
                             <article class="card w-full my-3">
                                 <div class="card-body border rounded-box">
@@ -100,7 +107,7 @@
                                 </div>
                             </article>
                         </template>
-                        
+
                     </div>
                 </div>
             </template>
