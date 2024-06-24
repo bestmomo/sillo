@@ -38,8 +38,7 @@
                                 this.loading = false;
                             });
 
-                        // Votre code ici après 7 secondes
-                    }, 7000);
+                    }, 3000);
                 }
             }))
 
@@ -90,9 +89,11 @@
                         <div x-show="loading" x-transition.duration.1000ms class="spinner text-center"><span
                                 class="loading loading-spinner loading-lg">Je fetch...</span></div>
                         <template x-for="post in posts" :key="post.id">
-                            <article class="card p-2">
-                                <h3 x-text="post.title">T</h3>
-                                <p x-text="post.body"></p>
+                            <article class="card w-full my-3">
+                                <div class="card-body border rounded-box">
+                                    <h3 x-text="post.title" class="text-xl">T</h3>
+                                    <p x-text="post.body"></p>
+                                </div>
                             </article>
                         </template>
                     </div>
