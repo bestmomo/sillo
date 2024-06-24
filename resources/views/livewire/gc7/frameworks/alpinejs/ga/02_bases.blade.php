@@ -44,7 +44,8 @@
 
             Alpine.data('posts', () => ({
                 init() {
-                    console.log('Start Posts page');
+                    console.log('Start Posts page.');
+                    this.$store.posts.loadPosts();
                 }
             }))
 
