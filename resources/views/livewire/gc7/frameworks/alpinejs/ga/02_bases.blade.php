@@ -22,7 +22,7 @@
                 },
             }))
 
-            Alpine.data('posts', () => ({
+            Alpine.store('posts', {
                 loading: false,
                 posts: [],
                 loaded: false,
@@ -40,7 +40,7 @@
 
                     }, 3000);
                 }
-            }))
+            })
 
         });
         // });
@@ -78,17 +78,21 @@
             </template>
 
             <template x-if="isActive('tab2')">
+                
                 <div role="tabpanel" class="p-6">
                     <h2>Tab 2</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, libero saepe exercitationem:
                     </p>
-                    <div x-data="posts()">
-                        <p x-show="!loaded"><button class="btn primary" :disabled="loading"
-                                @click="loadPosts">Charger les
+                    <div x-data="{}">
+                        
+                        <p x-show="!$store.posts.loaded"><button class="btn primary" :disabled="$store.posts.loading"loading"
+                                @click="$store.posts.loadPosts()">Charger les
                                 articles</button></p>
-                        <div x-show="loading" x-transition.duration.1000ms class="spinner text-center"><span
-                                class="loading loading-spinner loading-lg">Je fetch...</span></div>
-                        <template x-for="post in posts" :key="post.id">
+                                
+                        <div x-show="$store.posts.loading" x-transition.duration.1000ms class="spinner text-center"><span
+                                class="loading loading-spinner loading-lg"></span></div>
+                                
+                        <template x-for="post in $store.posts.posts" :key="post.id">
                             <article class="card w-full my-3">
                                 <div class="card-body border rounded-box">
                                     <h3 x-text="post.title" class="text-xl">T</h3>
@@ -96,6 +100,7 @@
                                 </div>
                             </article>
                         </template>
+                        
                     </div>
                 </div>
             </template>
