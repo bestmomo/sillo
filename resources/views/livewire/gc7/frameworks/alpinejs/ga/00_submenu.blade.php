@@ -1,6 +1,5 @@
 <div class='mt-[-22px]' x-data="{
     choice: null,
-    include: null,
     btns: {{ $btns }}, // ['Spoiler', 'Tabs']
 }">
     <template x-for="btn in btns" :key="btn">
@@ -23,18 +22,25 @@
     <div x-cloak x-transition.duration.700ms x-show="choice == 'Tabs'">
         @include('livewire.gc7.frameworks.alpinejs.ga.02_bases')
     </div>
+    
+    <div x-cloak x-transition.duration.700ms x-show="choice == 'TabsOri'">
+        @include('livewire.gc7.frameworks.alpinejs.ga.02_tabs_ori')
+    </div>
+    
+    
     <script>
         // Déclenchement automatique d'un onglet
         window.onload = function() {
             setTimeout(function() {
-                let tab = 'Tabs';
-                const btnTabs = document.querySelector('button[id=' + tab + ']');
+                let btn = 'Tabs';
+                console.log('Je clique sur ' + btn);
+                const btnTabs = document.querySelector('button[id=' + btn + ']');
                 if (btnTabs) {
                     btnTabs.click();
                 } else {
-                    console.log("Le bouton '" + tab + "' n'a pas été trouvé.");
+                    console.log("Le bouton '" + btn + "' n'a pas été trouvé.");
                 }
-            }, 700); // Attend .7 seconde avant d'exécuter le script
+            }, 100); // Attend .1 seconde avant d'exécuter le script
         };
     </script>
 

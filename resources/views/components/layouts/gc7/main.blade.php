@@ -35,7 +35,9 @@
 
     {{--  TOAST area --}}
     <x-toast />
-
+    
+    @yield('scripts')
+    
 </body>
 
 </html>

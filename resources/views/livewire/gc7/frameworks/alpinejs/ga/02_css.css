@@ -6,3 +6,7 @@
   /* color:  yellow; */
   transition: 1s
 }
+
+.brdb0 {
+  border-bottom: none!important;
+}

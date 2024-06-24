@@ -10,7 +10,7 @@ new #[Title('GA')] #[Layout('components.layouts.gc7.main')] class extends Compon
 
 <div>
     @php
-        $btns = ['Spoiler', 'Tabs'];
+        $btns = ['Spoiler', 'TabsOri', 'Tabs'];
     @endphp
     <x-header class="mb-0" title="GA" shadow separator progress-indicator></x-header>
 

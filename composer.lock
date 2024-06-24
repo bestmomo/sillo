@@ -8241,16 +8241,16 @@
         },
         {
             "name": "laravel-lang/locales",
-            "version": "2.8.0",
+            "version": "2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/locales.git",
-                "reference": "687cdca9ee6465c13cf6c0690b505eb1127d5c3d"
+                "reference": "e9a62aee6bef3b527b5bdf1eae028dc1d11dc623"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/locales/zipball/687cdca9ee6465c13cf6c0690b505eb1127d5c3d",
-                "reference": "687cdca9ee6465c13cf6c0690b505eb1127d5c3d",
+                "url": "https://api.github.com/repos/Laravel-Lang/locales/zipball/e9a62aee6bef3b527b5bdf1eae028dc1d11dc623",
+                "reference": "e9a62aee6bef3b527b5bdf1eae028dc1d11dc623",
                 "shasum": ""
             },
             "require": {
@@ -8310,7 +8310,7 @@
                 "issues": "https://github.com/Laravel-Lang/locales/issues",
                 "source": "https://github.com/Laravel-Lang/locales"
             },
-            "time": "2024-06-01T23:45:12+00:00"
+            "time": "2024-06-22T20:53:21+00:00"
         },
         {
             "name": "laravel-lang/native-country-names",
