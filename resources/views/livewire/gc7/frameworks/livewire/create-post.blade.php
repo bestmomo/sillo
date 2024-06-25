@@ -45,7 +45,7 @@ public function save()
 };?>
 
  <div>
-     <x-header title="New FORM" shadow separator progress-indicator>
+     <x-header title="New Post" shadow separator progress-indicator>
      </x-header>
 
      Current title: <span x-text="$wire.title.toUpperCase()"></span>
