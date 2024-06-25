@@ -12,14 +12,25 @@ new class() extends Component {
 	use WithPagination;
 
 	public $name;
-	public $perPage = 5;
-	public $search  = '';
-
-    public $sortDirection = 'ASC';
+	public $perPage       = 5;
+	public $search        = '';
+	public $sortDirection = 'ASC';
+	public $sortColumn    = 'name';
 
 	public function mount()
 	{
 		$this->name = 'GC7';
+	}
+
+	public function doSort($column)
+	{
+		$this->sortColumn = $column;
+		if ($this->sortColumn === $column) {
+			$this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
+			return;
+		}
+		$this->sortColumn = $column;
+		$this->sortDirection = 'ASC';
 	}
 
 	public function updatingSearch()
@@ -30,7 +41,8 @@ new class() extends Component {
 	public function with(): array
 	{
 		return [
-			'users' => User::search($this->search)->orderBy('id')
+			'users' => User::search($this->search)
+				->orderBy($this->sortColumn, $this->sortDirection)
 				->paginate($this->perPage),
 		];
 	}

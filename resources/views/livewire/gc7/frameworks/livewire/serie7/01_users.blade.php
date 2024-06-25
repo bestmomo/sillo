@@ -27,27 +27,39 @@ include_once '01_users.php';
                     <table class="w-full text-sm text-left text-gray-500 rounded">
                         <thead class="text-xs text-gray-400 uppercase">
                             <tr>
-                              
-                                <th class="px-4 py-3">#</th>
-                                
-                                <th class="px-4 py-3">
-                                    <div class="flex items-center">
-                                        <span class="mr-2">Name</span>
-                                        <x-heroicon-s-chevron-up class="w-6 h-6 flex-shrink-0" />
-                                    </div>
+
+                                <th class="px-4 py-3 cursor-pointer" wire:click="doSort('id')">
+                                    <x-users-list.datatable-item 
+                                    :sortColumn="$sortColumn"
+                                    :sortDirection="$sortDirection"
+                                    columnName="id"/>
                                 </th>
-                                
-                                <th class="px-4 py-3">Email</th>
-                                
-                                <th class="px-4 py-3">Gender</th>
-                                
+
+                                <th class="px-4 py-3 cursor-pointer" wire:click="doSort('name')">
+                                    <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection"
+                                        columnName="name" />
+                                </th>
+
+                                <th class="px-4 py-3 cursor-pointer" wire:click="doSort('email')">
+                                    <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection"
+                                        columnName="email" />
+                                </th>
+
+                                <th class="px-4 py-3 cursor-pointer" wire:click="doSort('gender')">
+                                    <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection"
+                                        columnName="gender" />
+                                </th>
+
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($users as $user)
                                 <tr class="border-b dark:border-gray-700">
                                     <td class="px-4 py-3">{{ $user->id }}</td>
-                                    <td class="px-4 py-3">{{ $user->firstname }} {{ $user->name }}</td>
+                                    <td class="px-4 py-3">
+                                        {{ $user->name }}
+                                        {{ $user->firstname }}
+                                    </td>
                                     <td class="px-4 py-3">{{ $user->email }}</td>
                                     <td class="px-4 py-3">{{ $user->gender }}</td>
                                 </tr>
