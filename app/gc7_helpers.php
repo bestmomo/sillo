@@ -10,7 +10,7 @@ if (!function_exists('getGc7FrameworksLinks')) {
 	function getGc7FrameworksLinks()
 	{
 		return [
-			'livewire' => ['basics', 'blog', 'create-post', 'todos', 'counter', 'new-form'],
+			'livewire' => ['basics', 'blog', 'create-post', 'todos', 'counter', 'new-form', 'serie7'],
 			'alpinejs' => ['basics', 'test', 'pets', 'accordion', 'ga', 'characters', 'divers'],
 		];
 	}

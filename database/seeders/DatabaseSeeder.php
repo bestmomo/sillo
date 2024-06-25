@@ -36,14 +36,14 @@ class DatabaseSeeder extends Seeder
 		]);
 
 		// Create 2 redactors
-		User::factory()->count(2)->create([
+		User::factory()->count(799)->create([
 			'role' => 'redac',
 		]);
 
 		// Create 3 users
-		User::factory()->count(3)->create();
+		User::factory()->count(1200)->create();
 
-		$nbrUsers = 6;
+		$nbrUsers = 2000;
 
 		// Categories
 		DB::table('categories')->insert([
