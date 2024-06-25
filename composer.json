@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-debugbar": "^3.13",
+        "blade-ui-kit/blade-ui-kit": "^0.6.2",
         "creativeorange/gravatar": "~1.0",
         "laravel/framework": "^11.10",
         "laravel/tinker": "^2.9",

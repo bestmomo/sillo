@@ -11,10 +11,15 @@ include_once '01_users.php';
                 <div class="flex items-center justify-between p-4 my-2">
                     <div class="flex w-full justify-between">
                         <div class="relative x-full ml-3">
-                            <x-input type="text" class="bg-gray-700 border border-gray-300" wire:model.live.debounce.300ms="search" placeholder="Search..."
-                                required />
+                            <x-input type="text" class="bg-gray-700 border border-gray-300"
+                                wire:model.live.debounce.300ms="search" placeholder="Search..." required />
                         </div>
-                        <p class="mr-5 text-right italic">Owner: {{ $name }}</p>
+                        <p class="flex items-center justify-end mr-5 italic">
+                            <span>Owner:</span>
+                            <x-heroicon-s-heart class="h-6 w-6 text-red-600 mx-2" />
+                            <span>{{ $name }}</span>
+                        </p>
+
                     </div>
                 </div>
 
