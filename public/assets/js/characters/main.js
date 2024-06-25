@@ -5,6 +5,9 @@ document.addEventListener("alpine:init", () => {
     episodes: [],
     loaded: false,
     error: null,
+    
+    isOpen: true,
+    currentCharacter: {},
 
     fsTitle: "",
 
@@ -38,7 +41,7 @@ document.addEventListener("alpine:init", () => {
                 "Impossible de charger les épisodes : " + error.message;
             }
           }
-
+          this.currentCharacter = this.characters[0]; // Juste pour mise au point du aside open par défaut
           this.loading = false;
           this.loaded = true;
         }, 1000);
@@ -89,6 +92,16 @@ document.addEventListener("alpine:init", () => {
           await this.loadCharacters();
         }
       }
+    },
+
+    getTooltipText(character) {
+        return ` Click here to see all informations about ${character.name} `;
+    },
+    
+    handleClick(character) {
+      console.log('Click / character', character.name + ' (Id #' + character.id +')');
+      this.isOpen = true;
+      this.currentCharacter = character;
     },
   }));
 });
