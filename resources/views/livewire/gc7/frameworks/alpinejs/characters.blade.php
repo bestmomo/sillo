@@ -40,14 +40,14 @@ new #[Title('Characters')] #[Layout('components.layouts.gc7.main')] class extend
                             <img :src="character.image" :alt="character.name" />
                         </div>
 
-                        <div class="characterCard__ContentWrapper isMAic ml-2">
-                            <div class="section">
+                        <div class="characterCard__ContentWrapper isMAic leading-2 ml-2">
+                            <div class="section leading-none">
                                 <a :href="character.url" rel="noopener noreferrer" target="_blank"
                                     class="externalLink__ExternalLink-sc-1lixk38-0 ffGNdR">
                                     <h2 id="nameTitle"><span x-text="character.name">T</span></h2>
                                 </a>
 
-                                <span class="status">
+                                <div class="status mt-1">
 
                                     <span class="status__icon"
                                         :class="{
