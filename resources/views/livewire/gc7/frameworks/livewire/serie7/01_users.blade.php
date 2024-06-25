@@ -3,15 +3,15 @@ include_once '01_users.php';
 ?>
 
 <div>
-      <x-header class="mb-0 pt-3" title="Série 7 - Users" shadow separator progress-indicator></x-header>
-      
+    <x-header class="mb-0 pt-3" title="Série 7 - Users" shadow separator progress-indicator></x-header>
+
     <section class="mt-5">
         <div class="max-auto max-w-screen-xl px-4 lg:px-12">
             <div class="bg-white dark:bg-gray-800 overflow-hidden">
                 <div class="flex items-center justify-between p-4 my-2">
                     <div class="flex w-full justify-between">
                         <div class="relative x-full ml-3">
-                            <x-input type="text" class="bg-gray-700 border border-gray-300" placeholder="Search..."
+                            <x-input type="text" class="bg-gray-700 border border-gray-300" wire:model.live.debounce.300ms="search" placeholder="Search..."
                                 required />
                         </div>
                         <p class="mr-5 text-right italic">Owner: {{ $name }}</p>
@@ -55,7 +55,7 @@ include_once '01_users.php';
                         </select>
                     </div>
                     <div class="flex flex-wrap">
-                      {{ $users->links() }}
+                        {{ $users->links() }}
                     </div>
                 </div>
 
