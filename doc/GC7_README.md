@@ -46,8 +46,9 @@ En cours:
 2) https://livewire.laravel.com/screencast/getting_started/installation - Série free: 11 épisodes (Fait 7)
 
 3) [Super serie](https://www.youtube.com/watch?v=dz6_RFrJQlo&list=PLqDySLfPKRn71KGwiS3JGf9aAseh6Gghz) - Série - 64 épisodes 2024
+4) [Laravel Livewire v3 Full Tutorial 2024](https://www.youtube.com/watch?v=2tOgn2HydKE) 4H 20' - 2024
 
-4) [Livewire Doc laravel](https://livewire.laravel.com/docs/)
+5) [Livewire Doc laravel](https://livewire.laravel.com/docs/)
 
 ### Volt
 
