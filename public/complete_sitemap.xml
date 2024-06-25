@@ -125,6 +125,10 @@
     
             </url>
     <url>
+        <loc>http://127.0.0.1:8000/framework/alpinejs/characters</loc>
+    
+            </url>
+    <url>
         <loc>http://127.0.0.1:8000/framework/alpinejs/divers</loc>
     
             </url>

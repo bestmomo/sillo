@@ -1,20 +1,15 @@
-console.log("Je suis le script character.js");
-
 document.addEventListener("alpine:init", () => {
   Alpine.data("characters", () => ({
     loading: false,
     characters: [],
+    episodes: [],
     loaded: false,
     error: null,
 
     fsTitle: "",
 
     init() {
-      this.loadCharacters().then(() => {
-        if (this.characters.length > 0) {
-          this.getFirstSeenTitle(this.characters);
-        }
-      });
+      this.loadCharacters();
     },
 
     async loadCharacters() {
@@ -24,39 +19,48 @@ document.addEventListener("alpine:init", () => {
         const response = await fetch(
           "https://rickandmortyapi.com/api/character"
         );
+
         if (!response.ok) {
           throw new Error("Erreur réseau");
         }
+
         const data = await response.json();
-        this.characters = data.results;
-        // await this.getFirstSeenTitle(this.characters)
-        this.loading = false;
-        this.loaded = true;
+
+        setTimeout(async () => {
+          this.characters = data.results;
+
+          if (this.characters.length > 0) {
+            try {
+              this.episodes = await this.getFirstSeenEpisodes(this.characters);
+              // console.log("Épisodes", JSON.stringify(this.episodes, null, 2)); // Affichage lisible des épisodes
+            } catch (error) {
+              this.error =
+                "Impossible de charger les épisodes : " + error.message;
+            }
+          }
+
+          this.loading = false;
+          this.loaded = true;
+        }, 1000);
       } catch (error) {
         this.error = "Impossible de charger les personnages : " + error.message;
         this.loading = false;
       }
     },
 
-    async getFirstSeenTitle(characters) {
-      let table = [];
-
+    async getFirstSeenEpisodes(characters) {
       let urls = [];
       characters.forEach((character) => {
-        urls.push(character?.episode[0].split("/").pop());
+        let num_ep1 = character?.episode[0].split("/").pop();
+        urls.push(num_ep1);
+        character.num_ep1 = num_ep1;
       });
       let urlsUniques = [...new Set(urls)];
       urlsUniques.sort((a, b) => parseInt(a) - parseInt(b));
-      console.table(urlsUniques);
-      console.log(urlsUniques);
+      // console.table(urlsUniques);
+      console.log("urlsUniques", urlsUniques);
 
-      // table.push({ "id": character.id, "name": character.name, 'episode1': character?.episode[0] });
-      // console.log("Character: ", character.id + " : " + character.name);
-      
       const endPoint = "https://rickandmortyapi.com/api/episode/";
-
-      firstEpisodeUrl = characters[4]?.episode[0];
-      console.log("firstEpisodeUrl:", firstEpisodeUrl);
 
       try {
         const response = await fetch(endPoint + urlsUniques);
@@ -64,18 +68,27 @@ document.addEventListener("alpine:init", () => {
           throw new Error("Erreur réseau");
         }
         const data = await response.json();
+
+        // Assurez-vous que data est un tableau
+        this.episodes = Array.isArray(data) ? data : [data];
         console.log("data", data);
-        this.episode = data;
-        console.log("dataResults", this.episode.name);
-        this.loading = false;
-        this.loaded = true;
+
+        characters.forEach((character) => {
+          character.episode1 = this.episodes.find(
+            (ep) => ep.id == character.num_ep1
+          );
+        });
+
+        return this.episodes;
       } catch (error) {
         this.error =
           "Impossible de charger le premier episode : " + error.message;
         this.loading = false;
+        // Attendre que les épisodes soient chargés
+        if (!this.episodes || this.episodes.length === 0) {
+          await this.loadCharacters();
+        }
       }
-
-      return 1;
     },
   }));
 });

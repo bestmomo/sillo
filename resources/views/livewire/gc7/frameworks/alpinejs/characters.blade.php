@@ -15,11 +15,11 @@ new #[Title('Characters')] #[Layout('components.layouts.gc7.main')] class extend
             {{ file_get_contents(resource_path('views/livewire/gc7/frameworks/alpinejs/characters/styles.css')) }}
         </style>
     @endsection
-    
+
     @section('scripts')
-    <script src="/assets/js/characters.js"></script>
+        <script src="/assets/js/characters.js"></script>
     @endsection
-    
+
     <x-header class="mb-0" title="Characters" shadow separator progress-indicator></x-header>
 
     <div id="wrapper" x-data="characters">
@@ -44,7 +44,7 @@ new #[Title('Characters')] #[Layout('components.layouts.gc7.main')] class extend
                             <div class="section">
                                 <a :href="character.url" rel="noopener noreferrer" target="_blank"
                                     class="externalLink__ExternalLink-sc-1lixk38-0 ffGNdR">
-                                    <h2 id="nameTitle"><span x-text="character.name"></span></h2>
+                                    <h2 id="nameTitle"><span x-text="character.name">T</span></h2>
                                 </a>
 
                                 <span class="status">
@@ -53,7 +53,7 @@ new #[Title('Characters')] #[Layout('components.layouts.gc7.main')] class extend
                                         :class="{
                                             'bg-red-500': character.status === 'Dead',
                                             'bg-black': character.status === 'unknown',
-                                            'bg-green-500': character.status === 'Alive'
+                                            'bg-green-400': character.status === 'Alive'
                                         }"></span>
 
                                     <span x-text="character.status"></span>&nbsp;-&nbsp;<span
@@ -64,10 +64,16 @@ new #[Title('Characters')] #[Layout('components.layouts.gc7.main')] class extend
                                     class="externalLink__ExternalLink-sc-1lixk38-0 ffGNdR"><span
                                         x-text="character.location.name"></span></a>
                             </div>
-                            <div class="section"><span class="text-gray">First seen in:</span><a
-                                    href="https://rickandmortyapi.com/api/episode/2" rel="noopener noreferrer"
-                                    target="_blank" class="externalLink__ExternalLink-sc-1lixk38-0 ffGNdR"><span
-                                        x-text="fsTitle"></span></a></div>
+
+                            <div x-show="character.episode1 && typeof character.episode1 !== 'undefined'"
+                                class="section"><span class="text-gray">First seen in <span
+                                        x-text="character.episode1 ? character.episode1.episode : ''"></span></span>
+                                <a :href="character.episode[0]" rel="noopener noreferrer" target="_blank"
+                                    class="externalLink__ExternalLink-sc-1lixk38-0 ffGNdR"><span
+                                        x-text="character.episode1 ? character.episode1.name : ''"></span>
+                                </a>
+                            </div>
+
                         </div>
 
                     </article>
