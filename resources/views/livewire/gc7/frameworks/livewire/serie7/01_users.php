@@ -15,6 +15,8 @@ new class() extends Component {
 	public $perPage = 5;
 	public $search  = '';
 
+    public $sortDirection = 'ASC';
+
 	public function mount()
 	{
 		$this->name = 'GC7';

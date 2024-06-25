@@ -27,10 +27,20 @@ include_once '01_users.php';
                     <table class="w-full text-sm text-left text-gray-500 rounded">
                         <thead class="text-xs text-gray-400 uppercase">
                             <tr>
+                              
                                 <th class="px-4 py-3">#</th>
-                                <th class="px-4 py-3">Name</th>
+                                
+                                <th class="px-4 py-3">
+                                    <div class="flex items-center">
+                                        <span class="mr-2">Name</span>
+                                        <x-heroicon-s-chevron-up class="w-6 h-6 flex-shrink-0" />
+                                    </div>
+                                </th>
+                                
                                 <th class="px-4 py-3">Email</th>
+                                
                                 <th class="px-4 py-3">Gender</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
