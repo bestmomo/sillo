@@ -10,7 +10,7 @@ include_once '01_users.php';
             <div class="bg-white dark:bg-gray-800 overflow-hidden">
                 <div class="flex items-center justify-between p-4 my-2">
                     <div class="flex w-full justify-between items-center">
-                        <div>Page {{ $currentPage }} / {{ $lastPage }}</div>
+                        <div>Page {{ $paginator['current'] }} / {{ $paginator['last'] }}</div>
                         <div class="relative x-full ml-3">
                             <x-input type="text" class="bg-gray-700 border border-gray-300"
                                 wire:model.live.debounce.300ms="search" placeholder="Search..." required />
@@ -30,10 +30,7 @@ include_once '01_users.php';
                             <tr>
 
                                 <th class="px-4 py-3 cursor-pointer" wire:click="doSort('id')">
-                                    <x-users-list.datatable-item 
-                                    :sortColumn="$sortColumn"
-                                    :sortDirection="$sortDirection"
-                                    columnName="id"/>
+                                    <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="id" />
                                 </th>
 
                                 <th class="px-4 py-3 cursor-pointer" wire:click="doSort('name')">

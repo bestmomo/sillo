@@ -46,9 +46,11 @@ new class() extends Component {
 			->paginate($this->perPage);
 
 		return [
-			'users'       => $paginator,
-			'currentPage' => $paginator->currentPage(),
-			'lastPage' => $paginator->lastPage(),
+			'users'     => $paginator,
+			'paginator' => [
+				'current' => $paginator->currentPage(),
+				'last'    => $paginator->lastPage(),
+			],
 		];
 	}
 };
