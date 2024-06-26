@@ -3,13 +3,14 @@ include_once '01_users.php';
 ?>
 
 <div>
-    <x-header class="mb-0 pt-3" title="Série 7 - Users" shadow separator progress-indicator></x-header>
+    <x-header class="mb-0 pt-3" title="Série 7 - Users" shadow separator progress-indicator>Ici</x-header>
 
     <section class="mt-5">
         <div class="max-auto max-w-screen-xl px-4 lg:px-12">
             <div class="bg-white dark:bg-gray-800 overflow-hidden">
                 <div class="flex items-center justify-between p-4 my-2">
-                    <div class="flex w-full justify-between">
+                    <div class="flex w-full justify-between items-center">
+                        <div>Page {{ $currentPage }} / {{ $lastPage }}</div>
                         <div class="relative x-full ml-3">
                             <x-input type="text" class="bg-gray-700 border border-gray-300"
                                 wire:model.live.debounce.300ms="search" placeholder="Search..." required />

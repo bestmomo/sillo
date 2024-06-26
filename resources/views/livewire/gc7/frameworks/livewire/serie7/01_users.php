@@ -27,9 +27,10 @@ new class() extends Component {
 		$this->sortColumn = $column;
 		if ($this->sortColumn === $column) {
 			$this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
+
 			return;
 		}
-		$this->sortColumn = $column;
+		$this->sortColumn    = $column;
 		$this->sortDirection = 'ASC';
 	}
 
@@ -40,10 +41,14 @@ new class() extends Component {
 
 	public function with(): array
 	{
+		$paginator = User::search($this->search)
+			->orderBy($this->sortColumn, $this->sortDirection)
+			->paginate($this->perPage);
+
 		return [
-			'users' => User::search($this->search)
-				->orderBy($this->sortColumn, $this->sortDirection)
-				->paginate($this->perPage),
+			'users'       => $paginator,
+			'currentPage' => $paginator->currentPage(),
+			'lastPage' => $paginator->lastPage(),
 		];
 	}
 };
