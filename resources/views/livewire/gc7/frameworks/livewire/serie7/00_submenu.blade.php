@@ -20,12 +20,16 @@
         <livewire:gc7.frameworks.livewire.serie7.01_users />
     </div>
     
+    <div x-cloak x-transition.duration.700ms x-show="choice == 'Infinite_Scroll'">
+        <livewire:gc7.frameworks.livewire.serie7.02_infinite-scroll />
+    </div>
+    
     <script>
         // Déclenchement automatique d'un onglet
         window.onload = function() {
             setTimeout(function() {
                 // Choix du bouton cliqué par défaut
-                let btn = 'Users'; 
+                let btn = 'Infinite_Scroll'; 
                 if (!btn) {
                     console.log('Pas de bouton cliqué par défaut')
                 } else {

@@ -13,7 +13,7 @@ class extends Component {
 
 <div>
     @php
-        $btns = ['Users'];
+        $btns = ['Users', 'Infinite_Scroll'];
     @endphp
     {{-- <x-header class="mb-0" title="Série 7" shadow separator progress-indicator></x-header> --}}
 
