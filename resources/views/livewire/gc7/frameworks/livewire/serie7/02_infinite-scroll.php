@@ -12,10 +12,10 @@ new class() extends Component {
 	use WithPagination;
 
 	public $name;
-	public $amount        = 5;
+	public $amount        = 10;
 	public $search        = '';
 	public $sortDirection = 'ASC';
-	public $sortColumn    = 'name';
+	public $sortColumn    = 'id';
 
 	public function mount()
 	{
