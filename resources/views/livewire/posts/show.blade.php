@@ -146,7 +146,9 @@ new class extends Component {
             <img src="{{ asset('storage/photos/' . $post->image) }}" />
         </div>
         <br>
-        {!! $post->body !!}
+        <div class="text-justify">
+            {!! $post->body !!}
+        </div>
     </div>
     <br>
     <hr>
