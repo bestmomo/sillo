@@ -7,9 +7,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\WithPagination;
 
 new class extends Component {
-
     use WithPagination;
- 
+
     // Propriétés de la classe
     public string $slug = ''; // Slug pour identifier une catégorie ou une série
     public string $param = ''; // Paramètre de recherche optionnel
@@ -110,7 +109,9 @@ new class extends Component {
     <!-- Liste des posts -->
     <div class="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3">
         @forelse($posts as $post)
-            <x-card title="{{ $post->title }}">
+            <x-card
+                class="shadow-gray-500 shadow-md hover:shadow-xl hover:shadow-gray-500 transition duration-500 ease-in-out"
+                title="{{ $post->title }}">
                 <div class="text-justify">{!! str($post->excerpt)->words(config('app.excerptSize')) !!}</div>
                 <br>
                 <hr>
@@ -123,36 +124,40 @@ new class extends Component {
                         <img src="{{ asset('storage/photos/' . $post->image) }}" alt="{{ $post->title }}" />
                     </a>
                 </x-slot:figure>
-                <x-slot:actions>
-                <x-popover>
-                    <x-slot:trigger>
-                        <x-button label="{{ $post->category->title }}" link="{{ url('/category/' . $post->category->slug) }}" class="btn-outline btn-sm" />
-                    </x-slot:trigger>
-                    <x-slot:content>
-                        @lang('Show this category')
-                    </x-slot:content>
-                </x-popover>
-                    
+
+                <x-slot:actions class="flex items-center">
+                    <x-popover>
+
+
+                        <x-slot:trigger>
+                            <x-button label="{{ $post->category->title }}"
+                                link="{{ url('/category/' . $post->category->slug) }}" class="btn-outline btn-sm" />
+                        </x-slot:trigger>
+                        <x-slot:content>
+                            @lang('Show this category')
+                        </x-slot:content>
+                    </x-popover>
+
                     @if ($post->serie)
                         <x-popover>
                             <x-slot:trigger>
-                                <x-button label="{{ $post->serie->title }}" link="{{ url('/serie/' . $post->serie->slug) }}"           class="btn-outline btn-sm" />
+                                <x-button label="{{ $post->serie->title }}"
+                                    link="{{ url('/serie/' . $post->serie->slug) }}" class="btn-outline btn-sm" />
                             </x-slot:trigger>
                             <x-slot:content>
                                 @lang('Show this serie')
                             </x-slot:content>
                         </x-popover>
-                        
                     @endif
                     <x-popover>
                         <x-slot:trigger>
-                            <x-button label="{{ __('Read') }}" link="{{ url('/posts/' . $post->slug) }}" class="btn-outline btn-sm" />
+                            <x-button label="{{ __('Read') }}" link="{{ url('/posts/' . $post->slug) }}"
+                                class="btn-outline btn-sm" />
                         </x-slot:trigger>
                         <x-slot:content>
                             @lang('Read this post')
                         </x-slot:content>
                     </x-popover>
-                    
                 </x-slot:actions>
             </x-card>
         @empty
