@@ -33,17 +33,27 @@ new #[Layout('components.layouts.admin')] class extends Component {
 		$this->warning('Comment deleted', __('Good bye!'), position: 'toast-bottom');
 	}
 
-	public function with(): array
-	{
-		return [
-			'pages'          => Page::select('id', 'title', 'slug')->get(),
-			'posts'          => Post::select('id', 'title', 'slug', 'user_id', 'created_at', 'updated_at')->when(Auth::user()->isRedac(), fn (Builder $q) => $q->where('user_id', Auth::id()))->get(),
-			'commentsNumber' => Comment::when(Auth::user()->isRedac(), fn (Builder $q) => $q->whereRelation('post', 'user_id', Auth::id()))->count(),
-			'comments'       => Comment::with('user', 'post:id,title,slug')->when(Auth::user()->isRedac(), fn (Builder $q) => $q->whereRelation('post', 'user_id', Auth::id()))->take(5)->get(),
-			'users'          => User::count(),
-			'contacts'       => Contact::whereHandled(false)->get(),
-		];
-	}
+    public function with(): array
+    {
+        $user = Auth::user();
+        $isRedac = $user->isRedac();
+        $userId = $user->id;
+
+        return [
+            'pages'          => Page::select('id', 'title', 'slug')->get(),
+            'posts'          => Post::select('id', 'title', 'slug', 'user_id', 'created_at', 'updated_at')
+                                    ->when($isRedac, fn (Builder $q) => $q->where('user_id', $userId))
+                                    ->get(),
+            'commentsNumber' => Comment::when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))
+                                       ->count(),
+            'comments'       => Comment::with('user', 'post:id,title,slug')
+                                       ->when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))
+                                       ->take(5)
+                                       ->get(),
+            'users'          => User::count(),
+            'contacts'       => Contact::whereHandled(false)->get(),
+        ];
+    }
 }; ?>
 
 <div>
@@ -55,22 +65,22 @@ new #[Layout('components.layouts.admin')] class extends Component {
 
             <a href="{{ route('posts.index') }}">
                 <x-stat title="{{ __('Posts') }}" description="" value="{{ $posts->count() }}" icon="s-document-text"
-                    class="shadow shadow-gray-500 hover:shadow-md hover:shadow-gray-500 transition duration-500 ease-in-out hover:text-orange-500" />
+                    class="shadow-hover" />
             </a>
 
             @if (Auth::user()->isAdmin())
                 <a href="{{ route('pages.index') }}">
                     <x-stat title="{{ __('Pages') }}" value="{{ $pages->count() }}" icon="s-document"
-                        class="shadow shadow-gray-500 hover:shadow-md hover:shadow-gray-500 transition duration-500 ease-in-out hover:text-orange-500" />
+                        class="shadow-hover" />
                 </a>
                 <a href="{{ route('users.index') }}">
                     <x-stat title="{{ __('Users') }}" value="{{ $users }}" icon="s-user"
-                        class="shadow shadow-gray-500 hover:shadow-md hover:shadow-gray-500 transition duration-500 ease-in-out hover:text-orange-500" />
+                        class="shadow-hover" />
                 </a>
             @endif
             <a href="{{ route('comments.index') }}">
                 <x-stat title="{{ __('Comments') }}" value="{{ $commentsNumber }}" icon="c-chat-bubble-left"
-                    class="shadow shadow-gray-500 hover:shadow-md hover:shadow-gray-500 transition duration-500 ease-in-out hover:text-orange-500" />
+                    class="shadow-hover" />
             </a>
         </x-slot:content>
     </x-collapse>
@@ -142,7 +152,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
                         @lang ('in post:') {{ $comment->post->title }}
                     </x-slot:value>
                     <x-slot:actions>
-                        <x-button icon="c-eye" link="{{ '/admin/comments/' . $comment->id . '/edit' }}"
+                        <x-button icon="c-eye" link="{{ route('comments.edit', $comment->id) }}"
                             tooltip-left="{!! __('Edit or answer') !!}" spinner class="btn-ghost btn-sm" />
                         <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}"
                             tooltip-left="{!! __('Show post') !!}" spinner class="btn-ghost btn-sm" />
