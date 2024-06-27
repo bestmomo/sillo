@@ -1,65 +1,6 @@
 <?php
-
-/**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
- */
-
-use App\Models\User;
-use Livewire\Volt\Component;
-use Livewire\WithPagination;
-
-new class() extends Component {
-	use WithPagination;
-
-	public $name;
-	public $subtitle='Infinite Scroll';
-	public $amount        = 0;
-	public $search        = '';
-	public $sortDirection = 'ASC';
-	public $sortColumn    = 'id';
-
-	public function mount()
-	{
-		$this->name = 'GC7';
-		$this->dispatch('update-subtitle', newSubtitle: $this->subtitle);
-		logger('Dispatching update-subtitle event');
-	}
-
-	public function doSort($column)
-	{
-		$this->sortColumn = $column;
-		if ($this->sortColumn === $column) {
-			$this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
-
-			return;
-		}
-		$this->sortColumn    = $column;
-		$this->sortDirection = 'ASC';
-	}
-
-	public function updatingSearch()
-	{
-		$this->resetPage();
-	}
-
-	public function loadMore()
-	{
-		$this->amount += 10;
-	}
-
-	public function with(): array
-	{
-		$users = User::take($this->amount)
-			->search($this->search)
-			->orderBy($this->sortColumn, $this->sortDirection)
-			->get();
-
-		return [
-			'users' => $users,
-		];
-	}
-};
- ?>
+include_once '04_test.php';
+?>
 
 <div>
     @section('styles')
@@ -89,5 +30,23 @@ new class() extends Component {
     <div class="px-5 mt-[-12px]">
         <div class="py-1 px-3 bg-white dark:bg-gray-800 text-white rounded">
             <p>Test</p>
+            <table>
+                <thead>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                </thead>
+                @forelse ($users as $user)
+                    <tr>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->gender }}</td>
+                    @empty
+                        No users found
+                    </tr>
+                @endforelse
+            </table>
         </div>
     </div>
