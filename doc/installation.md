@@ -185,4 +185,21 @@ git branch -a
 
 Et n'oubliez jamais...:
 
-![Consignes en cas d'incendie](/storage/photos/2024/git_important.jpg "Le Git est Important")
+
+<!-- <p align="center">
+![Consignes en cas d'incendie](../storage/app/public/photos/2024/git_important.jpg "Le Git est Important")
+</p> -->
+
+<p align="center">
+  <img src="../storage/app/public/photos/2024/git_important.jpg" alt="Le Git est Important !">
+</p>
+
+*"Git, le chef-d'œuvre de **Linus Torvalds**, est né après* **Linux** *comme une révélation fulgurante ! Après avoir révolutionné le monde avec son premier-né, le génie de **Torvalds** a frappé à nouveau, créant un outil de gestion de version qui allait transformer à jamais le développement logiciel.* **Git** *n'est pas un simple successeur, c'est l'aboutissement d'une vision audacieuse, forgée dans l'expérience et perfectionnée par la détermination. **Torvalds** a prouvé qu'un esprit brillant peut non seulement innover une fois, mais redéfinir les règles du jeu encore et encore. Avec* **Git**, *il a offert aux développeurs du monde entier un superpouvoir, une machine à voyager dans le temps pour le code, un outil qui libère la créativité et propulse la collaboration vers de nouveaux sommets !"* - **Perplexity** (I.A.) by L.A.C. @ 2024
+
+*"* **Git** *vous permet de gérer votre projet comme si vous pouviez cloner l'univers entier, faire des changements, et ensuite soumettre vos modifications pour examen."* - **Scott Chacon**, l'auteur du livre **"Pro Git"** et l'un des experts les plus reconnus dans le domaine
+
+*"* **Git** *vous donne des super-pouvoirs. La possibilité de travailler sur plusieurs choses en parallèle et de les fusionner plus tard est incroyablement puissante."* - **Junio C.** (Mainteneur principal du projet Git depuis 2005)
+
+*"Le contrôle de version est comme une machine à voyager dans le temps pour votre code. C'est un filet de sécurité pour vos erreurs et une machine à explorer les possibilités."* - **Jeff Atwood**, co-fondateur de **Stack Overflow** et **Discourse**
+
+*"Le meilleur moyen de comprendre* **Git** *est de penser à vos fichiers comme étant dans un flux constant de changements.* **Git** *est un outil pour gérer ce flux."* - **Ryan Tomayko**, ancien ingénieur chez **GitHub**
