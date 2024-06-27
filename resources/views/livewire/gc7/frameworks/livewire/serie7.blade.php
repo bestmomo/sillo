@@ -6,16 +6,15 @@ use Livewire\Volt\Component;
 
 new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Component {
     public $btns = ['Users', 'Infinite_Scroll', 'Offset'];
-    
-    	public $subtitle = '(En chargement...)';
-	protected $listeners = ['update-subtitle' => 'updateSubtitle'];
 
-	public function updateSubtitle($newSubtitle)
-	{
-		$this->subtitle = $newSubtitle;
-		logger('Subtitle updated to: ' . $newSubtitle);
-	}
+    public $subtitle = '(En chargement...)';
+    protected $listeners = ['update-subtitle' => 'updateSubtitle'];
 
+    public function updateSubtitle($newSubtitle)
+    {
+        $this->subtitle = $newSubtitle;
+        logger('Subtitle updated to: ' . $newSubtitle);
+    }
 }; ?>
 <div x-data="{ choice: 'menuLivewire' }" class="w-full">
 
@@ -42,26 +41,31 @@ new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Co
     @endsection
 
     @php
-        $uuu =  $subtitle ;
+        $uuu = $subtitle;
     @endphp
 
-    <x-header class="p-3 pb-0" title="Série 7 {{ $uuu }}" shadow separator progress-indicator />
+    <x-header class="p-4 pb-0 mb-[-12px]" title="Série 7 {{ $uuu }}" shadow separator progress-indicator />
 
     {{-- Subtitle: {{ $subtitle }} --}}
 
-    <nav class='w-full flex flex-wrap justify-evenly py-3'>
+    <nav class='w-full flex flex-wrap justify-evenly mb-3'>
         <button @click="choice = 'menuLivewire'" class="btn-menu" :class="{ 'active': choice === 'menuLivewire' }">SubMenu
             Livewire</button>
         <button @click="choice = 'menuAlpineJs'" class="btn-menu" :class="{ 'active': choice === 'menuAlpineJs' }">SubMenu
             AlpineJS</button>
     </nav>
-    <hr class="mb-3">
+    <hr class="mb-2">
     <div x-show="choice=='menuLivewire'" x-cloak x-transition.duration.300ms>
-        <livewire:gc7.frameworks.livewire.serie7.00_submenu_livewire :btns=$btns />
+        <livewire:gc7.frameworks.livewire.serie7.00_L_submenu_livewire :btns=$btns />
     </div>
     <div x-show="choice=='menuAlpineJs'" x-cloak x-transition.duration.300ms>
-        <livewire:gc7.frameworks.livewire.serie7.00_submenu_alpine :btns=$btns />
-    </div>
-</div>
+        <livewire:gc7.frameworks.livewire.serie7.00_A_submenu_alpine :btns=$btns />
 
-{{-- <livewire:gc7.frameworks.livewire.serie7.00_submenu /> --}}
+    </div>
+
+    <script>
+        let btnToClick = 'Infinite_Scroll';
+    </script>
+    @include('livewire.gc7.frameworks.livewire.serie7.00_click')
+
+</div>

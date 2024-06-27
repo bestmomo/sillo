@@ -1,14 +1,37 @@
 <?php
-// Sub MENU Livewire
-include_once '00_submenu.php';
-?>
+
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ */
+
+use Livewire\Volt\Component;
+
+new class extends Component {
+	
+	public $btns = [
+		'Users',
+		'Infinite_Scroll',
+		'Offset',
+	];
+	public $choice;
+
+	public function setChoice($btn)
+	{
+		$this->choice = $btn;
+	}
+
+	public function getComponentName($choice): string
+	{
+		return strtolower($this->choice);
+	}
+
+}; ?>
 
 <div x-data="{ choice: @entangle('choice') }">
     {{-- <x-header class="mb-0 pt-3" title="Série 7 - Btns" shadow separator progress-indicator /> --}}
 
     <div class="mb-3">
-        <h2 class="text-center text-2xl mb-3 font-bold">Sub MENU Livewire</h2>
-
+        <h2 class="text-center text-2xl mb-3 font-bold">Sub MENU AlpineJS</h2>
         <div class='flex justify-between'>
             @foreach ($btns as $btn)
                 {{-- <span x-text="choice"></span> --}}
@@ -30,9 +53,14 @@ include_once '00_submenu.php';
 
     <hr class="mt-20">
 
-    @livewire('gc7.frameworks.livewire.serie7.01_users')
+    {{-- <livewire:gc7.frameworks.livewire.serie7.00_click/> --}}
     
-    {{-- <livewire:gc7.frameworks.livewire.serie7.01_users :subtitle="$subtitle" /> --}}
+    {{--
+    --}}
+    
+    
+    {{-- @livewire('gc7.frameworks.livewire.serie7.01_users') --}}
+    
 
     <!-- Display the active component -->
     {{-- @foreach ($this->getComponents() as $component)
@@ -43,25 +71,4 @@ include_once '00_submenu.php';
         @endif
     @endforeach --}}
 
-    <script>
-        // Déclenchement automatique d'un onglet
-        window.onload = function() {
-            setTimeout(function() {
-                // Choix du bouton cliqué par défaut
-                let btn = 'Offset';
-                if (!btn) {
-                    console.log('Pas de bouton cliqué par défaut')
-                } else {
-
-                    console.log('Je clique sur ' + btn);
-                    const btnTabs = document.querySelector('button[id=' + btn + ']');
-                    if (btnTabs) {
-                        btnTabs.click();
-                    } else {
-                        console.log("Le bouton '" + btn + "' n'a pas été trouvé.");
-                    }
-                }
-            }, 7); // Attend .007 seconde avant d'exécuter le script
-        };
-    </script>
 </div>
