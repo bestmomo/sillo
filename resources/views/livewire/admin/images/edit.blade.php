@@ -159,7 +159,7 @@ class extends Component {
         $this->imagePath = Storage::path($image);
         $this->fileName = basename($this->imagePath);
         $this->image = Storage::url('public/temp/' . $this->fileName);
-        $this->displayImage = $this->image;
+        $this->displayImage = Storage::url($image);
         $this->refreshImageUrl();
     }
 
