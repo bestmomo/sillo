@@ -22,50 +22,19 @@ include_once '00_L_submenu.php';
         <x-header class="mb-0 px-4" shadow separator progress-indicator />
     </div>
 
-    <div class='flex flex-wrap justify-between gap-1 mt-[-20px] pt-0 sm:px-5'>
+    @php
+        $component = $this->getComponentName($choice);
+    @endphp
+    <div class='flex flex-wrap justify-between gap-1 mt-[-22px] pt-0 sm:px-5'>
         <div class="flex-1 text-center min-w-[20%]"><small>CHOICE PHP</small>: {{ $choice }}</div>
         <div class="flex-shrink-0 text-center"> - </div>
         <div class="flex-1 text-center min-w-[20%]"><small>CHOICE JS</small>: <span x-text="choice"></span></div>
         <div class="flex-shrink-0 text-center"> → </div>
-        <div class="flex-1 text-center min-w-[20%]"><small>COMPONENT PHP</small>: {{ $choice }}</div>
+        <div class="flex-1 text-center min-w-[20%]"><small>COMPONENT PHP</small>: {{ $component }}</div>
     </div>
 
+    @if ($component)
+        @livewire('gc7.frameworks.livewire.serie7.' . $component, key($component))
+    @endif
 
-
-    @livewire('gc7.frameworks.livewire.serie7.01_users')
-
-    {{-- <livewire:gc7.frameworks.livewire.serie7.01_users :subtitle="$subtitle" /> --}}
-
-    <!-- Display the active component -->
-    {{-- @foreach ($this->getComponents() as $component)
-        @ if ($activeComponent === $component['name'])
-            <div>
-                <livewire:gc7.frameworks.livewire.serie7.' . strtolower($component['name']) />
-            </div>
-        @endif
-    @endforeach --}}
-
-    <script>
-        // Déclenchement automatique d'un onglet
-        // window.onload = function() {
-        //     setTimeout(function() {
-
-        //         // Choix du bouton cliqué par défaut
-        //         let btn = 'Users';
-        //         if (!btn) {
-        //             console.log('Pas de bouton cliqué par défaut')
-        //         } else {
-
-        //             console.log('Joe clique sur ' + btn);
-        //             const btnTabs = document.querySelector('button[id=' + btn + ']');
-        //             if (btnTabs) {
-        //                 btnTabs.click();
-        //             } else {
-        //                 console.log("Le bouton '" + btn + "' n'a pas été trouvé.");
-        //             }
-        //         }
-
-        //     }, 7); // Attend .007 seconde avant d'exécuter le script
-        // };
-    </script>
 </div>

@@ -9,7 +9,7 @@ new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Co
 
     public $subtitle = 'Chargement...';
     protected $listeners = ['update-subtitle' => 'updateSubtitle'];
-
+    
     public function updateSubtitle($newSubtitle)
     {
         $this->subtitle = $newSubtitle;
