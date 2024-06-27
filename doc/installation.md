@@ -185,11 +185,6 @@ git branch -a
 
 Et n'oubliez jamais...:
 
-
-<!-- <p align="center">
-![Consignes en cas d'incendie](../storage/app/public/photos/2024/git_important.jpg "Le Git est Important")
-</p> -->
-
 <p align="center">
   <img src="../storage/app/public/photos/2024/git_important.jpg" alt="Le Git est Important !">
 </p>
