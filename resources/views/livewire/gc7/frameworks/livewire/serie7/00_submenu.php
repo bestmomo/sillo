@@ -13,15 +13,8 @@ new class() extends Component {
 		'Offset',
 	];
 	public $choice;
-	public $subtitle = 'aaa';
 
-	protected $listeners = ['update-subtitle' => 'updateSubtitle'];
-	
-	    public function updateSubtitle($newSubtitle)
-    {
-        $this->subtitle = $newSubtitle;
-    }
-		
+
 	public function setChoice($btn)
 	{
 		$this->choice = $btn;

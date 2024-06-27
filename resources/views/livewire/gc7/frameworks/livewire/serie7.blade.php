@@ -6,6 +6,15 @@ use Livewire\Volt\Component;
 
 new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Component {
     public $btns = ['Users', 'Infinite_Scroll', 'Offset'];
+    
+    	public $subtitle = '(En chargement...)';
+	protected $listeners = ['update-subtitle' => 'updateSubtitle'];
+
+	public function updateSubtitle($newSubtitle)
+	{
+		$this->subtitle = $newSubtitle;
+		logger('Subtitle updated to: ' . $newSubtitle);
+	}
 
 }; ?>
 <div x-data="{ choice: 'menuLivewire' }" class="w-full">
@@ -33,7 +42,7 @@ new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Co
     @endsection
 
     @php
-        $uuu = 777;
+        $uuu =  $subtitle ;
     @endphp
 
     <x-header class="p-3 pb-0" title="Série 7 {{ $uuu }}" shadow separator progress-indicator />

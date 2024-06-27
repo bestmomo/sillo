@@ -13,7 +13,7 @@ new // #[Title('Serie7')]
 class() extends Component {
 	use WithPagination;
 
-	public $subtitle = 'oki';
+	public $subtitle = ' - Users';
 	public $name;
 	public $perPage       = 5;
 	public $search        = '';
@@ -24,9 +24,8 @@ class() extends Component {
 	{
 		$this->name = 'GC7';
 
-		// $this->subtitle = 'OKIIIIIIIIIIII';
-
-		$this->dispatch('update-subtitle', newSubtitle: 'OKIIIIIIIIIIII');
+		$this->dispatch('update-subtitle', newSubtitle: $this->subtitle);
+		logger('Dispatching update-subtitle event');
 	}
 
 	public function doSort($column)

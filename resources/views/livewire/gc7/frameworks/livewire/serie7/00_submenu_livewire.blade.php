@@ -9,8 +9,6 @@ include_once '00_submenu.php';
     <div class="mb-3">
         <h2 class="text-center text-2xl mb-3 font-bold">Sub MENU Livewire</h2>
 
-
-
         <div class='flex justify-between'>
             @foreach ($btns as $btn)
                 {{-- <span x-text="choice"></span> --}}
@@ -30,9 +28,8 @@ include_once '00_submenu.php';
         <span>CHOICE JS: <span x-text="choice"></span></span>
     </div>
 
-    <hr class="mt-20">ooo
+    <hr class="mt-20">
 
-    <p>Sub: {{ $subtitle }} - ok</p>
     @livewire('gc7.frameworks.livewire.serie7.01_users')
     
     {{-- <livewire:gc7.frameworks.livewire.serie7.01_users :subtitle="$subtitle" /> --}}

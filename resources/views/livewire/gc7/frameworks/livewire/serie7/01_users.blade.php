@@ -6,7 +6,8 @@ include_once '01_users.php';
 
 
 
-    <x-header class="mb-0 pt-3" title="Série 7 - Users" shadow separator progress-indicator />
+    {{-- <x-header class="mb-0 pt-3" title="Série 7 - Users" shadow separator progress-indicator /> --}}
+    <x-header class="mb-0 pt-3" shadow separator progress-indicator />
 
     <section class="mt-5">
         <div class="max-auto max-w-screen-xl px-4 lg:px-12">
