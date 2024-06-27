@@ -8,9 +8,12 @@ use App\Models\User;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new class() extends Component {
+new // #[Title('Serie7')]
+// #[Layout('components.layouts.gc7.main')]
+class() extends Component {
 	use WithPagination;
 
+	public $subtitle = 'oki';
 	public $name;
 	public $perPage       = 5;
 	public $search        = '';
@@ -20,6 +23,10 @@ new class() extends Component {
 	public function mount()
 	{
 		$this->name = 'GC7';
+
+		// $this->subtitle = 'OKIIIIIIIIIIII';
+
+		$this->dispatch('update-subtitle', newSubtitle: 'OKIIIIIIIIIIII');
 	}
 
 	public function doSort($column)

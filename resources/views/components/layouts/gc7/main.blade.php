@@ -9,7 +9,7 @@
     <title>{{ isset($title) ? $title . ' | GC7' : config('app.name') }}</title>
 
     @vite(['resources/css/app.css', 'resources/css/style_gc7.css', 'resources/js/app.js'])
-    
+
     @yield('styles')
 </head>
 
@@ -35,9 +35,9 @@
 
     {{--  TOAST area --}}
     <x-toast />
-    
+
     @yield('scripts')
-    
+
 </body>
 
 </html>

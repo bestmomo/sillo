@@ -12,7 +12,7 @@ new class() extends Component {
 	use WithPagination;
 
 	public $name;
-	public $amount        = 10;
+	public $amount        = 0;
 	public $search        = '';
 	public $sortDirection = 'ASC';
 	public $sortColumn    = 'id';
@@ -41,7 +41,7 @@ new class() extends Component {
 
 	public function loadMore()
 	{
-		$this->amount += 10;
+		$this->amount += 100;
 	}
 
 	public function with(): array

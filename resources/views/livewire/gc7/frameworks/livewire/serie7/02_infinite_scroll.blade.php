@@ -3,7 +3,7 @@ include_once '02_infinite-scroll.php';
 ?>
 
 <div>
-    <x-header class="mb-0 pt-3" title="Série 7 - Users" shadow separator progress-indicator>Ici</x-header>
+    <x-header class="mb-0 pt-3" title="Série 7 - Infinite Scroll" shadow separator progress-indicator />
 
     <section class="mt-5">
         <div class="max-auto max-w-screen-xl px-4 lg:px-12">
