@@ -42,7 +42,7 @@ class extends Component {
     public int $green = 0;
     public int $blue = 0;
     public int $blur = 0;
-    public int $sharpen = 0;  
+    public int $sharpen = 0;
 
     // Méthode de montage du composant
     public function mount($year, $month, $id): void
@@ -51,15 +51,15 @@ class extends Component {
         $this->month = $month;
         $this->id = $id;
         $this->getImage($year, $month, $id);
-        $this->usage = $this->findUsage();
+        $this->usage = $this->findUsage();       
+        $this->saveImageToTemp(false); 
         $this->getImageInfos();
-        $this->saveImageToTemp(false);
     }
 
     public function saveImageToTemp($viewToast): void
     {
         $tempDir = Storage::path('public/temp');
-        $tempPath = $tempDir . '/' . $this->fileName;
+        $this->tempPath = $tempDir . '/' . $this->fileName;
 
         // Vérification que le répertoire temporaire existe, sinon on le crée
         if (!File::exists($tempDir)) {
@@ -68,32 +68,31 @@ class extends Component {
 
         // Copier l'image dans le répertoire temporaire
         if (File::exists($this->imagePath)) {
-            File::copy($this->imagePath, $tempPath);
-        } 
-        
-        if($viewToast) $this->success(__('Changes validated'));
+            File::copy($this->imagePath, $this->tempPath);
+        }
+
+        if ($viewToast) $this->success(__('Changes validated'));
+        $this->image = Storage::url('public/temp/' . $this->fileName);
     }
 
     public function restoreImage($cancel): void
     {
-        $tempPath = Storage::path('public/temp/' . $this->fileName);
-
-        if (File::exists($tempPath)) {
-            File::copy($tempPath, $this->imagePath);
+        if (File::exists($this->imagePath)) {
+            File::copy($this->imagePath, $this->tempPath);
             $this->refreshImageUrl();
         }
 
-        if($cancel) $this->exit();
+        if ($cancel) $this->exit();
     }
 
     public function updated($property, $value)
-    {                
+    {
         $manager = new ImageManager(new Driver());
-        $image = $manager->read($this->imagePath);
+        $image = $manager->read($this->tempPath);
 
         switch ($property) {
             case 'imageScale':
-                if($value == '1') return;
+                if ($value == '1') return;
                 $image->scale(height: $this->height * $value);
                 $image->save();
                 $this->width = $image->width();
@@ -108,7 +107,7 @@ class extends Component {
             case 'contrast':
                 $image->contrast($value);
                 $image->save();
-                $this->contrast = 0;                                
+                $this->contrast = 0;
                 break;
             case 'gamma':
                 $image->gamma($value / 10.0);
@@ -147,7 +146,7 @@ class extends Component {
     private function getImageInfos(): void
     {
         $manager = new ImageManager(new Driver());
-        $image = $manager->read($this->imagePath);
+        $image = $manager->read($this->tempPath);
         $this->width = $image->width();
         $this->height = $image->height();
     }
@@ -159,7 +158,7 @@ class extends Component {
         $image = $allFiles[$id];
         $this->imagePath = Storage::path($image);
         $this->fileName = basename($this->imagePath);
-        $this->image = Storage::url($image);
+        $this->image = Storage::url('public/temp/' . $this->fileName);
         $this->displayImage = $this->image;
         $this->refreshImageUrl();
     }
@@ -199,21 +198,38 @@ class extends Component {
 
     private function refreshImageUrl(): void
     {
-        $this->image = $this->image . '?' . now()->timestamp;
+        $this->image = Storage::url('public/temp/' . $this->fileName) . '?' . now()->timestamp;
+    }
+
+    public function keepVersion(): void
+    {
+        if (File::exists($this->tempPath)) {
+            File::copy($this->tempPath, $this->imagePath);
+        }
+
+        $this->exit();
     }
 
     public function exit(): void
     {
-        $tempPath = Storage::path('public/temp/' . $this->fileName);
-
-        if (File::exists($tempPath)) {
-            File::delete($tempPath);
+        if (File::exists($this->tempPath)) {
+            File::delete($this->tempPath);
         }
 
         redirect()->route('images.index');
     }
 
-}; ?>
+    public function applyChanges(): void
+    {
+        if (File::exists($this->tempPath)) {
+            File::copy($this->tempPath, $this->imagePath);
+        }
+        
+        $this->success(__('Image changes applied successfully'));
+    }
+
+};
+?>
 
 <div class="flex flex-col lg:flex-row h-full">
 
@@ -345,8 +361,8 @@ class extends Component {
             </x-collapse>
         </x-accordion>
         <x-button wire:click="restoreImage(false)" class="btn-sm mt-4">@lang('Restore image to its original state')</x-button><br>
-        <x-button wire:click="saveImageToTemp(true)" class="btn-sm mt-2">@lang('Valid changes')</x-button><br>
-        <x-button wire:click="exit" class="btn-sm mt-2">@lang('Finish and keep this version')</x-button><br>
+        <x-button wire:click="applyChanges" class="btn-sm mt-2">@lang('Valid changes')</x-button><br>
+        <x-button wire:click="keepVersion" class="btn-sm mt-2">@lang('Finish and keep this version')</x-button><br>
         <x-button wire:click="restoreImage(true)" class="btn-sm mt-2">@lang('Finish and discard this version')</x-button>
     </div>
 
