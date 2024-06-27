@@ -12,6 +12,7 @@ new class() extends Component {
 	use WithPagination;
 
 	public $name;
+	public $subtitle='Infinite Scroll';
 	public $amount        = 0;
 	public $search        = '';
 	public $sortDirection = 'ASC';
@@ -20,6 +21,8 @@ new class() extends Component {
 	public function mount()
 	{
 		$this->name = 'GC7';
+		$this->dispatch('update-subtitle', newSubtitle: $this->subtitle);
+		logger('Dispatching update-subtitle event');
 	}
 
 	public function doSort($column)
@@ -41,7 +44,7 @@ new class() extends Component {
 
 	public function loadMore()
 	{
-		$this->amount += 100;
+		$this->amount += 10;
 	}
 
 	public function with(): array

@@ -9,7 +9,7 @@ new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Co
 
     public $subtitle = 'Chargement...';
     protected $listeners = ['update-subtitle' => 'updateSubtitle'];
-    
+
     public function updateSubtitle($newSubtitle)
     {
         $this->subtitle = $newSubtitle;
@@ -56,11 +56,10 @@ new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Co
     </div>
     <div x-show="choice=='menuAlpineJs'" x-cloak x-transition.duration.300ms>
         <livewire:gc7.frameworks.livewire.serie7.00_A_submenu_alpine :btns=$btns />
-
     </div>
 
     <script>
-        let btnToClick = 'Infinite_Scroll';
+        let btnToClick = 'Offset';
     </script>
     @include('livewire.gc7.frameworks.livewire.serie7.00_click')
 
