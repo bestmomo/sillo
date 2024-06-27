@@ -13,7 +13,7 @@ new // #[Title('Serie7')]
 class() extends Component {
 	use WithPagination;
 
-	public $subtitle = ' - Users';
+	public $subtitle = 'Users';
 	public $name;
 	public $perPage       = 5;
 	public $search        = '';

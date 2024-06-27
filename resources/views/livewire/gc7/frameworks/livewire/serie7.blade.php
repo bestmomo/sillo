@@ -7,7 +7,7 @@ use Livewire\Volt\Component;
 new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Component {
     public $btns = ['Users', 'Infinite_Scroll', 'Offset'];
 
-    public $subtitle = '(En chargement...)';
+    public $subtitle = 'Chargement...';
     protected $listeners = ['update-subtitle' => 'updateSubtitle'];
 
     public function updateSubtitle($newSubtitle)
@@ -40,11 +40,7 @@ new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Co
         </style>
     @endsection
 
-    @php
-        $uuu = $subtitle;
-    @endphp
-
-    <x-header class="p-4 pb-0 mb-[-12px]" title="Série 7 {{ $uuu }}" shadow separator progress-indicator />
+    <x-header class="p-4 pb-0 mb-[-12px]" title="Série 7  - {{ $subtitle }}" shadow separator progress-indicator />
 
     {{-- Subtitle: {{ $subtitle }} --}}
 
