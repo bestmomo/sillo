@@ -57,6 +57,10 @@
 
 2) [Volt Doc laravel](https://livewire.laravel.com/docs/volt)
 
+### Autres
+
+1. [17 méthodes pour optimiser les performances de Laravel](https://kinsta.com/fr/blog/methodes-optimisation-performances-laravel) - Article
+
 ---
 
 ## Built
