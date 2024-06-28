@@ -7,7 +7,7 @@ include_once '02_infinite-scroll.php';
     <x-header class="mb-0 mt-[-12px]" shadow separator progress-indicator />
 
     <section class="mt-5">
-        <div class="max-auto max-w-screen-xl px-4 lg:px-12">
+        <div class="max-auto max-w-screen-3xl px-4 lg:px-12">
             <div class="bg-white dark:bg-gray-800 overflow-hidden">
                 <div class="flex items-center justify-between p-4 my-2">
                     <div class="flex w-full justify-between items-center">

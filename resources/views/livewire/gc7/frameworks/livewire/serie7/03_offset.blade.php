@@ -15,7 +15,7 @@ new class extends Component {
     public $subtitle = 'Offset';
 
     public $offset = 0;
-    public $limit = 10;
+    public $limit = 15;
     public $users;
     public $loadMore;
 
@@ -69,93 +69,108 @@ new class extends Component {
 
 <div>
 
-    @php
-        $users = $this->users;
-    @endphp
     {{-- <x-header class="mb-0 pt-3" title="Série 7 - Infinite Scroll" shadow separator progress-indicator /> --}}
-    <x-header class="mb-0 mt-[-12px]" shadow separator progress-indicator />
+    {{-- <x-header class="m-0 p-0" shadow separator progress-indicator /> --}}
 
-    <section class="mt-5">
-        <div class="max-auto max-w-screen-xl px-4 lg:px-12">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden">
-                <div class="flex items-center justify-between p-4 my-2">
-                    <div class="flex w-full justify-between items-center">
-                        <div class="relative x-full ml-3">
-                            <x-input type="text" class="bg-gray-700 border border-gray-300"
-                                wire:model.live.debounce.300ms="search" placeholder="Search..." required />
-                        </div>
-                        <p class="flex items-center justify-end mr-5 italic">
-                            <span>Owner:</span>
-                            <x-heroicon-s-heart class="h-6 w-6 text-red-600 mx-2" />
-                            <span>{{ $name }}</span>
-                        </p>
+    {{-- <section class="mt-5"> --}}
+    @if ($offset == 0)
+        <section class="mt-3">
+            <div class="max-auto max-w-screen-3xl px-4 lg:px-12 mx-auto">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden">
+                    <div class="flex items">
+                        <div class="max-auto w-full px-4 lg:px-12">
+                            <div class="bg-white dark:bg-gray-800 overflow-hidden">
+                                <div class="flex items-center justify-between my-4">
+                                    <div class="flex w-5/6 justify-between items-center">
+                                        <div class="relative x-full">
+                                            <x-input type="text" class="bg-gray-700 border border-gray-300"
+                                                wire:model.live.debounce.300ms="search" placeholder="Search..."
+                                                required />
+                                        </div>
+                                        <div class="flex items-center justify-end">
+                                            <span class="italic">Owner:</span>
+                                            <x-heroicon-s-heart class="h-6 w-6 text-red-600 mx-2" />
+                                            <span>{{ $name }}</span>
+                                        </div>
 
-                    </div>
-                </div>
+                                    </div>
+                                </div>
+    @endif
+    @if ($loadMore)
+        <div class="overflow-x-auto rounded">
+            <table class="w-full text-sm text-left text-gray-500">
+                @if ($offset % 50 == 0)
+                    <thead class="text-xs text-gray-400 uppercase">
+                        <tr>
 
-                @if ($loadMore)
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left text-gray-500 rounded">
-                            @if ($offset % 50 == 0)
-                                <thead class="text-xs text-gray-400 uppercase">
-                                    <tr>
+                            <th class="w-1/12 py-3 cursor-pointer pl-[50px] sm:px-0" wire:click="doSort('id')">
+                                <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="id"
+                                    scope="col" />
+                            </th>
 
-                                        <th class="px-4 py-3 cursor-pointer" wire:click="doSort('id')">
-                                            <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection"
-                                                columnName="id" scope="col" />
-                                        </th>
+                            <th class="w-4/12 px-2 py-3 cursor-pointer" wire:click="doSort('name')">
+                                <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="name"
+                                    scope="col" />
+                            </th>
 
-                                        <th class="px-4 py-3 cursor-pointer" wire:click="doSort('name')">
-                                            <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection"
-                                                columnName="name" scope="col" />
-                                        </th>
+                            <th class="w-5/12 px-2 py-3 cursor-pointer" wire:click="doSort('email')">
+                                <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="email"
+                                    scope="col" />
+                            </th>
 
-                                        <th class="px-4 py-3 cursor-pointer" wire:click="doSort('email')">
-                                            <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection"
-                                                columnName="email" scope="col" />
-                                        </th>
+                            <th class="w-2/12 px-2 py-3 cursor-pointer" wire:click="doSort('gender')">
+                                <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="gender"
+                                    scope="col" />
+                            </th>
 
-                                        <th class="px-4 py-3 cursor-pointer" wire:click="doSort('gender')">
-                                            <x-users-list.datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection"
-                                                columnName="gender" scope="col" />
-                                        </th>
-
-                                    </tr>
-                                </thead>
-                            @endif
-                            <tbody>
-                                @forelse ($users as $user)
-                                    <tr class="border-b dark:border-gray-700">
-                                        <td class="px-4 py-3">{{ $user->id }}</td>
-                                        <td class="px-4 py-3">
-                                            {{ $user->name }}
-                                            {{ $user->firstname }}
-                                        </td>
-                                        <td class="px-4 py-3">{{ $user->email }}</td>
-                                        <td class="px-4 py-3">{{ $user->gender }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td class="px-4 py-3" colspan="4">No users found</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-
-                    @livewire('gc7.frameworks.livewire.serie7.03_offset', ['loadMore' => false, 'offset' => $offset + $limit], key($offset))
-                @else
-                    <button wire:click="$set('loadMore', true)" class="btn btn-primary">LoadMore</button>
+                        </tr>
+                    </thead>
                 @endif
+                <tbody>
+                    @forelse ($users as $user)
+                        <tr class="border-b dark:border-gray-700">
 
-            </div>
+                            <td class="w-1/12 px-2 py-2 text-right lg:pr-[50px] sm:pr-5">{{ $user->id }}</td>
 
-            <x-header class="mt-0" separator progress-indicator></x-header>
+                            <td class="w-4/12 px-2 py-2 whitespace-nowrap overflow-hidden text-ellipsis">
+                                <div class="w-1/4 flex items-center space-x-1">
+                                    <span class="font-medium">{{ $user->name }}</span>
+                                    <span>{{ $user->firstname }}</span>
+                                </div>
+                            </td>
 
-            {{-- <div x-intersect="$wire.loadMore()" class="border-4 h-60">
-                Load more by scrolling
-            </div> --}}
-            {{-- <div x-intersect="$wire.loadMore()" class="h-60"></div> --}}
+                            <td class="w-5/12 px-2 py-2">{{ $user->email }}</td>
+
+                            <td class="w-2/12 px-2 py-2">{{ $user->gender }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td class="px-4 py-3" colspan="4">No users found</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
-    </section>
+
+        @livewire('gc7.frameworks.livewire.serie7.03_offset', ['loadMore' => false, 'offset' => $offset + $limit], key($offset))
+    @else
+        <div class="flex gap-3 mt-3">
+            <button wire:click="$set('loadMore', true)" class="btn btn-primary mt-0 mb-5 p-0 text-xs w-1/6">Load
+                more</button>
+            <div class="w-full">
+                <x-header class="!m-0 !p-0" id="myHeader" separator progress-indicator></x-header>
+            </div>
+        </div>
+    @endif
+    @if ($offset == 0)
+</div>
+
+
+{{-- <div x-intersect="$wire.loadMore()" class="border-4 h-60">
+    Load more by scrolling
+</div> --}}
+{{-- <div x-intersect="$wire.loadMore()" class="h-60"></div> --}}
+</div>
+</section>
+@endif
 </div>
