@@ -35,6 +35,6 @@ mount(function () {
             $wire.dispatch('update-subtitle', {
                 newSubtitle: 'Api Component'
             });
-        }, 15000);
+        }, 7000);
     </script>
 @endscript

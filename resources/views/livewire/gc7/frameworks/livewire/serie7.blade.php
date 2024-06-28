@@ -59,7 +59,8 @@ new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Co
     </div>
 
     <script>
-        let btnToClick = 'Api';
+        let btnToClick = 'Api'; // Nom component en majuscule
+        console.log('Je cliquerai sur le bouton ' + btnToClick);
     </script>
     @include('livewire.gc7.frameworks.livewire.serie7.00_click')
 
