@@ -181,7 +181,7 @@ git switch -c ma_nouvelle_branche
 ```
 git branch -a
 ```
-*(À noter qu'il existe de nombreux système de visualisation graphique des braches... Par exemple, pour les utilsateur de VSC (* **Visual Studio Code** *), une extension, GG (* **GitGraph** *) en est un excellent - Vous pouvez y faire toutes les opérations courantes sans utiliser de console !!!)*
+*(À noter qu'il existe de nombreux système de visualisation graphique des branches... Par exemple, pour les utilsateur de VSC (* **Visual Studio Code** *), une extension, GG (* **GitGraph** *) en est un excellent - Vous pouvez y faire toutes les opérations courantes sans utiliser de console !!!)*
 
 Et n'oubliez jamais...:
 
