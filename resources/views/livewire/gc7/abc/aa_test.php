@@ -12,7 +12,7 @@ new
 #[Title('Test')]
 #[Layout('components.layouts.gc7.main')]
 class() extends Component {
-	public function mount($loadMore = true, $offset = 0)
+	public function mount()
 	{
 		//
 	}
