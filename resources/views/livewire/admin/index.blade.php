@@ -63,22 +63,22 @@ new #[Layout('components.layouts.admin')] class extends Component {
         </x-slot:heading>
         <x-slot:content class="flex gap-4">
 
-            <a href="{{ route('posts.index') }}">
+            <a href="{{ route('posts.index') }}" class="flex-grow">
                 <x-stat title="{{ __('Posts') }}" description="" value="{{ $posts->count() }}" icon="s-document-text"
                     class="shadow-hover" />
             </a>
 
             @if (Auth::user()->isAdmin())
-                <a href="{{ route('pages.index') }}">
+                <a href="{{ route('pages.index') }}" class="flex-grow">
                     <x-stat title="{{ __('Pages') }}" value="{{ $pages->count() }}" icon="s-document"
                         class="shadow-hover" />
                 </a>
-                <a href="{{ route('users.index') }}">
+                <a href="{{ route('users.index') }}" class="flex-grow">
                     <x-stat title="{{ __('Users') }}" value="{{ $users }}" icon="s-user"
                         class="shadow-hover" />
                 </a>
             @endif
-            <a href="{{ route('comments.index') }}">
+            <a href="{{ route('comments.index') }}" class="flex-grow">
                 <x-stat title="{{ __('Comments') }}" value="{{ $commentsNumber }}" icon="c-chat-bubble-left"
                     class="shadow-hover" />
             </a>
