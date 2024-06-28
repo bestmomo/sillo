@@ -30,8 +30,10 @@
 //2do doc AlpineJS
 
 1) [Serie](https://www.youtube.com/watch?v=9RMJojxoJYc&list=PLKbhw6n2iYKhVSp9wAOPFcdD6EDlfDxQt&ab_channel=projectworld) - 9 épisodes 2024
+   
+2) [Chat between 2 uses](https://www.youtube.com/watch?v=huLSxcxFRl4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&index=9) - 31' 2024
 
-2) [Doc AlpineJS](https://alpinejs.dev/start-here)
+3) [Doc AlpineJS](https://alpinejs.dev/start-here)
 
 ### Livewire
 
@@ -40,12 +42,12 @@
 
 1) [Découverte Livewire](https://www.youtube.com/watch?v=zPNdejemUtg) - 52' GA FR
 
-2) https://livewire.laravel.com/screencast/getting_started/installation - Série free: 11 épisodes (Fait 7)
+2) [Série free](https://livewire.laravel.com/screencast/getting_started/installation) -  11 épisodes (Fait 7)
 
 3) [Super serie](https://www.youtube.com/watch?v=dz6_RFrJQlo&list=PLqDySLfPKRn71KGwiS3JGf9aAseh6Gghz) - Série - 64 épisodes 2024
-4) https://github.com/livewire/awesome-tall-stack?tab=readme-ov-file A kit of resources, and tuto too
+4) [A kit of resources, and tuto too](https://github.com/livewire/awesome-tall-stack?tab=readme-ov-file) A kit of resources, and tuto too - GH 2022
    
-5) [Laravel Livewire v3 Full Tutorial 2024](https://www.youtube.com/watch?v=2tOgn2HydKE) 4H 20' - 2024
+5) [Laravel Livewire v3 Full Tutorial 2024](https://www.youtube.com/watch?v=2tOgn2HydKE) 4H20' - 2024
 
 6) [Livewire Doc laravel](https://livewire.laravel.com/docs/)
 
