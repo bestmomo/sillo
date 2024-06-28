@@ -6,6 +6,7 @@ use Livewire\Volt\Component;
 
 new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Component {
     public $btns = ['Users', 'Infinite_Scroll', 'Offset', 'Api', 'Test'];
+    public $btnToClick = 'Users'; // btn de la liste ci-dessus à cliquer
 
     public $subtitle = 'Chargement...';
     protected $listeners = ['update-subtitle' => 'updateSubtitle'];
@@ -59,7 +60,7 @@ new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Co
     </div>
 
     <script>
-        let btnToClick = 'Api'; // Nom component en majuscule
+        let btnToClick = @js($btnToClick);
         console.log('Je cliquerai sur le bouton ' + btnToClick);
     </script>
     @include('livewire.gc7.frameworks.livewire.serie7.00_click')
