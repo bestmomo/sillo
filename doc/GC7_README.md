@@ -24,12 +24,11 @@
 
 7) [CounterDown, Countdown template make with HTML, CSS, TailwindCSS & AlpineJS](https://www.youtube.com/watch?v=1nS5Zna60L0&pp=ygUIYWxwaW5lanM%3D) - 3' 2024 (Just a show)
 
+8) [Serie](https://www.youtube.com/watch?v=Z_QQQdNopp4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&ab_channel=CodewithBurt) Série 7 vidéos 2023-24
 
 <div style="text-align: center">En cours:</div>
-
-1) [Serie](https://www.youtube.com/watch?v=Z_QQQdNopp4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&ab_channel=CodewithBurt) Série 7 vidéos 2023-24
-
 //2do doc AlpineJS
+
 1) [Serie](https://www.youtube.com/watch?v=9RMJojxoJYc&list=PLKbhw6n2iYKhVSp9wAOPFcdD6EDlfDxQt&ab_channel=projectworld) - 9 épisodes 2024
 
 2) [Doc AlpineJS](https://alpinejs.dev/start-here)
@@ -60,6 +59,8 @@
 ### Autres
 
 1. [17 méthodes pour optimiser les performances de Laravel](https://kinsta.com/fr/blog/methodes-optimisation-performances-laravel) - Article
+
+[Resource de codes tailwind & AlpineJS](https://www.penguinui.com/components/table)
 
 ---
 
