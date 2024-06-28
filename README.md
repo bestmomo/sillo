@@ -1,6 +1,10 @@
 # Sillo
 
 
+php artisan view:clear
+php artisan cache:clear
+
+
 ## Table des matières
 
 [Presentation](doc/presentation.md)<br>

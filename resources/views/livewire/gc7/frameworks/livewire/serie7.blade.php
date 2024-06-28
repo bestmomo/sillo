@@ -5,7 +5,7 @@ use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
 new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Component {
-    public $btns = ['Users', 'Infinite_Scroll', 'Offset', 'Test'];
+    public $btns = ['Users', 'Infinite_Scroll', 'Offset', 'Api', 'Test'];
 
     public $subtitle = 'Chargement...';
     protected $listeners = ['update-subtitle' => 'updateSubtitle'];
@@ -59,7 +59,7 @@ new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Co
     </div>
 
     <script>
-        let btnToClick = 'Offset';
+        let btnToClick = 'Api';
     </script>
     @include('livewire.gc7.frameworks.livewire.serie7.00_click')
 

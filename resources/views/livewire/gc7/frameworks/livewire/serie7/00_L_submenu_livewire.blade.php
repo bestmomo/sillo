@@ -9,7 +9,7 @@ include_once '00_L_submenu.php';
     <div class="mb-3">
         <h2 class="text-center text-2xl mb-3 font-bold">Sub MENU Livewire</h2>
 
-        <div class='flex justify-around x-auto'>
+        <div class='flex flex-wrap justify-around mx-auto gap-3 gap-y-3'>
             @foreach ($btns as $btn)
                 {{-- <span x-text="choice"></span> --}}
                 <button wire:click="setChoice('{{ $btn }}')" class="mr-3 btn btn-sm mb-0 pb-0"
