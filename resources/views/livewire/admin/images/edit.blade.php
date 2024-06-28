@@ -239,7 +239,7 @@ class extends Component {
                 <p>@lang('The url of this image is :') <i>{{ $this->displayImage }}</i></p>
                 <x-button 
                     label="{!! __('Copy url') !!}" 
-                    data-url="{{ $image }}"
+                    data-url="{{ $this->displayImage }}"
                     onclick="copyUrl(this)"
                     class="btn-sm" />
             </div>
