@@ -173,20 +173,20 @@ class extends Component {
                     <x-icon name="o-check-circle" />
                 @endif
             @endscope        
-            @scope('actions', $image, $selectedYear, $selectedMonth, $perPage, $page)
+            @scope('actions', $image, $selectedYear, $selectedMonth, $perPage, $page, $loop)
                 <div class="flex gap-2">
                     <x-button 
                         icon="s-briefcase" 
                         data-url="{{ $image['url'] }}"
                         onclick="copyUrl(this)"
                         tooltip-left="{!! __('Copy url') !!}" 
-                        class="btn-ghost btn-sm text-blue-500" 
+                        class="text-blue-500 btn-ghost btn-sm" 
                         spinner />
                     <x-button 
                         icon="c-wrench" 
                         link="{{ route('images.edit', ['year' => $selectedYear, 'month' => $selectedMonth, 'id' => $loop->index + ($page - 1) * $perPage]) }}" 
                         tooltip-left="{!! __('Manage image') !!}" 
-                        class="btn-ghost btn-sm text-blue-500" 
+                        class="text-blue-500 btn-ghost btn-sm" 
                         spinner />
                     <x-button 
                         icon="o-trash" 
