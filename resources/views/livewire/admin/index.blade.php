@@ -61,7 +61,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
         <x-slot:heading>
             @lang('In a glance')
         </x-slot:heading>
-        <x-slot:content class="flex gap-4">
+        <x-slot:content class="flex flex-wrap gap-4">
 
             <a href="{{ route('posts.index') }}" class="flex-grow">
                 <x-stat title="{{ __('Posts') }}" description="" value="{{ $posts->count() }}" icon="s-document-text"
