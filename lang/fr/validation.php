@@ -280,5 +280,8 @@ return [
         'title' => 'titre',
         'seo_title' => 'seo titre',
         'meta_keywords' => 'meta mots-clefs',
+        'name' => 'mom',
+        'password' => 'mot de passe',
+        'password_confirmation' => 'confirmation du mot de passe',
     ],
 ];
