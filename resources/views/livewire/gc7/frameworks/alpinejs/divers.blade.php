@@ -83,4 +83,8 @@ new #[Title('Divers')] #[Layout('components.layouts.gc7.main')] class extends Co
     </script>
 @endsection
 
+{{-- //2see https://pqina.nl/filepond/#multi-file-code --}}
+
+{{-- //2see https://codepen.io/rikschennink/pen/WXavEx --}}
+
 </div>
