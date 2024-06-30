@@ -11,21 +11,22 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link rel="stylesheet" href="{{ asset('storage/css/prism.css')}}">
-    
+
 </head>
 <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
     {{-- HERO --}}
     <div
-        class="min-h-[600px] hero"
+        class="min-h-[35vw] hero"
         style="background-image: url({{ asset('storage/hero.jpg') }});">
         <div class="bg-opacity-60 hero-overlay"></div>
         <div class="text-center hero-content text-neutral-content">
-            <div class="max-w-md">
-            <h1 class="mb-5 font-bold text-9xl">{{ env('APP_NAME' )}}</h1>
-            <p class="mb-5 text-2xl">{{ env('APP_SUBNAME' )}}</p>
+            <div>
+                <h1 class="mb-5 font-bold text-[7vw]">{{ env('APP_NAME' )}}</h1>
+                <p class="mb-5  text-[2.5vw]">{{ env('APP_SUBNAME' )}}</p>
             </div>
         </div>
     </div>
+
 
     {{-- NAVBAR --}}
     <livewire:navigation.navbar :$menus />
