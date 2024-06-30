@@ -26,14 +26,14 @@
 
 8) [Serie](https://www.youtube.com/watch?v=Z_QQQdNopp4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&ab_channel=CodewithBurt) Série 7 vidéos 2023-24
 
+9) [Serie](https://www.youtube.com/watch?v=9RMJojxoJYc&list=PLKbhw6n2iYKhVSp9wAOPFcdD6EDlfDxQt&ab_channel=projectworld) - 9 épisodes 2024
+
 <div style="text-align: center">En cours:</div>
-//2do doc AlpineJS
-
-1) [Serie](https://www.youtube.com/watch?v=9RMJojxoJYc&list=PLKbhw6n2iYKhVSp9wAOPFcdD6EDlfDxQt&ab_channel=projectworld) - 9 épisodes 2024 → 9ème
    
-2) [Chat between 2 uses](https://www.youtube.com/watch?v=huLSxcxFRl4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&index=9) - 31' 2024
+//2do doc AlpineJS
+1) [Chat between 2 users](https://www.youtube.com/watch?v=huLSxcxFRl4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&index=9) - 31' 2024
 
-3) [Doc AlpineJS](https://alpinejs.dev/start-here)
+2) [Doc AlpineJS](https://alpinejs.dev/start-here)
 
 ### Livewire
 
