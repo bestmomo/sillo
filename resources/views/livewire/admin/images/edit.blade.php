@@ -40,6 +40,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
     public int $blue = 0;
     public int $blur = 0;
     public int $sharpen = 0;
+    public bool $changed;
 
     // Méthode de montage du composant
     public function mount($year, $month, $id): void
@@ -82,6 +83,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
             $this->refreshImageUrl();
             $this->success(__('Image restored'));
         }
+
+        $this->changed = false;
 
         if ($cancel) {
             $this->info(__('No modification has been made'));
@@ -156,6 +159,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
                 break;
         }
         $this->info(__('Image modified ! (Not saved yet)'));
+        $this->changed = true;
         $this->refreshImageUrl();
     }
 
@@ -194,6 +198,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
         if (File::exists($this->tempPath)) {
             File::copy($this->tempPath, $this->imagePath);
         }
+
+        $this->changed = false;
 
         $this->success(__('Image changes applied successfully'));
     }
@@ -282,7 +288,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
         <x-header shadow separator progress-indicator></x-header>
 
         <p class="mb-2 text-3xl">@lang('Settings')</p>
-        <x-accordion wire:model="group" class="shadow-md">
+        <x-accordion wire:model="group" class="mb-4 shadow-md">
             <x-collapse name="group1">
                 <x-slot:heading>
                     @lang('Size change')
@@ -334,11 +340,13 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
                 </x-slot:content>
             </x-collapse>
         </x-accordion>
-        <x-button wire:click="restoreImage(false)" class="mt-4 btn-sm">@lang('Restore image to its original state')
-        </x-button><br>
-        <x-button wire:click="applyChanges" class="mt-2 btn-sm">@lang('Valid changes')</x-button><br>
+        @if($changed)
+            <x-button wire:click="restoreImage(false)" class="btn-sm">@lang('Restore image to its original state')
+            </x-button><br>
+            <x-button wire:click="applyChanges" class="mt-2 btn-sm">@lang('Valid changes')</x-button><br>        
+            <x-button wire:click="restoreImage(true)" class="mt-2 btn-sm">@lang('Finish and discard this version')</x-button>
+        @endif
         <x-button wire:click="keepVersion" class="mt-2 btn-sm">@lang('Finish and keep this version')</x-button><br>
-        <x-button wire:click="restoreImage(true)" class="mt-2 btn-sm">@lang('Finish and discard this version')</x-button>
     </div>
 
     <script>
