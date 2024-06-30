@@ -11,7 +11,7 @@ if (!function_exists('getGc7FrameworksLinks')) {
 	{
 		return [
 			'livewire' => ['basics', 'blog', 'create-post', 'todos', 'counter', 'new-form', 'serie7'],
-			'alpinejs' => ['basics', 'test', 'pets', 'accordion', 'ga', 'characters', 'divers'],
+			'alpinejs' => ['basics', 'test', 'pets', 'accordion', 'ga', 'characters', 'drag-drop','divers'],
 		];
 	}
 }

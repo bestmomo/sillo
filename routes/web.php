@@ -4,10 +4,11 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-use App\Http\Middleware\IsAdmin;
-use App\Http\Middleware\IsAdminOrRedac;
-use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Http\Middleware\IsAdmin;
+use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\IsAdminOrRedac;
+use App\Http\Controllers\ImageController;
 
 // Routes publiques
 Volt::route('/', 'index');
@@ -18,6 +19,7 @@ Volt::route('/frameworks', 'gc7.frameworks');
 Route::prefix('/framework')->group(function () {
 	getGc7FrameworksRoutes();
 });
+Route::post('/upload-image', [ImageController::class, 'upload']);
 
 Volt::route('/contact', 'contact')->name('contact');
 Volt::route('/category/{slug}', 'index');
