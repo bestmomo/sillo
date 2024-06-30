@@ -14,11 +14,17 @@
     
 </head>
 <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
-    {{-- IMAGE --}}
-    <div class="flex flex-wrap">
-        <a href="{{ url('/') }}" class="block w-full">
-            <img src="{{ asset('storage/banniere.png') }}" class="w-full" alt="Laravel">
-        </a>
+    {{-- HERO --}}
+    <div
+        class="min-h-[600px] hero"
+        style="background-image: url({{ asset('storage/hero.jpg') }});">
+        <div class="bg-opacity-60 hero-overlay"></div>
+        <div class="text-center hero-content text-neutral-content">
+            <div class="max-w-md">
+            <h1 class="mb-5 font-bold text-9xl">{{ env('APP_NAME' )}}</h1>
+            <p class="mb-5 text-2xl">{{ env('APP_SUBNAME' )}}</p>
+            </div>
+        </div>
     </div>
 
     {{-- NAVBAR --}}
