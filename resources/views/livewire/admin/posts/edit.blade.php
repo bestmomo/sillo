@@ -1,140 +1,149 @@
 <?php
 
-// Importations des classes nécessaires
-use Mary\Traits\Toast;
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ */
+
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Serie;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use illuminate\Support\Str;
-use Livewire\Volt\Component;
-use Livewire\WithFileUploads;
-use Livewire\Attributes\Title;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
-use Illuminate\Support\Collection;
-use App\Models\{Category, Serie, Post};
-use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\Title;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
+use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
 new
 #[Title('Edit Post'), Layout('components.layouts.admin')]
 class extends Component {
-    // Utilisation des traits WithFileUploads et Toast
-    use WithFileUploads, Toast;
+	// Utilisation des traits WithFileUploads et Toast
+	use WithFileUploads;
+	use Toast;
 
-    // Déclaration des propriétés du composant
-    public bool $inSerie = false;
-    public Collection $seriePosts;
-    public Post $seriePost;
-    public int $postId;
-    public Collection $series;
-    public Serie|null $serie;
-    public int $category_id;
-    public int|null $serie_id;
-    public Post $post;
-    public string $body = '';
-    public string $excerpt = '';
-    public string $title = '';
-    public string $slug = '';
-    public bool $active = false;
-    public string $seo_title = '';
-    public string $meta_description = '';
-    public string $meta_keywords = '';
-    public TemporaryUploadedFile|null $photo = null;
+	// Déclaration des propriétés du composant
+	public bool $inSerie = false;
+	public Collection $seriePosts;
+	public Post $seriePost;
+	public int $postId;
+	public Collection $series;
+	public ?Serie $serie;
+	public int $category_id;
+	public ?int $serie_id;
+	public Post $post;
+	public string $body                  = '';
+	public string $excerpt               = '';
+	public string $title                 = '';
+	public string $slug                  = '';
+	public bool $active                  = false;
+	public string $seo_title             = '';
+	public string $meta_description      = '';
+	public string $meta_keywords         = '';
+	public ?TemporaryUploadedFile $photo = null;
 
-    // Initialisation du composant avec les données du post
-    public function mount(Post $post): void
-    {
-        if (Auth()->user()->isRedac() && $post->user_id !== Auth()->id()) {
-            abort(403);
-        }
+	// Initialisation du composant avec les données du post
+	public function mount(Post $post): void
+	{
+		if (Auth()->user()->isRedac() && $post->user_id !== Auth()->id()) {
+			abort(403);
+		}
 
-        $this->post = $post;
+		$this->post = $post;
 
-        $this->fill($this->post);
+		$this->fill($this->post);
 
-        $category = Category::find($this->category_id);
-        $this->series = $category->series;
-        if ($this->series->count() > 0) {
-            $this->serie = $this->serie_id ? Serie::find($this->serie_id) : $this->series->first();
-            $this->seriePosts = $this->serie->posts;
-            $this->seriePost = $this->seriePosts->first();
-        }
-    }
+		$category     = Category::find($this->category_id);
+		$this->series = $category->series;
+		if ($this->series->count() > 0) {
+			$this->serie      = $this->serie_id ? Serie::find($this->serie_id) : $this->series->first();
+			$this->seriePosts = $this->serie->posts;
+			$this->seriePost  = $this->seriePosts->first();
+		}
+	}
 
-    // Méthode appelée lorsqu'une propriété est mise à jour
-    public function updating($property, $value)
-    {
-        switch ($property) {
-            case 'title':
-                $this->slug = Str::slug($value);
-                break;
-            case 'serie_id':
-                $this->serie = Serie::find($value);
-                $this->seriePost = $this->serie->lastPost();
-                break;
-            case 'category_id':
-                $category = Category::with('series')->find($value);
-                $this->series = $category->series;
+	// Méthode appelée lorsqu'une propriété est mise à jour
+	public function updating($property, $value)
+	{
+		switch ($property) {
+			case 'title':
+				$this->slug = Str::slug($value);
 
-                if ($this->series->count() > 0) {
-                    $this->seriePost = $this->series->first()->lastPost();
-                } else {
-                    $this->inSerie = false;
-                }
-                break;
-        }
-    }
+				break;
+			case 'serie_id':
+				$this->serie     = Serie::find($value);
+				$this->seriePost = $this->serie->lastPost();
 
-    // Méthode pour sauvegarder le post
-    public function save()
-    {
-        $data = $this->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|max:65000',
-            'category_id' => 'required',
-            'photo' => 'nullable|image|max:2000',
-            'active' => 'required',
-            'slug' => ['required', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('posts')->ignore($this->post->id)],
-            'seo_title' => 'required|max:70',
-            'meta_description' => 'required|max:160',
-            'meta_keywords' => 'required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/',
-        ]);
+				break;
+			case 'category_id':
+				$category     = Category::with('series')->find($value);
+				$this->series = $category->series;
 
-        // Sauvegarde de l'image si elle a été modifiée et suppression de l'ancienne
-        if ($this->photo) {
-            Storage::disk('public')->delete('photos/' . $this->post->image);
-            $date = now()->format('Y/m'); // Détermination année et mois de publication genre 2024/06
-            $path = $date . '/' . basename($this->photo->store('photos/' . $date, 'public'));
-            $data['image'] = $path;
-        }
+				if ($this->series->count() > 0) {
+					$this->seriePost = $this->series->first()->lastPost();
+				} else {
+					$this->inSerie = false;
+				}
 
-        // Série
-        if ($this->inSerie) {
-            $data += [
-                'serie_id' => $this->serie_id,
-                'parent_id' => $this->seriePost->id,
-            ];
-        }
+				break;
+		}
+	}
 
-        $data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);
+	// Méthode pour sauvegarder le post
+	public function save()
+	{
+		$data = $this->validate([
+			'title'            => 'required|string|max:255',
+			'body'             => 'required|max:65000',
+			'category_id'      => 'required',
+			'photo'            => 'nullable|image|max:2000',
+			'active'           => 'required',
+			'slug'             => ['required', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('posts')->ignore($this->post->id)],
+			'seo_title'        => 'required|max:70',
+			'meta_description' => 'required|max:160',
+			'meta_keywords'    => 'required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/',
+		]);
 
-        // Mise à jour du post
-        $this->post->update(
-            $data + [
-                'category_id' => $this->category_id,
-            ],
-        );
+		// Sauvegarde de l'image si elle a été modifiée et suppression de l'ancienne
+		if ($this->photo) {
+			Storage::disk('public')->delete('photos/' . $this->post->image);
+			$date          = now()->format('Y/m'); // Détermination année et mois de publication genre 2024/06
+			$path          = $date . '/' . basename($this->photo->store('photos/' . $date, 'public'));
+			$data['image'] = $path;
+		}
 
-        // Affichage d'un message de succès
-        $this->success(__('Post updated with success.'));
-    }
+		// Série
+		if ($this->inSerie) {
+			$data += [
+				'serie_id'  => $this->serie_id,
+				'parent_id' => $this->seriePost->id,
+			];
+		}
 
-    // Méthode pour fournir des données additionnelles au composant
-    public function with(): array
-    {
-        return [
-            'categories' => Category::all(),
-        ];
-    }
+		$data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);
+
+		// Mise à jour du post
+		$this->post->update(
+			$data + [
+				'category_id' => $this->category_id,
+			],
+		);
+
+		// Affichage d'un message de succès
+		$this->success(__('Post updated with success.'));
+	}
+
+	// Méthode pour fournir des données additionnelles au composant
+	public function with(): array
+	{
+		return [
+			'categories' => Category::all(),
+		];
+	}
 }; ?>
 
 <div>
