@@ -71,7 +71,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
         if ($viewToast) {
             $this->success(__('Changes validated'));
         }
-        $this->success(__('Image changes applied successfully'));
+
         $this->image = Storage::url('public/temp/' . $this->fileName);
     }
 
@@ -245,11 +245,11 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
     }
 }; ?>
 
-<div class="flex flex-col lg:flex-row h-full">
+<div class="flex flex-col h-full lg:flex-row">
 
-    <div class="w-full lg:w-3/4 p-4">
+    <div class="w-full p-4 lg:w-3/4">
         <x-card title="{{ __('Manage an image') }}" shadow separator progress-indicator>
-            <div class="flex justify-between items-center h-full">
+            <div class="flex items-center justify-between h-full">
                 <p>@lang('The url of this image is :') <i>{{ $this->displayImage }}</i></p>
                 <x-button label="{!! __('Copy url') !!}" data-url="{{ $this->displayImage }}" onclick="copyUrl(this)"
                     class="btn-sm" />
@@ -271,17 +271,17 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
             <br>
 
             <br><br>
-            <div class="flex justify-center items-center h-full">
+            <div class="flex items-center justify-center h-full">
                 <img src="{{ $image }}" alt="">
             </div>
 
         </x-card>
     </div>
 
-    <div class="w-full lg:w-1/4 p-4">
+    <div class="w-full p-4 lg:w-1/4">
         <x-header shadow separator progress-indicator></x-header>
 
-        <p class="text-3xl mb-2">@lang('Settings')</p>
+        <p class="mb-2 text-3xl">@lang('Settings')</p>
         <x-accordion wire:model="group" class="shadow-md">
             <x-collapse name="group1">
                 <x-slot:heading>
@@ -334,11 +334,11 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
                 </x-slot:content>
             </x-collapse>
         </x-accordion>
-        <x-button wire:click="restoreImage(false)" class="btn-sm mt-4">@lang('Restore image to its original state')
+        <x-button wire:click="restoreImage(false)" class="mt-4 btn-sm">@lang('Restore image to its original state')
         </x-button><br>
-        <x-button wire:click="applyChanges" class="btn-sm mt-2">@lang('Valid changes')</x-button><br>
-        <x-button wire:click="keepVersion" class="btn-sm mt-2">@lang('Finish and keep this version')</x-button><br>
-        <x-button wire:click="restoreImage(true)" class="btn-sm mt-2">@lang('Finish and discard this version')</x-button>
+        <x-button wire:click="applyChanges" class="mt-2 btn-sm">@lang('Valid changes')</x-button><br>
+        <x-button wire:click="keepVersion" class="mt-2 btn-sm">@lang('Finish and keep this version')</x-button><br>
+        <x-button wire:click="restoreImage(true)" class="mt-2 btn-sm">@lang('Finish and discard this version')</x-button>
     </div>
 
     <script>

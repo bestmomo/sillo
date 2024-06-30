@@ -102,7 +102,7 @@ new class extends Component {
 
     <!-- Pagination supérieure -->
     <div class="mb-4 mary-table-pagination">
-        <div class="border border-x-0 border-t-0 border-b-1 border-b-base-300 mb-5"></div>
+        <div class="mb-5 border border-t-0 border-x-0 border-b-1 border-b-base-300"></div>
         {{ $posts->links() }}
     </div>
 
@@ -110,7 +110,7 @@ new class extends Component {
     <div class="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3">
         @forelse($posts as $post)
             <x-card
-                class="shadow-gray-500 shadow-md hover:shadow-xl hover:shadow-gray-500 transition duration-500 ease-in-out"
+                class="transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
                 title="{{ $post->title }}">
                 <div class="text-justify">{!! str($post->excerpt)->words(config('app.excerptSize')) !!}</div>
                 <br>
@@ -171,7 +171,7 @@ new class extends Component {
 
     <!-- Pagination inférieure -->
     <div class="mb-4 mary-table-pagination">
-        <div class="border border-x-0 border-t-0 border-b-1 border-b-base-300 mb-5"></div>
+        <div class="mb-5 border border-t-0 border-x-0 border-b-1 border-b-base-300"></div>
         {{ $posts->links() }}
     </div>
 </div>
