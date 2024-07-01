@@ -32,8 +32,10 @@
    
 //2do doc AlpineJS
 1) [Chat between 2 users](https://www.youtube.com/watch?v=huLSxcxFRl4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&index=9) - 31' 2024
+   
+2) [Laracon EU 2024)(https://www.youtube.com/watch?v=yrL5eCMpqtc) - 35'
 
-2) [Doc AlpineJS](https://alpinejs.dev/start-here)
+3) [Doc AlpineJS](https://alpinejs.dev/start-here)
 
 ### Livewire
 
