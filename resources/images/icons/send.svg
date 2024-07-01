@@ -1,6 +1,8 @@
+@props(['color'])
+
 <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
 <svg width="24px" height="24px" viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg">
   <path opacity="0.15" d="M20 4L3 11L10 14L13 21L20 4Z" />
-  <path d="M20 4L3 11L10 14M20 4L13 21L10 14M20 4L10 14" stroke="greenyellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M20 4L3 11L10 14M20 4L13 21L10 14M20 4L10 14" stroke={{$color}} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 </svg>

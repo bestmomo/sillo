@@ -31,11 +31,13 @@
 <div style="text-align: center">En cours:</div>
    
 //2do doc AlpineJS
-1) [Chat between 2 users](https://www.youtube.com/watch?v=huLSxcxFRl4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&index=9) - 31' 2024
+1) [Chat between 2 users - v1](https://www.youtube.com/watch?v=huLSxcxFRl4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&index=9) - 31' 2024
    
-2) [Laracon EU 2024)(https://www.youtube.com/watch?v=yrL5eCMpqtc) - 35'
+2) (Real Time Chat With Laravel Reverb - v2)[https://www.youtube.com/watch?v=BEKiNgcBqJw] - 50'
+   
+3) [Laracon EU 2024)(https://www.youtube.com/watch?v=yrL5eCMpqtc) - 35'
 
-3) [Doc AlpineJS](https://alpinejs.dev/start-here)
+4) [Doc AlpineJS](https://alpinejs.dev/start-here)
 
 ### Livewire
 
@@ -101,3 +103,13 @@ Dans la Vue:
     </style>
 @endsection
 
+---
+
+//2see: Divers tutos
+
+- https://www.youtube.com/@Tuto1902/videos
+
+- [JS décorer objet avec PROXY]( 
+https://www.youtube.com/watch?v=ORQvQViO1v4&ab_channel=Grafikart.fr) - GA 2024 18'
+
+- [10 meilleurs générateurs Synthèse vocale](https://www.codeur.com/blog/generateur-voix-ia/) - Article

@@ -46,15 +46,17 @@ class User extends Authenticatable
 	{
 		return $this->hasMany(Post::class);
 	}
-
-	/**
-	 * One to Many relation.
-	 */
+	
 	public function comments(): HasMany
 	{
 		return $this->hasMany(Comment::class);
 	}
 
+	public function messages(): HasMany
+	{
+		return $this->hasMany(Message::class);
+	}
+	
 	/**
 	 * Determine if user is administrator.
 	 */

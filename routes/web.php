@@ -19,6 +19,7 @@ Volt::route('/frameworks', 'gc7.frameworks');
 Route::prefix('/framework')->group(function () {
 	getGc7FrameworksRoutes();
 });
+
 Route::post('/upload-image', [ImageController::class, 'upload']);
 
 Volt::route('/contact', 'contact')->name('contact');
@@ -39,6 +40,9 @@ Route::middleware('guest')->group(function () {
 
 // Routes pour les utilisateurs authentifiés
 Route::middleware('auth')->group(function () {
+	
+	Volt::route('/framework/alpinejs/chat', 'gc7.frameworks.alpinejs.chat')->name('alpinejs.chat');
+	
 	Volt::route('/profile', 'auth.profile')->name('profile');
 	Volt::route('/chat', 'chat')->name('chat');
 
