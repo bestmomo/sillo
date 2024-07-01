@@ -7,9 +7,11 @@
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-debugbar": "^3.13",
+        "blade-ui-kit/blade-icons": "^1.6",
         "blade-ui-kit/blade-ui-kit": "^0.6.2",
         "creativeorange/gravatar": "~1.0",
         "laravel/framework": "^11.10",
+        "laravel/reverb": "@beta",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
         "livewire/volt": "^1.6",
