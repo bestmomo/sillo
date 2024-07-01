@@ -38,9 +38,12 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
     public int $red = 0;
     public int $green = 0;
     public int $blue = 0;
+    public int $reduce = 0;
     public int $blur = 0;
     public int $sharpen = 0;
     public bool $changed;
+    public int $clipW = 0;
+    public int $clipH = 0;
 
     // Méthode de montage du composant
     public function mount($year, $month, $id): void
@@ -81,6 +84,9 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
         if (File::exists($this->imagePath)) {
             File::copy($this->imagePath, $this->tempPath);
             $this->refreshImageUrl();
+            $this->clipW = 0;
+            $this->clipH = 0;
+            $this->getImageInfos();
             $this->success(__('Image restored'));
         }
 
@@ -94,16 +100,14 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 
     public function updated($property, $value)
     {
+        if($property === 'group') return;
+        
         $manager = new ImageManager(new Driver());
         $image = $manager->read($this->tempPath);
 
         switch ($property) {
             case 'imageScale':
-                if ('1' == $value) {
-                    return;
-                }
                 $image->scale(height: $this->height * $value);
-                $image->save();
                 $this->width = $image->width();
                 $this->height = $image->height();
                 $this->imageScale = '1';
@@ -111,59 +115,87 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
                 break;
             case 'brightness':
                 $image->brightness($value);
-                $image->save();
                 $this->brightness = 0;
 
                 break;
             case 'contrast':
                 $image->contrast($value);
-                $image->save();
                 $this->contrast = 0;
 
                 break;
             case 'gamma':
                 $image->gamma($value / 10.0);
-                $image->save();
                 $this->gamma = 10;
 
                 break;
             case 'red':
                 $image->colorize(red: $value);
-                $image->save();
                 $this->red = 0;
 
                 break;
             case 'green':
                 $image->colorize(green: $value);
-                $image->save();
                 $this->green = 0;
 
                 break;
             case 'blue':
                 $image->colorize(blue: $value);
-                $image->save();
                 $this->blue = 0;
 
                 break;
             case 'blur':
                 $image->blur($value);
-                $image->save();
                 $this->blur = 0;
 
                 break;
             case 'sharpen':
                 $image->sharpen($value);
-                $image->save();
                 $this->sharpen = 0;
 
                 break;
+            case ('clipW'):
+                $width = $this->width - $this->width * $value * .01;
+                $offset = ($this->width - $width) / 2;
+                $image->crop($width, $this->height, $offset);
+                $this->width = $image->width();
+                $this->height = $image->height();
+                $this->clipW = 0;
+
+                break;
+            case ('clipH'):
+                $height = $this->height - $this->height * $value * .01;
+                $offset = ($this->height - $height) / 2;
+                $image->crop($this->width, $height, 0, $offset);
+                $this->width = $image->width();
+                $this->height = $image->height();             
+                $this->clipH = 0;
+
+                break;
+            case ('reduce'):
+                $image->reduceColors(49 - $value);
+                $this->reduce = 0;
+                break;
+
         }
+
+        $image->save();
         $this->info(__('Image modified ! (Not saved yet)'));
         $this->changed = true;
         $this->refreshImageUrl();
     }
 
-    public function getImage($year, $month, $id)
+    public function invert(): void
+    {
+        $manager = new ImageManager(new Driver());
+        $image = $manager->read($this->tempPath);
+        $image->invert();
+        $image->save();
+        $this->info(__('Image modified ! (Not saved yet)'));
+        $this->changed = true;
+        $this->refreshImageUrl();
+    }
+
+    public function getImage($year, $month, $id): void
     {
         $imagesPath = "public/photos/{$year}/{$month}";
         $allFiles = Storage::files($imagesPath);
@@ -277,7 +309,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
             <br>
 
             <br><br>
-            <div class="flex items-center justify-center h-full">
+            <div class="flex items-center justify-center h-full" >
                 <img src="{{ $image }}" alt="">
             </div>
 
@@ -326,6 +358,9 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
                         label="{{ __('Green') }}" class="range-primary" />
                     <x-range wire:model.live.debounce="blue" min="-20" max="20" step="2"
                         label="{{ __('Blue') }}" class="range-primary" />
+                    <x-range wire:model.live.debounce="reduce" min="0" max="48" step="2"
+                        label="{{ __('Reduce color') }}" class="range-primary" />
+                    <x-button label="{{ __('Invert colors') }}" wire:click="invert" class="mt-2 btn-outline btn-sm" />
                 </x-slot:content>
             </x-collapse>
             <x-collapse name="group4">
@@ -337,6 +372,17 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
                         label="{{ __('Blur') }}" class="range-primary" />
                     <x-range wire:model.live.debounce="sharpen" min="0" max="20" step="2"
                         label="{{ __('Sharpen') }}" class="range-primary" />
+                </x-slot:content>
+            </x-collapse>
+            <x-collapse name="group5">
+                <x-slot:heading>
+                    @lang('Crop')
+                </x-slot:heading>
+                <x-slot:content>
+                    <x-range wire:model.live.debounce="clipW" min="0" max="40" step="2"
+                        label="{{ __('Width') }}" class="range-primary" />
+                    <x-range wire:model.live.debounce="clipH" min="0" max="40" step="2"
+                        label="{{ __('Height') }}" class="range-primary" />
                 </x-slot:content>
             </x-collapse>
         </x-accordion>

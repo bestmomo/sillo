@@ -451,5 +451,8 @@
     "Blur and sharpen": "Flou et netteté",
     "Blur": "Flou",
     "Sharpen": "Netteté",
-    "Are you sure to delete your account?": "Etes-vous sûr de vouloir supprimer votre compte ?"
+    "Are you sure to delete your account?": "Etes-vous sûr de vouloir supprimer votre compte ?",
+    "Crop": "Recadrage",
+    "Reduce color": "Réduction des couleurs",
+    "Invert colors": "Inversion des couleurs"
 }
