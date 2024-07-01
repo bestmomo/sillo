@@ -20,6 +20,10 @@ use Illuminate\Support\Str;
 class DatabaseSeeder extends Seeder
 {
 	use WithoutModelEvents;
+	
+	// Remise à 0 de l'auto-increment
+	// Sqlite: DELETE FROM sqlite_sequence WHERE name = 'messages';
+	// MySQL: ALTER TABLE nom_de_la_table AUTO_INCREMENT = 1;
 
 	/**
 	 * Seed the application's database.
@@ -34,9 +38,14 @@ class DatabaseSeeder extends Seeder
 			'email' => 'admin@example.com',
 			'role'  => 'admin',
 		]);
+		
+		User::factory()->create([
+			'name'  => 'User',
+			'email' => 'user@example.com'
+		]);
 
 		// Create 2 redactors
-		User::factory()->count(799)->create([
+		User::factory()->count(798)->create([
 			'role' => 'redac',
 		]);
 
