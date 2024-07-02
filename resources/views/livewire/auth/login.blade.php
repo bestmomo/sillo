@@ -28,6 +28,10 @@ class extends Component {
         if (auth()->attempt($credentials)) {
             // Régénération de la session
             request()->session()->regenerate();
+
+            if(auth()->user()->isAdmin()) {
+                return redirect()->intended('/admin/dashboard');
+            }
  
             // Redirection vers la page d'origine ou la page d'accueil
             return redirect()->intended('/');
