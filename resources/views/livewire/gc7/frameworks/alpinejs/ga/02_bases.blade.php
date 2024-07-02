@@ -71,11 +71,15 @@
             }))
 
         });
+
+        function ucFirst(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
         // });
     </script>
 
-    {{-- Ici, on décide quel onglet est ouvert d'emblée --}}
-    <div x-data="tabs('tab1')">
+    {{-- Ici, on décide quel sous-onglet est ouvert d'emblée --}}
+    <div x-data="tabs('tab2')">
 
         <p x-text="tab"></p>
 
@@ -125,8 +129,8 @@
                         <template x-for="post in $store.posts.posts" :key="post.id">
                             <article class="card w-full my-3 glass">
                                 <div class="card-body border rounded-box">
-                                    <h3 x-text="post.id + '/ ' + post.title" class="text-xl">T</h3>
-                                    <p x-text="post.body"></p>
+                                    <h3 x-text="post.id + '/ ' + ucFirst(post.title)" class="text-xl">T</h3>
+                                    <p x-text="ucFirst(post.body)"></p>
                                 </div>
                             </article>
                         </template>
@@ -139,10 +143,8 @@
                 <div role="tabpanel" class="p-6">
                     <h2>Onglet 3</h2>
                     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus assumenda harum doloribus
-                        ea
-                        illum,
-                        neque nam velit a enim saepe quos, fuga necessitatibus, ut minus? Alias sunt laudantium dolorem
-                        quibusdam.</p>
+                        ea illum, neque nam velit a enim saepe quos, fuga necessitatibus, ut minus? Alias sunt
+                        laudantium dolorem quibusdam.</p>
                 </div>
             </template>
 
