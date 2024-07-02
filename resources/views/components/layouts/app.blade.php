@@ -19,12 +19,14 @@
         class="min-h-[35vw] hero"
         style="background-image: url({{ asset('storage/hero.jpg') }});">
         <div class="bg-opacity-60 hero-overlay"></div>
-        <div class="text-center hero-content text-neutral-content">
-            <div>
-                <h1 class="mb-5 font-bold text-[7vw]">{{ env('APP_NAME' )}}</h1>
-                <p class="mb-5  text-[2.5vw]">{{ env('APP_SUBNAME' )}}</p>
+        <a href="{{ '/' }}">
+            <div class="text-center hero-content text-neutral-content">
+                <div>
+                    <h1 class="mb-5 font-bold text-[7vw]">{{ env('APP_NAME' )}}</h1>
+                    <p class="mb-5  text-[2.5vw]">{{ env('APP_SUBNAME' )}}</p>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
 
 
