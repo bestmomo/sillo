@@ -1,28 +1,72 @@
 <?php
-include_once 'chat-v1.php';
+
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ */
+
+use App\Events\MessageEvent;
+use App\Models\Message;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
+use Livewire\Volt\Component;
+
+new class extends Component {
+    public $message;
+    public $conversation = [];
+
+    public function mount()
+    {
+        $messages = Message::all();
+        foreach ($messages as $message) {
+            $this->conversation[] = [
+                'username' => $message->user->name,
+                'message' => $message->message,
+            ];
+        }
+    }
+
+    public function submitMessage()
+    {
+        // dump($this->message);
+
+        // Dispatch the event
+        // $this->emit('newMessage', $this->message);
+        MessageEvent::dispatch(Auth::user()->id, $this->message);
+
+        // Reset the input field
+        $this->message = '';
+        // $this->conversation[] = $this->message;
+    }
+
+    #[On('echo:our-channel,MessageEvent')]
+    public function listenForMessage($data): void
+    {
+        $this->conversation[] = [
+            'username' => $data['username'],
+            'message' => $data['message'],
+        ];
+    }
+};
 ?>
 
 <div>
-  <p class="w-1/4 flex justify-between items-center">N.B.:
-    <x-icon-student color="#f22" />
-    <x-icon-smiley />
-  </p>
-  <ul>
-    @foreach ($conversation as $thread)
-    <li>{{ $thread['username'] }}: {{ $thread['message'] }}</li>
-    @endforeach
-  </ul>
+    <h1>V 1</h1>
+    <ul>
+        @foreach ($conversation as $thread)
+            <li>{{ $thread['username'] }}: {{ $thread['message'] }}</li>
+        @endforeach
+    </ul>
 
-  @php
-  $sendIconColor = 'greenyellow';
-  @endphp
+    @php
+        $sendIconColor = 'greenyellow';
+    @endphp
 
-  <form class="mt-2" wire:submit="submitMessage">
-    <x-input wire:model="message" />
-    <button class="btn btn-outline btn-primary my-3" type="submit">
-      Send
-      <x-icon-send color="{{ $sendIconColor }}" />
-    </button>
-  </form>
+    <form class="mt-2" wire:submit="submitMessage">
+        <x-input wire:model="message" />
+        <button class="btn btn-outline btn-primary my-3" type="submit">
+            Send
+            <x-icon-send color="{{ $sendIconColor }}" />
+        </button>
+    </form>
 
 </div>
