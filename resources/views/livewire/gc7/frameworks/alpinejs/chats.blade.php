@@ -19,7 +19,19 @@ class extends Component {
 }; ?>
 
 <div>
+    
     <x-header title="Chat {{ $subtitle ?? '' }}" shadow separator progress-indicator></x-header>
     
-    @livewire('gc7.helpers.submenu', ['btns'=>['V1', 'V2']])
+ @php 
+$nochoice = '<div class="absolute" x-cloak x-transition.opacity.duration.777ms x-show="choice != &quot;V1&quot; && choice !=&quot;V2&quot;">
+    <h1>Choose v1 or v2, please !</h1></div>';
+@endphp
+    
+    @livewire('gc7.helpers.submenu', ['nochoice'=>$nochoice, 'btns'=>['V1', 'V2']])
+
+    {{-- <hr>
+    
+    Note: You need :
+    
+    php .\artisan reverb:start --}}
 </div>

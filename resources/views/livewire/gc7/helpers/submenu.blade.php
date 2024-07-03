@@ -3,6 +3,7 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public $btns;
+    public $nochoice;
 };
 ?>
 
@@ -15,7 +16,8 @@ new class extends Component {
         <template x-for="btn in btns" :key="btn">
 
             <button class='mr-3 btn btn-sm mb-0 pb-0' :class="choice !== btn ? 'btn-primary' : 'btn-secondary'"
-                x-on:click="choice = btn; console.log('choice = ' + choice); $dispatch('update-subtitle', { newSubtitle: btn })" :id="btn">
+                x-on:click="choice = btn; console.log('choice = ' + choice); $dispatch('update-subtitle', { newSubtitle: btn })"
+                :id="btn">
                 <span x-text="btn"></span>
             </button>
 
@@ -31,9 +33,7 @@ new class extends Component {
 
     {{-- Choice: <span x-text="choice"></span> --}}
 
-    <div class="absolute" x-cloak x-transition.opacity.duration.777ms x-show="choice != 'V1' && choice !='V2'">
-        <h1>Choose v1 or v2, please !</h1>
-    </div>
+    {!! $nochoice !!}
 
     <ul>
         @foreach ($btns as $btn)
