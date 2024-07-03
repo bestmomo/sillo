@@ -1,7 +1,7 @@
 <?php
 
 use Livewire\Volt\Component;
-use App\Models\{Category, Serie};
+use App\Models\{Category, Serie, Comment};
 use App\Repositories\PostRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\WithPagination;
@@ -83,7 +83,11 @@ new class extends Component {
     public function with(): array
     {
         return [
-            'posts' => $this->getPosts(),
+            'posts'     => $this->getPosts(),
+            'comments'  => Comment::with('user', 'post:id,title,slug')
+                                    ->latest()
+                                    ->take(5)
+                                    ->get(),
         ];
     }
 };
@@ -174,4 +178,36 @@ new class extends Component {
         <div class="mb-5 border border-t-0 border-x-0 border-b-1 border-b-base-300"></div>
         {{ $posts->links() }}
     </div>
+
+    @if(!$this->category && !$this->serie)
+        <x-card title="{{ __('Recent Comments') }}" shadow separator class="mt-2">
+            @foreach ($comments as $comment)
+                <x-list-item :item="$comment" no-separator no-hover>
+                    <x-slot:avatar>
+                        <x-avatar :image="Gravatar::get($comment->user->email)">
+                            <x-slot:title>
+                                {{ $comment->user->name }}
+                            </x-slot:title>
+                        </x-avatar>
+                    </x-slot:avatar>
+                    <x-slot:value>
+                        @lang ('in post:') {{ $comment->post->title }}
+                    </x-slot:value>
+                    <x-slot:actions>
+                        <x-popover position="top-start" >
+                            <x-slot:trigger>
+                                <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}"
+                                     spinner class="btn-ghost btn-sm" />
+                            </x-slot:trigger>
+                            <x-slot:content>
+                                @lang('Show post')
+                            </x-slot:content>
+                        </x-popover>
+                    </x-slot:actions>
+                </x-list-item>
+                <p class="ml-16">{{ Str::words($comment->body, 20, ' ...') }}</p>
+                <br>
+            @endforeach
+        </x-card>
+    @endif
 </div>

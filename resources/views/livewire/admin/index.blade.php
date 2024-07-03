@@ -43,11 +43,13 @@ new #[Layout('components.layouts.admin')] class extends Component {
             'pages'          => Page::select('id', 'title', 'slug')->get(),
             'posts'          => Post::select('id', 'title', 'slug', 'user_id', 'created_at', 'updated_at')
                                     ->when($isRedac, fn (Builder $q) => $q->where('user_id', $userId))
+                                    ->latest()
                                     ->get(),
             'commentsNumber' => Comment::when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))
                                        ->count(),
             'comments'       => Comment::with('user', 'post:id,title,slug')
                                        ->when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))
+                                       ->latest()
                                        ->take(5)
                                        ->get(),
             'users'          => User::count(),
@@ -90,7 +92,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
     @foreach ($comments as $comment)
         @if (!$comment->user->valid)
             <x-alert title="{{ __('Comment to valid from ') . $comment->user->name }}"
-                description="{{ $comment->body }}" icon="c-chat-bubble-left" class="alert-warning shadow-md">
+                description="{{ $comment->body }}" icon="c-chat-bubble-left" class="shadow-md alert-warning">
                 <x-slot:actions>
                     <x-button link="{{ route('comments.index') }}" label="{!! __('Show the comments') !!}" />
                 </x-slot:actions>
@@ -102,7 +104,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
     @if (Auth::user()->isAdmin())
         @foreach ($contacts as $contact)
             <x-alert title="{{ __('Contact to handle from ') . $contact->name }}"
-                description="{{ $contact->message }}" icon="s-pencil-square" class="alert-info shadow-md">
+                description="{{ $contact->message }}" icon="s-pencil-square" class="shadow-md alert-info">
                 <x-slot:actions>
                     <x-button link="{{ route('contacts.index') }}" label="{!! __('Show the contacts') !!}" />
                 </x-slot:actions>
