@@ -24,7 +24,7 @@ class extends Component {
     
  @php 
 $nochoice = '<div class="absolute" x-cloak x-transition.opacity.duration.777ms x-show="choice != &quot;V1&quot; && choice !=&quot;V2&quot;">
-    <h1>Choose v1 or v2, please !</h1></div>';
+    <h1>Choose v1 or v2, please !</h1><hr>You need start the Broadcasting channel server:<br>php .\artisan reverb:start</div>';
 @endphp
     
     @livewire('gc7.helpers.submenu', ['nochoice'=>$nochoice, 'btns'=>['V1', 'V2']])

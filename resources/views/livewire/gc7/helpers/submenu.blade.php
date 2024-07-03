@@ -8,7 +8,7 @@ new class extends Component {
 ?>
 
 <div x-data="{
-    choice: 'V1',
+    choice: null, // Default: null 
     btns: {{ json_encode($btns) }}
 }">
     <div class="w-full flex justify-evenly items-center mb-0 mt-[-27px] p-0">
@@ -55,7 +55,7 @@ new class extends Component {
     window.onload = function() {
         setTimeout(function() {
             // Choix du bouton cliqué par défaut
-            let btn = 'Tabsuuu';
+            let btn = 'V2'; // Default: null
             if (!btn) {
                 console.log('Pas de bouton cliqué par défaut')
             } else {

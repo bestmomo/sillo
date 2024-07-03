@@ -6,7 +6,8 @@ include_once 'chat-v2.php';
 
     <div class="flex gap-4 items-center justify-around w-[150px]">
         <h1>V2</h1>
-        <p><a class='link m-0 p-0 b-6' href="https://www.youtube.com/watch?v=BEKiNgcBqJw" target='_blank' title='Vidéo source'>(Source - 50')</a>
+        <p><a class='link m-0 p-0 b-6' href="https://www.youtube.com/watch?v=BEKiNgcBqJw" target='_blank'
+                title='Vidéo source'>(Source - 50')</a>
     </div>
 
     <ul>

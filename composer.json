@@ -11,6 +11,7 @@
         "blade-ui-kit/blade-ui-kit": "^0.6.2",
         "creativeorange/gravatar": "~1.0",
         "laravel/framework": "^11.10",
+        "laravel/prompts": "^0.1.24",
         "laravel/reverb": "@beta",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
