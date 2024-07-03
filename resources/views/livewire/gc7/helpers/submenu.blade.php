@@ -8,7 +8,7 @@ new class extends Component {
 ?>
 
 <div x-data="{
-    choice: null,
+    choice: 'V1',
     btns: {{ json_encode($btns) }}
 }">
     <div class="w-full flex justify-evenly items-center mb-0 mt-[-27px] p-0">

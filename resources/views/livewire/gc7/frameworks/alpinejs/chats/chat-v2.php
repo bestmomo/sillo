@@ -11,6 +11,7 @@ use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 
 new class() extends Component {
+	 
 	public $message;
 	public $conversation = [];
 
