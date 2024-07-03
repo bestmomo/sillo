@@ -50,7 +50,7 @@ new class extends Component {
 ?>
 
 <div>
-    <h1>V 1</h1>
+    <h1>V1</h1>
     <ul>
         @foreach ($conversation as $thread)
             <li>{{ $thread['username'] }}: {{ $thread['message'] }}</li>

@@ -3,7 +3,7 @@ include_once 'chat-v2.php';
 ?>
 
 <div>
-  <h1>V 2</h1>
+  <h1>V2</h1>
   <ul>
     @foreach ($conversation as $thread)
     <li>{{ $thread['username'] }}: {{ $thread['message'] }}</li>

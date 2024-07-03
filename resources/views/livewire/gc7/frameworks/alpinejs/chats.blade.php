@@ -8,13 +8,18 @@ new
 #[Title('Chats')] 
 #[Layout('components.layouts.gc7.main')] 
 class extends Component {
-
+        
+    public $subtitle = 'V1 ou V2 ?';
+    protected $listeners = ['update-subtitle' => 'updateSubtitle'];
+    
+    public function updateSubtitle($newSubtitle)
+    {
+        $this->subtitle = $newSubtitle;
+    }
 }; ?>
 
 <div>
-    <x-header title="Chats" shadow separator progress-indicator></x-header>
+    <x-header title="Chat {{ $subtitle ?? '' }}" shadow separator progress-indicator></x-header>
     
     @livewire('gc7.helpers.submenu', ['btns'=>['V1', 'V2']])
-        
-    {{-- @livewire('gc7.frameworks.alpinejs.chats.chat-v1') --}}
 </div>
