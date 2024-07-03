@@ -13,5 +13,5 @@ class extends Component {
 
 <div>
     <x-header title="Chat" shadow separator progress-indicator></x-header>
-    @livewire('gc7.frameworks.alpinejs.chat.users-chat')
+    @livewire('gc7.frameworks.alpinejs.chats.chat-v1')
 </div>

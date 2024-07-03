@@ -18,15 +18,14 @@
     <div x-cloak x-transition.duration.700ms x-show="choice == 'Spoiler'">
         @include('livewire.gc7.frameworks.alpinejs.ga.01_bases')
     </div>
-
-    <div x-cloak x-transition.duration.700ms x-show="choice == 'Tabs'">
-        @include('livewire.gc7.frameworks.alpinejs.ga.02_bases')
-    </div>
     
     <div x-cloak x-transition.duration.700ms x-show="choice == 'TabsOri'">
         @include('livewire.gc7.frameworks.alpinejs.ga.02_tabs_ori')
     </div>
     
+    <div x-cloak x-transition.duration.700ms x-show="choice == 'Tabs'">
+        @include('livewire.gc7.frameworks.alpinejs.ga.02_bases')
+    </div>
     
     <script>
         // Déclenchement automatique d'un onglet
