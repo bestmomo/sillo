@@ -162,6 +162,15 @@ class DatabaseSeeder extends Seeder
 			['label' => 'Contact', 'order' => 5, 'link' => '/contact'],
 		]);
 
+		// Settings
+		DB::table('settings')->insert([
+			['key'=> 'pagination','value'=> 6],
+			['key'=> 'excerptSize','value'=> 45],
+			['key'=> 'title','value'=> 'Laravel'],
+			['key'=> 'subTitle','value'=> 'Un framework qui rend heureux'],
+			['key'=> 'flash','value'=> ''],
+		]);
+		
 		// REPORT
 		printf('%s%s', str_repeat(' ', 2), "Data tables properly filled.\n\n");
 	}

@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
             Volt::route('/contacts/index', 'admin.contacts.index')->name('contacts.index');
             Volt::route('/images/index', 'admin.images.index')->name('images.index');
             Volt::route('/images/{year}/{month}/{id}/edit', 'admin.images.edit')->name('images.edit');
+            Volt::route('/settings', 'admin.settings')->name('settings');
         });
         
         // Routes pour les commentaires

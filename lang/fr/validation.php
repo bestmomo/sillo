@@ -283,5 +283,6 @@ return [
         'name' => 'mom',
         'password' => 'mot de passe',
         'password_confirmation' => 'confirmation du mot de passe',
+        'subTitle' => 'sous titre',
     ],
 ];

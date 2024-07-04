@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
 use Illuminate\Support\Facades;
 
-use App\Models\Menu;
+use App\Models\{ Menu, Setting };
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,5 +30,10 @@ class AppServiceProvider extends ServiceProvider
                 }])->orderBy('order')->get()
             );            
         });
+
+        $settings = Setting::all();
+        foreach ($settings as $setting) {
+            config(['app.' . $setting->key => $setting->value]);
+        }
     }
 }

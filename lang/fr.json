@@ -454,5 +454,14 @@
     "Are you sure to delete your account?": "Etes-vous sûr de vouloir supprimer votre compte ?",
     "Crop": "Recadrage",
     "Reduce color": "Réduction des couleurs",
-    "Invert colors": "Inversion des couleurs"
+    "Invert colors": "Inversion des couleurs",
+    "Home pagination": "Pagination de la page d'accueil",
+    "Between 2 and 12.": "Entre 2 et 12.",
+    "Post excerpt (number of words)": "Extrait de l'article (nombre de mots)",
+    "Between 30 and 60.": "Entre 30 et 60.",
+    "Site title": "Titre du site",
+    "Site sub title": "Sous titre",
+    "Settings updated successfully!": "Paramètres bien enregistrés!",
+    "Flash message": "Message flash",
+    "Max 500 chars. Leave it empty to not show a message.": "Maximum 500 caractères. Laissez vide pour ne pas avoir de message."
 }

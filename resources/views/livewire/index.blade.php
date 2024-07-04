@@ -95,6 +95,11 @@ new class extends Component {
 
 <div class="relative grid items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
 
+    @if (config('app.flash') !== '')
+        <x-alert title="{!! config('app.flash') !!}" icon="o-exclamation-triangle" class="mb-2 alert-warning" dismissible  />
+    @endif
+    
+ 
     <!-- Affichage du titre en fonction de la catégorie, de la série ou du paramètre de recherche -->
     @if ($category)
         <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" separator />
