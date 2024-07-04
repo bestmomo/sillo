@@ -13,6 +13,11 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
+window.Echo.channel('our-channel') 
+    .listen('MessageSent', (e) => {
+     console.log(e)
+    })   
+ 
 window.Echo.channel('messages') 
     .listen('MessageSent', (e) => {
      console.log(e)
