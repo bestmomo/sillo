@@ -28,7 +28,7 @@ include_once 'chat-v2.php';
             <div>
                 <form wire:submit.prevent="addMessage" class="flex gap-2">
                     <x-input wire:model="message" x-ref="messageInput" name="message" id="message"
-                        class="block w-full" />
+                        class="block w-full" input="v2" />
                     <x-button class='btn-outline btn-primary'>
                         Send
                     </x-button>

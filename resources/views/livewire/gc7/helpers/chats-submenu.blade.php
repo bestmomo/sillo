@@ -10,7 +10,10 @@ new class extends Component {
 
 <div x-data="{
     choice: null, // Default: null 
-    btns: {{ json_encode($btns) }}
+    btns: {{ json_encode($btns) }},
+    isVisible(btn) {
+        return this.choice === btn;
+    }
 }">
     <div class="w-full flex justify-evenly items-center mb-0 mt-[-27px] p-0">
 
@@ -48,7 +51,8 @@ new class extends Component {
         @foreach ($btns as $btn)
             <li>
                 <div class="relative w-full p-0 m-0" x-cloak x-transition.opacity.duration.700ms
-                    x-show="choice === '{{ $btn }}'">
+                    x-show="isVisible('{{ $btn }}')"
+                    x-effect="if (isVisible('{{ $btn }}')) { focusInput() }">
                     <div wire:key="chat-component-{{ $btn }}">
                         @livewire('gc7.frameworks.alpinejs.chats.chat-' . strtolower($btn), key('chat-' . $btn))
                     </div>
@@ -58,13 +62,22 @@ new class extends Component {
     </ul>
 
 </div>
+@section('scripts')
+    <script>
+        
+        window.onload = function() {
 
+            
+        
+    </script>
+@endsection
 <script>
-    // Déclenchement automatique d'un onglet
     window.onload = function() {
+
         setTimeout(function() {
+
             // Choix du bouton cliqué par défaut
-            let btn = null; // Default: null or V1 or V2
+            let btn = 'V1'; // Default: null or V1 or V2
             if (!btn) {
                 console.log('Pas de bouton cliqué par défaut')
             } else {
@@ -80,5 +93,6 @@ new class extends Component {
         }, 100); // Attend .1 seconde avant d'exécuter le script
     };
 </script>
+
 
 </div>

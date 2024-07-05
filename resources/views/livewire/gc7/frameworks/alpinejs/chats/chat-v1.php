@@ -19,6 +19,7 @@ new class() extends Component {
 	{
 		Debugbar::addMessage('Récupération de la conversation');
 		$messages = Message::all();
+		
 		foreach ($messages as $message) {
 			$this->conversation[] = [
 				'username' => $message->user->name,
@@ -26,6 +27,10 @@ new class() extends Component {
 			];
 		}
 	}
+	
+	// public function init(){
+	// 	$this->dispatchBrowserEvent('content-updated');
+	// }
 
 	public function submitMessage()
 	{
