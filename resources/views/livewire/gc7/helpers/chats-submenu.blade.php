@@ -4,6 +4,7 @@ use Livewire\Volt\Component;
 new class extends Component {
     public $btns;
     public $nochoice;
+    public $btn;
 };
 ?>
 
@@ -34,7 +35,15 @@ new class extends Component {
     {{-- Choice: <span x-text="choice"></span> --}}
 
     {!! $nochoice !!}
-    
+
+    @foreach ($btns as $btn)
+        <div x-cloak x-transition.opacity.duration.700ms x-show="choice === '{{ $btn }}'">
+            <div wire:key="chat-title-component-{{ $btn }}">
+                @livewire('gc7.frameworks.alpinejs.chats.chat-title', ['btn' => $btn, key('chat-' . $btn)])
+            </div>
+        </div>
+    @endforeach
+
     <ul>
         @foreach ($btns as $btn)
             <li>

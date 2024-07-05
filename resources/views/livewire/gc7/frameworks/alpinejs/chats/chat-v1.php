@@ -4,11 +4,12 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-use App\Events\MessageEvent;
 use App\Models\Message;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
+use App\Events\MessageEvent;
 use Livewire\Volt\Component;
+use Illuminate\Support\Facades\Auth;
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 new class() extends Component {
 	public $message;
@@ -16,6 +17,7 @@ new class() extends Component {
 
 	public function mount()
 	{
+		Debugbar::addMessage('Récupération de la conversation');
 		$messages = Message::all();
 		foreach ($messages as $message) {
 			$this->conversation[] = [
@@ -27,7 +29,7 @@ new class() extends Component {
 
 	public function submitMessage()
 	{
-		// dump($this->message);
+		Debugbar::addMessage('Envoi du dernier thread');
 
 		// Dispatch the event
 		// $this->emit('newMessage', $this->message);

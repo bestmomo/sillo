@@ -4,47 +4,34 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-use App\Events\MessageEvent;
-use App\Models\Message;
-use Illuminate\Support\Facades\Auth;
+use App\Events\MessageSent;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 
 new class() extends Component {
-	 
-	public $message;
-	public $conversation = [];
+	/**
+	 * @var string[]
+	 */
+	public array $messages = [];
 
-	public function mount()
+	public string $message = '';
+
+	public function addMessage()
 	{
-		$messages = Message::all();
-		foreach ($messages as $message) {
-			$this->conversation[] = [
-				'username' => $message->user->name,
-				'message'  => $message->message,
-			];
-		}
+		Debugbar::addMessage('Envoi dernier message');
+		MessageSent::dispatch(auth()->user()->name, $this->message);
+		$this->reset('message');
 	}
 
-	public function submitMessage()
+	#[On('echo:messages,MessageSent')]
+	public function onMessageSent($event)
 	{
-		// dump($this->message);
-
-		// Dispatch the event
-		// $this->emit('newMessage', $this->message);
-		MessageEvent::dispatch(Auth::user()->id, $this->message);
-
-		// Reset the input field
-		$this->message = '';
-		// $this->conversation[] = $this->message;
-	}
-
-	#[On('echo:our-channel,MessageEvent')]
-	public function listenForMessage($data): void
-	{
-		$this->conversation[] = [
-			'username' => $data['username'],
-			'message'  => $data['message'],
+		Debugbar::addMessage('Réception dernier message');
+		// dd($event);
+		$this->messages[] = [
+			'name'    => $event['name'],
+			'message' => $event['text'],
 		];
 	}
 };
