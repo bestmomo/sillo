@@ -11,8 +11,8 @@ new class extends Component {
 <div x-data="{
     choice: null,
     btns: {{ json_encode($btns) }},
-    isVisible(btn) { 
-        return this.choice === btn; 
+    isVisible(btn) {
+        return this.choice === btn;
     },
     focusInput(btn) {
         if (!btn) return; // Ajout de cette vérification
@@ -24,14 +24,11 @@ new class extends Component {
             }
         }, 700);
     }
-}" 
-x-init="
-    $watch('choice', value => {
-        if (value) focusInput(value);
-    });
-    document.addEventListener('DOMContentLoaded', () => focusInput('v1'));
-    window.addEventListener('focus', () => focusInput(choice || 'v1'));
-">
+}" x-init="$watch('choice', value => {
+    if (value) focusInput(value);
+});
+document.addEventListener('DOMContentLoaded', () => focusInput('v1'));
+window.addEventListener('focus', () => focusInput(choice || 'v1'));">
 
 
     <div class="w-full flex justify-evenly items-center mb-0 mt-[-27px] p-0">
@@ -66,15 +63,19 @@ x-init="
         </div>
     @endforeach
 
-    <ul>
+    {{-- <ul class="flex flex-col h-[calc(100vh-700px)]"> --}}
+    <ul class="flex flex-col h-[calc(100vh-100px)] top-96">
         @foreach ($btns as $btn)
-            <li>
-                <div class="relative w-full p-0 m-0" x-cloak x-transition.opacity.duration.700ms
-                    x-show="isVisible('{{ $btn }}')"
-                    x-effect="if (isVisible('{{ $btn }}')) { focusInput() }">
-                    <div wire:key="chat-component-{{ $btn }}">
-                        @livewire('gc7.frameworks.alpinejs.chats.chat-' . strtolower($btn), key('chat-' . $btn))
-                    </div>
+            <li 
+                class="h-full" 
+                x-cloak x-transition.opacity.duration.700ms
+                x-show="isVisible('{{ $btn }}')"
+                x-effect="if (isVisible('{{ $btn }}')) { focusInput() }">
+
+                <div 
+                    class="h-full overflow-y-auto"
+                    wire:key="chat-component-{{ $btn }}">
+                    @livewire('gc7.frameworks.alpinejs.chats.chat-' . strtolower($btn), key('chat-' . $btn))
                 </div>
             </li>
         @endforeach

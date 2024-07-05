@@ -42,6 +42,9 @@ new class() extends Component {
 	#[On('echo:our-channel,MessageEvent')]
 	public function listenForMessage($data): void
 	{
+		Debugbar::addMessage('Méthode listenForMessage appelée');
+		Debugbar::addMessage($data);
+
 		$this->conversation[] = [
 			'username' => $data['username'],
 			'message'  => $data['message'],

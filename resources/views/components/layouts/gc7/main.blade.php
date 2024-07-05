@@ -29,9 +29,12 @@
 
 
     {{-- FOOTER --}}
-    <hr><br>
-    <livewire:navigation.footer />
-    <br>
+    {{-- <div class="h-[300px] relative clear-both"> --}}
+    <div class="border h-[70px]">
+        <hr style="color:red"><br>
+        <livewire:navigation.footer />
+        <br>
+    </div>
 
     {{--  TOAST area --}}
     <x-toast />

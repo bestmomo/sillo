@@ -14,7 +14,7 @@ new #[Title('Chats')] #[Layout('components.layouts.gc7.main')] class extends Com
     }
 }; ?>
 
-<div>
+<div class="relative w-full h-screen">
 
     <x-header title="Chat {{ $subtitle ?? '' }}" shadow separator progress-indicator></x-header>
 

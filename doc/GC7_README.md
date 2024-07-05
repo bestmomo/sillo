@@ -116,3 +116,6 @@ Dans la Vue:
 https://www.youtube.com/watch?v=ORQvQViO1v4&ab_channel=Grafikart.fr) - GA 2024 18'
 
 - [10 meilleurs générateurs Synthèse vocale](https://www.codeur.com/blog/generateur-voix-ia/) - Article
+
+
+https://www.youtube.com/watch?v=5MzhGQ8WL70&ab_channel=Algomius

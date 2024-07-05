@@ -3,7 +3,7 @@
 use Livewire\Volt\Component;
 
 new class extends Component {
-    public $btn;
+    public $btn='';
     public $links;
 
     public function mount()
@@ -24,11 +24,30 @@ new class extends Component {
             $this->links->$version = (object) $link;
         }
     }
+    
+        public function getUrlProperty()
+    {
+        return isset($this->links->{$this->btn}) ? $this->links->{$this->btn}->url : '#';
+    }
+
+    public function getDurationProperty()
+    {
+        return isset($this->links->{$this->btn}) ? $this->links->{$this->btn}->duration : '';
+    }
+
 }; ?>
 
 {{-- Chat title --}}
-<div class="absolute flex gap-4 items-center justify-around w-[200px]">
-    <h1>{{ $btn }}</h1>
-    <p><a class='link m-0 p-0 b-6' href={{ $links->$btn->url }} target='_blank' title='Vidéo source'>(Source
-            {{ $btn }} - {{ $links->$btn->duration }}')</a>
+<div class="absolute w-full flex justify-center mb-3">
+    <div class="w-2/3 flex gap-4 items-center justify-around z-50">
+        <h1>{{ $btn }}</h1>
+        <p><a 
+            class='link m-0 p-0 b-6' 
+            href="{{ $this->url }}" 
+            target='_blank' title='Vidéo source'
+            >
+            (Source {{ $btn }} - {{ $this->duration }}')
+            {{-- {{ $this->url }} --}}
+        </a>
+    </div>
 </div>
