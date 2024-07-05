@@ -25,7 +25,7 @@ class extends Component {
     #[Rule('required|integer|between:30,60')]
     public int $excerptSize;
 
-    #[Rule('required|max:500')]
+    #[Rule('max:500')]
     public string $flash;
 
     public Collection $settings;
