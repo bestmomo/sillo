@@ -78,41 +78,45 @@
         // });
     </script>
 
-    {{-- Ici, on décide quel sous-onglet est ouvert d'emblée --}}
+    {{-- Ici, on décide quel sous-onglet est ouvert d'emblée:
+     tab1 || tab2 || tab3 --}}
     <div x-data="tabs('tab2')">
 
-        <p x-text="tab"></p>
+        {{-- <p x-text="tab"></p> --}}
 
         <div role="tablist" class="tabs tabs-lifted mt-3 border-b border-orange-400">
 
-            <button id='tab1' type="radio" role="tab"
-                class="tab brdb0 [--tab-border-color:orange-400] border-orange-400 font-bold text-orange-400"
-                @click="toggleTab" x-active-page="isActive('tab1')">Tab 1</button>
+            @php
+                $class =
+                    'tab brdb0 [--tab-border-color:orange-400] border-orange-400 font-bold text-orange-400 transition-opacity duration-700 ease-in-out opacity-100 hover:opacity-70';
+            @endphp
 
-            <button id='tab2' type="radio" role="tab"
-                class="tab brdb0 [--tab-border-color:orange-400] border-orange-400 font-bold text-orange-400"
-                @click="toggleTab" :class="{ 'glass': isActive('tab2'), 'tab-active': isActive('tab2') }">Tab 2</button>
+            <button id='tab1' type="radio" role="tab" class="{{ $class }}" @click="toggleTab"
+                x-active-page="isActive('tab1')">Tab 1</button>
+
+            <button id='tab2' type="radio" role="tab" class="{{ $class }}" @click="toggleTab"
+                :class="{ 'glass': isActive('tab2'), 'tab-active': isActive('tab2') }">Tab 2</button>
 
 
-            <button id='tab3' type="radio" role="tab"
-                class="tab brdb0 [--tab-border-color:orange-400] border-orange-400 font-bold text-orange-400"
-                @click="toggleTab" x-active-page="isActive('tab3')">Tab 3</button>
+            <button id='tab3' type="radio" role="tab" class="{{ $class }}" @click="toggleTab"
+                x-active-page="isActive('tab3')">Tab 3</button>
         </div>
-
 
         <div class="bg-gray-700 glass rounded-b-box mt-3 text-white text-black text-justify">
 
             <template x-if="isActive('tab1')">
                 <div role="tabpanel" class="p-6">
                     <h2>Tab content 1</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis adipisci nesciunt eligendi natus
+                        aliquid quisquam, nulla, provident aperiam in, ea delectus harum unde nemo quasi error! Aliquam
+                        ipsum provident sapiente!</p>
                     <p @click="tab='tab3'" class="link">Aller à l'onglet 3</p>
                 </div>
             </template>
 
             <template x-if="isActive('tab2')">
-
                 <div role="tabpanel" class="p-6">
-                    <h2>Tab 2</h2>
+                    <h2>Tab content 2</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, libero saepe exercitationem:
                     </p>
 
@@ -141,7 +145,7 @@
 
             <template x-if="isActive('tab3')">
                 <div role="tabpanel" class="p-6">
-                    <h2>Onglet 3</h2>
+                    <h2>Tab content 3</h2>
                     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus assumenda harum doloribus
                         ea illum, neque nam velit a enim saepe quos, fuga necessitatibus, ut minus? Alias sunt
                         laudantium dolorem quibusdam.</p>
