@@ -64,7 +64,7 @@ new class extends Component {
     window.onload = function() {
         setTimeout(function() {
             // Choix du bouton cliqué par défaut
-            let btn = 'V2'; // Default: null
+            let btn = null; // Default: null or V1 or V2
             if (!btn) {
                 console.log('Pas de bouton cliqué par défaut')
             } else {
