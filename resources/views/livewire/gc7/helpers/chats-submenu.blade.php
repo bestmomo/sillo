@@ -9,12 +9,31 @@ new class extends Component {
 ?>
 
 <div x-data="{
-    choice: null, // Default: null 
+    choice: null,
     btns: {{ json_encode($btns) }},
-    isVisible(btn) {
-        return this.choice === btn;
+    isVisible(btn) { 
+        return this.choice === btn; 
+    },
+    focusInput(btn) {
+        if (!btn) return; // Ajout de cette vérification
+        setTimeout(() => {
+            const input = document.querySelector(`input[input=${btn.toLowerCase()}]`);
+            if (input) {
+                console.log(`Trouvé elt input ${btn.toLowerCase()} pour focus()`);
+                input.focus();
+            }
+        }, 700);
     }
-}">
+}" 
+x-init="
+    $watch('choice', value => {
+        if (value) focusInput(value);
+    });
+    document.addEventListener('DOMContentLoaded', () => focusInput('v1'));
+    window.addEventListener('focus', () => focusInput(choice || 'v1'));
+">
+
+
     <div class="w-full flex justify-evenly items-center mb-0 mt-[-27px] p-0">
 
         <template x-for="btn in btns" :key="btn">
@@ -62,15 +81,7 @@ new class extends Component {
     </ul>
 
 </div>
-@section('scripts')
-    <script>
-        
-        window.onload = function() {
 
-            
-        
-    </script>
-@endsection
 <script>
     window.onload = function() {
 
@@ -93,6 +104,5 @@ new class extends Component {
         }, 100); // Attend .1 seconde avant d'exécuter le script
     };
 </script>
-
 
 </div>
