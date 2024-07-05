@@ -24,7 +24,7 @@ new class() extends Component {
 		$this->reset('message');
 	}
 
-	#[On('echo:messages,MessageSent')]
+	#[On('echo-private:messages,MessageSent')]
 	public function onMessageSent($event)
 	{
 		Debugbar::addMessage('Réception dernier message');

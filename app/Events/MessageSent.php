@@ -8,6 +8,7 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -41,8 +42,8 @@ class MessageSent implements ShouldBroadcast, ShouldQueue
 	 *
 	 * @return \Illuminate\Broadcasting\Channel;
 	 */
-	public function broadcastOn(): Channel
+	public function broadcastOn(): PrivateChannel
 	{
-		return new Channel('messages');
+		return new PrivateChannel('messages');
 	}
 }
