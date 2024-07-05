@@ -14,7 +14,7 @@
 Restez en contact, et soyez informé de la moindre évolution:
 
 <div align ="center" style="font-weight: bold">
-<a style="font-size: 20px; font-weight: bold" href="http://discord.gg/XxTHxCrs" target="_blank">Lien provisoire*</a></div>
+<a style="font-size: 20px; font-weight: bold" href="[http://discord.gg/XxTHxCrs](https://discord.gg/Vzrjb8fp)" target="_blank">Lien définitif</a></div>
 
 
 ## License
