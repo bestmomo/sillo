@@ -83,17 +83,18 @@ new class extends Component {
     public function with(): array
     {
         return [
-            'posts'     => $this->getPosts(),
-            'comments'  => Comment::with('user', 'post:id,title,slug')
-                                    ->latest()
-                                    ->take(5)
-                                    ->get(),
+            'posts' => $this->getPosts(),
+            'comments' => Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get(),
         ];
     }
 };
 ?>
 
 <div class="relative grid items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
+
+    @if (config('app.flash') !== '')
+        <x-alert title="{!! config('app.flash') !!}" icon="o-exclamation-triangle" class="mb-2 alert-warning" dismissible />
+    @endif
 
     <!-- Affichage du titre en fonction de la catégorie, de la série ou du paramètre de recherche -->
     @if ($category)
@@ -179,7 +180,7 @@ new class extends Component {
         {{ $posts->links() }}
     </div>
 
-    @if(!$this->category && !$this->serie)
+    @if (!$this->category && !$this->serie)
         <x-card title="{{ __('Recent Comments') }}" shadow separator class="mt-2">
             @foreach ($comments as $comment)
                 <x-list-item :item="$comment" no-separator no-hover>
@@ -194,10 +195,10 @@ new class extends Component {
                         @lang ('in post:') {{ $comment->post->title }}
                     </x-slot:value>
                     <x-slot:actions>
-                        <x-popover position="top-start" >
+                        <x-popover position="top-start">
                             <x-slot:trigger>
                                 <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}"
-                                     spinner class="btn-ghost btn-sm" />
+                                    spinner class="btn-ghost btn-sm" />
                             </x-slot:trigger>
                             <x-slot:content>
                                 @lang('Show post')
