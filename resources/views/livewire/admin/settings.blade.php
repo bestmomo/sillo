@@ -59,8 +59,10 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
 ?>
 
 <div>
-    <x-header title="{{ __('Settings') }}" separator progress-indicator />
-
+    <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+        <x-header title="{{ __('Settings') }}" separator progress-indicator />
+    </a>
+    
     <x-card>
         <x-form wire:submit="save">
             <x-input label="{{ __('Site title') }}" wire:model="title" />
