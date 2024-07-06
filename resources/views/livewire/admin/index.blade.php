@@ -11,11 +11,15 @@ use Mary\Traits\Toast;
 use App\Models\Comment;
 use App\Models\Contact;
 use Livewire\Volt\Component;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 
-new #[Layout('components.layouts.admin')] class extends Component {
+new 
+#[Title('Dashboard')]
+#[Layout('components.layouts.admin')] 
+class extends Component {
 	use Toast;
 
 	public array $headersPosts;
