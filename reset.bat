@@ -8,14 +8,14 @@
 @REM - Efface la base de donnée,
 @REM - Vide les dossiers des librairies PHP et des dépendances JS,
 @REM - Supprime tous les fichiers cache (De vues, de config),
-@REM - Et enfin, les ficiers log (De Laravel et de Debugbar).
+@REM - Et enfin, les fichiers log (De Laravel et de Debugbar).
 
 @REM 2 / Restaure ensuite librairies, dépendances et base de données (Avec seed).
 
 @REM 3 / Démarre les serveurs (PHP, ViteJS et Reverb).
 
 @REM Pour l'heure, ne peut vous être utile que si vous êtes sous windows, et utilisez sqlite.
-@REM (Cependant, aisé à adapté pour autre configuration)
+@REM (Cependant, aisé à adapter pour autres configurations)
 
 
 @echo off
