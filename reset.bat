@@ -1,5 +1,26 @@
+@REM ATTENTION:  Windows & Sqlite UNIQUEMENT
+@REM (Et ne le lancer que tous serveurs arrêtés)
+
+@REM ACTIONS :
+
+@REM 1 / Ce script réinitialise complètement le projet:
+@REM - Efface les fichiers lock,
+@REM - Efface la base de donnée,
+@REM - Vide les dossiers des librairies PHP et des dépendances JS,
+@REM - Supprime tous les fichiers cache (De vues, de config),
+@REM - Et enfin, les ficiers log (De Laravel et de Debugbar).
+
+@REM 2 / Restaure ensuite librairies, dépendances et base de données (Avec seed).
+
+@REM 3 / Démarre les serveurs (PHP, ViteJS et Reverb).
+
+@REM Pour l'heure, ne peut vous être utile que si vous êtes sous windows, et utilisez sqlite.
+@REM (Cependant, aisé à adapté pour autre configuration)
+
+
 @echo off
 chcp 65001 > nul
+
 echo Nettoyage des fichiers et dossiers...
 
 if exist package-lock.json (
@@ -14,13 +35,6 @@ if exist composer.lock (
     echo composer.lock supprime.
 ) else (
     echo composer.lock n'existe pas.
-)
-
-if exist composer_dev.lock (
-    del /f composer_dev.lock
-    echo composer_dev.lock supprime.
-) else (
-    echo composer_dev.lock n'existe pas.
 )
 
 if exist database\database.sqlite (
@@ -55,18 +69,63 @@ if exist storage\framework\views (
     echo Le dossier storage\framework\views n'existe pas.
 )
 
+echo Nettoyage des fichiers log debugbar...
+if exist storage\debugbar (
+    cd storage\debugbar
+    for %%i in (*) do if not "%%i"==".gitignore" del /f /q "%%i"
+    for /d %%i in (*) do rmdir /s /q "%%i"
+    cd ..\..
+    echo Fichiers log debugbar nettoyes.
+) else (
+    echo Le dossier storage\debugbar n'existe pas.
+)
+
+if exist storage\logs\laravel.log (
+    del /f storage\logs\laravel.log
+    echo storage\logs\laravel.log supprime.
+) else (
+    echo storage\logs\laravel.log n'existe pas.
+)
+
+
+@echo off
+chcp 65001 > nul
+
+echo.
+echo Restauration...
+
 @REM exit 1
+echo.
+echo Installation des dépendances JS
+call npm install
 
-@REM call npm i
-
-@REM echo Lancement de composer update...
-@REM call composer install
-@REM set COMPOSER=composer_dev.json
-@REM call composer update
+echo.
+echo Lancement de composer update...
+@REM set COMPOSER=config\reset\composer_dev.json
+call composer update
 @REM set COMPOSER=composer.json
-@REM call composer update
 
-@REM echo Nettoyage et processus termine.
 
-@REM start /b npm run dev
-@REM php artisan serve
+echo.
+echo Migration et seed de la base de données...
+if exist database\database.sqlite (
+    call php artisan migrate:refresh --seed
+) else (
+    call php artisan migrate --force --seed
+)
+echo Tables restaurées avec données.
+
+
+echo.
+echo Nettoyage des divers fichiers cache...
+call php artisan view:clear
+call php artisan cache:clear
+call php artisan config:clear
+
+
+echo.
+echo Nettoyage et processus termine.
+
+start /b npm run dev
+start /b php artisan reverb:start
+start /b php artisan serve
