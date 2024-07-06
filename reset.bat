@@ -1,11 +1,13 @@
 @REM ATTENTION:  Windows & Sqlite UNIQUEMENT
 @REM (Et ne le lancer que tous serveurs arrêtés)
 
+@REM              UNIQUEMENT pour pur Developpement !!!
+
 @REM ACTIONS :
 
-@REM 1 / Ce script réinitialise complètement le projet:
+@REM 1 / Ce script re-initialise complètement le projet:
 @REM - Efface les fichiers lock,
-@REM - Efface la base de donnée,
+@REM - Efface la base de données,
 @REM - Vide les dossiers des librairies PHP et des dépendances JS,
 @REM - Supprime tous les fichiers cache (De vues, de config),
 @REM - Et enfin, les fichiers log (De Laravel et de Debugbar).
@@ -14,12 +16,15 @@
 
 @REM 3 / Démarre les serveurs (PHP, ViteJS et Reverb).
 
-@REM Pour l'heure, ne peut vous être utile que si vous êtes sous windows, et utilisez sqlite.
-@REM (Cependant, aisé à adapter pour autres configurations)
+@REM Pour l'heure, ne peut vous être utile que si vous êtes sous windows, et utilisez sqlite. (Cependant, aisé à adapter pour autres configurations)
 
 
 @echo off
-chcp 65001 > nul
+@REM chcp 65001 > nul
+
+setlocal
+cd /d C:\laragon\www\sillo
+
 
 echo Nettoyage des fichiers et dossiers...
 
@@ -87,16 +92,12 @@ if exist storage\logs\laravel.log (
     echo storage\logs\laravel.log n'existe pas.
 )
 
-
-@echo off
-chcp 65001 > nul
-
 echo.
 echo Restauration...
 
 @REM exit 1
 echo.
-echo Installation des dépendances JS
+echo Installation des dependances JS
 call npm install
 
 echo.
@@ -107,7 +108,7 @@ call composer update
 
 
 echo.
-echo Migration et seed de la base de données...
+echo Migration et seed de la base de donnees...
 if exist database\database.sqlite (
     call php artisan migrate:refresh --seed
 ) else (
