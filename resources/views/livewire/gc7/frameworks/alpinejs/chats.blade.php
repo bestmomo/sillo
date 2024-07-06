@@ -20,7 +20,7 @@ new #[Title('Chats')] #[Layout('components.layouts.gc7.main')] class extends Com
 
     @php
         $nochoice = '<div class="absolute" x-cloak x-transition.opacity.duration.777ms x-show="choice != &quot;V1&quot; && choice !=&quot;V2&quot;">
-    <h1>Choose v1 or v2, please !</h1><hr>You need start the Broadcasting channel server:<br>php .\artisan reverb:start<hr>To see events in the CLI: resources/js/echo.js</div>';
+    <h1>Choose v1 or v2, please !</h1><hr>You need start the Broadcasting channel server:<br><b>php .\artisan reverb:start</b><hr>To see events in the CLI: resources/js/echo.js</div>';
     @endphp
 
     @livewire('gc7.helpers.chats-submenu', ['nochoice' => $nochoice, 'btns' => ['V1', 'V2']])

@@ -89,7 +89,7 @@ window.addEventListener('focus', () => focusInput(choice || 'v1'));">
         setTimeout(function() {
 
             // Choix du bouton cliqué par défaut
-            let btn = 'V1'; // Default: null or V1 or V2
+            let btn = null; // Default: null or 'V1' or 'V2'
             if (!btn) {
                 console.log('Pas de bouton cliqué par défaut')
             } else {
