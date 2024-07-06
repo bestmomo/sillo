@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
 use Illuminate\Support\Facades;
+use Illuminate\Support\Facades\Schema;
 
 use App\Models\{ Menu, Setting };
 
@@ -31,9 +32,13 @@ class AppServiceProvider extends ServiceProvider
             );            
         });
 
-        $settings = Setting::all();
-        foreach ($settings as $setting) {
-            config(['app.' . $setting->key => $setting->value]);
+        if (!$this->app->runningInConsole()) {
+            if (Schema::hasTable('settings')) {
+                $settings = Setting::all();
+                foreach ($settings as $setting) {
+                    config(['app.' . $setting->key => $setting->value]);
+                }
+            }
         }
     }
 }
