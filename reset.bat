@@ -20,20 +20,20 @@
 
 
 @echo off
-@REM chcp 65001 > nul
+chcp 65001 > nul
 
 echo Nettoyage des fichiers et dossiers...
 
 if exist package-lock.json (
     del /f package-lock.json
-    echo package-lock.json supprime.
+    echo package-lock.json supprimé.
 ) else (
     echo package-lock.json n'existe pas.
 )
 
 if exist composer.lock (
     del /f composer.lock
-    echo composer.lock supprime.
+    echo composer.lock supprimé.
 ) else (
     echo composer.lock n'existe pas.
 )
@@ -47,25 +47,25 @@ if exist database\database.sqlite (
 
 if exist node_modules (
     rmdir /s /q node_modules
-    echo Dossier node_modules supprime.
+    echo Dossier node_modules supprimé.
 ) else (
     echo Le dossier node_modules n'existe pas.
 )
 
 if exist vendor (
     rmdir /s /q vendor
-    echo Dossier vendor supprime.
+    echo Dossier vendor supprimé.
 ) else (
     echo Le dossier vendor n'existe pas.
 )
 
-echo Nettoyage des vues compilees...
+echo Nettoyage des vues compilées...
 if exist storage\framework\views (
     cd storage\framework\views
     for %%i in (*) do if not "%%i"==".gitignore" del /f /q "%%i"
     for /d %%i in (*) do rmdir /s /q "%%i"
     cd ..\..\..
-    echo Vues nettoyees.
+    echo Vues nettoyées.
 ) else (
     echo Le dossier storage\framework\views n'existe pas.
 )
@@ -76,14 +76,14 @@ if exist storage\debugbar (
     for %%i in (*) do if not "%%i"==".gitignore" del /f /q "%%i"
     for /d %%i in (*) do rmdir /s /q "%%i"
     cd ..\..
-    echo Fichiers log debugbar nettoyes.
+    echo Fichiers log debugbar nettoyés.
 ) else (
     echo Le dossier storage\debugbar n'existe pas.
 )
 
 if exist storage\logs\laravel.log (
     del /f storage\logs\laravel.log
-    echo storage\logs\laravel.log supprime.
+    echo storage\logs\laravel.log supprimé.
 ) else (
     echo storage\logs\laravel.log n'existe pas.
 )
@@ -104,7 +104,7 @@ call composer update
 
 
 echo.
-echo Migration et seed de la base de donnees...
+echo Migration et seed de la base de données...
 if exist database\database.sqlite (
     call php artisan migrate:refresh --seed
 ) else (
@@ -121,7 +121,7 @@ call php artisan config:clear
 
 
 echo.
-echo Nettoyage et processus termine.
+echo Nettoyage et processus terminé.
 
 start /b npm run dev
 start /b php artisan reverb:start
