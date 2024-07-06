@@ -6,23 +6,25 @@
 @REM ACTIONS :
 
 @REM 1 / Ce script re-initialise complètement le projet:
-@REM - Efface les fichiers lock,
-@REM - Efface la base de données,
-@REM - Vide les dossiers des librairies PHP et des dépendances JS,
-@REM - Supprime tous les fichiers cache (De vues, de config),
-@REM - Et enfin, les fichiers log (De Laravel et de Debugbar).
+@REM     - Efface les fichiers lock,
+@REM     - Efface la base de données,
+@REM     - Vide les dossiers des librairies PHP et des dépendances JS,
+@REM     - Supprime tous les fichiers cache (De vues, de config),
+@REM     - Et enfin, les fichiers log (De Laravel et de Debugbar).
 
 @REM 2 / Restaure ensuite librairies, dépendances et base de données (Avec seed).
 
-@REM 3 / Démarre les serveurs (PHP, ViteJS et Reverb).
+@REM 3 / Démarre les serveurs (PHP, ViteJS et Reverb [Si utilisé]).
+
+@REM Enfin, il doit être encodé UTF-8 et avoir CRLF comme fin de ligne.
 
 @REM Pour l'heure, ne peut vous être utile que si vous êtes sous windows, et utilisez sqlite. (Cependant, aisé à adapter pour autres configurations)
-
 
 @echo off
 chcp 65001 > nul
 
 echo Nettoyage des fichiers et dossiers...
+echo.
 
 if exist package-lock.json (
     del /f package-lock.json
