@@ -22,7 +22,7 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
     #[Rule('required|integer|between:30,60')]
     public int $excerptSize;
 
-    #[Rule('required|max:500')]
+    #[Rule('max:500')]
     public string $flash;
 
     public Collection $settings;
