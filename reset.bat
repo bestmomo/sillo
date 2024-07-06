@@ -40,7 +40,7 @@ if exist composer.lock (
 
 if exist database\database.sqlite (
     del /f database\database.sqlite
-    echo database\database.sqlite supprime.
+    echo database\database.sqlite supprimé.
 ) else (
     echo database\database.sqlite n'existe pas.
 )
