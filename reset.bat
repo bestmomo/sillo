@@ -22,10 +22,6 @@
 @echo off
 @REM chcp 65001 > nul
 
-setlocal
-cd /d C:\laragon\www\sillo
-
-
 echo Nettoyage des fichiers et dossiers...
 
 if exist package-lock.json (
