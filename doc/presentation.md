@@ -41,6 +41,10 @@ Le backend est la partie de l'application où l'administrateur et les rédacteur
 
 * Gestion des séries :
     * Création et gestion de séries d'articles sur un même thème. c’est quelque chose qui manque dans WordPress où les articles s’enchaînent en fonction des dates.
+ 
+* Gestion des images :
+    * Liste des images clasées par années et par mois
+    * Modification des images : taille, couleurs, effets...
 
 * Gestion des menus et sous-menus :
     * Personnalisation de la navigation sur le site.
