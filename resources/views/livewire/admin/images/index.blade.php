@@ -151,8 +151,10 @@ class extends Component {
 };?>
 
 <div>
-  <x-header title="{{__('Images')}}" separator progress-indicator />
-
+	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+  	<x-header title="{{__('Images')}}" separator progress-indicator />
+	</a>
+	
   <x-card title="{!!__('Select year and month')!!}" class="shadow-md">
     <x-select label="{{ __('Year') }}" :options="$years" wire:model="selectedYear" wire:change="$refresh" />
 

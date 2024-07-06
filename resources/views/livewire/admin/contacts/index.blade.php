@@ -57,8 +57,10 @@ class extends Component {
 }; ?>
 
 <div>
-  <x-header title="{{ __('Contacts') }}" separator progress-indicator />
-
+	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+  	<x-header title="{{ __('Contacts') }}" separator progress-indicator />
+	</a>
+	
   <x-card>
     <x-table :headers="$headers" :rows="$contacts" :row-decoration="$row_decoration">
       @scope('cell_created_at', $contact)

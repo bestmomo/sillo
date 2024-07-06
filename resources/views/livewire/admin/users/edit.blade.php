@@ -58,20 +58,21 @@ class extends Component {
 	}
 }; ?>
 
-<div>
-    <x-card title="{{ __('Edit an account') }}" shadow separator progress-indicator >
-        <x-form wire:submit="save" >
-            <x-input label="{{__('Name')}}" wire:model="name" icon="o-user" inline />
-            <x-input label="{{__('E-mail')}}" wire:model="email" icon="o-envelope" inline />
-            <br>
-            <x-radio label="{{__('User role')}}" inline label="{{__('Select a role')}}" :options="$roles" wire:model="role" />
-            <br>
-            <x-toggle label="{{__('Valid user')}}" inline wire:model="valid" />
-            <x-slot:actions>
-                <x-button label="{{__('Cancel')}}" icon="o-hand-thumb-down" class="btn-outline" link="/admin/users/index" />
-                <x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
-            </x-slot:actions>
-        </x-form>    
-    </x-card>
-</div>
+<x-card>
+	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+    <x-header title="{{ __('Edit an account') }}" shadow separator progress-indicator />
+	</a>
+			<x-form wire:submit="save" >
+					<x-input label="{{__('Name')}}" wire:model="name" icon="o-user" inline />
+					<x-input label="{{__('E-mail')}}" wire:model="email" icon="o-envelope" inline />
+					<br>
+					<x-radio label="{{__('User role')}}" inline label="{{__('Select a role')}}" :options="$roles" wire:model="role" />
+					<br>
+					<x-toggle label="{{__('Valid user')}}" inline wire:model="valid" />
+					<x-slot:actions>
+							<x-button label="{{__('Cancel')}}" icon="o-hand-thumb-down" class="btn-outline" link="/admin/users/index" />
+							<x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+					</x-slot:actions>
+			</x-form>    
+</x-card>
 

@@ -68,26 +68,28 @@ class extends Component {
 	}
 }; ?>
 
-<div>
-  <x-card title="{{ __('Edit a comment') }}" shadow separator progress-indicator>
-    <x-form wire:submit="save">
-      <x-textarea wire:model="body" label="{{ __('Content') }}" hint="{{ __('Max 1000 chars') }}" rows="5" inline />
-      <x-slot:actions>
-        <x-button label="{{ __('Cancel') }}" icon="o-hand-thumb-down" class="btn-outline"
-          link="/admin/comments/index" />
-        <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
-      </x-slot:actions>
-    </x-form>
-  </x-card>
-
-  @if($depth < 3) <x-card title="{{ __('Your answer') }}" shadow separator progress-indicator>
-    <x-form wire:submit="saveAnswer">
-      <x-editor wire:model="body_answer" label="{{ __('Content') }}" :config="config('tinymce.config_comment')"
-        folder="photos" />
-      <x-slot:actions>
-        <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
-      </x-slot:actions>
-    </x-form>
-    </x-card>
-    @endif
-</div>
+<x-card>
+	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+  	<x-header title="{{ __('Edit a comment') }}" shadow separator progress-indicator />
+	</a>
+	<x-form wire:submit="save">
+		<x-textarea wire:model="body" label="{{ __('Content') }}" hint="{{ __('Max 1000 chars') }}" rows="5" inline />
+		<x-slot:actions>
+			<x-button label="{{ __('Cancel') }}" icon="o-hand-thumb-down" class="btn-outline"
+				link="/admin/comments/index" />
+			<x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+		</x-slot:actions>
+	</x-form>
+  
+  @if($depth < 3) 
+		<x-card title="{{ __('Your answer') }}" shadow separator progress-indicator>
+			<x-form wire:submit="saveAnswer">
+				<x-editor wire:model="body_answer" label="{{ __('Content') }}" :config="config('tinymce.config_comment')"
+					folder="photos" />
+				<x-slot:actions>
+					<x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+				</x-slot:actions>
+			</x-form>
+		</x-card>
+	@endif
+</x-card>

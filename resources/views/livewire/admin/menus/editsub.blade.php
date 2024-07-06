@@ -122,9 +122,12 @@ class extends Component {
 	}
 };?>
 
-<div>
-  <x-card class="" title="{{__('Edit a submenu')}}">
-
+<x-card>
+  
+	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+  	<x-card class="" title="{{__('Edit a submenu')}}" />
+	</a>
+	
     <x-form wire:submit="save()">
       <x-radio :options="$subOptions" wire:model="subOption" wire:change="$refresh" />
       @if($subOption == 1)
@@ -147,5 +150,4 @@ class extends Component {
       </x-slot:actions>
     </x-form>
 
-  </x-card>
-</div>
+</x-card>

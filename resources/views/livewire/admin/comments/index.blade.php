@@ -76,13 +76,14 @@ class extends Component {
 };?>
 
 <div>
-  <x-header title="{{ __('Comments') }}" separator progress-indicator>
-    <x-slot:middle class="!justify-end">
-      <x-input placeholder="{{ __('Search...') }}" wire:model.debounce.500ms="search" clearable
-        icon="o-magnifying-glass" />
-    </x-slot:middle>
-  </x-header>
-
+	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+		<x-header title="{{ __('Comments') }}" separator progress-indicator>
+			<x-slot:middle class="!justify-end">
+				<x-input placeholder="{{ __('Search...') }}" wire:model.debounce.500ms="search" clearable
+					icon="o-magnifying-glass" />
+			</x-slot:middle>
+	  </x-header>
+	</a>
   <x-card>
     <x-table striped :headers="$headers" :rows="$comments" link="/admin/comments/{id}/edit" :sort-by="$sortBy"
       with-pagination>

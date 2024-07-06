@@ -110,12 +110,14 @@ class extends Component {
 }; ?>
 
 <div>
-  <x-header title="{{__('Users')}}" separator progress-indicator>
-    <x-slot:middle class="!justify-end">
-      <x-input placeholder="{{__('Search...')}}" wire:model.live.debounce="search" clearable
-        icon="o-magnifying-glass" />
-    </x-slot:middle>
-  </x-header>
+	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+		<x-header title="{{__('Users')}}" separator progress-indicator>
+			<x-slot:middle class="!justify-end">
+				<x-input placeholder="{{__('Search...')}}" wire:model.live.debounce="search" clearable
+					icon="o-magnifying-glass" />
+			</x-slot:middle>
+		</x-header>
+	</a>
 
   <x-radio inline :options="$roles" wire:model="role" wire:change="$refresh" />
   <br>
