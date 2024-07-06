@@ -23,6 +23,7 @@
 chcp 65001 > nul
 
 echo Nettoyage des fichiers et dossiers...
+echo.
 
 if exist package-lock.json (
     del /f package-lock.json

@@ -11,11 +11,11 @@ use App\Models\Contact;
 use App\Models\Page;
 use App\Models\Post;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,21 +30,21 @@ class DatabaseSeeder extends Seeder
 
 		// Create 1 admin
 		User::factory()->create([
-			'name'  => 'Admin',
-			'email' => 'admin@example.com',
-			'role'  => 'admin',
+			'name'       => 'Admin',
+			'email'      => 'admin@example.com',
+			'role'       => 'admin',
 			'created_at' => Carbon::now()->subYears(3),
 		]);
 
 		// Create 2 redactors
 		User::factory()->count(2)->create([
-			'role' => 'redac',
+			'role'       => 'redac',
 			'created_at' => Carbon::now()->subYears(2),
 		]);
 
 		// Create 3 users
 		$start = Carbon::now()->subYears(2);  // Il y a 2 ans
-		$end = Carbon::now()->subYear();      // Il y a 1 an		
+		$end   = Carbon::now()->subYear();      // Il y a 1 an
 		User::factory()->count(3)->create([
 			'created_at' => function () use ($start, $end) {
 				// Copie $start et ajoute un nombre de jours aléatoire
@@ -148,9 +148,9 @@ class DatabaseSeeder extends Seeder
 
 		foreach ($items as $item) {
 			Page::factory()->create([
-				'title' => $item[1],
-				'seo_title'   => 'Page ' . $item[1],
-				'slug'  => $item[0],
+				'title'     => $item[1],
+				'seo_title' => 'Page ' . $item[1],
+				'slug'      => $item[0],
 			]);
 		}
 
@@ -160,6 +160,15 @@ class DatabaseSeeder extends Seeder
 			['label' => 'Terms', 'order' => 3, 'link' => '/pages/terms'],
 			['label' => 'Policy', 'order' => 4, 'link' => '/pages/privacy-policy'],
 			['label' => 'Contact', 'order' => 5, 'link' => '/contact'],
+		]);
+		
+		// Setting
+		DB::table('settings')->insert([
+			['key' => 'pagination', 'value' => 6],
+			['key' => 'excerptSize', 'value' => 45],
+			['key' => 'title', 'value' => 'Laravel'],
+			['key' => 'subTitle', 'value' => 'Un framework qui rend heureux'],
+			['key' => 'flash', 'value' => ''],
 		]);
 
 		// REPORT
