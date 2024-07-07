@@ -200,7 +200,7 @@ new class extends Component {
                                 <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}"
                                     spinner class="btn-ghost btn-sm" />
                             </x-slot:trigger>
-                            <x-slot:content>
+                            <x-slot:content class="pop-small">
                                 @lang('Show post')
                             </x-slot:content>
                         </x-popover>
