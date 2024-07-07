@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
@@ -10,27 +11,29 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <link rel="stylesheet" href="{{ asset('storage/css/prism.css')}}">
+    <link rel="stylesheet" href="{{ asset('storage/css/prism.css') }}">
 
 </head>
+
 <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
     {{-- HERO --}}
-    <div
-        class="min-h-[35vw] hero"
-        style="background-image: url({{ asset('storage/hero.jpg') }});">
+    <div class="min-h-[35vw] hero" style="background-image: url({{ asset('storage/hero.jpg') }});">
         <div class="bg-opacity-60 hero-overlay"></div>
         <a href="{{ '/' }}">
             <div class="text-center hero-content text-neutral-content">
                 <div>
-                    <h1 class="mb-5 font-bold text-[7vw]">{{ config('app.title' )}}</h1>
-                    <p class="mb-5  text-[2.5vw]">{{ config('app.subTitle' )}}</p>
+                    <h1 class="mb-5 font-bold text-[7vw]">{{ config('app.title') }}</h1>
+                    <p class="mb-5  text-[2.5vw]">{{ config('app.subTitle') }}</p>
                 </div>
             </div>
         </a>
     </div>
 
-    <livewire:navigation.gc7.main />
-    
+    @if (Auth::check() && Auth::user()->name == 'Student')
+        {{-- MAIN MENU (Student) --}}
+        <livewire:navigation.gc7.main />
+    @endif
+
     {{-- NAVBAR --}}
     <livewire:navigation.navbar :$menus />
 
@@ -39,25 +42,26 @@
 
         {{-- SIDEBAR --}}
         <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-inherit lg:hidden">
-            <livewire:navigation.sidebar :$menus />            
+            <livewire:navigation.sidebar :$menus />
         </x-slot:sidebar>
 
         {{-- SLOT --}}
         <x-slot:content>
             {{ $slot }}
         </x-slot:content>
-        
+
     </x-main>
 
     {{-- FOOTER --}}
     <hr><br>
-        <livewire:navigation.footer /> 
-    <br>    
+    <livewire:navigation.footer />
+    <br>
 
     {{--  TOAST area --}}
     <x-toast />
 
-    <script src="{{ asset('storage/scripts/prism.js')}}"></script>    
+    <script src="{{ asset('storage/scripts/prism.js') }}"></script>
 
 </body>
+
 </html>

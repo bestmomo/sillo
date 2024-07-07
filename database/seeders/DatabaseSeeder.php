@@ -42,27 +42,12 @@ class DatabaseSeeder extends Seeder
 		]);
 		
 		User::factory()->create([
-			'name'       => 'Bm',
-			'email'      => 'bm@example.com',
+			'name'       => 'Student',
+			'email'      => 'student@example.com',
 			'role'       => 'admin',
 			'created_at' => Carbon::now()->subYears(3),
 		]);
-				
-		User::factory()->create([
-			'name'       => 'Gc7',
-			'email'      => 'gc7@example.com',
-			'role'       => 'admin',
-			'created_at' => Carbon::now()->subYears(3),
-		]);
-				
-		User::factory()->create([
-			'name'       => 'Momo',
-			'email'      => 'momo@example.com',
-			'role'       => 'admin',
-			'created_at' => Carbon::now()->subYears(3),
-		]);
-
-
+			
 		User::factory()->create([
 			'name'       => 'Redac',
 			'role'       => 'redac',
@@ -78,7 +63,7 @@ class DatabaseSeeder extends Seeder
 		]);
 
 		// Create 798 redactors
-		User::factory()->count(795)->create([
+		User::factory()->count(797)->create([
 			'role'       => 'redac',
 			'created_at' => Carbon::now()->subYears(2),
 		]);
