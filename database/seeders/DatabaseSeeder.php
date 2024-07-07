@@ -12,6 +12,7 @@ use App\Models\Page;
 use App\Models\Post;
 use App\Models\PostGc7;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -34,23 +35,33 @@ class DatabaseSeeder extends Seeder
 
 		// Create 1 admin
 		User::factory()->create([
-			'name'  => 'Admin',
-			'email' => 'admin@example.com',
-			'role'  => 'admin',
+			'name'       => 'Admin',
+			'email'      => 'admin@example.com',
+			'role'       => 'admin',
+			'created_at' => Carbon::now()->subYears(3),
 		]);
 		
 		User::factory()->create([
 			'name'  => 'User',
-			'email' => 'user@example.com'
+			'email' => 'user@example.com',
+			'created_at' => Carbon::now()->subYears(3),
 		]);
 
-		// Create 2 redactors
+		// Create 798 redactors
 		User::factory()->count(798)->create([
 			'role' => 'redac',
+			'created_at' => Carbon::now()->subYears(2),
 		]);
 
-		// Create 3 users
-		User::factory()->count(1200)->create();
+		// Create 1200 users
+				$start = Carbon::now()->subYears(2);  // Il y a 2 ans
+		$end   = Carbon::now()->subYear();      // Il y a 1 an
+		User::factory()->count(1200)->create([
+			'created_at' => function () use ($start, $end) {
+				// Copie $start et ajoute un nombre de jours aléatoire
+				return Carbon::instance($start->copy()->addDays(rand(0, $start->diffInDays($end))));
+			},
+		]);
 
 		$nbrUsers = 2000;
 
@@ -161,6 +172,15 @@ class DatabaseSeeder extends Seeder
 			['label' => 'Policy', 'order' => 4, 'link' => '/pages/privacy-policy'],
 			['label' => 'Contact', 'order' => 5, 'link' => '/contact'],
 		]);
+		
+		// Setting
+		DB::table('settings')->insert([
+			['key' => 'pagination', 'value' => 6],
+			['key' => 'excerptSize', 'value' => 45],
+			['key' => 'title', 'value' => 'Laravel'],
+			['key' => 'subTitle', 'value' => 'Un framework qui rend heureux'],
+			['key' => 'flash', 'value' => ''],
+		]);
 
 		PostGc7::factory()->count(9)->create();
 
@@ -170,12 +190,14 @@ class DatabaseSeeder extends Seeder
 
 	protected function createPost($id, $category_id, $serie_id = null, $parent_id = null)
 	{
+		$months = ['03', '03', '03', '04', '04', '06', '06', '06', '06'];
+
 		return Post::factory()->create([
 			'title'       => 'Post ' . $id,
 			'seo_title'   => 'Post ' . $id,
 			'slug'        => Str::of('Post ' . $id)->slug('-'),
 			'user_id'     => rand(1, 2),
-			'image'       => '2024/03/img0' . $id . '.jpg',
+			'image'       => '2024/' . $months[$id - 1] . '/img0' . $id . '.jpg',
 			'category_id' => $category_id,
 			'serie_id'    => $serie_id,
 			'parent_id'   => $parent_id,

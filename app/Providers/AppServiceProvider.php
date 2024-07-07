@@ -7,22 +7,22 @@
 namespace App\Providers;
 
 use App\Models\Menu;
-use App\Services\Gc7FrameworksLinksService;
-use Illuminate\Support\Facades;
-use Illuminate\Support\ServiceProvider;
+use App\Models\Setting;
 use Illuminate\View\View;
+use Illuminate\Support\Facades;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
+use App\Services\Gc7FrameworksLinksService;
 
 class AppServiceProvider extends ServiceProvider
 {
-	/**
-	 * Register any application services.
-	 */
-	public function register(): void
-	{
-		$this->app->singleton(Gc7FrameworksLinksService::class, function () {
-			return new Gc7FrameworksLinksService();
-		});
-	}
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //
+    }
 
 	/**
 	 * Bootstrap any application services.
@@ -37,5 +37,13 @@ class AppServiceProvider extends ServiceProvider
 				}])->orderBy('order')->get()
 			);
 		});
+
+		// Vérifiez si la table 'settings' existe
+		if (!$this->app->runningInConsole() && Schema::hasTable('settings')) {
+			$settings = Setting::all();
+			foreach ($settings as $setting) {
+				config(['app.' . $setting->key => $setting->value]);
+			}
+		}
 	}
 }

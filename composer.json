@@ -10,15 +10,16 @@
         "blade-ui-kit/blade-icons": "^1.6",
         "blade-ui-kit/blade-ui-kit": "^0.6.2",
         "creativeorange/gravatar": "~1.0",
-        "laravel/framework": "^11.10",
+        "intervention/image-laravel": "^1.3",
+        "laravel/framework": "^11.14",
         "laravel/prompts": "^0.1.24",
-        "laravel/reverb": "@beta",
+        "laravel/reverb": "^1.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
         "livewire/volt": "^1.6",
-        "robsontenorio/mary": "^1.32",
+        "robsontenorio/mary": "^1.34",
         "spatie/laravel-sitemap": "^7.2",
-        "tinymce/tinymce": "^7.1"
+        "tinymce/tinymce": "^7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

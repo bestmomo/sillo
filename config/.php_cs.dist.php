@@ -24,7 +24,11 @@ return (new PhpCsFixer\Config())
 			'array_syntax'             => ['syntax' => 'short'],
 			'explicit_string_variable' => true,
 			'array_indentation'        => true,
-			'braces'                   => true,
+						'braces'                                 => [
+				'allow_single_line_closure'                   => true,
+				'position_after_control_structures'           => 'same',
+				'position_after_functions_and_oop_constructs' => 'same',
+			],
 			'indentation_type'         => true,
 
 			// 'no_blank_lines_before_namespace'    => true,
@@ -32,6 +36,10 @@ return (new PhpCsFixer\Config())
 			'no_blank_lines_after_phpdoc'        => true,
 			'no_extra_blank_lines'               => [
 				'tokens' => [
+					'break',
+					'continue',
+					'return',
+					'curly_brace_block',
 					'curly_brace_block',
 					'extra',
 					'parenthesis_brace_block',
@@ -79,23 +87,17 @@ return (new PhpCsFixer\Config())
 			'class_attributes_separation' => [
 				'elements' => [
 					'method'   => 'one',
-					'method'   => 'one',
 					'property' => 'none',
 				],
 			],
 			'multiline_whitespace_before_semicolons' => true,
 			'single_quote'                           => true,
-			'braces'                                 => [
-				'allow_single_line_closure'                   => true,
-				'position_after_control_structures'           => 'same',
-				'position_after_functions_and_oop_constructs' => 'same',
-			],
 			'cast_spaces'               => true,
 			'concat_space'              => ['spacing' => 'one'],
 			'declare_equal_normalize'   => true,
 			'function_typehint_space'   => true,
 			'compact_nullable_typehint' => true,
-			'single_line_comment_style' => ['comment_types' => ['hash']],
+			'single_line_comment_style'                     => true,
 			'include'                   => true,
 			'lowercase_cast'            => true,
 			'native_function_casing'    => true,
@@ -107,14 +109,9 @@ return (new PhpCsFixer\Config())
 
 			// Custom C57.fr 's rule
 			'assign_null_coalescing_to_coalesce_equal' => true,
-			'combine_consecutive_issets'               => true,
-			'combine_consecutive_unsets'               => true,
 			// 'comment_to_phpdoc'                           => true,
-			'compact_nullable_typehint'   => true,
-			'escape_implicit_backslashes' => true,
 			'escape_implicit_backslashes' => true,
 			'explicit_indirect_variable'  => true,
-			'explicit_string_variable'    => true,
 			// 'final_internal_class'                        => true,
 			'fully_qualified_strict_types' => true,
 			// 'function_to_constant'                        => ['functions' => ['get_class',  'get_called_class', 'php_sapi_name', 'phpversion',   'pi']],
@@ -126,19 +123,6 @@ return (new PhpCsFixer\Config())
 			'multiline_comment_opening_closing' => true,
 			'no_alternative_syntax'             => true,
 			'no_binary_string'                  => true,
-			'no_extra_blank_lines'              => [
-				'tokens' => [
-					'break',
-					'continue',
-					'extra',
-					'return',
-					'throw',
-					'use',
-					'parenthesis_brace_block',
-					'square_brace_block',
-					'curly_brace_block',
-				],
-			],
 			'no_leading_import_slash'                     => true,
 			'no_leading_namespace_whitespace'             => true,
 			'no_multiline_whitespace_around_double_arrow' => true,
@@ -162,7 +146,6 @@ return (new PhpCsFixer\Config())
 			'no_useless_else'         => true,
 			'no_useless_return'       => true,
 			'no_unused_imports'       => true,
-			'ordered_class_elements'  => true,
 			'ordered_imports'         => true,
 			'php_unit_internal_class' => true,
 			'php_unit_method_casing'  => true,
@@ -183,17 +166,15 @@ return (new PhpCsFixer\Config())
 			'unary_operator_spaces'                         => true,
 			'whitespace_after_comma_in_array'               => true,
 			'semicolon_after_instruction'                   => true,
-			// 'single_line_comment_style'                     => true,
 			// 'strict_comparison'                             => true,
 			// 'strict_param'                                  => true,
 			// 'string_line_ending'                            => true,
-
 			'ternary_operator_spaces'     => true,
 			'trailing_comma_in_multiline' => true,
 			'trim_array_spaces'           => true,
 			'yoda_style'                  => true,
-			'space_after_semicolon'       => false,
 			'single_blank_line_at_eof'    => true,
+			// 'space_after_semicolon'           => true,
 		]
 	)
 	->setIndent("\t")

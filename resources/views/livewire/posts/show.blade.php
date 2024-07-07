@@ -94,19 +94,46 @@ new class extends Component {
         @auth
             <!-- Bouton pour modifier le post -->
             @if (Auth::user()->isAdmin() || Auth::user()->id == $post->user_id)
-                <x-button icon="c-pencil-square" link="{{ route('posts.edit', $post) }}" tooltip-left="{{ __('Edit') }}"
-                    spinner class="btn-ghost btn-sm" />
-                <x-button icon="o-finger-print" wire:click="clonePost({{ $post->id }})" tooltip-left="{{ __('Clone') }}"
-                    spinner class="btn-ghost btn-sm" />
+                <x-popover>
+                    <x-slot:trigger>
+                        <x-button icon="c-pencil-square" link="{{ route('posts.edit', $post) }}" spinner class="btn-ghost btn-sm" />
+                    </x-slot:trigger>
+                    <x-slot:content>
+                        @lang('Edit this post')
+                    </x-slot:content>
+                </x-popover>
+                <x-popover>
+                    <x-slot:trigger>
+                        <x-button icon="o-finger-print" wire:click="clonePost({{ $post->id }})" spinner class="btn-ghost btn-sm" />
+                    </x-slot:trigger>
+                    <x-slot:content>
+                        @lang('Clone this post')
+                    </x-slot:content>
+                </x-popover>
+
             @endif
         @endauth
         <!-- Bouton pour afficher la catégorie du post -->
-        <x-button class="btn-sm"><a
-                href="{{ url('/category/' . $post->category->slug) }}">{{ $post->category->title }}</a></x-button>
+        <x-popover>
+            <x-slot:trigger>
+                <x-button class="btn-sm"><a href="{{ url('/category/' . $post->category->slug) }}">{{ $post->category->title }}</a></x-button>
+            </x-slot:trigger>
+            <x-slot:content>
+                @lang('Show this category')
+            </x-slot:content>
+        </x-popover>
+        
         <!-- Bouton pour afficher la série du post (s'il existe) -->
         @if ($post->serie)
-            <x-button class="btn-sm"><a
-                    href="{{ url('/serie/' . $post->serie->slug) }}">{{ $post->serie->title }}</a></x-button>
+            <x-popover>
+                <x-slot:trigger>
+                    <x-button class="btn-sm"><a href="{{ url('/serie/' . $post->serie->slug) }}">{{ $post->serie->title }}</a></x-button>
+                </x-slot:trigger>
+                <x-slot:content>
+                    @lang('Show this serie')
+                </x-slot:content>
+            </x-popover>
+            
         @endif
     </div>
 
@@ -119,7 +146,9 @@ new class extends Component {
             <img src="{{ asset('storage/photos/' . $post->image) }}" />
         </div>
         <br>
-        {!! $post->body !!}
+        <div class="text-justify">
+            {!! $post->body !!}
+        </div>
     </div>
     <br>
     <hr>
@@ -141,12 +170,27 @@ new class extends Component {
         <br>
         <div class="{{ $previous ? 'flex justify-between' : 'flex justify-end' }}">
             @if ($previous)
-                <x-button label="{{ __('Previous') }}" icon="s-arrow-left"
-                    link="{{ url('/posts/' . $previous->slug) }}" class="btn-sm" />
+                <x-popover>
+                    <x-slot:trigger>
+                        <x-button label="{{ __('Previous') }}" icon="s-arrow-left"
+                        link="{{ url('/posts/' . $previous->slug) }}" class="btn-sm" />
+                    </x-slot:trigger>
+                    <x-slot:content>
+                        @lang('Previous post: ') {{ $previous->title }}
+                    </x-slot:content>
+                </x-popover>                
             @endif
             @if ($next)
-                <x-button label="{{ __('Next') }}" icon-right="s-arrow-right"
-                    link="{{ url('/posts/' . $next->slug) }}" class="btn-sm" />
+                <x-popover>
+                    <x-slot:trigger>
+                        <x-button label="{{ __('Next') }}" icon-right="s-arrow-right"
+                        link="{{ url('/posts/' . $next->slug) }}" class="btn-sm" />
+                    </x-slot:trigger>
+                    <x-slot:content>
+                        @lang('Next post: ') {{ $next->title }}
+                    </x-slot:content>
+                </x-popover>  
+
             @endif
         </div>
     @endif

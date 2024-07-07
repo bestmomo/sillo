@@ -11,13 +11,21 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link rel="stylesheet" href="{{ asset('storage/css/prism.css')}}">
-    
+
 </head>
 <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
-    {{-- IMAGE --}}
-    <div class="flex flex-wrap">
-        <a href="{{ url('/') }}" class="block w-full">
-            <img src="{{ asset('storage/banniere.png') }}" class="w-full" alt="Laravel">
+    {{-- HERO --}}
+    <div
+        class="min-h-[35vw] hero"
+        style="background-image: url({{ asset('storage/hero.jpg') }});">
+        <div class="bg-opacity-60 hero-overlay"></div>
+        <a href="{{ '/' }}">
+            <div class="text-center hero-content text-neutral-content">
+                <div>
+                    <h1 class="mb-5 font-bold text-[7vw]">{{ config('app.title' )}}</h1>
+                    <p class="mb-5  text-[2.5vw]">{{ config('app.subTitle' )}}</p>
+                </div>
+            </div>
         </a>
     </div>
 
