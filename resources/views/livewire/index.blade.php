@@ -142,7 +142,7 @@ new class extends Component {
                             <x-button label="{{ $post->category->title }}"
                                 link="{{ url('/category/' . $post->category->slug) }}" class="btn-outline btn-sm" />
                         </x-slot:trigger>
-                        <x-slot:content>
+                        <x-slot:content class="!p-1 text-sm border-info">
                             @lang('Show this category')
                         </x-slot:content>
                     </x-popover>
@@ -153,7 +153,7 @@ new class extends Component {
                                 <x-button label="{{ $post->serie->title }}"
                                     link="{{ url('/serie/' . $post->serie->slug) }}" class="btn-outline btn-sm" />
                             </x-slot:trigger>
-                            <x-slot:content>
+                            <x-slot:content class="!p-1 text-sm border-info">
                                 @lang('Show this serie')
                             </x-slot:content>
                         </x-popover>
@@ -163,7 +163,7 @@ new class extends Component {
                             <x-button label="{{ __('Read') }}" link="{{ url('/posts/' . $post->slug) }}"
                                 class="btn-outline btn-sm" />
                         </x-slot:trigger>
-                        <x-slot:content>
+                        <x-slot:content class="!p-1 text-sm border-info">
                             @lang('Read this post')
                         </x-slot:content>
                     </x-popover>
