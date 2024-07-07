@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use App\Models\Menu;
 use App\Models\Setting;
+use Illuminate\View\View;
 use Illuminate\Support\Facades;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Gc7FrameworksLinksService;
@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
 	 */
 	public function boot(): void
 	{
-		View::composer(['components.layouts.app'], function (View $view) {
+		\Illuminate\Support\Facades\View::composer(['components.layouts.app'], function (View $view) {
 			$view->with(
 				'menus',
 				Menu::with(['submenus' => function ($query) {
