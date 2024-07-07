@@ -21,7 +21,7 @@ use Illuminate\Support\Str;
 class DatabaseSeeder extends Seeder
 {
 	use WithoutModelEvents;
-	
+
 	// Remise à 0 de l'auto-increment
 	// Sqlite: DELETE FROM sqlite_sequence WHERE name = 'messages';
 	// MySQL: ALTER TABLE nom_de_la_table AUTO_INCREMENT = 1;
@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
 	{
 		// Users
 
-		// Create 1 admin
+		// Create 2 admins
 		User::factory()->create([
 			'name'       => 'Admin',
 			'email'      => 'admin@example.com',
@@ -42,28 +42,58 @@ class DatabaseSeeder extends Seeder
 		]);
 		
 		User::factory()->create([
-			'name'  => 'User',
-			'email' => 'user@example.com',
+			'name'       => 'Bm',
+			'email'      => 'bm@example.com',
+			'role'       => 'admin',
+			'created_at' => Carbon::now()->subYears(3),
+		]);
+				
+		User::factory()->create([
+			'name'       => 'Gc7',
+			'email'      => 'gc7@example.com',
+			'role'       => 'admin',
+			'created_at' => Carbon::now()->subYears(3),
+		]);
+				
+		User::factory()->create([
+			'name'       => 'Momo',
+			'email'      => 'momo@example.com',
+			'role'       => 'admin',
+			'created_at' => Carbon::now()->subYears(3),
+		]);
+
+
+		User::factory()->create([
+			'name'       => 'Redac',
+			'role'       => 'redac',
+			'email'      => 'redac@example.com',
+			'created_at' => Carbon::now()->subYears(3),
+		]);
+
+		User::factory()->create([
+			'name'       => 'User',
+			'role'       => 'user',
+			'email'      => 'user@example.com',
 			'created_at' => Carbon::now()->subYears(3),
 		]);
 
 		// Create 798 redactors
-		User::factory()->count(798)->create([
-			'role' => 'redac',
+		User::factory()->count(795)->create([
+			'role'       => 'redac',
 			'created_at' => Carbon::now()->subYears(2),
 		]);
 
 		// Create 1200 users
-				$start = Carbon::now()->subYears(2);  // Il y a 2 ans
+		$start = Carbon::now()->subYears(2);  // Il y a 2 ans
 		$end   = Carbon::now()->subYear();      // Il y a 1 an
-		User::factory()->count(1200)->create([
+		User::factory()->count(1199)->create([
 			'created_at' => function () use ($start, $end) {
 				// Copie $start et ajoute un nombre de jours aléatoire
 				return Carbon::instance($start->copy()->addDays(rand(0, $start->diffInDays($end))));
 			},
 		]);
 
-		$nbrUsers = 2000;
+		$nbrUsers = User::all()->count();
 
 		// Categories
 		DB::table('categories')->insert([
@@ -172,7 +202,7 @@ class DatabaseSeeder extends Seeder
 			['label' => 'Policy', 'order' => 4, 'link' => '/pages/privacy-policy'],
 			['label' => 'Contact', 'order' => 5, 'link' => '/contact'],
 		]);
-		
+
 		// Setting
 		DB::table('settings')->insert([
 			['key' => 'pagination', 'value' => 6],
