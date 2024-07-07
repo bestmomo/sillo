@@ -17,6 +17,11 @@
 @REM 3 / Démarre les serveurs (PHP, ViteJS et Reverb [Si utilisé]).
 
 @REM Enfin, il doit être encodé UTF-8 et avoir CRLF comme fin de ligne.
+@REM Note: For that, in settings.json (parameters) in VSCode:
+@REM "[bat]": {
+@REM     "files.eol": "\r\n"
+@REM }
+
 
 @REM Pour l'heure, ne peut vous être utile que si vous êtes sous windows, et utilisez sqlite. (Cependant, aisé à adapter pour autres configurations)
 
