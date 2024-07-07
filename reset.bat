@@ -30,7 +30,7 @@
 @echo off
 chcp 65001 > nul
 
-
+echo.
 echo Nettoyage des fichiers et dossiers...
 echo.
 
