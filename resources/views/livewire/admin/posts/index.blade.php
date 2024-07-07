@@ -150,8 +150,12 @@ class extends Component {
 }; ?>
 
 <div>
-	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-		<x-header title="{{__('Posts')}}" separator progress-indicator>
+	<x-header separator progress-indicator>
+		<x-slot:title>
+			<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+				{{__('Posts')}}
+			</a>
+			</x-slot:title>
 			<x-slot:middle class="!justify-end">
 				<x-input placeholder="{{__('Search...')}}" wire:model.live.debounce="search" clearable
 					icon="o-magnifying-glass" />

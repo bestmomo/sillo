@@ -72,14 +72,19 @@ new #[Title('Comments'), Layout('components.layouts.admin')] class extends Compo
 }; ?>
 
 <div>
-    <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-        <x-header title="{{ __('Comments') }}" separator progress-indicator>
-            <x-slot:middle class="!justify-end">
-                <x-input placeholder="{{ __('Search...') }}" wire:model.debounce.500ms="search" clearable
-                    icon="o-magnifying-glass" />
-            </x-slot:middle>
-        </x-header>
-    </a>
+
+    <x-header separator progress-indicator>
+        <x-slot:title>
+            <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+                {{ __('Comments') }}
+            </a>
+        </x-slot:title>
+        <x-slot:middle class="!justify-end">
+            <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable
+                icon="o-magnifying-glass" />
+        </x-slot:middle>
+    </x-header>
+
     <x-card>
         <x-table striped :headers="$headers" :rows="$comments" link="/admin/comments/{id}/edit" :sort-by="$sortBy"
             with-pagination>
