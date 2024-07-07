@@ -98,10 +98,13 @@ if exist storage\logs\laravel.log (
     echo storage\logs\laravel.log n'existe pas.
 )
 
+
+@REM exit 1
+
+
 echo.
 echo Restauration...
 
-@REM exit 1
 echo.
 echo Installation des dependances JS
 call npm install
