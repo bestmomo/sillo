@@ -98,7 +98,7 @@ new class extends Component {
                     <x-slot:trigger>
                         <x-button icon="c-pencil-square" link="{{ route('posts.edit', $post) }}" spinner class="btn-ghost btn-sm" />
                     </x-slot:trigger>
-                    <x-slot:content class="!p-1 text-sm border-info">
+                    <x-slot:content class="pop-small">
                         @lang('Edit this post')
                     </x-slot:content>
                 </x-popover>
@@ -106,7 +106,7 @@ new class extends Component {
                     <x-slot:trigger>
                         <x-button icon="o-finger-print" wire:click="clonePost({{ $post->id }})" spinner class="btn-ghost btn-sm" />
                     </x-slot:trigger>
-                    <x-slot:content class="!p-1 text-sm border-info">
+                    <x-slot:content class="pop-small">
                         @lang('Clone this post')
                     </x-slot:content>
                 </x-popover>
@@ -118,7 +118,7 @@ new class extends Component {
             <x-slot:trigger>
                 <x-button class="btn-sm"><a href="{{ url('/category/' . $post->category->slug) }}">{{ $post->category->title }}</a></x-button>
             </x-slot:trigger>
-            <x-slot:content class="!p-1 text-sm border-info">
+            <x-slot:content class="pop-small">
                 @lang('Show this category')
             </x-slot:content>
         </x-popover>
@@ -129,7 +129,7 @@ new class extends Component {
                 <x-slot:trigger>
                     <x-button class="btn-sm"><a href="{{ url('/serie/' . $post->serie->slug) }}">{{ $post->serie->title }}</a></x-button>
                 </x-slot:trigger>
-                <x-slot:content class="!p-1 text-sm border-info">
+                <x-slot:content class="pop-small">
                     @lang('Show this serie')
                 </x-slot:content>
             </x-popover>
@@ -175,7 +175,7 @@ new class extends Component {
                         <x-button label="{{ __('Previous') }}" icon="s-arrow-left"
                         link="{{ url('/posts/' . $previous->slug) }}" class="btn-sm" />
                     </x-slot:trigger>
-                    <x-slot:content class="!p-1 text-sm border-info">
+                    <x-slot:content class="pop-small">
                         @lang('Previous post: ') {{ $previous->title }}
                     </x-slot:content>
                 </x-popover>                
@@ -186,7 +186,7 @@ new class extends Component {
                         <x-button label="{{ __('Next') }}" icon-right="s-arrow-right"
                         link="{{ url('/posts/' . $next->slug) }}" class="btn-sm" />
                     </x-slot:trigger>
-                    <x-slot:content class="!p-1 text-sm border-info">
+                    <x-slot:content class="pop-small">
                         @lang('Next post: ') {{ $next->title }}
                     </x-slot:content>
                 </x-popover>  
