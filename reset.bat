@@ -22,6 +22,7 @@
 @REM     "files.eol": "\r\n"
 @REM }
 @REM and and set \r\n in the end of each line in files.eos in parameters.
+@REM Pour vérifier, dans VSCode, vous pouvez faire CTRL + MAJ + P, et vérifier que le fichier est bien en CRLF en cherchant "seq" (Changer la SEQuence de fin, de ligne).
 
 @REM Pour l'heure, ne peut vous être utile que si vous êtes sous windows, et utilisez sqlite. (Cependant, aisé à adapter pour autres configurations)
 
