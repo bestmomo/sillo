@@ -30,7 +30,7 @@
 
     {{-- FOOTER --}}
     {{-- <div class="h-[300px] relative clear-both"> --}}
-    <div class="border h-[70px]">
+    <div class="h-[70px]">
         <hr style="color:red"><br>
         <livewire:navigation.footer />
         <br>
