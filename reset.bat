@@ -21,12 +21,14 @@
 @REM "[bat]": {
 @REM     "files.eol": "\r\n"
 @REM }
-
+@REM and and set \r\n in the end of each line in files.eos in parameters.
 
 @REM Pour l'heure, ne peut vous être utile que si vous êtes sous windows, et utilisez sqlite. (Cependant, aisé à adapter pour autres configurations)
 
+
 @echo off
 chcp 65001 > nul
+
 
 echo Nettoyage des fichiers et dossiers...
 echo.
