@@ -1,9 +1,5 @@
 <?php
 
-/**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
- */
-
 namespace App\Providers;
 
 use App\Models\Menu;
@@ -21,7 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+		$this->app->singleton(Gc7FrameworksLinksService::class, function () {
+			return new Gc7FrameworksLinksService();
+		});
     }
 
 	/**
@@ -29,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
 	 */
 	public function boot(): void
 	{
-		Facades\View::composer(['components.layouts.app'], function (View $view) {
+		View::composer(['components.layouts.app'], function (View $view) {
 			$view->with(
 				'menus',
 				Menu::with(['submenus' => function ($query) {

@@ -40,6 +40,9 @@ Route::middleware('guest')->group(function () {
 
 // Routes pour les utilisateurs authentifiés
 Route::middleware('auth')->group(function () {
+	
+	Volt::route('/framework/alpinejs/chats', 'gc7.frameworks.alpinejs.chats')->name('alpinejs.chats');
+	
 	Volt::route('/profile', 'auth.profile')->name('profile');
 	Volt::route('/chat', 'chat')->name('chat');
 

@@ -15,7 +15,7 @@ return (new PhpCsFixer\Config())
 				'location'     => 'after_declare_strict',
 			],
 
-			'@PHP81Migration' => true,
+			'@PHP81Migration' 		=> true,
 			'@PSR12'          => true,
 			'@Symfony'        => true,
 
