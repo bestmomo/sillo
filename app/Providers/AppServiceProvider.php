@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use App\Models\Menu;
 use App\Models\Setting;
-use Illuminate\View\View;
 use Illuminate\Support\Facades;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Gc7FrameworksLinksService;
