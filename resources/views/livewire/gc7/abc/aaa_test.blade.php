@@ -12,13 +12,6 @@ include_once 'aa_test.php';
 
     <div class="my-3 font-bold text-xl">Users :</div>
 
-    @php
-
-        $roleCounts = User::query()->groupBy('role')->selectRaw('role, COUNT(*) as count')->pluck('count', 'role');
-
-        $nbrUsers = User::all()->count();
-
-    @endphp
     <table class="w-1/2 mx-auto">
         @foreach ($roleCounts as $role => $count)
             <tr class="!border-0">
