@@ -1,16 +1,6 @@
 <?php
-
-use Livewire\Attributes\{Layout, Title};
-use Livewire\Volt\Component;
-
-new #[Title('Basics')] #[Layout('components.layouts.gc7.main')] class extends Component {
-	public $name = '';
-
-	public function mount()
-	{
-		$this->name = 'GC7';
-	}
-}; ?>
+include_once 'basics.php';
+?>
 
 <div>
     <x-header class="pb-0 mb-[-14px]" title="Basics" shadow separator progress-indicator />
