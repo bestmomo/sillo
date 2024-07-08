@@ -3,7 +3,7 @@ include_once 'chat-v1.php';
 ?>
 
 {{-- <div class="absolute top-16 left-3 border w-full wh-full" wire:poll.5s> --}}
-<div class="relative mt-24 border">
+<div class="relative mt-24">
 
     <ul>
         @foreach ($conversation as $thread)
