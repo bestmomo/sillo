@@ -100,17 +100,21 @@ Dans le Layout:
 </head>
 
 Dans la Vue:
+```
 @section('styles')
     <style>
         {{ file_get_contents(resource_path('views/chemin/vers/votre/fichier.css')) }}
     </style>
 @endsection
+```
+Note: Idem pour les scripts JS
 
 ---
 
 //2see: Divers tutos
 
-- https://www.youtube.com/@Tuto1902/videos
+- https://www.youtube.com/@Tuto1902/playlists
+- (8 séries LARAVEL - 1 VueJS)
 
 - [JS décorer objet avec PROXY]( 
 https://www.youtube.com/watch?v=ORQvQViO1v4&ab_channel=Grafikart.fr) - GA 2024 18'
@@ -121,4 +125,4 @@ https://www.youtube.com/watch?v=ORQvQViO1v4&ab_channel=Grafikart.fr) - GA 2024 1
 https://www.youtube.com/watch?v=5MzhGQ8WL70&ab_channel=Algomius
 
 2see: https://www.youtube.com/watch?v=-XXRlMn04Dk
-(CSS 2024)
+(CSS 2024 - 12' - FR)
