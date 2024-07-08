@@ -1,13 +1,12 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
 use Livewire\Volt\Component;
 
-new class extends Component {
-	
+new class() extends Component {
 	public $btns = [
 		'Users',
 		'Infinite_Scroll',
@@ -24,7 +23,6 @@ new class extends Component {
 	{
 		return strtolower($this->choice);
 	}
-
 }; ?>
 
 <div x-data="{ choice: @entangle('choice') }">

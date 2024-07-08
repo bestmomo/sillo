@@ -69,6 +69,13 @@ if exist vendor (
     echo Le dossier vendor n'existe pas.
 )
 
+if exist .php-cs-fixer.cache (
+    del /f .php-cs-fixer.cache
+    echo .php-cs-fixer.cache supprimé.
+) else (
+    echo .php-cs-fixer.cache n'existe pas.
+)
+
 echo Nettoyage des vues compilées...
 if exist storage\framework\views (
     cd storage\framework\views

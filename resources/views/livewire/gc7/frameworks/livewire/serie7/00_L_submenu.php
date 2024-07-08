@@ -17,7 +17,7 @@ new class() extends Component {
 		$this->component = $this->getComponentName($btn);
 	}
 
-	public function getComponentName($choice): string|null
+	public function getComponentName($choice): ?string
 	{
 		$index = array_search($choice, $this->btns);
 
@@ -27,6 +27,7 @@ new class() extends Component {
 
 			return "{$formattedIndex}_{$lowercaseChoice}";
 		}
+
 		return null;
 	}
 

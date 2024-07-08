@@ -1,97 +1,93 @@
 <?php
 
-use Livewire\Volt\Component;
 use App\Models\{ Category,Serie };
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
-use Mary\Traits\Toast;
-use Illuminate\Support\Str;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Livewire\WithPagination;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
+use Livewire\Attributes\{Layout, Rule};
+use Livewire\Volt\Component;
+use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
-new 
+new
 #[Layout('components.layouts.admin')]
 class extends Component {
+	use Toast;
+	use WithPagination;
 
-    use Toast, WithPagination;
+	public int $category_id;
+	public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
 
-    public int $category_id;
+	#[Rule('required|max:255|unique:categories,title')]
+	public string $title = '';
 
-    public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
+	#[Rule('required|max:255|unique:posts,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
+	public string $slug = '';
 
-    #[Rule('required|max:255|unique:categories,title')]
-    public string $title = '';
+	// Définir l'ID de la catégorie par défaut lors du montage du composant.
+	public function mount(): void
+	{
+		$category          = Category::first();
+		$this->category_id = $category->id;
+	}
 
-    #[Rule('required|max:255|unique:posts,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
-    public string $slug = '';
+	// Définir les en-têtes de table.
+	public function headers(): array
+	{
+		$headers = [
+			['key' => 'title', 'label' => __('Title')],
+			['key' => 'slug', 'label' => 'Slug'],
+			['key' => 'category_title', 'label' => __('Category')],
+		];
 
-    // Définir l'ID de la catégorie par défaut lors du montage du composant.
-    public function mount(): void
-    {
-        $category = Category::first();
-        $this->category_id = $category->id;
-    }
+		if (Auth::user()->isAdmin()) {
+			$headers[] = ['key' => 'user_name', 'label' => __('Author')];
+		}
 
-    // Définir les en-têtes de table.
-    public function headers(): array
-    {
-        $headers = [
-            ['key' => 'title', 'label' => __('Title')],
-            ['key' => 'slug', 'label' => 'Slug'],
-            ['key' => 'category_title', 'label' => __('Category')],
-        ];
+		return $headers;
+	}
 
-        if (Auth::user()->isAdmin()) {
-            $headers[] = ['key' => 'user_name', 'label' => __('Author')];
-        }
+	// Mettre à jour le slug lorsque le titre change.
+	public function updating($property, $value)
+	{
+		if ('title' == $property) {
+			$this->slug = Str::slug($value, '-');
+		}
+	}
 
-        return $headers;
-    }
+	// Supprimer une série.
+	public function delete(Serie $serie): void
+	{
+		$serie->delete();
 
-    // Mettre à jour le slug lorsque le titre change.
-    public function updating($property, $value)
-    {
-        if($property == 'title') {
-            $this->slug = Str::slug($value, '-');
-        }
-    }
+		$this->warning(__('Serie deleted with success.'));
+	}
 
-    // Supprimer une série.
-    public function delete(Serie $serie): void
-    {
-        $serie->delete();
+	// Enregistrer une nouvelle série.
+	public function save(): void
+	{
+		$data = $this->validate();
 
-        $this->warning(__('Serie deleted with success.'));
-    }
+		Serie::create($data + [
+			'category_id' => $this->category_id,
+			'user_id'     => Auth::id(),
+		]);
 
-    // Enregistrer une nouvelle série.
-    public function save(): void
-    {
-        $data = $this->validate();
-        
-        Serie::create($data + [
-            'category_id' => $this->category_id,
-            'user_id' => Auth::id(),
-        ]);
+		$this->success(__('Serie created with success.'));
+	}
 
-        $this->success(__('Serie created with success.'));
-    }
-
-    // Fournir les données nécessaires à la vue.
-    public function with(): array
-    {
-        return [
-            'categories' => Category::all(),
-            'series' => Serie::withAggregate('category', 'title')
-                ->when(Auth::user()->isAdmin(), fn(Builder $q) => $q->withAggregate('user', 'name'))
-                ->when(!Auth::user()->isAdmin(), fn(Builder $q) => $q->where('user_id', Auth::id()))
-                ->orderBy(...array_values($this->sortBy))
-                ->paginate(10),
-            'headers' => $this->headers(),
-        ];
-    }
-
+	// Fournir les données nécessaires à la vue.
+	public function with(): array
+	{
+		return [
+			'categories' => Category::all(),
+			'series'     => Serie::withAggregate('category', 'title')
+				->when(Auth::user()->isAdmin(), fn (Builder $q) => $q->withAggregate('user', 'name'))
+				->when(!Auth::user()->isAdmin(), fn (Builder $q) => $q->where('user_id', Auth::id()))
+				->orderBy(...array_values($this->sortBy))
+				->paginate(10),
+			'headers' => $this->headers(),
+		];
+	}
 }; ?>
 
 <div>

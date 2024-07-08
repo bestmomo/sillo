@@ -4,11 +4,10 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-use Livewire\Volt\Volt;
-use App\Http\Middleware\IsAdmin;
-use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\IsAdminOrRedac;
 use App\Http\Controllers\ImageController;
+use App\Http\Middleware\{IsAdmin, IsAdminOrRedac};
+use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 // Routes publiques
 Volt::route('/', 'index');
@@ -39,9 +38,9 @@ Route::middleware('guest')->group(function () {
 });
 
 // Routes pour les utilisateurs authentifiés
-Route::middleware('auth')->group(function () {	
+Route::middleware('auth')->group(function () {
 	Volt::route('/framework/alpinejs/chats', 'gc7.frameworks.alpinejs.chats')->name('alpinejs.chats');
-	
+
 	Volt::route('/profile', 'auth.profile')->name('profile');
 	Volt::route('/chat', 'chat')->name('chat');
 

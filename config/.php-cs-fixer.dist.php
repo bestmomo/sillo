@@ -4,9 +4,19 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-use PhpCsFixer\Config;
+$finder = PhpCsFixer\Finder::create()
+	->in(__DIR__)
+	->exclude('vendor')
+	->exclude('storage')
+	->exclude('bootstrap/cache')
+	->notName('*.blade.php')
+	->notName('index.php')
+	->notName('server.php');
 
-return (new Config())
+// Direct call: vendor/bin/php-cs-fixer fix app/ --config=config\.php-cs-fixer.dist.php
+// Pour fix tout le projet: vendor/bin/php-cs-fixer fix ./ --config=config\.php-cs-fixer.dist.php
+
+return (new PhpCsFixer\Config())
 	// https:// github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/doc/list.rst
 	->setRiskyAllowed(false)
 	->setRules(
@@ -31,6 +41,8 @@ return (new Config())
 			'single_blank_line_before_namespace'     => false,
 			'ordered_class_elements'                 => true,
 			'ordered_imports'                        => true,
+			'single_import_per_statement'            => false,
+			'group_import'                           => true,
 			'combine_consecutive_issets'             => true,
 			'combine_consecutive_unsets'             => true,
 			'multiline_whitespace_before_semicolons' => true,
@@ -116,7 +128,6 @@ return (new Config())
 			'phpdoc_trim_consecutive_blank_line_separation' => true,
 			'phpdoc_types_order'                            => true,
 			'return_assignment'                             => true,
-			'single_class_element_per_statement'            => true,
 			'short_scalar_cast'                             => true,
 			'standardize_not_equals'                        => true,
 			'unary_operator_spaces'                         => true,
@@ -145,7 +156,9 @@ return (new Config())
 			// 'final_internal_class'                   => true,
 			// 'function_to_constant'                   => ['functions' => ['get_class',  'get_called_class', 'php_sapi_name', 'phpversion',   'pi']],
 			// 'logical_operators'                      => true,
+			// 'single_class_element_per_statement'            => true,
 		]
 	)
 	->setIndent("\t")
+	->setFinder($finder)
 	->setLineEnding("\n");

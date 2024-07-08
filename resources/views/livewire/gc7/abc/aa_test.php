@@ -5,8 +5,7 @@
  */
 
 use App\Models\User;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new

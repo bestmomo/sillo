@@ -1,11 +1,9 @@
 <?php
 
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new #[Title('Characters')] #[Layout('components.layouts.gc7.main')] class extends Component {
-    //
 }; ?>
 
 <div>

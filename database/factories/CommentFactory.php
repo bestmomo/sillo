@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ */
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -9,15 +13,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CommentFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        return [
-            'body' => fake()->paragraph($nbSentences = 4, $variableNbSentences = true),
-        ];
-    }
+	/**
+	 * Define the model's default state.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function definition(): array
+	{
+		return [
+			'body' => fake()->paragraph($nbSentences = 4, $variableNbSentences = true),
+		];
+	}
 }

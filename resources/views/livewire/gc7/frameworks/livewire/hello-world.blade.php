@@ -2,13 +2,13 @@
 
 use Livewire\Volt\Component;
 
-new class extends Component {
-    public $name = '';
+new class() extends Component {
+	public $name = '';
 
-    public function mount()
-    {
-        $this->name = 'GC7';
-    }
+	public function mount()
+	{
+		$this->name = 'GC7';
+	}
 }; ?>
 
 <div>

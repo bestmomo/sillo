@@ -2,11 +2,9 @@
 
 use Livewire\Volt\Component;
 
-new class extends Component {
-
-    public $todosEx = [];
-    public $todos = ['Take out trash', 'Do dishes'];
-
+new class() extends Component {
+	public $todosEx = [];
+	public $todos   = ['Take out trash', 'Do dishes'];
 }; ?>
 
 <div>

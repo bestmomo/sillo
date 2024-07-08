@@ -1,11 +1,10 @@
 <?php
 
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Layout;
 
 new #[Title('Blog')] #[Layout('components.layouts.gc7.main')] class extends Component {
-    // https://alpinejs.dev/start-here
+	// https://alpinejs.dev/start-here
 }; ?>
 
 <div>

@@ -1,20 +1,17 @@
 <?php
 
-use Livewire\Volt\Component;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use App\Models\User;
 
-use function Livewire\Volt\{state, mount};
+use function Livewire\Volt\{mount, state};
 
 // state(['count' => fn() => User::count()]);
 state(['count' => 0]);
-$inc = fn() => $this->count++;
+$inc = fn () => $this->count++;
 
 mount(function () {
-    $this->count = User::count();
-    sleep(3);
-    $this->dispatch('update-subtitle', newSubtitle: 'New API Cpnt');
+	$this->count = User::count();
+	sleep(3);
+	$this->dispatch('update-subtitle', newSubtitle: 'New API Cpnt');
 });
 
 ?>

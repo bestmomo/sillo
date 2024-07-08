@@ -1,35 +1,35 @@
 <?php
 
-use Mary\Traits\Toast;
 use App\Models\PostGc7;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Layout;
+use Mary\Traits\Toast;
 
-new 
-#[Title('Blog')] 
-#[Layout('components.layouts.gc7.main')] 
+new
+#[Title('Blog')]
+#[Layout('components.layouts.gc7.main')]
 class extends Component {
-    use WithPagination;
-    use Toast;
+	use WithPagination;
+	use Toast;
 
-    protected $listeners = ['refreshPosts'];
+	protected $listeners = ['refreshPosts'];
 
-    public function delete(PostGc7 $post)
-    {
-        $postId = $post->id;
-        $post->delete();
-        $this->info("Post # {$postId} deleted !");
-        $this->dispatch('refreshPosts');
-    }
-    public function render(): mixed
-    {
-        // 2do cf. possibilité de ne pas utiliser le render (sert pour delete())
-        return view('livewire.gc7.frameworks.livewire.blog', [
-            'posts' => PostGc7::orderBy('id', 'desc')->paginate(10),
-        ]);
-    }
+	public function delete(PostGc7 $post)
+	{
+		$postId = $post->id;
+		$post->delete();
+		$this->info("Post # {$postId} deleted !");
+		$this->dispatch('refreshPosts');
+	}
+
+	public function render(): mixed
+	{
+		// 2do cf. possibilité de ne pas utiliser le render (sert pour delete())
+		return view('livewire.gc7.frameworks.livewire.blog', [
+			'posts' => PostGc7::orderBy('id', 'desc')->paginate(10),
+		]);
+	}
 }; ?>
 
 <div>

@@ -1,45 +1,42 @@
 <?php
 
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 
 // Définition du composant avec les attributs de titre et de mise en page
-new 
+new
 #[Title('Login')]
 #[Layout('components.layouts.auth')]
 class extends Component {
+	// Déclaration des règles de validation des champs
+	#[Rule('required|email')]
+	public string $email = '';
 
-    // Déclaration des règles de validation des champs
-    #[Rule('required|email')]
-    public string $email = '';
- 
-    #[Rule('required')]
-    public string $password = '';
+	#[Rule('required')]
+	public string $password = '';
 
-    // Méthode pour gérer la connexion de l'utilisateur
-    public function login()
-    {
-        // Validation des informations de connexion
-        $credentials = $this->validate();
- 
-        // Tentative de connexion de l'utilisateur
-        if (auth()->attempt($credentials)) {
-            // Régénération de la session
-            request()->session()->regenerate();
+	// Méthode pour gérer la connexion de l'utilisateur
+	public function login()
+	{
+		// Validation des informations de connexion
+		$credentials = $this->validate();
 
-            if(auth()->user()->isAdmin()) {
-                return redirect()->intended('/admin/dashboard');
-            }
- 
-            // Redirection vers la page d'origine ou la page d'accueil
-            return redirect()->intended('/');
-        }
- 
-        // Ajout d'une erreur si les informations de connexion sont incorrectes
-        $this->addError('email', __('The provided credentials do not match our records.'));
-    }
+		// Tentative de connexion de l'utilisateur
+		if (auth()->attempt($credentials)) {
+			// Régénération de la session
+			request()->session()->regenerate();
+
+			if (auth()->user()->isAdmin()) {
+				return redirect()->intended('/admin/dashboard');
+			}
+
+			// Redirection vers la page d'origine ou la page d'accueil
+			return redirect()->intended('/');
+		}
+
+		// Ajout d'une erreur si les informations de connexion sont incorrectes
+		$this->addError('email', __('The provided credentials do not match our records.'));
+	}
 }; ?>
 
 <div>

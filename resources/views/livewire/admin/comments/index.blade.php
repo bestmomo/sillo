@@ -1,74 +1,73 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 new #[Title('Comments'), Layout('components.layouts.admin')] class extends Component {
-    use Toast;
-    use WithPagination;
+	use Toast;
+	use WithPagination;
 
-    public string $search = '';
-    public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
-    public $role = 'all';
+	public string $search = '';
+	public array $sortBy  = ['column' => 'created_at', 'direction' => 'desc'];
+	public $role          = 'all';
 
-    // Méthode pour supprimer un commentaire
-    public function deleteComment(Comment $comment): void
-    {
-        $comment->delete();
+	// Méthode pour supprimer un commentaire
+	public function deleteComment(Comment $comment): void
+	{
+		$comment->delete();
 
-        $this->success(__('Comment deleted'));
-    }
+		$this->success(__('Comment deleted'));
+	}
 
-    // Méthode pour valider un commentaire
-    public function validComment(Comment $comment): void
-    {
-        $comment->user->valid = true;
-        $comment->user->save();
+	// Méthode pour valider un commentaire
+	public function validComment(Comment $comment): void
+	{
+		$comment->user->valid = true;
+		$comment->user->save();
 
-        $this->success(__('Comment validated'));
-    }
+		$this->success(__('Comment validated'));
+	}
 
-    // Méthode pour obtenir les en-têtes des colonnes
-    public function headers(): array
-    {
-        return [['key' => 'user_name', 'label' => __('Author')], ['key' => 'body', 'label' => __('Comment'), 'sortable' => false], ['key' => 'post_title', 'label' => __('Post')], ['key' => 'created_at', 'label' => __('Sent on')]];
-    }
+	// Méthode pour obtenir les en-têtes des colonnes
+	public function headers(): array
+	{
+		return [['key' => 'user_name', 'label' => __('Author')], ['key' => 'body', 'label' => __('Comment'), 'sortable' => false], ['key' => 'post_title', 'label' => __('Post')], ['key' => 'created_at', 'label' => __('Sent on')]];
+	}
 
-    // Méthode pour obtenir la liste des commentaires avec pagination
-    public function comments(): LengthAwarePaginator
-    {
-        return Comment::query()
-            ->when($this->search, fn(Builder $q) => $q->where('body', 'like', "%{$this->search}%"))
-            ->orderBy(...array_values($this->sortBy))
-            ->when(Auth::user()->isRedac(), fn(Builder $q) => $q->whereRelation('post', 'user_id', Auth::id()))
-            ->with([
-                'user',
-                'post' => function ($query) {
-                    $query->select('id', 'title', 'slug');
-                },
-            ])
-            ->withAggregate('user', 'name')
-            ->paginate(10);
-    }
+	// Méthode pour obtenir la liste des commentaires avec pagination
+	public function comments(): LengthAwarePaginator
+	{
+		return Comment::query()
+			->when($this->search, fn (Builder $q) => $q->where('body', 'like', "%{$this->search}%"))
+			->orderBy(...array_values($this->sortBy))
+			->when(Auth::user()->isRedac(), fn (Builder $q) => $q->whereRelation('post', 'user_id', Auth::id()))
+			->with([
+				'user',
+				'post' => function ($query) {
+					$query->select('id', 'title', 'slug');
+				},
+			])
+			->withAggregate('user', 'name')
+			->paginate(10);
+	}
 
-    // Méthode pour fournir des données additionnelles au composant
-    public function with(): array
-    {
-        return [
-            'headers' => $this->headers(),
-            'comments' => $this->comments(),
-        ];
-    }
+	// Méthode pour fournir des données additionnelles au composant
+	public function with(): array
+	{
+		return [
+			'headers'  => $this->headers(),
+			'comments' => $this->comments(),
+		];
+	}
 }; ?>
 
 <div>

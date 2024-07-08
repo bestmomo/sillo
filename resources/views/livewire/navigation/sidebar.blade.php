@@ -1,41 +1,33 @@
 <?php
 
-use Livewire\Volt\Component;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use App\Models\Menu;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\{Auth, Session};
+use Livewire\Volt\Component;
 
-new class extends Component 
-{
-    // Collection de menus
-    public Collection $menus;
+new class() extends Component {
+	// Collection de menus
+	public Collection $menus;
 
-    /**
-     * Initialise le composant avec les menus donnés.
-     *
-     * @param Collection $menus
-     * @return void
-     */
-    public function mount(Collection $menus): void
-    {
-        $this->menus = $menus;
-    }
+	/**
+	 * Initialise le composant avec les menus donnés.
+	 */
+	public function mount(Collection $menus): void
+	{
+		$this->menus = $menus;
+	}
 
-    /**
-     * Déconnecte l'utilisateur actuellement authentifié.
-     *
-     * @return void
-     */
-    public function logout(): void
-    {
-        Auth::guard('web')->logout();
+	/**
+	 * Déconnecte l'utilisateur actuellement authentifié.
+	 */
+	public function logout(): void
+	{
+		Auth::guard('web')->logout();
 
-        Session::invalidate();
-        Session::regenerateToken();
+		Session::invalidate();
+		Session::regenerateToken();
 
-        $this->redirect('/');
-    }
+		$this->redirect('/');
+	}
 };
 ?>
 

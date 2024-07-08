@@ -15,7 +15,7 @@ class SendMessageCommand extends Command
 	 * The name and signature of the console command.
 	 *
 	 * @var string
-	 * 
+	 *
 	 * php .\artisan reverb:start
 	 * En CLI: php .\artisan send:message
 	 * Voir Outil de dev, Network (WS) -> Refresh → Response

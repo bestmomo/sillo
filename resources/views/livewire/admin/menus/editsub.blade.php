@@ -1,17 +1,12 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
-use App\Models\Category;
-use App\Models\Page;
-use App\Models\Post;
-use App\Models\Serie;
-use App\Models\Submenu;
+use App\Models\{Category, Page, Post, Serie, Submenu};
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
@@ -120,7 +115,7 @@ class extends Component {
 			],
 		];
 	}
-};?>
+}; ?>
 
 <x-card>
   

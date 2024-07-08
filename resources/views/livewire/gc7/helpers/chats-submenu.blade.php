@@ -1,10 +1,10 @@
 <?php
 use Livewire\Volt\Component;
 
-new class extends Component {
-    public $btns;
-    public $nochoice;
-    public $btn;
+new class() extends Component {
+	public $btns;
+	public $nochoice;
+	public $btn;
 };
 ?>
 

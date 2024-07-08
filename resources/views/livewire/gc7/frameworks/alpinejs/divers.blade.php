@@ -1,10 +1,10 @@
 <?php
 
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Title('Divers')] #[Layout('components.layouts.gc7.main')] class extends Component {}; ?>
+new #[Title('Divers')] #[Layout('components.layouts.gc7.main')] class extends Component {
+}; ?>
 <div class="relative w-full h-screen flex flex-col">
 
     <x-header class="!-mb-5" title="Divers" shadow separator progress-indicator></x-header>

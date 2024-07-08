@@ -1,119 +1,116 @@
 <?php
 
-use Livewire\Volt\Component;
 use App\Models\Comment;
-use Livewire\Attributes\Rule;
-use Illuminate\Support\Collection;
-use App\Notifications\CommentCreated;
-use App\Notifications\CommentAnswerCreated;
+use App\Notifications\{CommentAnswerCreated, CommentCreated};
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
+use Livewire\Attributes\Rule;
+use Livewire\Volt\Component;
 
-new class extends Component {
+new class() extends Component {
+	// Propriétés du composant
+	public ?Comment $comment;
+	public Collection $comments;
+	public array $childs        = [];
+	public bool $showAnswerForm = false;
+	public bool $showModifyForm = false;
+	public int $depth;
+	public bool $alert = false;
 
-    // Propriétés du composant
-    public ?Comment $comment;
-    public Collection $comments;
-    public array $childs = [];
-    public bool $showAnswerForm = false;
-    public bool $showModifyForm = false;
-    public int $depth;
-    public bool $alert = false;
+	// Attribut de validation pour le message des commentaires
+	#[Rule('required|max:1000')]
+	public string $message = '';
 
-    // Attribut de validation pour le message des commentaires
-    #[Rule('required|max:1000')]
-    public string $message = '';
-   
-    // Initialise le composant avec les données du commentaire.
-    public function mount($comment, $comments, $depth): void
-    {
-        $this->comment = $comment;
-        $this->comments = $comments;
-        $this->depth = $depth;
-        $this->message = $comment->body;
+	// Initialise le composant avec les données du commentaire.
+	public function mount($comment, $comments, $depth): void
+	{
+		$this->comment  = $comment;
+		$this->comments = $comments;
+		$this->depth    = $depth;
+		$this->message  = $comment->body;
 
-        // Récupération des enfants du commentaire actuel
-        foreach ($comments as $item) {
-            if($item->parent_id == $comment->id) {
-                array_unshift($this->childs, $item);
-            }
-        }
-    }
+		// Récupération des enfants du commentaire actuel
+		foreach ($comments as $item) {
+			if ($item->parent_id == $comment->id) {
+				array_unshift($this->childs, $item);
+			}
+		}
+	}
 
-    // Affiche ou masque le formulaire de réponse.
-    public function toggleAnswerForm(bool $state): void
-    {
-        $this->showAnswerForm = $state;        
-        $this->message = '';
-    }
+	// Affiche ou masque le formulaire de réponse.
+	public function toggleAnswerForm(bool $state): void
+	{
+		$this->showAnswerForm = $state;
+		$this->message        = '';
+	}
 
-    // Affiche ou masque le formulaire de modification.
-    public function toggleModifyForm(bool $state): void
-    {
-        $this->showModifyForm = $state;
-    }
+	// Affiche ou masque le formulaire de modification.
+	public function toggleModifyForm(bool $state): void
+	{
+		$this->showModifyForm = $state;
+	}
 
-    // Crée un nouveau commentaire en réponse à celui actuel.
-    public function createAnswer(): void
-    {
-        $data = $this->validate();
-        $data['parent_id'] = $this->comment->id;
-        $data['user_id'] = Auth::id();
-        $data['post_id'] = $this->comment->post_id;
-        $data['body'] = $this->message;
+	// Crée un nouveau commentaire en réponse à celui actuel.
+	public function createAnswer(): void
+	{
+		$data              = $this->validate();
+		$data['parent_id'] = $this->comment->id;
+		$data['user_id']   = Auth::id();
+		$data['post_id']   = $this->comment->post_id;
+		$data['body']      = $this->message;
 
-        $item = Comment::create($data);
+		$item = Comment::create($data);
 
-        // Attribution de la profondeur au nouveau commentaire
-        $item->depth = $this->depth + 1;        
+		// Attribution de la profondeur au nouveau commentaire
+		$item->depth = $this->depth + 1;
 
-        // Ajout du nouveau commentaire aux enfants du commentaire actuel
-        if(Auth::user()->valid) {
-            array_push($this->childs, $item);
-        } else {
-            $this->alert = true;
-        }
+		// Ajout du nouveau commentaire aux enfants du commentaire actuel
+		if (Auth::user()->valid) {
+			array_push($this->childs, $item);
+		} else {
+			$this->alert = true;
+		}
 
-        // Chargement des relations pour le nouveau commentaire
-        $item->load([
-            'post' => function (Builder $query) {$query->with('user')->select('id', 'title', 'user_id', 'slug');},
-            'user',
-        ]);
+		// Chargement des relations pour le nouveau commentaire
+		$item->load([
+			'post' => function (Builder $query) {$query->with('user')->select('id', 'title', 'user_id', 'slug'); },
+			'user',
+		]);
 
-        // Notification de l'auteur de l'article
-        $item->post->user->notify(new CommentCreated($item));
+		// Notification de l'auteur de l'article
+		$item->post->user->notify(new CommentCreated($item));
 
-        // Notification de l'auteur du commentaire initial
-        $item->post->user->notify(new CommentAnswerCreated($item));
+		// Notification de l'auteur du commentaire initial
+		$item->post->user->notify(new CommentAnswerCreated($item));
 
-        // Masquage du formulaire de réponse
-        $this->toggleAnswerForm(false);
-    }
+		// Masquage du formulaire de réponse
+		$this->toggleAnswerForm(false);
+	}
 
-    // Met à jour le commentaire actuel.
-    public function updateAnswer(): void
-    {
-        // Validation des données du formulaire
-        $data = $this->validate();
+	// Met à jour le commentaire actuel.
+	public function updateAnswer(): void
+	{
+		// Validation des données du formulaire
+		$data = $this->validate();
 
-        // Mise à jour du corps du commentaire
-        $this->comment->body = $data['message'];
-        $this->comment->save();
+		// Mise à jour du corps du commentaire
+		$this->comment->body = $data['message'];
+		$this->comment->save();
 
-        // Masquage du formulaire de modification
-        $this->toggleModifyForm(false);
-    }
+		// Masquage du formulaire de modification
+		$this->toggleModifyForm(false);
+	}
 
-    // Supprime le commentaire actuel.
-    public function deleteComment(): void
-    {
-        // Suppression du commentaire
-        $this->comment->delete();
-        
-        // Réinitialisation des enfants et du commentaire actuel
-        $this->childs = [];
-        $this->comment = null;
-    }
+	// Supprime le commentaire actuel.
+	public function deleteComment(): void
+	{
+		// Suppression du commentaire
+		$this->comment->delete();
 
+		// Réinitialisation des enfants et du commentaire actuel
+		$this->childs  = [];
+		$this->comment = null;
+	}
 }; ?>
 
 <div>

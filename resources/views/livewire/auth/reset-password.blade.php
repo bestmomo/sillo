@@ -1,69 +1,67 @@
 <?php
 
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\{Hash, Password, Session};
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Locked;
+use Livewire\Attributes\{Layout, Locked};
 use Livewire\Volt\Component;
 
 // Définition du composant avec l'attribut de mise en page
-new 
+new
 #[Layout('components.layouts.auth')]
 class extends Component {
-    #[Locked]
-    public string $token = '';
-    public string $email = '';
-    public string $password = '';
-    public string $password_confirmation = '';
+	#[Locked]
+	public string $token = '';
 
-    // Méthode pour initialiser le composant avec le jeton et l'email
-    public function mount(string $token): void
-    {
-        $this->token = $token;
+	public string $email                 = '';
+	public string $password              = '';
+	public string $password_confirmation = '';
 
-        $this->email = request()->input('email');
-    }
+	// Méthode pour initialiser le composant avec le jeton et l'email
+	public function mount(string $token): void
+	{
+		$this->token = $token;
 
-    // Méthode pour réinitialiser le mot de passe
-    public function resetPassword(): void
-    {
-        // Validation des données du formulaire
-        $this->validate([
-            'token' => ['required'],
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-        ]);
+		$this->email = request()->input('email');
+	}
 
-        // Réinitialisation du mot de passe
-        $status = Password::reset(
-            $this->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) {
-                $user->forceFill([
-                    'password' => Hash::make($this->password),
-                    'remember_token' => Str::random(60),
-                ])->save();
+	// Méthode pour réinitialiser le mot de passe
+	public function resetPassword(): void
+	{
+		// Validation des données du formulaire
+		$this->validate([
+			'token'    => ['required'],
+			'email'    => ['required', 'string', 'email'],
+			'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+		]);
 
-                event(new PasswordReset($user));
-            }
-        );
+		// Réinitialisation du mot de passe
+		$status = Password::reset(
+			$this->only('email', 'password', 'password_confirmation', 'token'),
+			function ($user) {
+				$user->forceFill([
+					'password'       => Hash::make($this->password),
+					'remember_token' => Str::random(60),
+				])->save();
 
-        // Gestion du statut de la réinitialisation du mot de passe
-        if ($status != Password::PASSWORD_RESET) {
-            $this->addError('email', __($status));
+				event(new PasswordReset($user));
+			}
+		);
 
-            return;
-        }
+		// Gestion du statut de la réinitialisation du mot de passe
+		if (Password::PASSWORD_RESET != $status) {
+			$this->addError('email', __($status));
 
-        // Affichage du statut de la réinitialisation
-        Session::flash('status', __($status));
+			return;
+		}
 
-        // Redirection vers la page de connexion
-        $this->redirectRoute('login', navigate: true);
-    }
+		// Affichage du statut de la réinitialisation
+		Session::flash('status', __($status));
+
+		// Redirection vers la page de connexion
+		$this->redirectRoute('login', navigate: true);
+	}
 }; ?>
 
 <div>

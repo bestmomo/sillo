@@ -5,14 +5,14 @@
  */
 
 // Src: https://github.com/blade-ui-kit/blade-icons
- 
+
 return [
-'sets' => [
-'default' => [
-'path'   => 'resources/images/icons',
-'prefix' => 'icon',
-],
-],
+	'sets' => [
+		'default' => [
+			'path'   => 'resources/images/icons',
+			'prefix' => 'icon',
+		],
+	],
 ];
 
 // return [
@@ -26,7 +26,7 @@ return [
 | default icon sets. Provide a key name for your icon
 | set and a combination from the options below.
 |
-*/
+ */
 
 // 'default' => [
 //
@@ -120,7 +120,7 @@ return [
 | This config option allows you to define some classes which
 | will be applied by default to all icons.
 |
-*/
+ */
 
 // 'class' => '',
 
@@ -132,7 +132,7 @@ return [
 | This config option allows you to define some attributes which
 | will be applied by default to all icons.
 |
-*/
+ */
 // 'attributes' => [
 // 'width' => 50,
 // 'height' => 50,
@@ -146,7 +146,7 @@ return [
 | icon when an icon in any set cannot be found. It can
 | reference any icon from any configured set.
 |
-*/
+ */
 
 // 'fallback' => '',
 
@@ -158,7 +158,7 @@ return [
 | These config options allow you to define some
 | settings related to Blade Components.
 |
-*/
+ */
 
 // 'components' => [
 
@@ -171,7 +171,7 @@ return [
 | completely. It's useful to avoid performance problems
 | when working with large icon libraries.
 |
-*/
+ */
 //    'disabled' => false,
 
 /*
@@ -182,7 +182,7 @@ return [
 | This config option allows you to define the name
 | for the default Icon class component.
 |
-*/
+ */
 
 //    'default' =/*  */> 'icon',
 

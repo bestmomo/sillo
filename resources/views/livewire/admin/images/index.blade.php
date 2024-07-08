@@ -1,16 +1,14 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
-use App\Models\Page;
-use App\Models\Post;
+use App\Models\{Page, Post};
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -148,7 +146,7 @@ class extends Component {
 
 		return false;
 	}
-};?>
+}; ?>
 
 <div>
 	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">

@@ -6,12 +6,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Comment;
-use App\Models\Contact;
-use App\Models\Page;
-use App\Models\Post;
-use App\Models\PostGc7;
-use App\Models\User;
+use App\Models\{Comment, Contact, Page, Post, PostGc7, User};
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -40,14 +35,14 @@ class DatabaseSeeder extends Seeder
 			'role'       => 'admin',
 			'created_at' => Carbon::now()->subYears(3),
 		]);
-		
+
 		User::factory()->create([
 			'name'       => 'Student',
 			'email'      => 'student@example.com',
 			'role'       => 'admin',
 			'created_at' => Carbon::now()->subYears(3),
 		]);
-			
+
 		User::factory()->create([
 			'name'       => 'Redac',
 			'role'       => 'redac',

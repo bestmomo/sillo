@@ -5,9 +5,7 @@
  */
 
 use App\Models\PostGc7;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 

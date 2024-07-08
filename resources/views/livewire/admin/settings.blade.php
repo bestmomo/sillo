@@ -1,59 +1,58 @@
 <?php
 
 use App\Models\Setting;
+use Illuminate\Database\Eloquent\Collection;
+use Livewire\Attributes\{Layout, Rule};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
-use Livewire\Attributes\Layout;
-use Illuminate\Database\Eloquent\Collection;
-use Livewire\Attributes\Rule;
 
 new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Component {
-    use Toast;
+	use Toast;
 
-    #[Rule('required|max:30')]
-    public string $title;
+	private const SETTINGS_KEYS = ['pagination', 'excerptSize', 'title', 'subTitle', 'flash'];
 
-    #[Rule('required|max:50')]
-    public string $subTitle;
+	#[Rule('required|max:30')]
+	public string $title;
 
-    #[Rule('required|integer|between:2,12')]
-    public int $pagination;
+	#[Rule('required|max:50')]
+	public string $subTitle;
 
-    #[Rule('required|integer|between:30,60')]
-    public int $excerptSize;
+	#[Rule('required|integer|between:2,12')]
+	public int $pagination;
 
-    #[Rule('max:500')]
-    public string $flash;
+	#[Rule('required|integer|between:30,60')]
+	public int $excerptSize;
 
-    public Collection $settings;
+	#[Rule('max:500')]
+	public string $flash;
 
-    private const SETTINGS_KEYS = ['pagination', 'excerptSize', 'title', 'subTitle', 'flash'];
+	public Collection $settings;
 
-    public function mount(): void
-    {
-        $this->settings = Setting::all();
+	public function mount(): void
+	{
+		$this->settings = Setting::all();
 
-        foreach (self::SETTINGS_KEYS as $key) {
-            $this->$key = $this->settings->where('key', $key)->first()->value ?? null;
-        }
-    }
+		foreach (self::SETTINGS_KEYS as $key) {
+			$this->{$key} = $this->settings->where('key', $key)->first()->value ?? null;
+		}
+	}
 
-    public function save()
-    {
-        $data = $this->validate();
+	public function save()
+	{
+		$data = $this->validate();
 
-        DB::transaction(function () use ($data) {
-            foreach (self::SETTINGS_KEYS as $key) {
-                $setting = $this->settings->where('key', $key)->first();
-                if ($setting) {
-                    $setting->value = $data[$key];
-                    $setting->save();
-                }
-            }
-        });
+		DB::transaction(function () use ($data) {
+			foreach (self::SETTINGS_KEYS as $key) {
+				$setting = $this->settings->where('key', $key)->first();
+				if ($setting) {
+					$setting->value = $data[$key];
+					$setting->save();
+				}
+			}
+		});
 
-        $this->success(__('Settings updated successfully!'));
-    }
+		$this->success(__('Settings updated successfully!'));
+	}
 };
 
 ?>

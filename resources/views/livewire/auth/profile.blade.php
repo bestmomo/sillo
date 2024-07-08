@@ -1,78 +1,76 @@
 <?php
 
-use Livewire\Volt\Component;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Mary\Traits\Toast;
-use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\{Auth, Hash};
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\Layout;
+use Livewire\Volt\Component;
+use Mary\Traits\Toast;
 
 // Définition du composant avec les attributs de titre et de mise en page
 new
 #[Title('Profile')]
 #[Layout('components.layouts.auth')]
-class extends Component 
-{
-    use Toast;
+class extends Component {
+	use Toast;
 
-    // Déclaration des propriétés
-    public User $user;
-    public string $email = '';
-    public string $password = '';
-    public string $password_confirmation = '';
- 
-    // Méthode pour initialiser le composant
-    public function mount(): void
-    {
-        // Récupération de l'utilisateur authentifié
-        $this->user = Auth::user();
-        // Remplissage des données de l'utilisateur dans le formulaire
-        $this->fill([
-            'email' => $this->user->email,
-        ]);
-    }
+	// Déclaration des propriétés
+	public User $user;
+	public string $email                 = '';
+	public string $password              = '';
+	public string $password_confirmation = '';
 
-    // Méthode pour sauvegarder les modifications du profil
-    public function save(): void
-    {
-        // Validation des données
-        $data = $this->validate([
-            'email' => [
-                'required', 'email',
-                Rule::unique('users')->ignore($this->user->id),
-            ],
-            'password' => 'confirmed',
-        ]);
+	// Méthode pour initialiser le composant
+	public function mount(): void
+	{
+		// Récupération de l'utilisateur authentifié
+		$this->user = Auth::user();
+		// Remplissage des données de l'utilisateur dans le formulaire
+		$this->fill([
+			'email' => $this->user->email,
+		]);
+	}
 
-        // Hashage du mot de passe
-        if (!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
+	// Méthode pour sauvegarder les modifications du profil
+	public function save(): void
+	{
+		// Validation des données
+		$data = $this->validate([
+			'email' => [
+				'required', 'email',
+				Rule::unique('users')->ignore($this->user->id),
+			],
+			'password' => 'confirmed',
+		]);
 
-        // Mise à jour des données de l'utilisateur
-        $this->user->update($data);
+		// Hashage du mot de passe
+		if (!empty($data['password'])) {
+			$data['password'] = Hash::make($data['password']);
+		}
 
-        // Affichage d'un message de succès
-        $this->success(__('Profile updated with success.'), redirectTo: '/profile');
-    }
+		// Mise à jour des données de l'utilisateur
+		$this->user->update($data);
 
-    // Méthode pour supprimer le compte utilisateur
-    public function deleteAccount(): void
-    {
-        // Suppression du compte utilisateur
-        $this->user->delete();
-        // Affichage d'un message de succès
-        $this->success(__('Account deleted with success.'), redirectTo: '/');
-    }
+		// Affichage d'un message de succès
+		$this->success(__('Profile updated with success.'), redirectTo: '/profile');
+	}
 
-    // Méthode pour générer un mot de passe sécurisé
-    public function generatePassword($length = 16): void
-    {
-        // Génération d'un mot de passe aléatoire
-        $this->password = Str::random($length);
-    }
+	// Méthode pour supprimer le compte utilisateur
+	public function deleteAccount(): void
+	{
+		// Suppression du compte utilisateur
+		$this->user->delete();
+		// Affichage d'un message de succès
+		$this->success(__('Account deleted with success.'), redirectTo: '/');
+	}
+
+	// Méthode pour générer un mot de passe sécurisé
+	public function generatePassword($length = 16): void
+	{
+		// Génération d'un mot de passe aléatoire
+		$this->password = Str::random($length);
+	}
 }; ?>
 
 <div>
