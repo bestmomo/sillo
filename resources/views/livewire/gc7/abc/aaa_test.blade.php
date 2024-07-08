@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 include_once 'aa_test.php';
 ?>
 <div>

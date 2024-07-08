@@ -6,9 +6,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\Serie;
+use App\Models\{Category, Post, Serie};
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -82,30 +80,30 @@ class PostRepository
 	 * Récupère la requête de base pour les articles.
 	 */
 	protected function getBaseQuery(): Builder
-    {
-        $specificReqs = [
-            'mysql'  => "LEFT(body, LOCATE(' ', body, 350))",
-            'sqlite' => 'substr(body, 1, 350)',
-            'pgsql'  => "substring(body from 1 for 350)",
-        ];
+	{
+		$specificReqs = [
+			'mysql'  => "LEFT(body, LOCATE(' ', body, 350))",
+			'sqlite' => 'substr(body, 1, 350)',
+			'pgsql'  => 'substring(body from 1 for 350)',
+		];
 
-        $usedDbSystem = env('DB_CONNECTION', 'mysql');
+		$usedDbSystem = env('DB_CONNECTION', 'mysql');
 
-        if (!isset($specificReqs[$usedDbSystem])) {
-            throw new Exception("Base de données non supportée: {$usedDbSystem}");
-        }
+		if (!isset($specificReqs[$usedDbSystem])) {
+			throw new Exception("Base de données non supportée: {$usedDbSystem}");
+		}
 
-        $adaptedReq = $specificReqs[$usedDbSystem];
+		$adaptedReq = $specificReqs[$usedDbSystem];
 
-        return Post::select('id', 'slug', 'image', 'title', 'user_id', 'category_id', 'serie_id', 'created_at')
-            ->selectRaw(
-                "CASE
+		return Post::select('id', 'slug', 'image', 'title', 'user_id', 'category_id', 'serie_id', 'created_at')
+			->selectRaw(
+				"CASE
                     WHEN LENGTH(body) <= 300 THEN body
                     ELSE {$adaptedReq}
                 END AS excerpt"
-            )
-            ->with('user:id,name', 'category', 'serie')
-            ->whereActive(true)
-            ->latest();
-    }
+			)
+			->with('user:id,name', 'category', 'serie')
+			->whereActive(true)
+			->latest();
+	}
 }

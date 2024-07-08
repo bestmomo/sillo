@@ -1,24 +1,26 @@
 <?php
 
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Layout;
 
 new #[Layout('components.layouts.gc7.main')] #[Title('Counter')] class extends Component {
-    public $count = 100;
-    public $by;
-    public function mount($by = 1)
-    {
-        $this->by = (int) $by;
-    }
-    public function increment($by = 1)
-    {
-        $this->count += $by ?? $this->by;
-    }
-    public function decrement()
-    {
-        $this->count -= $this->by;
-    }
+	public $count = 100;
+	public $by;
+
+	public function mount($by = 1)
+	{
+		$this->by = (int) $by;
+	}
+
+	public function increment($by = 1)
+	{
+		$this->count += $by ?? $this->by;
+	}
+
+	public function decrement()
+	{
+		$this->count -= $this->by;
+	}
 }; ?>
 
 <div class="mt-1">

@@ -6,10 +6,8 @@
 
 namespace App\Events;
 
-use App\Models\Message;
-use App\Models\User;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
+use App\Models\{Message, User};
+use Illuminate\Broadcasting\{Channel, InteractsWithSockets};
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -19,7 +17,7 @@ class MessageEvent implements ShouldBroadcastNow
 	use Dispatchable;
 	use InteractsWithSockets;
 	use SerializesModels;
-	
+
 	// To start Broadcasting:
 	// php .\artisan reverb:start
 

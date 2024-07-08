@@ -12,7 +12,7 @@ new class() extends Component {
 	use WithPagination;
 
 	public $name;
-	public $subtitle='Infinite Scroll';
+	public $subtitle      = 'Infinite Scroll';
 	public $amount        = 0;
 	public $search        = '';
 	public $sortDirection = 'ASC';

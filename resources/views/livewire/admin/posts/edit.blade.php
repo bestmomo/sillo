@@ -1,18 +1,15 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\Serie;
+use App\Models\{Category, Post, Serie};
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Volt\Component;
 use Livewire\WithFileUploads;

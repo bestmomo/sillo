@@ -1,12 +1,11 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
 use App\Models\Page;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
@@ -41,7 +40,7 @@ class extends Component {
 			'headers' => $this->headers(),
 		];
 	}
-};?>
+}; ?>
 
 <div>
 	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">

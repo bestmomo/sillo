@@ -23,7 +23,7 @@ if (!function_exists('getGc7FrameworksRoutes')) {
 
 		foreach ($frameworksLinks as $framework => $links) {
 			foreach ($links as $link) {
-				if ($link!=='chats'){
+				if ('chats' !== $link) {
 					Volt::route("/{$framework}/{$link}", "gc7.frameworks.{$framework}.{$link}")->name("{$framework}.{$link}");
 				}
 			}

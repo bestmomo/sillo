@@ -1,38 +1,38 @@
 <?php
-use Mary\Traits\Toast;
+use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
-use Livewire\Attributes\Rule;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Layout;
+use Mary\Traits\Toast;
 
 new
-#[Layout('components.layouts.gc7.main')] 
+#[Layout('components.layouts.gc7.main')]
 #[Title('Todos')]
 class extends Component {
-    use Toast;
-    #[Rule('required|min:3')]
-    public $todo = '';
-    public $todos = [];
+	use Toast;
 
-    public function mount()
-    {
-        // dd('ok');
-        $this->todos = ['Take out trash', 'Do dishes'];
-    }
+	#[Rule('required|min:3')]
+	public $todo = '';
 
-    public function updatedTodo($value)
-    {
-        // dd($property, $value);
-        $this->todo = ucfirst($value);
-    }
+	public $todos = [];
 
-    public function add()
-    {
-        $this->validate();
-        $this->todos[] = $this->todo;
-        $this->reset('todo');
-        $this->success('Task added');
-    }
+	public function mount()
+	{
+		// dd('ok');
+		$this->todos = ['Take out trash', 'Do dishes'];
+	}
+
+	public function updatedTodo($value)
+	{
+		// dd($property, $value);
+		$this->todo = ucfirst($value);
+	}
+
+	public function add()
+	{
+		$this->validate();
+		$this->todos[] = $this->todo;
+		$this->reset('todo');
+		$this->success('Task added');
+	}
 }; ?>
 
 <div>

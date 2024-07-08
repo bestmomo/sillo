@@ -1,19 +1,28 @@
 <?php
 
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ */
+
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     */
-    public function test_the_application_returns_a_successful_response(): void
-    {
-        $response = $this->get('/');
+	/**
+	 * A basic test example.
+	 */
+	public function testTheApplicationReturnsASuccessfulResponse(): void
+	{
+		$response = $this->get('/');
 
-        $response->assertStatus(200);
-    }
+		$response->assertStatus(200);
+	}
 }

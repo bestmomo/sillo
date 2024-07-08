@@ -2,8 +2,8 @@
 
 use Livewire\Volt\Component;
 
-new class extends Component {
-    public $items;
+new class() extends Component {
+	public $items;
 };
 
 ?>

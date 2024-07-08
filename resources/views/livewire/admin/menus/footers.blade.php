@@ -1,101 +1,99 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
 use App\Models\{Footer};
 use Illuminate\Support\Collection;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Footer Menu'), Layout('components.layouts.admin')] 
+new #[Title('Footer Menu'), Layout('components.layouts.admin')]
 class extends Component {
-    use Toast;
+	use Toast;
 
-    public Collection $footers;
+	public Collection $footers;
 
-    #[Rule('required|max:255|unique:footers,label')]
-    public string $label = '';
+	#[Rule('required|max:255|unique:footers,label')]
+	public string $label = '';
 
-    #[Rule('nullable|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/')]
-    public string $link = '';
+	#[Rule('nullable|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/')]
+	public string $link = '';
 
-    // Méthode appelée lors de l'initialisation du composant.
-    public function mount(): void
-    {
-        $this->getFooters();
-    }
+	// Méthode appelée lors de l'initialisation du composant.
+	public function mount(): void
+	{
+		$this->getFooters();
+	}
 
-    // Récupérer les footers triés par ordre.
-    public function getFooters(): void
-    {
-        $this->footers = Footer::orderBy('order')->get();
-    }
+	// Récupérer les footers triés par ordre.
+	public function getFooters(): void
+	{
+		$this->footers = Footer::orderBy('order')->get();
+	}
 
-    // Monter un footer d'un rang.
-    public function up(Footer $footer): void
-    {
-        $previousFooter = Footer::where('order', '<', $footer->order)
-            ->orderBy('order', 'desc')
-            ->first();
+	// Monter un footer d'un rang.
+	public function up(Footer $footer): void
+	{
+		$previousFooter = Footer::where('order', '<', $footer->order)
+			->orderBy('order', 'desc')
+			->first();
 
-        $this->swap($footer, $previousFooter);
-    }
+		$this->swap($footer, $previousFooter);
+	}
 
-    // Descendre un footer d'un rang.
-    public function down(Footer $footer): void
-    {
-        $previousFooter = Footer::where('order', '>', $footer->order)
-            ->orderBy('order', 'asc')
-            ->first();
+	// Descendre un footer d'un rang.
+	public function down(Footer $footer): void
+	{
+		$previousFooter = Footer::where('order', '>', $footer->order)
+			->orderBy('order', 'asc')
+			->first();
 
-        $this->swap($footer, $previousFooter);
-    }
+		$this->swap($footer, $previousFooter);
+	}
 
-    // Supprimer un footer.
-    public function deleteFooter(Footer $footer): void
-    {
-        $footer->delete();
-        $this->reorderFooters();
-        $this->getFooters();
-        $this->success(__('Footer deleted with success.'));
-    }
+	// Supprimer un footer.
+	public function deleteFooter(Footer $footer): void
+	{
+		$footer->delete();
+		$this->reorderFooters();
+		$this->getFooters();
+		$this->success(__('Footer deleted with success.'));
+	}
 
-    // Échanger les ordres de deux footers.
-    private function swap(Footer $footer, Footer $previousFooter): void
-    {
-        $tempOrder = $footer->order;
-        $footer->order = $previousFooter->order;
-        $previousFooter->order = $tempOrder;
+	// Enregistrer un nouveau footer.
+	public function saveFooter(): void
+	{
+		$data          = $this->validate();
+		$data['order'] = $this->footers->count() + 1;
+		$newFooter     = Footer::create($data);
+		$this->footers->push($newFooter);
+		$this->success(__('Footer created with success.'));
+	}
 
-        $footer->save();
-        $previousFooter->save();
-        $this->getFooters();
-    }
+	// Échanger les ordres de deux footers.
+	private function swap(Footer $footer, Footer $previousFooter): void
+	{
+		$tempOrder             = $footer->order;
+		$footer->order         = $previousFooter->order;
+		$previousFooter->order = $tempOrder;
 
-    // Réordonner les footers après suppression.
-    private function reorderFooters(): void
-    {
-        $footers = Footer::orderBy('order')->get();
-        foreach ($footers as $index => $footer) {
-            $footer->order = $index + 1;
-            $footer->save();
-        }
-    }
+		$footer->save();
+		$previousFooter->save();
+		$this->getFooters();
+	}
 
-    // Enregistrer un nouveau footer.
-    public function saveFooter(): void
-    {
-        $data = $this->validate();
-        $data['order'] = $this->footers->count() + 1;
-        $newFooter = Footer::create($data);
-        $this->footers->push($newFooter);
-        $this->success(__('Footer created with success.'));
-    }
+	// Réordonner les footers après suppression.
+	private function reorderFooters(): void
+	{
+		$footers = Footer::orderBy('order')->get();
+		foreach ($footers as $index => $footer) {
+			$footer->order = $index + 1;
+			$footer->save();
+		}
+	}
 }; ?>
 
 <div>

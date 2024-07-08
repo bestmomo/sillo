@@ -1,43 +1,43 @@
 <?php
 
-use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Layout;
+use Livewire\Volt\Component;
 
 // Définition du composant avec l'attribut de mise en page
-new 
+new
 #[Layout('components.layouts.auth')]
 class extends Component {
+	// Déclaration de la propriété pour stocker l'email
+	public string $email = '';
 
-    // Déclaration de la propriété pour stocker l'email
-    public string $email = '';
+	// Méthode pour envoyer le lien de réinitialisation du mot de passe
+	public function sendPasswordResetLink(): void
+	{
+		// Validation de l'email
+		$this->validate([
+			'email' => ['required', 'string', 'email'],
+		]);
 
-    // Méthode pour envoyer le lien de réinitialisation du mot de passe
-    public function sendPasswordResetLink(): void
-    {
-        // Validation de l'email
-        $this->validate([
-            'email' => ['required', 'string', 'email'],
-        ]);
+		// Envoi du lien de réinitialisation du mot de passe
+		$status = Password::sendResetLink(
+			$this->only('email')
+		);
 
-        // Envoi du lien de réinitialisation du mot de passe
-        $status = Password::sendResetLink(
-            $this->only('email')
-        );
+		// Vérification du statut de l'envoi du lien
+		if (Password::RESET_LINK_SENT != $status) {
+			// En cas d'erreur, ajout de l'erreur à la propriété des erreurs
+			$this->addError('email', __($status));
 
-        // Vérification du statut de l'envoi du lien
-        if ($status != Password::RESET_LINK_SENT) {
-            // En cas d'erreur, ajout de l'erreur à la propriété des erreurs
-            $this->addError('email', __($status));
-            return;
-        }
+			return;
+		}
 
-        // Réinitialisation de la valeur de l'email après envoi réussi
-        $this->reset('email');
+		// Réinitialisation de la valeur de l'email après envoi réussi
+		$this->reset('email');
 
-        // Affichage d'un message de succès
-        session()->flash('status', __($status));
-    }
+		// Affichage d'un message de succès
+		session()->flash('status', __($status));
+	}
 }; ?>
 
 <div>

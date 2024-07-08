@@ -1,92 +1,93 @@
 <?php
 
-use Livewire\Volt\Component;
-use App\Models\{Category, Serie, Comment};
+use App\Models\{Category, Comment, Serie};
 use App\Repositories\PostRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new class extends Component {
-    use WithPagination;
+new class() extends Component {
+	use WithPagination;
 
-    // Propriétés de la classe
-    public string $slug = ''; // Slug pour identifier une catégorie ou une série
-    public string $param = ''; // Paramètre de recherche optionnel
-    public ?Category $category = null; // Catégorie actuelle (ou null si aucune)
-    public ?Serie $serie = null; // Série actuelle (ou null si aucune)
+	// Propriétés de la classe
+	public string $slug        = ''; // Slug pour identifier une catégorie ou une série
+	public string $param       = ''; // Paramètre de recherche optionnel
+	public ?Category $category = null; // Catégorie actuelle (ou null si aucune)
+	public ?Serie $serie       = null; // Série actuelle (ou null si aucune)
 
-    /**
-     * Méthode de montage initiale appelée lors de la création du composant.
-     *
-     * @param string $slug Slug pour identifier une catégorie ou une série
-     * @param string $param Paramètre de recherche optionnel
-     * @return void
-     */
-    public function mount(string $slug = '', string $param = ''): void
-    {
-        $this->slug = $slug;
-        $this->param = $param;
+	/**
+	 * Méthode de montage initiale appelée lors de la création du composant.
+	 *
+	 * @param string $slug  Slug pour identifier une catégorie ou une série
+	 * @param string $param Paramètre de recherche optionnel
+	 */
+	public function mount(string $slug = '', string $param = ''): void
+	{
+		$this->slug  = $slug;
+		$this->param = $param;
 
-        if (!empty($slug)) {
-            // Détermine si le slug correspond à une catégorie ou une série
-            $this->category = $this->getCategoryBySlug($slug);
-            $this->serie = $this->category ? null : $this->getSerieBySlug($slug);
-        }
-    }
+		if (!empty($slug)) {
+			// Détermine si le slug correspond à une catégorie ou une série
+			$this->category = $this->getCategoryBySlug($slug);
+			$this->serie    = $this->category ? null : $this->getSerieBySlug($slug);
+		}
+	}
 
-    /**
-     * Récupère une catégorie en fonction du slug.
-     *
-     * @param string $slug Slug pour identifier la catégorie
-     * @return Category|null La catégorie correspondante ou null
-     */
-    protected function getCategoryBySlug(string $slug): ?Category
-    {
-        // Vérifie si le premier segment de l'URL est 'category'
-        return request()->segment(1) === 'category' ? Category::whereSlug($slug)->firstOrFail() : null;
-    }
+	/**
+	 * Récupère les posts en fonction de la catégorie, de la série ou du paramètre de recherche.
+	 *
+	 * @return LengthAwarePaginator Les posts paginés
+	 */
+	public function getPosts(): LengthAwarePaginator
+	{
+		$postRepository = new PostRepository();
 
-    /**
-     * Récupère une série en fonction du slug.
-     *
-     * @param string $slug Slug pour identifier la série
-     * @return Serie|null La série correspondante ou null
-     */
-    protected function getSerieBySlug(string $slug): ?Serie
-    {
-        return Serie::whereSlug($slug)->firstOrFail();
-    }
+		// Recherche les posts si un paramètre de recherche est présent
+		if (!empty($this->param)) {
+			return $postRepository->search($this->param);
+		}
 
-    /**
-     * Récupère les posts en fonction de la catégorie, de la série ou du paramètre de recherche.
-     *
-     * @return LengthAwarePaginator Les posts paginés
-     */
-    public function getPosts(): LengthAwarePaginator
-    {
-        $postRepository = new PostRepository();
+		// Récupère les posts paginés en fonction de la catégorie ou de la série
+		return $postRepository->getPostsPaginate($this->category, $this->serie);
+	}
 
-        // Recherche les posts si un paramètre de recherche est présent
-        if (!empty($this->param)) {
-            return $postRepository->search($this->param);
-        }
+	/**
+	 * Définit les variables passées à la vue.
+	 *
+	 * @return array Les variables de la vue
+	 */
+	public function with(): array
+	{
+		return [
+			'posts'    => $this->getPosts(),
+			'comments' => Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get(),
+		];
+	}
 
-        // Récupère les posts paginés en fonction de la catégorie ou de la série
-        return $postRepository->getPostsPaginate($this->category, $this->serie);
-    }
+	/**
+	 * Récupère une catégorie en fonction du slug.
+	 *
+	 * @param string $slug Slug pour identifier la catégorie
+	 *
+	 * @return null|Category La catégorie correspondante ou null
+	 */
+	protected function getCategoryBySlug(string $slug): ?Category
+	{
+		// Vérifie si le premier segment de l'URL est 'category'
+		return 'category' === request()->segment(1) ? Category::whereSlug($slug)->firstOrFail() : null;
+	}
 
-    /**
-     * Définit les variables passées à la vue.
-     *
-     * @return array Les variables de la vue
-     */
-    public function with(): array
-    {
-        return [
-            'posts' => $this->getPosts(),
-            'comments' => Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get(),
-        ];
-    }
+	/**
+	 * Récupère une série en fonction du slug.
+	 *
+	 * @param string $slug Slug pour identifier la série
+	 *
+	 * @return null|Serie La série correspondante ou null
+	 */
+	protected function getSerieBySlug(string $slug): ?Serie
+	{
+		return Serie::whereSlug($slug)->firstOrFail();
+	}
 };
 ?>
 

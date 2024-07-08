@@ -1,53 +1,49 @@
 <?php
 
 use App\Models\User;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
-use Livewire\Attributes\Title;
-use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Events\Registered;
- 
+use Livewire\Attributes\{Layout, Rule, Title};
+use Livewire\Volt\Component;
+
 // Définition du composant avec les attributs de titre et de mise en page
 new
 #[Title('Register')]
 #[Layout('components.layouts.auth')]
 class extends Component {
- 
-    // Définition des règles de validation pour les champs du formulaire
-    #[Rule('required|string|max:255|unique:users')]
-    public string $name = '';
- 
-    #[Rule('required|email|unique:users')]
-    public string $email = '';
- 
-    #[Rule('required|confirmed')]
-    public string $password = '';
- 
-    #[Rule('required')]
-    public string $password_confirmation = '';
- 
-    // Méthode pour enregistrer un nouvel utilisateur
-    public function register()
-    {
-        // Validation des données
-        $data = $this->validate();
- 
-        // Hashage du mot de passe
-        $data['password'] = Hash::make($data['password']);
- 
-        // Création de l'utilisateur
-        $user = User::create($data);
- 
-        // Authentification de l'utilisateur
-        auth()->login($user);
- 
-        // Régénération de la session
-        request()->session()->regenerate();
- 
-        // Redirection vers la page d'accueil
-        return redirect('/');
-    }
+	// Définition des règles de validation pour les champs du formulaire
+	#[Rule('required|string|max:255|unique:users')]
+	public string $name = '';
+
+	#[Rule('required|email|unique:users')]
+	public string $email = '';
+
+	#[Rule('required|confirmed')]
+	public string $password = '';
+
+	#[Rule('required')]
+	public string $password_confirmation = '';
+
+	// Méthode pour enregistrer un nouvel utilisateur
+	public function register()
+	{
+		// Validation des données
+		$data = $this->validate();
+
+		// Hashage du mot de passe
+		$data['password'] = Hash::make($data['password']);
+
+		// Création de l'utilisateur
+		$user = User::create($data);
+
+		// Authentification de l'utilisateur
+		auth()->login($user);
+
+		// Régénération de la session
+		request()->session()->regenerate();
+
+		// Redirection vers la page d'accueil
+		return redirect('/');
+	}
 }; ?>
 
 <div>

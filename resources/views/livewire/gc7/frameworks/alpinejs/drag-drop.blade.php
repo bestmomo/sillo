@@ -1,7 +1,6 @@
 <?php
 
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 // Src: https://www.youtube.com/watch?v=rW3xVeMtBa8&list=PLKbhw6n2iYKhVSp9wAOPFcdD6EDlfDxQt&index=9
@@ -9,7 +8,8 @@ use Livewire\Volt\Component;
 // Autre src: Multifiles Drag And Drop
 // https://pqina.nl/filepond/#multi-file-code → https://codepen.io/rikschennink/pen/WXavEx
 
-new #[Title('Divers')] #[Layout('components.layouts.gc7.main')] class extends Component {}; ?>
+new #[Title('Divers')] #[Layout('components.layouts.gc7.main')] class extends Component {
+}; ?>
 
 <div>
     <x-header title="Divers" shadow separator progress-indicator></x-header>

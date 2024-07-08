@@ -1,74 +1,73 @@
 <?php
 
-use Livewire\Volt\Component;
 use App\Models\Comment;
-use Livewire\Attributes\Rule;
 use App\Notifications\CommentCreated;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Livewire\Attributes\Rule;
+use Livewire\Volt\Component;
 
-new class extends Component {
-    public $id;
-    public $action;
-    public $title;
-    public $placeholder = '';
-    public $cancelBtn = false;
+new class() extends Component {
+	public $id;
+	public $action;
+	public $title;
+	public $placeholder = '';
+	public $cancelBtn   = false;
+	public int $postId;
 
-    public int $postId;
+	// Attribut de validation pour le message des commentaires
+	#[Rule('required|max:1000')]
+	public string $message = '';
 
-    // Attribut de validation pour le message des commentaires
-    #[Rule('required|max:1000')]
-    public string $message = '';
+	public function mount($postId)
+	{
+		$this->postId = $postId;
+	}
 
-    public function mount($postId)
-    {
-        $this->postId = $postId;
-    }
+	// Méthode pour créer un nouveau commentaire
+	public function createComment(): void
+	{
+		// Validation des données du formulaire
+		$data = $this->validate();
 
-    // Méthode pour créer un nouveau commentaire
-    public function createComment(): void
-    {
-        // Validation des données du formulaire
-        $data = $this->validate();
+		// Vérification de la validité de l'utilisateur
+		if (!Auth::user()->valid) {
+			$this->alert = true;
+		}
 
-        // Vérification de la validité de l'utilisateur
-        if (!Auth::user()->valid) {
-            $this->alert = true;
-        }
+		// Création du commentaire
+		$this->comment = Comment::create([
+			'user_id' => Auth::id(),
+			'post_id' => $this->postId,
+			'body'    => $data['message'],
+		]);
+		// Chargement des relations pour le commentaire créé
+		$this->comment->load([
+			'post' => function (Builder $query) {
+				$query->with('user')->select('id', 'title', 'user_id');
+			},
+			'user',
+		]);
 
-        // Création du commentaire
-        $this->comment = Comment::create([
-            'user_id' => Auth::id(),
-            'post_id' => $this->postId,
-            'body' => $data['message'],
-        ]);
-        // Chargement des relations pour le commentaire créé
-        $this->comment->load([
-            'post' => function (Builder $query) {
-                $query->with('user')->select('id', 'title', 'user_id');
-            },
-            'user',
-        ]);
+		// Notification de l'auteur de l'article
+		$this->comment->post->user->notify(new CommentCreated($this->comment));
 
-        // Notification de l'auteur de l'article
-        $this->comment->post->user->notify(new CommentCreated($this->comment));
+		// Réinitialisation du message du formulaire
+		$this->message = $data['message'];
+	}
 
-        // Réinitialisation du message du formulaire
-        $this->message = $data['message'];
-    }
+	// Méthode pour mettre à jour un commentaire
+	public function updateComment(): void
+	{
+		// Validation des données du formulaire
+		$data = $this->validate();
 
-    // Méthode pour mettre à jour un commentaire
-    public function updateComment(): void
-    {
-        // Validation des données du formulaire
-        $data = $this->validate();
+		// Mise à jour du corps du commentaire
+		$this->comment->body = $data['message'];
+		$this->comment->save();
 
-        // Mise à jour du corps du commentaire
-        $this->comment->body = $data['message'];
-        $this->comment->save();
-
-        // Masquage du formulaire de modification
-        $this->toggleModifyForm(false);
-    }
+		// Masquage du formulaire de modification
+		$this->toggleModifyForm(false);
+	}
 }; ?>
 
 <div>

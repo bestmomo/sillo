@@ -1,20 +1,13 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
-use App\Models\Category;
-use App\Models\Menu;
-use App\Models\Page;
-use App\Models\Post;
-use App\Models\Serie;
-use App\Models\Submenu;
+use App\Models\{Category, Menu, Page, Post, Serie, Submenu};
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 

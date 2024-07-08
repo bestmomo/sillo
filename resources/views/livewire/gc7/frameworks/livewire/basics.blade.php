@@ -1,16 +1,15 @@
 <?php
 
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Layout;
 
 new #[Title('Basics')] #[Layout('components.layouts.gc7.main')] class extends Component {
-    public $name = '';
+	public $name = '';
 
-    public function mount()
-    {
-        $this->name = 'GC7';
-    }
+	public function mount()
+	{
+		$this->name = 'GC7';
+	}
 }; ?>
 
 <div>

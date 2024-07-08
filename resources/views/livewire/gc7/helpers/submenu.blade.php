@@ -1,9 +1,9 @@
 <?php
 use Livewire\Volt\Component;
 
-new class extends Component {
-    public $btns;
-    public $nochoice;
+new class() extends Component {
+	public $btns;
+	public $nochoice;
 };
 ?>
 

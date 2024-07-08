@@ -1,21 +1,19 @@
 <?php
 
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Component {
-    public $btns = ['Users', 'Infinite_Scroll', 'Offset', 'Api', 'Test'];
-    public $btnToClick = 'Users'; // btn de la liste ci-dessus à cliquer
+	public $btns         = ['Users', 'Infinite_Scroll', 'Offset', 'Api', 'Test'];
+	public $btnToClick   = 'Users'; // btn de la liste ci-dessus à cliquer
+	public $subtitle     = 'Chargement...';
+	protected $listeners = ['update-subtitle' => 'updateSubtitle'];
 
-    public $subtitle = 'Chargement...';
-    protected $listeners = ['update-subtitle' => 'updateSubtitle'];
-
-    public function updateSubtitle($newSubtitle)
-    {
-        $this->subtitle = $newSubtitle;
-        logger('Subtitle updated to: ' . $newSubtitle);
-    }
+	public function updateSubtitle($newSubtitle)
+	{
+		$this->subtitle = $newSubtitle;
+		logger('Subtitle updated to: ' . $newSubtitle);
+	}
 }; ?>
 <div x-data="{ choice: 'menuLivewire' }" class="w-full">
 

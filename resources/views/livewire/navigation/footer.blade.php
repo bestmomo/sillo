@@ -1,20 +1,18 @@
 <?php
 
-use Livewire\Volt\Component;
 use App\Models\Footer;
+use Livewire\Volt\Component;
 
-new class extends Component {
-    /**
-     * Retourne les données nécessaires à la vue.
-     *
-     * @return array
-     */
-    public function with(): array
-    {
-        return [
-            'footers' => Footer::orderBy('order')->get(),
-        ];
-    }
+new class() extends Component {
+	/**
+	 * Retourne les données nécessaires à la vue.
+	 */
+	public function with(): array
+	{
+		return [
+			'footers' => Footer::orderBy('order')->get(),
+		];
+	}
 };
 ?>
 

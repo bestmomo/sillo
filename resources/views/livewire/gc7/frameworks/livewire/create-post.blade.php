@@ -1,13 +1,11 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
 use App\Models\PostGc7;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
@@ -24,25 +22,24 @@ class extends Component {
 	#[Rule('required', as: 'content (textarea)')]
 	public $content = '';
 
-public function save()
-{
-    try {
-        $this->validate();
-        PostGc7::create([
-            'title'   => $this->title,
-            'content' => $this->content,
-        ]);
-        $this->success('Post added !');
-        $this->redirect('/framework/livewire/blog');
-    } catch (\Exception $e) {
-        // Vous pouvez enregistrer l'erreur dans le journal Laravel avec Log::error
-        \Log::error($e->getMessage());
-        // Ou vous pouvez définir un message d'erreur à afficher dans votre composant
-        $this->addError('form', 'Une erreur est survenue lors de la sauvegarde du formulaire : ' . $e->getMessage());
-    }
-}
-
-};?>
+	public function save()
+	{
+		try {
+			$this->validate();
+			PostGc7::create([
+				'title'   => $this->title,
+				'content' => $this->content,
+			]);
+			$this->success('Post added !');
+			$this->redirect('/framework/livewire/blog');
+		} catch (Exception $e) {
+			// Vous pouvez enregistrer l'erreur dans le journal Laravel avec Log::error
+			Log::error($e->getMessage());
+			// Ou vous pouvez définir un message d'erreur à afficher dans votre composant
+			$this->addError('form', 'Une erreur est survenue lors de la sauvegarde du formulaire : ' . $e->getMessage());
+		}
+	}
+}; ?>
 
  <div>
      <x-header title="New Post" shadow separator progress-indicator>

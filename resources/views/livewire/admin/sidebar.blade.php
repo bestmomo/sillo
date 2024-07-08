@@ -1,20 +1,18 @@
 <?php
 
+use Illuminate\Support\Facades\{Auth, Session};
 use Livewire\Volt\Component;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use App\Models\Menu;
 
-new class extends Component {
-    public function logout(): void
-    {
-        Auth::guard('web')->logout();
+new class() extends Component {
+	public function logout(): void
+	{
+		Auth::guard('web')->logout();
 
-        Session::invalidate();
-        Session::regenerateToken();
+		Session::invalidate();
+		Session::regenerateToken();
 
-        $this->redirect('/');
-    }
+		$this->redirect('/');
+	}
 }; ?>
 
 <div>

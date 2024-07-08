@@ -1,135 +1,136 @@
 <?php
 
 // Importations des classes nécessaires
-use Livewire\Volt\Component;
-use Livewire\Attributes\Layout;
-use App\Models\{ Category, Serie, Post };
-use Livewire\Attributes\Rule;
+use App\Models\{Category, Post, Serie};
 use Illuminate\Support\Collection;
+use illuminate\Support\Str;
+use Livewire\Attributes\{Layout, Rule};
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Livewire\Volt\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
-use illuminate\Support\Str;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
-new 
+new
 #[Layout('components.layouts.admin')]
 class extends Component {
+	// Utilisation des traits WithFileUploads et Toast
+	use WithFileUploads;
+	use Toast;
 
-    // Utilisation des traits WithFileUploads et Toast
-    use WithFileUploads, Toast;
-    
-    // Déclaration des propriétés du composant
-    public bool $inSerie = false;
-    public Collection $seriePosts;
-    public Post $seriePost;
-    public int $postId;
-    public Collection $series;
-    public Serie $serie;
-    public int $category_id;
-    public int $serie_id;
+	// Déclaration des propriétés du composant
+	public bool $inSerie = false;
+	public Collection $seriePosts;
+	public Post $seriePost;
+	public int $postId;
+	public Collection $series;
+	public Serie $serie;
+	public int $category_id;
+	public int $serie_id;
 
-    // Déclaration des règles de validation pour les propriétés
-    #[Rule('required|max:65000')]
-    public string $body = '';
+	// Déclaration des règles de validation pour les propriétés
+	#[Rule('required|max:65000')]
+	public string $body = '';
 
-    #[Rule('required|max:255')]
-    public string $title = '';
+	#[Rule('required|max:255')]
+	public string $title = '';
 
-    #[Rule('required|max:255|unique:posts,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
-    public string $slug = '';
+	#[Rule('required|max:255|unique:posts,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
+	public string $slug = '';
 
-    #[Rule('required')]
-    public bool $active = false;
+	#[Rule('required')]
+	public bool $active = false;
 
-    #[Rule('required|max:70')]
-    public string $seo_title = '';
+	#[Rule('required|max:70')]
+	public string $seo_title = '';
 
-    #[Rule('required|max:160')]
-    public string $meta_description = '';
+	#[Rule('required|max:160')]
+	public string $meta_description = '';
 
-    #[Rule('required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/')]
-    public string $meta_keywords = '';
+	#[Rule('required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/')]
+	public string $meta_keywords = '';
 
-    #[Rule('required|image|max:2000')]
-    public TemporaryUploadedFile|null $photo = null;
+	#[Rule('required|image|max:2000')]
+	public ?TemporaryUploadedFile $photo = null;
 
-    // Initialisation du composant avec les données par défaut
-    public function mount(): void
-    {
-        $category = Category::with('series')->first();
-        $this->category_id = $category->id;
-        $this->series = $category->series;
-        $this->serie = $this->series->first();
-        $this->seriePost = $this->serie->lastPost();
-    }
+	// Initialisation du composant avec les données par défaut
+	public function mount(): void
+	{
+		$category          = Category::with('series')->first();
+		$this->category_id = $category->id;
+		$this->series      = $category->series;
+		$this->serie       = $this->series->first();
+		$this->seriePost   = $this->serie->lastPost();
+	}
 
-    // Méthode appelée lorsqu'une propriété est mise à jour
-    public function updating($property, $value)
-    {
-        switch ($property) {
-            case 'title':
-                $this->slug = Str::slug($value);
-                $this->seo_title = $value;
-                break;              
-            case 'serie_id':
-                $this->serie = Serie::find($value);
-                $this->seriePost = $this->serie->lastPost();
-                break;
-            case 'category_id':
-                $category = Category::with('series')->find($value);
-                $this->series = $category->series;
+	// Méthode appelée lorsqu'une propriété est mise à jour
+	public function updating($property, $value)
+	{
+		switch ($property) {
+			case 'title':
+				$this->slug      = Str::slug($value);
+				$this->seo_title = $value;
 
-                if($this->series->count() > 0) {
-                    $this->seriePost = $this->series->first()->lastPost();
-                } else {
-                    $this->inSerie = false;
-                }
-            break;
-        }
-    }
+				break;
+			case 'serie_id':
+				$this->serie     = Serie::find($value);
+				$this->seriePost = $this->serie->lastPost();
 
-    // Méthode pour sauvegarder l'article'
-    public function save()
-    {
-        // Validation des données
-        $data = $this->validate();
+				break;
+			case 'category_id':
+				$category     = Category::with('series')->find($value);
+				$this->series = $category->series;
 
-        // Détermination année et mois de publication genre 2024/06
-        $date = now()->format('Y/m');
+				if ($this->series->count() > 0) {
+					$this->seriePost = $this->series->first()->lastPost();
+				} else {
+					$this->inSerie = false;
+				}
 
-        // Sauvegarde de l'image
-        $path = $date . '/' . basename($this->photo->store('photos/' . $date, 'public'));
+				break;
+		}
+	}
 
-        // Vérification si l'article est dans une série
-        if($this->inSerie) {
-            $data += [
-                'serie_id' => $this->serie_id,
-                'parent_id' => $this->seriePost->id,
-            ];
-        }
+	// Méthode pour sauvegarder l'article'
+	public function save()
+	{
+		// Validation des données
+		$data = $this->validate();
 
-        $data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);
+		// Détermination année et mois de publication genre 2024/06
+		$date = now()->format('Y/m');
 
-        // Création de l'article
-        Post::create($data + [
-            'user_id' => Auth::id(), 
-            'category_id' => $this->category_id,
-            'image' => $path,
-        ]);
+		// Sauvegarde de l'image
+		$path = $date . '/' . basename($this->photo->store('photos/' . $date, 'public'));
 
-        // Affichage d'un message de succès et redirection
-        $this->success(__('Post added with success.'), redirectTo: '/admin/posts/index');
-    }
+		// Vérification si l'article est dans une série
+		if ($this->inSerie) {
+			$data += [
+				'serie_id'  => $this->serie_id,
+				'parent_id' => $this->seriePost->id,
+			];
+		}
 
-    // Méthode pour fournir des données additionnelles au composant
-    public function with(): array 
-    {
-        return [
-            'categories' => Category::all(),
-        ];
-    }
+		$data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);
 
+		// Création de l'article
+		Post::create($data + [
+			'user_id'     => Auth::id(),
+			'category_id' => $this->category_id,
+			'image'       => $path,
+		]);
+
+		// Affichage d'un message de succès et redirection
+		$this->success(__('Post added with success.'), redirectTo: '/admin/posts/index');
+	}
+
+	// Méthode pour fournir des données additionnelles au composant
+	public function with(): array
+	{
+		return [
+			'categories' => Category::all(),
+		];
+	}
 }; ?>
 
 <div>
