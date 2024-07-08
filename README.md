@@ -58,3 +58,4 @@ Restez en contact, et soyez informé de la moindre évolution <svg xmlns="http:/
 ## License
 
 Sillo est open source avec la licence MIT.
+

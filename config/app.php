@@ -25,6 +25,7 @@ return [
 	 */
 
 	'subName' => env('APP_SUBNAME', 'Un framework qui rend heureux'),
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Environment

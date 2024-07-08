@@ -18,7 +18,12 @@
 }
 
 .shadow-hover {
-    @apply shadow shadow-gray-500 hover:shadow-md hover:shadow-gray-500 transition duration-500 ease-in-out hover:text-orange-500;
+    @apply transition duration-500 ease-in-out shadow shadow-gray-500 hover:shadow-md hover:shadow-gray-500 hover:text-orange-500;
+}
+
+/* Small popover */
+.pop-small {
+    @apply !p-1 text-sm border-info
 }
 
 /* Small popover */

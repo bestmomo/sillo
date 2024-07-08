@@ -9,6 +9,7 @@ use Illuminate\Support\Facades;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Gc7FrameworksLinksService;
+use App\Models\{ Menu, Setting };
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,9 +18,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-		$this->app->singleton(Gc7FrameworksLinksService::class, function () {
-			return new Gc7FrameworksLinksService();
-		});
+		  $this->app->singleton(Gc7FrameworksLinksService::class, function () {
+			  return new Gc7FrameworksLinksService();
+		  });
     }
 
 	/**
@@ -27,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
 	 */
 	public function boot(): void
 	{
-		\Illuminate\Support\Facades\View::composer(['components.layouts.app'], function (View $view) {
+		Facades\View::composer(['components.layouts.app'], function (View $view) {
 			$view->with(
 				'menus',
 				Menu::with(['submenus' => function ($query) {

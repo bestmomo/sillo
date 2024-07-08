@@ -12,4 +12,3 @@ Le projet est bien avancé mais il reste pas mal de chose à faire.
 
 * Pour le moment il n'y a qu'une notification à l'auteur d'un article que pour l'avertir qu'un commentaire a été ajouté. Il faudra prévoir aussi d'alerter l'auteur d'un commentaire lorsqu'il a une réponse.
 
-* Je me demande aussi s'il ne faudrait pas ajouter une gestion des médias.

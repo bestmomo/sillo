@@ -85,5 +85,6 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
                     class="btn-primary" />
             </x-slot:actions>
         </x-form>
+
     </x-card>
 </div>
