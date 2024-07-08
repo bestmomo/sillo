@@ -9,7 +9,6 @@ use Illuminate\Support\Facades;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Gc7FrameworksLinksService;
-use App\Models\{ Menu, Setting };
 
 class AppServiceProvider extends ServiceProvider
 {
