@@ -119,3 +119,6 @@ https://www.youtube.com/watch?v=ORQvQViO1v4&ab_channel=Grafikart.fr) - GA 2024 1
 
 
 https://www.youtube.com/watch?v=5MzhGQ8WL70&ab_channel=Algomius
+
+2see: https://www.youtube.com/watch?v=-XXRlMn04Dk
+(CSS 2024)
