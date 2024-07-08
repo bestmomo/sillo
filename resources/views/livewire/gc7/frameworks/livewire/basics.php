@@ -1,7 +1,11 @@
 <?php
 
-use Livewire\Volt\Component;
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ */
+
 use Livewire\Attributes\{Layout, Title};
+use Livewire\Volt\Component;
 
 new #[Title('Basics')] #[Layout('components.layouts.gc7.main')] class extends Component {
 	public $name = '';
@@ -10,16 +14,21 @@ new #[Title('Basics')] #[Layout('components.layouts.gc7.main')] class extends Co
 	{
 		$this->name = auth()->user()->name ?? 'Friend !';
 	}
-}; ?>
 
-<div>
-  <x-header class="pb-0 mb-[-14px]" title="Basics" shadow separator progress-indicator />
-  <h2>Hello Wold, <b>{{ $name }}</b>!</h2>
-  <hr>
-  The current time is {{ time() }} seconds since 1/1/1970.<br>
-  The complete current date is <b>{{ date('Y-m-d H:i:s', time()) }}</b>.
-  <hr>
-  <div class="text-right mt-3">
-    <x-button wire:click='$refresh' class='btn-primary'>Refresh</x-button>
-  </div>
-</div>
+	public function sendMail()
+	{
+		$to      = 'destinataire@example.com'; // Remplacez par l'adresse email du destinataire
+		$subject = 'Sujet de l\'email';
+		$message = 'Ceci est le contenu de l\'email.';
+		$headers = 'From: expediteur@example.com' . "\r\n" .
+				   'Reply-To: expediteur@example.com' . "\r\n" .
+				   'X-Mailer: PHP/' . phpversion();
+
+		// Envoyer l'email
+		if (mail($to, $subject, $message, $headers)) {
+			echo 'Email envoyé avec succès.';
+		} else {
+			echo 'Échec de l\'envoi de l\'email.';
+		}
+	}
+};
