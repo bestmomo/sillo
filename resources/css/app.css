@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* Table pagination: active page highlight */
-.mary-table-pagination span[aria-current="page"] > span {
+.mary-table-pagination span[aria-current="page"]>span {
     @apply bg-primary text-base-100
 }
 
@@ -26,4 +26,7 @@
     @apply !p-1 text-sm border-info
 }
 
-
+/* Small popover */
+.pop-small {
+    @apply !p-1 !px-2 text-sm border-info text-center
+}

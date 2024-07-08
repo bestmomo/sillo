@@ -260,8 +260,10 @@ class extends Component {
 }; ?>
 
 <div>
-  <x-header title="{{__('Navigation')}}" separator progress-indicator />
-
+	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+  	<x-header title="{{__('Navigation')}}" separator progress-indicator />
+	</a>
+	
   <x-card>
 
     @foreach($menus as $menu)

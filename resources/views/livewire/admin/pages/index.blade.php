@@ -44,7 +44,9 @@ class extends Component {
 };?>
 
 <div>
-  <x-header title="{{__('Pages')}}" separator progress-indicator>
+	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+		<x-header title="{{__('Pages')}}" separator progress-indicator>
+	</a>
     <x-slot:actions>
       <x-button label="{{ __('Add a page') }}" class="btn-outline" link="{{ route('pages.create') }}" />
     </x-slot:actions>

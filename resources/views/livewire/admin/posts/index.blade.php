@@ -150,15 +150,21 @@ class extends Component {
 }; ?>
 
 <div>
-  <x-header title="{{__('Posts')}}" separator progress-indicator>
-    <x-slot:middle class="!justify-end">
-      <x-input placeholder="{{__('Search...')}}" wire:model.live.debounce="search" clearable
-        icon="o-magnifying-glass" />
-    </x-slot:middle>
-    <x-slot:actions>
-      <x-button label="{{ __('Add a post') }}" class="btn-outline" link="{{ route('posts.create') }}" />
-    </x-slot:actions>
-  </x-header>
+	<x-header separator progress-indicator>
+		<x-slot:title>
+			<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+				{{__('Posts')}}
+			</a>
+			</x-slot:title>
+			<x-slot:middle class="!justify-end">
+				<x-input placeholder="{{__('Search...')}}" wire:model.live.debounce="search" clearable
+					icon="o-magnifying-glass" />
+			</x-slot:middle>
+			<x-slot:actions>
+				<x-button label="{{ __('Add a post') }}" class="btn-outline" link="{{ route('posts.create') }}" />
+			</x-slot:actions>
+	  </x-header>
+	</a>
 
   @if($posts->count() > 0)
 

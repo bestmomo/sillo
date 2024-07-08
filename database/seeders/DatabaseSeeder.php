@@ -10,16 +10,21 @@ use App\Models\Comment;
 use App\Models\Contact;
 use App\Models\Page;
 use App\Models\Post;
+use App\Models\PostGc7;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
 	use WithoutModelEvents;
+
+	// Remise à 0 de l'auto-increment
+	// Sqlite: DELETE FROM sqlite_sequence WHERE name = 'messages';
+	// MySQL: ALTER TABLE nom_de_la_table AUTO_INCREMENT = 1;
 
 	/**
 	 * Seed the application's database.
@@ -28,31 +33,52 @@ class DatabaseSeeder extends Seeder
 	{
 		// Users
 
-		// Create 1 admin
+		// Create 2 admins
 		User::factory()->create([
-			'name'  => 'Admin',
-			'email' => 'admin@example.com',
-			'role'  => 'admin',
+			'name'       => 'Admin',
+			'email'      => 'admin@example.com',
+			'role'       => 'admin',
+			'created_at' => Carbon::now()->subYears(3),
+		]);
+		
+		User::factory()->create([
+			'name'       => 'Student',
+			'email'      => 'student@example.com',
+			'role'       => 'admin',
+			'created_at' => Carbon::now()->subYears(3),
+		]);
+			
+		User::factory()->create([
+			'name'       => 'Redac',
+			'role'       => 'redac',
+			'email'      => 'redac@example.com',
 			'created_at' => Carbon::now()->subYears(3),
 		]);
 
-		// Create 2 redactors
-		User::factory()->count(2)->create([
-			'role' => 'redac',
+		User::factory()->create([
+			'name'       => 'User',
+			'role'       => 'user',
+			'email'      => 'user@example.com',
+			'created_at' => Carbon::now()->subYears(3),
+		]);
+
+		// Create 798 redactors
+		User::factory()->count(797)->create([
+			'role'       => 'redac',
 			'created_at' => Carbon::now()->subYears(2),
 		]);
 
-		// Create 3 users
+		// Create 1200 users
 		$start = Carbon::now()->subYears(2);  // Il y a 2 ans
-		$end = Carbon::now()->subYear();      // Il y a 1 an		
-		User::factory()->count(3)->create([
+		$end   = Carbon::now()->subYear();      // Il y a 1 an
+		User::factory()->count(1199)->create([
 			'created_at' => function () use ($start, $end) {
 				// Copie $start et ajoute un nombre de jours aléatoire
 				return Carbon::instance($start->copy()->addDays(rand(0, $start->diffInDays($end))));
 			},
 		]);
 
-		$nbrUsers = 6;
+		$nbrUsers = User::all()->count();
 
 		// Categories
 		DB::table('categories')->insert([
@@ -148,9 +174,9 @@ class DatabaseSeeder extends Seeder
 
 		foreach ($items as $item) {
 			Page::factory()->create([
-				'title' => $item[1],
-				'seo_title'   => 'Page ' . $item[1],
-				'slug'  => $item[0],
+				'title'     => $item[1],
+				'seo_title' => 'Page ' . $item[1],
+				'slug'      => $item[0],
 			]);
 		}
 
@@ -162,15 +188,17 @@ class DatabaseSeeder extends Seeder
 			['label' => 'Contact', 'order' => 5, 'link' => '/contact'],
 		]);
 
-		// Settings
+		// Setting
 		DB::table('settings')->insert([
-			['key'=> 'pagination','value'=> 6],
-			['key'=> 'excerptSize','value'=> 45],
-			['key'=> 'title','value'=> 'Laravel'],
-			['key'=> 'subTitle','value'=> 'Un framework qui rend heureux'],
-			['key'=> 'flash','value'=> ''],
+			['key' => 'pagination', 'value' => 6],
+			['key' => 'excerptSize', 'value' => 45],
+			['key' => 'title', 'value' => 'Laravel'],
+			['key' => 'subTitle', 'value' => 'Un framework qui rend heureux'],
+			['key' => 'flash', 'value' => ''],
 		]);
-		
+
+		PostGc7::factory()->count(9)->create();
+
 		// REPORT
 		printf('%s%s', str_repeat(' ', 2), "Data tables properly filled.\n\n");
 	}

@@ -6,5 +6,3 @@ import './bootstrap';
 // import 'tinymce/icons/default/icons';
 // import 'tinymce/themes/silver/theme';
 // import 'tinymce/models/dom/model';
-
-

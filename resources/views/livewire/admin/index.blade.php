@@ -11,27 +11,28 @@ use Mary\Traits\Toast;
 use App\Models\Comment;
 use App\Models\Contact;
 use Livewire\Volt\Component;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 
-new #[Layout('components.layouts.admin')] class extends Component {
-	use Toast;
+new #[Title('Dashboard')] #[Layout('components.layouts.admin')] class extends Component {
+    use Toast;
 
-	public array $headersPosts;
-	public bool $openGlance = true;
+    public array $headersPosts;
+    public bool $openGlance = true;
 
-	public function mount(): void
-	{
-		$this->headersPosts = [['key' => 'date', 'label' => __('Date')], ['key' => 'title', 'label' => __('Title')]];
-	}
+    public function mount(): void
+    {
+        $this->headersPosts = [['key' => 'date', 'label' => __('Date')], ['key' => 'title', 'label' => __('Title')]];
+    }
 
-	public function deleteComment(Comment $comment): void
-	{
-		$comment->delete();
+    public function deleteComment(Comment $comment): void
+    {
+        $comment->delete();
 
-		$this->warning('Comment deleted', __('Good bye!'), position: 'toast-bottom');
-	}
+        $this->warning('Comment deleted', __('Good bye!'), position: 'toast-bottom');
+    }
 
     public function with(): array
     {
@@ -40,20 +41,12 @@ new #[Layout('components.layouts.admin')] class extends Component {
         $userId = $user->id;
 
         return [
-            'pages'          => Page::select('id', 'title', 'slug')->get(),
-            'posts'          => Post::select('id', 'title', 'slug', 'user_id', 'created_at', 'updated_at')
-                                    ->when($isRedac, fn (Builder $q) => $q->where('user_id', $userId))
-                                    ->latest()
-                                    ->get(),
-            'commentsNumber' => Comment::when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))
-                                       ->count(),
-            'comments'       => Comment::with('user', 'post:id,title,slug')
-                                       ->when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))
-                                       ->latest()
-                                       ->take(5)
-                                       ->get(),
-            'users'          => User::count(),
-            'contacts'       => Contact::whereHandled(false)->get(),
+            'pages' => Page::select('id', 'title', 'slug')->get(),
+            'posts' => Post::select('id', 'title', 'slug', 'user_id', 'created_at', 'updated_at')->when($isRedac, fn(Builder $q) => $q->where('user_id', $userId))->latest()->get(),
+            'commentsNumber' => Comment::when($isRedac, fn(Builder $q) => $q->whereRelation('post', 'user_id', $userId))->count(),
+            'comments' => Comment::with('user', 'post:id,title,slug')->when($isRedac, fn(Builder $q) => $q->whereRelation('post', 'user_id', $userId))->latest()->take(5)->get(),
+            'users' => User::count(),
+            'contacts' => Contact::whereHandled(false)->get(),
         ];
     }
 }; ?>
@@ -91,8 +84,8 @@ new #[Layout('components.layouts.admin')] class extends Component {
 
     @foreach ($comments as $comment)
         @if (!$comment->user->valid)
-            <x-alert title="{!! __('Comment to valid from ') . $comment->user->name !!}"
-                description="{!! $comment->body !!}" icon="c-chat-bubble-left" class="shadow-md alert-warning">
+            <x-alert title="{!! __('Comment to valid from ') . $comment->user->name !!}" description="{!! $comment->body !!}" icon="c-chat-bubble-left"
+                class="shadow-md alert-warning">
                 <x-slot:actions>
                     <x-button link="{{ route('comments.index') }}" label="{!! __('Show the comments') !!}" />
                 </x-slot:actions>
@@ -103,8 +96,8 @@ new #[Layout('components.layouts.admin')] class extends Component {
 
     @if (Auth::user()->isAdmin())
         @foreach ($contacts as $contact)
-            <x-alert title="{!! __('Contact to handle from ') . $contact->name !!}"
-                description="{!! $contact->message !!}" icon="s-pencil-square" class="shadow-md alert-info">
+            <x-alert title="{!! __('Contact to handle from ') . html_entity_decode($contact->name) !!}" description="{!! html_entity_decode($contact->message) !!}" icon="s-pencil-square"
+                class="shadow-md alert-info">
                 <x-slot:actions>
                     <x-button link="{{ route('contacts.index') }}" label="{!! __('Show the contacts') !!}" />
                 </x-slot:actions>
