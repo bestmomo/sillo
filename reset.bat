@@ -128,9 +128,10 @@ echo Tables restaurées avec données.
 
 echo.
 echo Nettoyage des divers fichiers cache...
-call php artisan view:clear
 call php artisan cache:clear
+call php artisan view:clear
 call php artisan config:clear
+call php artisan optimize
 
 
 echo.
