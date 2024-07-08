@@ -8,9 +8,6 @@ namespace App\Providers;
 
 use App\Models\{Menu, Setting};
 use App\Services\Gc7FrameworksLinksService;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\{Facades, ServiceProvider};
-use Illuminate\View\View;
 
 class AppServiceProvider extends ServiceProvider
 {
