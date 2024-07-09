@@ -14,14 +14,13 @@ new #[Title('Basics')] #[Layout('components.layouts.gc7.main')]
 class extends Component {
 	use Toast;
 
-	public $name          = '';
-	public $to            = 'Tartempion@example.com';
-	public $subject       = 'Salut !';
-	public $content       = 'Tatati...';
-	public $emailSubject  = '';
-	public $emailContent  = '';
-	public $message       = '';
-	public $notifications = [];
+	public $name         = '';
+	public $to           = 'Tartempion@example.com';
+	public $subject      = 'Salut !';
+	public $content      = 'Tatati...';
+	public $emailSubject = '';
+	public $emailContent = '';
+	public $message      = '';
 
 	public function mount()
 	{
@@ -54,10 +53,6 @@ class extends Component {
 			$this->message = 'Email sent successfully!';
 
 			$this->success('Refresh and email re-sent successfully!');
-			$this->notifications = [
-				['type' => 'success', 'message' => 'Refresh box successfully!'],
-				['type' => 'success', 'message' => 'Email sent successfully!'],
-			];
 
 			// $this->reset(['destinataire', 'sujet', 'contenu']);
 		} catch (Exception $e) {
