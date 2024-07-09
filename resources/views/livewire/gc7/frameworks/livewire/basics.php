@@ -14,13 +14,14 @@ new #[Title('Basics')] #[Layout('components.layouts.gc7.main')]
 class extends Component {
 	use Toast;
 
-	public $name         = '';
-	public $to           = 'Tartempion@example.com';
-	public $subject      = 'Salut !';
-	public $content      = 'Tatati...';
-	public $emailSubject = '';
-	public $emailContent = '';
-	public $message      = '';
+	public $name          = '';
+	public $to            = 'Tartempion@example.com';
+	public $subject       = 'Salut !';
+	public $content       = 'Tatati...';
+	public $emailSubject  = '';
+	public $emailContent  = '';
+	public $message       = '';
+	public $notifications = [];
 
 	public function mount()
 	{
@@ -28,21 +29,9 @@ class extends Component {
 		$this->sendMail();
 	}
 
-	public function sendMail1()
+	public function refresh()
 	{
-		$to      = 'destinataire@example.com'; // Remplacez par l'adresse email du destinataire
-		$subject = 'Sujet de l\'email';
-		$message = 'Ceci est le contenu de l\'email.';
-		$headers = 'From: expediteur@example.com' . "\r\n" .
-				   'Reply-To: expediteur@example.com' . "\r\n" .
-				   'X-Mailer: PHP/' . phpversion();
-
-		// Envoyer l'email
-		if (mail($to, $subject, $message, $headers)) {
-			echo 'Email envoyé avec succès.';
-		} else {
-			echo 'Échec de l\'envoi de l\'email.';
-		}
+		$this->success('Livewire block refreshed');
 	}
 
 	public function sendMail()
@@ -63,7 +52,13 @@ class extends Component {
 			Mail::to($this->to)->send($email);
 
 			$this->message = 'Email sent successfully!';
-			$this->success('Email sent successfully!');
+
+			$this->success('Refresh and email re-sent successfully!');
+			$this->notifications = [
+				['type' => 'success', 'message' => 'Refresh box successfully!'],
+				['type' => 'success', 'message' => 'Email sent successfully!'],
+			];
+
 			// $this->reset(['destinataire', 'sujet', 'contenu']);
 		} catch (Exception $e) {
 			$possibleCase = '';
@@ -75,5 +70,12 @@ class extends Component {
 			$this->message = '<div class="mb-3">Erreur lors de l\'envoi de l\'email :</div>' . $e->getMessage() . $possibleCase;
 			// . $e->getTraceAsString();
 		}
+	}
+
+	public function sendMailOnly()
+	{
+		$this->sendMail();
+		$this->success('Email re-sent successfully!');
+		$this->skipRender();
 	}
 };
