@@ -13,7 +13,6 @@ include_once 'basics.php';
         @endif
     </div>
 
-
     @if ($this->message == 'Email sent successfully!')
         <p class="text-green-400 font-bold">{!! $message !!}</p>
         <b>Here's the preview (HTML):</b>
@@ -37,6 +36,7 @@ include_once 'basics.php';
     </div>
 
     <x-header class="pb-0 mb-[-14px]" title="" shadow separator progress-indicator />
+
     <table>
         <thead>
             <th>
@@ -70,8 +70,4 @@ include_once 'basics.php';
         </tbody>
     </table>
 
-
-</div>
-
-</div>
 </div>
