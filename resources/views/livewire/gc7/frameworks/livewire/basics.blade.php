@@ -8,10 +8,12 @@ include_once 'basics.php';
     {!! $message !!}
     @if ($this->message == 'Email sent successfully!')
         <b>Here's the preview (HTML):</b>
+        <p>Subject: <b>{{ $emailSubject }}</b></p>
         <div class="border p-5 rounded-lg mt-3">
             {!! $emailContent !!}
         </div>
-        You can see it too on: <a class="link" href="http://localhost:8025" target="_blank">http://localhost:8025</a> (If you've run MailHog...)
+        You can see it too on: <a class="link" href="http://localhost:8025" target="_blank">http://localhost:8025</a> (If
+        you've run MailHog...)
     @endif
 
     <hr class="mt-7 mb-3">

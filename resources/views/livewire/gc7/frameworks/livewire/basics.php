@@ -18,6 +18,7 @@ class extends Component {
 	public $to           = 'Tartempion@example.com';
 	public $subject      = 'Salut !';
 	public $content      = 'Tatati...';
+	public $emailSubject = '';
 	public $emailContent = '';
 	public $message      = '';
 
@@ -53,7 +54,9 @@ class extends Component {
 				$this->name
 			);
 
+			// dd($email);
 			// Capture le contenu de l'email
+			$this->emailSubject = $email->sujet;
 			$this->emailContent = $email->render();
 
 			// Envoie l'email
