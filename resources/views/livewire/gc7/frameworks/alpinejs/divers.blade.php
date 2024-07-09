@@ -3,8 +3,7 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Title('Divers')] #[Layout('components.layouts.gc7.main')] class extends Component {
-}; ?>
+new #[Title('Divers')] #[Layout('components.layouts.gc7.main')] class extends Component {}; ?>
 <div class="relative w-full h-screen flex flex-col">
 
     <x-header class="!-mb-5" title="Divers" shadow separator progress-indicator></x-header>
@@ -15,10 +14,16 @@ new #[Title('Divers')] #[Layout('components.layouts.gc7.main')] class extends Co
                 <p>Ready.</p>
                 <hr>
                 <div class="relative text-justify mt-2 mr-2">
-                    php artisan view:clear
-                    php artisan cache:clear
-                    php artisan config:clear
 
+                    <div class="my-5 border px-5 py-4 rounded-b-xl mx-3">
+                        <h2 class="text-lg text-white">Quelques commandes usuelles:</h2>
+                        php artisan optimize<br>
+                        php artisan view:clear<br>
+                        php artisan cache:clear<br>
+                        php artisan config:clear<br>
+                    </div>
+
+                    <hr>
                     id!
                     Saepe repellendus facere, dolor harum natus ducimus excepturi culpa mollitia debitis aliquid
                     voluptate
