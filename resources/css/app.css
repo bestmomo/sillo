@@ -23,10 +23,5 @@
 
 /* Small popover */
 .pop-small {
-    @apply !p-1 text-sm border-info
-}
-
-/* Small popover */
-.pop-small {
     @apply !p-1 !px-2 text-sm border-info text-center
 }
