@@ -15,7 +15,7 @@ new #[Title('Basics')] #[Layout('components.layouts.gc7.main')] class extends Co
 	public $subject      = 'Salut !';
 	public $content      = 'Tatati...';
 	public $emailContent = '';
-	public $message = '';
+	public $message      = '';
 
 	public function mount()
 	{
@@ -54,7 +54,14 @@ new #[Title('Basics')] #[Layout('components.layouts.gc7.main')] class extends Co
 			$this->message = 'Email sent successfully!';
 			// $this->reset(['destinataire', 'sujet', 'contenu']);
 		} catch (Exception $e) {
-			$this->message = 'Erreur lors de l\'envoi de l\'email : ' . $e->getMessage();
+			$possibleCase = '';
+
+			if (false !== strpos($e, 'Unable to connect to localhost:1025')) {
+				$possibleCase = '<div class="mt-2 text-yellow-500 italic text-center font-bold">Are you sure MailHog is running ?</div>';
+			}
+
+			$this->message = '<div class="mb-3">Erreur lors de l\'envoi de l\'email :</div>' . $e->getMessage() . $possibleCase;
+			// . $e->getTraceAsString();
 		}
 	}
 };

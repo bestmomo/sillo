@@ -5,7 +5,7 @@ include_once 'basics.php';
 <div>
     <x-header class="pb-0 mb-[-14px]" title="Basics" shadow separator progress-indicator />
 
-    {{ $message }}
+    {!! $message !!}
     @if ($this->message == 'Email sent successfully!')
         <b>Here's the preview (HTML):</b>
         <div class="border p-5 rounded-lg mt-3">
