@@ -20,10 +20,11 @@ class MyEmail extends Mailable
 	public $message;
 	public $name;
 
-	public function __construct($sujet, $contenu)
+	public function __construct($sujet, $contenu, $name)
 	{
 		$this->sujet   = $sujet;
 		$this->contenu = $contenu;
+		$this->name = $name;
 	}
 
 	public function build()
@@ -32,6 +33,7 @@ class MyEmail extends Mailable
 			->view('emails.my-email')
 			->with([
 				'contenu' => $this->contenu,
+				'name'    => $this->name,
 			]);
 	}
 }

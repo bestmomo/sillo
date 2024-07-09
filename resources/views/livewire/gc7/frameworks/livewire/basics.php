@@ -8,8 +8,12 @@ use App\Mail\MyEmail;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
+use Mary\Traits\Toast;
 
-new #[Title('Basics')] #[Layout('components.layouts.gc7.main')] class extends Component {
+new #[Title('Basics')] #[Layout('components.layouts.gc7.main')]
+class extends Component {
+	use Toast;
+
 	public $name         = '';
 	public $to           = 'Tartempion@example.com';
 	public $subject      = 'Salut !';
@@ -43,7 +47,11 @@ new #[Title('Basics')] #[Layout('components.layouts.gc7.main')] class extends Co
 	public function sendMail()
 	{
 		try {
-			$email = new MyEmail($this->subject, $this->content);
+			$email = new MyEmail(
+				$this->subject,
+				$this->content,
+				$this->name
+			);
 
 			// Capture le contenu de l'email
 			$this->emailContent = $email->render();
@@ -52,6 +60,7 @@ new #[Title('Basics')] #[Layout('components.layouts.gc7.main')] class extends Co
 			Mail::to($this->to)->send($email);
 
 			$this->message = 'Email sent successfully!';
+			$this->success('Email sent successfully!');
 			// $this->reset(['destinataire', 'sujet', 'contenu']);
 		} catch (Exception $e) {
 			$possibleCase = '';
