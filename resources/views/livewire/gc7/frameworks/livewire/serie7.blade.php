@@ -39,7 +39,7 @@ new #[Title('Serie7')] #[Layout('components.layouts.gc7.main')] class extends Co
         </style>
     @endsection
 
-    <x-header class="p-4 pb-0 mb-[-12px]" title="Série 7  - {{ $subtitle }}" shadow separator progress-indicator />
+    <x-header class="p-4 pb-0 mb-[-12px]" title="Serie 7  - {{ $subtitle }}" shadow separator progress-indicator />
 
     {{-- Subtitle: {{ $subtitle }} --}}
 
