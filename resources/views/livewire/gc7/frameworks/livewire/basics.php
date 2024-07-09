@@ -18,6 +18,7 @@ class extends Component {
 	public $to           = 'Tartempion@example.com';
 	public $subject      = 'Salut !';
 	public $content      = 'Tatati...';
+	public $emailSubject = '';
 	public $emailContent = '';
 	public $message      = '';
 
@@ -27,21 +28,9 @@ class extends Component {
 		$this->sendMail();
 	}
 
-	public function sendMail1()
+	public function refresh()
 	{
-		$to      = 'destinataire@example.com'; // Remplacez par l'adresse email du destinataire
-		$subject = 'Sujet de l\'email';
-		$message = 'Ceci est le contenu de l\'email.';
-		$headers = 'From: expediteur@example.com' . "\r\n" .
-				   'Reply-To: expediteur@example.com' . "\r\n" .
-				   'X-Mailer: PHP/' . phpversion();
-
-		// Envoyer l'email
-		if (mail($to, $subject, $message, $headers)) {
-			echo 'Email envoyé avec succès.';
-		} else {
-			echo 'Échec de l\'envoi de l\'email.';
-		}
+		$this->success('Livewire block refreshed');
 	}
 
 	public function sendMail()
@@ -53,14 +42,18 @@ class extends Component {
 				$this->name
 			);
 
+			// dd($email);
 			// Capture le contenu de l'email
+			$this->emailSubject = $email->sujet;
 			$this->emailContent = $email->render();
 
 			// Envoie l'email
 			Mail::to($this->to)->send($email);
 
 			$this->message = 'Email sent successfully!';
-			$this->success('Email sent successfully!');
+
+			$this->success('Refresh and email re-sent successfully!');
+
 			// $this->reset(['destinataire', 'sujet', 'contenu']);
 		} catch (Exception $e) {
 			$possibleCase = '';
@@ -72,5 +65,12 @@ class extends Component {
 			$this->message = '<div class="mb-3">Erreur lors de l\'envoi de l\'email :</div>' . $e->getMessage() . $possibleCase;
 			// . $e->getTraceAsString();
 		}
+	}
+
+	public function sendMailOnly()
+	{
+		$this->sendMail();
+		$this->success('Email re-sent successfully!');
+		$this->skipRender();
 	}
 };

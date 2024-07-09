@@ -28,17 +28,22 @@
 
 9) [Serie](https://www.youtube.com/watch?v=9RMJojxoJYc&list=PLKbhw6n2iYKhVSp9wAOPFcdD6EDlfDxQt&ab_channel=projectworld) - 9 épisodes 2024
 
-   
-10) [Chat between 2 users - v1](https://www.youtube.com/watch?v=huLSxcxFRl4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&index=9) - 31' 2024
-   
-11) (Real Time Chat With Laravel Reverb - v2)[https://www.youtube.com/watch?v=BEKiNgcBqJw] - 50'
-   
+10) [Chat V1: between 2 users](https://www.youtube.com/watch?v=huLSxcxFRl4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&index=9) - 31' 2024
+
+11) [Chat V2: Real Time Chat With Laravel Reverb - v2](https://www.youtube.com/watch?v=BEKiNgcBqJw) - 50'
+
 <div style="text-align: center">En cours:</div>
+
+//2do before: Fix Event listener Chat V1 or V2 only if Chat V'x' is used
+
+1) [Chat V3: Real Time Chat With Laravel Reverb - Laravel 11, Livewire 3 Volt, AlpineJS and TailwindCSS](https://www.youtube.com/watch?v=yLGCxxwiygc&pp=ygUIYWxwaW5lanM%3D) - 22'
+
+2) [Chat V4: Laracon EU 2024 Reverb](https://www.youtube.com/watch?v=yrL5eCMpqtc) - 35' - Laravel Reverb for Real-Time Laravel
+
 //2do doc AlpineJS
 
 1) [Kanboard](https://www.youtube.com/playlist?list=PLgsruFcRiyk27mlSSi8GDQ6n687v3oACD) - 6 episodes 7 H - 2024
-   
-2) [Laracon EU 2024)(https://www.youtube.com/watch?v=yrL5eCMpqtc) - 35'
+
 
 3) [Doc AlpineJS](https://alpinejs.dev/start-here)
 
@@ -64,13 +69,15 @@
 ### Volt
 
 //2do doc volt
-1) [Real Time Chat With Laravel Reverb - Laravel 11, Livewire 3 Volt, AlpineJS and TailwindCSS](https://www.youtube.com/watch?v=yLGCxxwiygc&pp=ygUIYWxwaW5lanM%3D) - 22'
+
 
 2) [Volt Doc laravel](https://livewire.laravel.com/docs/volt)
 
 ### Autres
 
-1. [17 méthodes pour optimiser les performances de Laravel](https://kinsta.com/fr/blog/methodes-optimisation-performances-laravel) - Article
+1. [All LARACON](https://www.youtube.com/@LaraconEU) (8 videos - See 2024)
+2. [17 méthodes pour optimiser les performances de Laravel](https://kinsta.com/fr/blog/methodes-optimisation-performances-laravel) - Article
+3. 
 
 [Resource de codes tailwind & AlpineJS](https://www.penguinui.com/components/table)
 
