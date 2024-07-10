@@ -106,7 +106,15 @@ class extends Component {
             <!-- Bouton pour générer un mot de passe sécurisé -->
             <x-button label="{{ __('Generate a secure password')}}" wire:click="generatePassword()" icon="m-wrench" class="btn-outline btn-sm" />
 			<!-- Option pour devenir étudiant -->
-			<x-checkbox label="{{ __('Become student') }}" wire:model="student"/>
+			<x-popover>
+				<x-slot:trigger>
+					<x-checkbox label="{{ __('Student access') }}" wire:model="student"/>
+				</x-slot:trigger>
+				<x-slot:content class="pop-small">
+					@lang('Gives access to numerous helping scripts, spaces to test...')
+				</x-slot:content>
+			</x-popover>
+
             <!-- Actions du formulaire -->
             <x-slot:actions>
                 <!-- Bouton pour annuler -->
