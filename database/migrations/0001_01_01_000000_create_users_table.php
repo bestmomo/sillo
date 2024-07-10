@@ -23,6 +23,7 @@ return new class() extends Migration {
 			$table->string('password');
 			$table->enum('role', ['user', 'redac', 'admin'])->default('user');
 			$table->boolean('valid')->default(false);
+			$table->boolean('student')->default(false);
 			$table->rememberToken();
 			$table->timestamps();
 		});

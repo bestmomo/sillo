@@ -20,6 +20,7 @@ class extends Component {
 	public string $email                 = '';
 	public string $password              = '';
 	public string $password_confirmation = '';
+	public bool   $student              = false;
 
 	// Méthode pour initialiser le composant
 	public function mount(): void
@@ -29,6 +30,7 @@ class extends Component {
 		// Remplissage des données de l'utilisateur dans le formulaire
 		$this->fill([
 			'email' => $this->user->email,
+			'student' => $this->user->student,
 		]);
 	}
 
@@ -42,6 +44,7 @@ class extends Component {
 				Rule::unique('users')->ignore($this->user->id),
 			],
 			'password' => 'confirmed',
+			'student' => 'boolean',
 		]);
 
 		// Hashage du mot de passe
@@ -102,7 +105,8 @@ class extends Component {
             <x-input label="{{__('Confirm Password')}}" wire:model="password_confirmation" icon="o-key" inline />
             <!-- Bouton pour générer un mot de passe sécurisé -->
             <x-button label="{{ __('Generate a secure password')}}" wire:click="generatePassword()" icon="m-wrench" class="btn-outline btn-sm" />
-
+			<!-- Option pour devenir étudiant -->
+			<x-checkbox label="{{ __('Become student') }}" wire:model="student"/>
             <!-- Actions du formulaire -->
             <x-slot:actions>
                 <!-- Bouton pour annuler -->

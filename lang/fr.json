@@ -465,6 +465,7 @@
     "Settings updated successfully!": "Paramètres bien enregistrés!",
     "Flash message": "Message flash",
     "Max 500 chars. Leave it empty to not show a message.": "Maximum 500 caractères. Laissez vide pour ne pas avoir de message.",
-        "Chars2 used: :n :m": "{0}Aucun caractère utilisé (:m possibles)|{1}Caractère utilisé: :n / :m|{2,:*}Caractères utilisés: :n / :m",
-        "All chars used :m": "Tous les (:m) caractères sont utilisés"
+    "Chars2 used: :n :m": "{0}Aucun caractère utilisé (:m possibles)|{1}Caractère utilisé: :n / :m|{2,:*}Caractères utilisés: :n / :m",
+    "All chars used :m": "Tous les (:m) caractères sont utilisés",
+    "Become student": "Devenir étudiant"
 }

@@ -5,7 +5,7 @@
  */
 
 use App\Http\Controllers\ImageController;
-use App\Http\Middleware\{IsAdmin, IsAdminOrRedac};
+use App\Http\Middleware\{IsAdmin, IsAdminOrRedac, IsStudent};
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -39,7 +39,10 @@ Route::middleware('guest')->group(function () {
 
 // Routes pour les utilisateurs authentifiés
 Route::middleware('auth')->group(function () {
-	Volt::route('/framework/alpinejs/chats', 'gc7.frameworks.alpinejs.chats')->name('alpinejs.chats');
+	
+	Route::middleware(IsStudent::class)->group(function () {
+		Volt::route('/framework/alpinejs/chats', 'gc7.frameworks.alpinejs.chats')->name('alpinejs.chats');
+	});
 
 	Volt::route('/profile', 'auth.profile')->name('profile');
 	Volt::route('/chat', 'chat')->name('chat');

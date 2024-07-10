@@ -42,6 +42,9 @@ new class() extends Component {
     <!-- Actions de la barre de navigation -->
     <x-slot:actions>
         <span class="hidden lg:block">
+            @if(auth()->user()->student)
+                <x-button label="{{ __('Student') }}" link="{{ route('alpinejs.chats') }}" class="btn-ghost" />
+            @endif
             @if($user = auth()->user())
                 <!-- Menu déroulant pour l'utilisateur connecté -->
                 <x-dropdown>
