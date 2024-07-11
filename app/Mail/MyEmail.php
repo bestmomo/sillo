@@ -24,7 +24,7 @@ class MyEmail extends Mailable
 	{
 		$this->sujet   = $sujet;
 		$this->contenu = $contenu;
-		$this->name = $name;
+		$this->name    = $name;
 	}
 
 	public function build()

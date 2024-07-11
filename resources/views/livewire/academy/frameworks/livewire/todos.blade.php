@@ -4,32 +4,32 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Layout('components.layouts.academy')] #[Title('Todos')] class extends Component {
-    use Toast;
+	use Toast;
 
-    #[Rule('required|min:3')]
-    public $todo = '';
+	#[Rule('required|min:3')]
+	public $todo = '';
 
-    public $todos = [];
+	public $todos = [];
 
-    public function mount()
-    {
-        // dd('ok');
-        $this->todos = ['Take out trash', 'Do dishes'];
-    }
+	public function mount()
+	{
+		// dd('ok');
+		$this->todos = ['Take out trash', 'Do dishes'];
+	}
 
-    public function updatedTodo($value)
-    {
-        // dd($property, $value);
-        $this->todo = ucfirst($value);
-    }
+	public function updatedTodo($value)
+	{
+		// dd($property, $value);
+		$this->todo = ucfirst($value);
+	}
 
-    public function add()
-    {
-        $this->validate();
-        $this->todos[] = $this->todo;
-        $this->reset('todo');
-        $this->success('Task added');
-    }
+	public function add()
+	{
+		$this->validate();
+		$this->todos[] = $this->todo;
+		$this->reset('todo');
+		$this->success('Task added');
+	}
 }; ?>
 
 <div>

@@ -28,7 +28,7 @@ class UserFactory extends Factory
 	public function definition(): array
 	{
 		$gender = fake()->randomElement(['female', 'male', 'other']);
-		
+
 		return [
 			'firstname'      => ('male' == $gender) ? fake()->firstNameMale() : fake()->firstNameFemale(),
 			'name'           => fake()->lastname(),

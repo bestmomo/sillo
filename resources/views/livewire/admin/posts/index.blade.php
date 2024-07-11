@@ -71,7 +71,7 @@ class extends Component {
 			->withcount('comments')
 			->when($this->search, fn (Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
 			->when(
-				$this->sortBy['column'] === 'date',
+				'date' === $this->sortBy['column'],
 				fn (Builder $q) => $q->orderBy('created_at', $this->sortBy['direction']),
 				fn (Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction'])
 			)

@@ -3,7 +3,8 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Component {}; ?>
+new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Component {
+}; ?>
 <div class="relative w-full h-screen flex flex-col">
 
     <x-header class="!-mb-5" title="Divers" shadow separator progress-indicator></x-header>
