@@ -4,30 +4,30 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\{Auth, Session};
 use Livewire\Volt\Component;
 
-new class() extends Component {
-	// Collection de menus
-	public Collection $menus;
+new class extends Component {
+    // Collection de menus
+    public Collection $menus;
 
-	/**
-	 * Initialise le composant avec les menus donnés.
-	 */
-	public function mount(Collection $menus): void
-	{
-		$this->menus = $menus;
-	}
+    /**
+     * Initialise le composant avec les menus donnés.
+     */
+    public function mount(Collection $menus): void
+    {
+        $this->menus = $menus;
+    }
 
-	/**
-	 * Déconnecte l'utilisateur actuellement authentifié.
-	 */
-	public function logout(): void
-	{
-		Auth::guard('web')->logout();
+    /**
+     * Déconnecte l'utilisateur actuellement authentifié.
+     */
+    public function logout(): void
+    {
+        Auth::guard('web')->logout();
 
-		Session::invalidate();
-		Session::regenerateToken();
+        Session::invalidate();
+        Session::regenerateToken();
 
-		$this->redirect('/');
-	}
+        $this->redirect('/');
+    }
 };
 ?>
 
@@ -43,9 +43,6 @@ new class() extends Component {
     <x-slot:actions>
         <span class="hidden lg:block">
             @if ($user = auth()->user())
-                @if ($user->isStudent)
-                    <x-button label="{{ __('Student') }}" link="{{ route('alpinejs.chats') }}" class="btn-ghost" />
-                @endif
                 <!-- Menu déroulant pour l'utilisateur connecté -->
                 <x-dropdown>
                     <x-slot:trigger>
@@ -80,8 +77,9 @@ new class() extends Component {
             @endforeach
         </span>
         @auth
-            <x-button icon="c-chat-bubble-oval-left" link="/chat" tooltip-bottom="{{ __('Chat') }}"
-                class="btn-circle btn-ghost" />
+            @if ($user->isStudent)
+                <a title="{{ __('Academy access') }}" href="{{ route('academy.test') }}"><x-icon-student color="cyan" /></a>
+            @endif
         @endauth
         <x-theme-toggle />
         <livewire:search />

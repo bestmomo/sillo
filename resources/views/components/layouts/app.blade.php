@@ -29,11 +29,6 @@
         </a>
     </div>
 
-    @if (Auth::check() && Auth::user()->isStudent)
-        {{-- MAIN MENU (Student) --}}
-        <livewire:navigation.academy-nav />
-    @endif
-
     {{-- NAVBAR --}}
     <livewire:navigation.navbar :$menus />
 

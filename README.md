@@ -21,13 +21,13 @@ Mais ce que je sais, c'est que quelque soit votre cas personnel, vous êtes à l
 
 Après votre Fork (Voyez la page "installation" ci-dessous), installez le projet en local et loguez-vous avec "[**admin@example.com/password**](https://discord.com/channels/423853760939556865/1253369416477835307)"
 
-Si vous le souhaitez, vous pourrez alors ajouter dans votre profil, une option: "Accès étudiant"
+Si vous le souhaitez, vous pourrez alors ajouter **dans votre profil**, une option: "Accès Académie"
 
-https://prnt.sc/-_pte4qrtT9c
+Visualiser [Accès Académie](https://prnt.sc/-_pte4qrtT9c)
 
-Ce qui vous permettra d'avoir ce nouveau *submenu*:
+Ce qui vous permettra d'avoir ce nouveau bouton:
 
-https://prnt.sc/xDRQZnwdcm85
+Visualiser [Bouton d'accès Académie](https://prnt.sc/PikISANBNWwk)
 
 Ainsi, vous pouvez:
 
