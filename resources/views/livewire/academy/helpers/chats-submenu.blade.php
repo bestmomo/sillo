@@ -44,7 +44,7 @@ window.addEventListener('focus', () => focusInput(choice || 'v1'));">
         </template>
 
         <p class="w-1/4 flex justify-between items-center">N.B.:
-            <x-icon-student color="#f22" />
+            <x-icon-student color="cyan" />
             <x-icon-smiley />
         </p>
     </div>
