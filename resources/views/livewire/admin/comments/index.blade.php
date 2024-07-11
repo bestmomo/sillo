@@ -40,25 +40,36 @@ new #[Title('Comments'), Layout('components.layouts.admin')] class extends Compo
 	// Méthode pour obtenir les en-têtes des colonnes
 	public function headers(): array
 	{
-		return [['key' => 'user_name', 'label' => __('Author')], ['key' => 'body', 'label' => __('Comment'), 'sortable' => false], ['key' => 'post_title', 'label' => __('Post')], ['key' => 'created_at', 'label' => __('Sent on')]];
+		return [
+            ['key' => 'user_name', 'label' => __('Author')], 
+            ['key' => 'body', 'label' => __('Comment'), 'sortable' => false], 
+            ['key' => 'post_title', 'label' => __('Post')], 
+            ['key' => 'created_at', 'label' => __('Sent on')]
+        ];
 	}
 
 	// Méthode pour obtenir la liste des commentaires avec pagination
-	public function comments(): LengthAwarePaginator
-	{
-		return Comment::query()
-			->when($this->search, fn (Builder $q) => $q->where('body', 'like', "%{$this->search}%"))
-			->orderBy(...array_values($this->sortBy))
-			->when(Auth::user()->isRedac(), fn (Builder $q) => $q->whereRelation('post', 'user_id', Auth::id()))
-			->with([
-				'user',
-				'post' => function ($query) {
-					$query->select('id', 'title', 'slug');
-				},
-			])
-			->withAggregate('user', 'name')
-			->paginate(10);
-	}
+    public function comments(): LengthAwarePaginator
+    {
+        return Comment::query()
+            ->when($this->search, fn (Builder $q) => $q->where('body', 'like', "%{$this->search}%"))
+            ->when(
+                $this->sortBy['column'] === 'post_title',
+                fn (Builder $q) => $q->join('posts', 'comments.post_id', '=', 'posts.id')
+                                    ->orderBy('posts.title', $this->sortBy['direction']),
+                fn (Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction'])
+            )
+            ->when(Auth::user()->isRedac(), fn (Builder $q) => $q->whereRelation('post', 'user_id', Auth::id()))
+            ->with([
+                'user',
+                'post' => function ($query) {
+                    $query->select('id', 'title', 'slug');
+                },
+            ])
+            ->withAggregate('user', 'name')
+            ->paginate(10);
+    }
+
 
 	// Méthode pour fournir des données additionnelles au composant
 	public function with(): array
