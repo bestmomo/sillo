@@ -127,10 +127,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
             <!-- Actions du formulaire -->
             <x-slot:actions>
                 <!-- Bouton pour annuler -->
-                {{-- title="{{ __('Go on site') }}" --}}
-                <a href="/" title="{{ __('Go on site') }}">
-                    <button link="/" class="btn btn-ghost" alt="{{ __('Go on site') }}">{{ __('Cancel') }}</button>
-                </a>
+                <x-button label="{{ __('Cancel') }}" link="/" class="btn-ghost" />
                 <!-- Bouton pour supprimer le compte -->
                 <x-button label="{{ __('Delete account') }}" icon="c-hand-thumb-down"
                     wire:confirm="{{ __('Are you sure to delete your account?') }}" wire:click="deleteAccount"
@@ -139,7 +136,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
                 <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
                     class="btn-primary" />
             </x-slot:actions>
-
+            
         </x-form>
     </x-card>
 </div>
