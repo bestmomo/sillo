@@ -10,32 +10,32 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends Component {
-    use Toast;
+	use Toast;
 
-    #[Rule('required', message: 'Yo, add a title!')]
-    #[Rule('min:3', message: 'Yo, more than 2 chars, please!')]
-    public $title = '';
+	#[Rule('required', message: 'Yo, add a title!')]
+	#[Rule('min:3', message: 'Yo, more than 2 chars, please!')]
+	public $title = '';
 
-    #[Rule('required', as: 'content (textarea)')]
-    public $content = '';
+	#[Rule('required', as: 'content (textarea)')]
+	public $content = '';
 
-    public function save()
-    {
-        try {
-            $this->validate();
-            PostAcademy::create([
-                'title' => $this->title,
-                'content' => $this->content,
-            ]);
-            $this->success('Post added !');
-            $this->redirect('/framework/livewire/blog');
-        } catch (Exception $e) {
-            // Vous pouvez enregistrer l'erreur dans le journal Laravel avec Log::error
-            Log::error($e->getMessage());
-            // Ou vous pouvez définir un message d'erreur à afficher dans votre composant
-            $this->addError('form', 'Une erreur est survenue lors de la sauvegarde du formulaire : ' . $e->getMessage());
-        }
-    }
+	public function save()
+	{
+		try {
+			$this->validate();
+			PostAcademy::create([
+				'title'   => $this->title,
+				'content' => $this->content,
+			]);
+			$this->success('Post added !');
+			$this->redirect('/framework/livewire/blog');
+		} catch (Exception $e) {
+			// Vous pouvez enregistrer l'erreur dans le journal Laravel avec Log::error
+			Log::error($e->getMessage());
+			// Ou vous pouvez définir un message d'erreur à afficher dans votre composant
+			$this->addError('form', 'Une erreur est survenue lors de la sauvegarde du formulaire : ' . $e->getMessage());
+		}
+	}
 }; ?>
 
 <div>

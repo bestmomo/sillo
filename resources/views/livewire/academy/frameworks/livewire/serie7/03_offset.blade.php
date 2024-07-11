@@ -8,62 +8,62 @@ use App\Models\User;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new class extends Component {
-    use WithPagination;
+new class() extends Component {
+	use WithPagination;
 
-    public $name;
-    public $subtitle = 'Offset';
-    public $offset = 0;
-    public $limit = 15;
-    public $users;
-    public $loadMore;
-    public $search = '';
-    public $sortColumn = 'id';
-    public $sortDirection = 'ASC';
+	public $name;
+	public $subtitle = 'Offset';
+	public $offset   = 0;
+	public $limit    = 15;
+	public $users;
+	public $loadMore;
+	public $search        = '';
+	public $sortColumn    = 'id';
+	public $sortDirection = 'ASC';
 
-    public function mount($loadMore = true, $offset = 0)
-    {
-        $this->name = 'GC7';
-        if (0 == $offset) {
-            $this->dispatch('update-subtitle', newSubtitle: $this->subtitle);
-            logger('Dispatching update-subtitle event');
-        }
+	public function mount($loadMore = true, $offset = 0)
+	{
+		$this->name = 'GC7';
+		if (0 == $offset) {
+			$this->dispatch('update-subtitle', newSubtitle: $this->subtitle);
+			logger('Dispatching update-subtitle event');
+		}
 
-        $this->loadMore = $loadMore;
-        $this->offset = $offset;
-    }
+		$this->loadMore = $loadMore;
+		$this->offset   = $offset;
+	}
 
-    public function doSort($column)
-    {
-        $this->sortColumn = $column;
-        if ($this->sortColumn === $column) {
-            $this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
+	public function doSort($column)
+	{
+		$this->sortColumn = $column;
+		if ($this->sortColumn === $column) {
+			$this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
 
-            return;
-        }
-        $this->sortColumn = $column;
-        $this->sortDirection = 'ASC';
-    }
+			return;
+		}
+		$this->sortColumn    = $column;
+		$this->sortDirection = 'ASC';
+	}
 
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
+	public function updatingSearch()
+	{
+		$this->resetPage();
+	}
 
-    public function with(): array
-    {
-        if ($this->loadMore) {
-            $this->users = User::offset($this->offset)
-                ->orderBy($this->sortColumn, $this->sortDirection)
-                ->search($this->search)
-                ->limit($this->limit)
-                ->get();
-        }
+	public function with(): array
+	{
+		if ($this->loadMore) {
+			$this->users = User::offset($this->offset)
+				->orderBy($this->sortColumn, $this->sortDirection)
+				->search($this->search)
+				->limit($this->limit)
+				->get();
+		}
 
-        return [
-            'users' => $this->users,
-        ];
-    }
+		return [
+			'users' => $this->users,
+		];
+	}
 }; ?>
 
 <div>

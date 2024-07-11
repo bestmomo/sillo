@@ -1,32 +1,32 @@
 <?php
 
-use Mary\Traits\Toast;
 use App\Models\AcademyPost;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\{Layout, Title};
+use Mary\Traits\Toast;
 
 new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Component {
-    use WithPagination;
-    use Toast;
+	use WithPagination;
+	use Toast;
 
-    protected $listeners = ['refreshPosts'];
+	protected $listeners = ['refreshPosts'];
 
-    public function delete(PostAcademy $post)
-    {
-        $postId = $post->id;
-        $post->delete();
-        $this->info("Post # {$postId} deleted !");
-        $this->dispatch('refreshPosts');
-    }
+	public function delete(PostAcademy $post)
+	{
+		$postId = $post->id;
+		$post->delete();
+		$this->info("Post # {$postId} deleted !");
+		$this->dispatch('refreshPosts');
+	}
 
-    public function render(): mixed
-    {
-        // 2do cf. possibilité de ne pas utiliser le render (sert pour delete())
-        return view('livewire.academy.frameworks.livewire.blog', [
-            'posts' => AcademyPost::orderBy('id', 'desc')->paginate(10),
-        ]);
-    }
+	public function render(): mixed
+	{
+		// 2do cf. possibilité de ne pas utiliser le render (sert pour delete())
+		return view('livewire.academy.frameworks.livewire.blog', [
+			'posts' => AcademyPost::orderBy('id', 'desc')->paginate(10),
+		]);
+	}
 }; ?>
 
 <div>

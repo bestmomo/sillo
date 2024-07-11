@@ -27,16 +27,16 @@ class() extends Component {
 		return [];
 	}
 
-protected function usersStat()
-{
-    $result = User::query()
-        ->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN isStudent = true THEN 1 ELSE 0 END) as student_count')
-        ->groupBy('role')
-        ->get();
+	protected function usersStat()
+	{
+		$result = User::query()
+			->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN isStudent = true THEN 1 ELSE 0 END) as student_count')
+			->groupBy('role')
+			->get();
 
-    $this->roleCounts = $result->pluck('count', 'role');
-    $this->studentCounts = $result->pluck('student_count', 'role');
-    $this->nbrUsers = $result->sum('count');
-    $this->nbrStudents = $result->sum('student_count');
-}
+		$this->roleCounts    = $result->pluck('count', 'role');
+		$this->studentCounts = $result->pluck('student_count', 'role');
+		$this->nbrUsers      = $result->sum('count');
+		$this->nbrStudents   = $result->sum('student_count');
+	}
 };

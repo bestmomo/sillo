@@ -6,19 +6,19 @@
 
 use Livewire\Volt\Component;
 
-new class extends Component {
-    public $btns = ['Users', 'Infinite_Scroll', 'Offset'];
-    public $choice;
+new class() extends Component {
+	public $btns = ['Users', 'Infinite_Scroll', 'Offset'];
+	public $choice;
 
-    public function setChoice($btn)
-    {
-        $this->choice = $btn;
-    }
+	public function setChoice($btn)
+	{
+		$this->choice = $btn;
+	}
 
-    public function getComponentName($choice): string
-    {
-        return strtolower($this->choice);
-    }
+	public function getComponentName($choice): string
+	{
+		return strtolower($this->choice);
+	}
 }; ?>
 
 <div x-data="{ choice: @entangle('choice') }">

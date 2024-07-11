@@ -4,7 +4,7 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Component {
-    // https://alpinejs.dev/start-here
+	// https://alpinejs.dev/start-here
 }; ?>
 
 <div>

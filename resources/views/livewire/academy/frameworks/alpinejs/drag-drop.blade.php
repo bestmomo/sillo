@@ -8,7 +8,8 @@ use Livewire\Volt\Component;
 // Autre src: Multifiles Drag And Drop
 // https://pqina.nl/filepond/#multi-file-code → https://codepen.io/rikschennink/pen/WXavEx
 
-new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Component {}; ?>
+new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Component {
+}; ?>
 
 <div>
     <x-header title="Divers" shadow separator progress-indicator></x-header>
