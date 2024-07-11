@@ -113,18 +113,50 @@ class extends Component {
                 </x-slot:sub-value>
                 <x-slot:actions>
                     @if ($footer->order > 1)
-                        <x-button icon="s-chevron-up" wire:click="up({{ $footer->id }})"
-                            tooltip-left="{{ __('Up') }}" spinner />
+						<x-popover>
+							<x-slot:trigger>
+								<x-button icon="s-chevron-up" wire:click="up({{ $footer->id }})" spinner />
+							</x-slot:trigger>
+							<x-slot:content class="pop-small">
+								@lang('Up')
+							</x-slot:content>
+						</x-popover>
                     @endif
                     @if ($footer->order < $footers->count())
-                        <x-button icon="s-chevron-down" wire:click="down({{ $footer->id }})"
-                            tooltip-left="{{ __('Down') }}" spinner />
+						<x-popover>
+							<x-slot:trigger>
+								<x-button icon="s-chevron-down" wire:click="down({{ $footer->id }})" spinner />
+							</x-slot:trigger>
+							<x-slot:content class="pop-small">
+								@lang('Down')
+							</x-slot:content>
+						</x-popover>
                     @endif
-                    <x-button icon="c-arrow-path-rounded-square" link="{{ route('footers.edit', $footer->id) }}"
-                        tooltip-left="{{ __('Edit') }}" class="btn-ghost btn-sm text-blue-500" spinner />
-                    <x-button icon="o-trash" wire:click="deleteFooter({{ $footer->id }})"
-                        wire:confirm="{{ __('Are you sure to delete this footer?') }}"
-                        tooltip-left="{{ __('Delete') }}" spinner class="btn-ghost btn-sm text-red-500" />
+					<x-popover>
+						<x-slot:trigger>
+							<x-button 
+								icon="c-arrow-path-rounded-square" 
+								link="{{ route('menus.edit', $footer->id) }}"
+								class="text-blue-500 btn-ghost btn-sm" 
+								spinner />
+						</x-slot:trigger>
+						<x-slot:content class="pop-small">
+							@lang('Edit')
+						</x-slot:content>
+					</x-popover>
+					<x-popover>
+						<x-slot:trigger>
+							<x-button 
+								icon="o-trash" 
+								wire:click="deleteMenu({{ $footer->id }})"
+								wire:confirm="{{__('Are you sure to delete this footer?')}}" 
+								spinner
+								class="text-red-500 btn-ghost btn-sm" />
+						</x-slot:trigger>
+						<x-slot:content class="pop-small">
+							@lang('Delete')
+						</x-slot:content>
+					</x-popover>
                 </x-slot:actions>
             </x-list-item>
         @endforeach
