@@ -14,90 +14,90 @@ use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 new #[Title('Users'), Layout('components.layouts.admin')] class extends Component {
-	use Toast;
-	use WithPagination;
+    use Toast;
+    use WithPagination;
 
-	public string $search = '';
-	public array $sortBy  = ['column' => 'name', 'direction' => 'asc'];
-	public string $role   = 'all';
-	public array $roles   = [];
+    public string $search = '';
+    public array $sortBy = ['column' => 'name', 'direction' => 'asc'];
+    public string $role = 'all';
+    public array $roles = [];
 
-	// Supprimer un utilisateur.
-	public function deleteUser(User $user): void
-	{
-		$user->delete();
-		$this->success("{$user->name} deleted");
-	}
+    // Supprimer un utilisateur.
+    public function deleteUser(User $user): void
+    {
+        $user->delete();
+        $this->success("{$user->name} deleted");
+    }
 
-	// Définir les en-têtes de table.
-	public function headers(): array
-	{
-		$headers = [['key' => 'name', 'label' => __('Name')], ['key' => 'email', 'label' => 'E-mail'], ['key' => 'role', 'label' => __('Role')], ['key' => 'valid', 'label' => __('Valid')]];
+    // Définir les en-têtes de table.
+    public function headers(): array
+    {
+        $headers = [['key' => 'name', 'label' => __('Name')], ['key' => 'email', 'label' => 'E-mail'], ['key' => 'role', 'label' => __('Role')], ['key' => 'student', 'label' => __('Student')], ['key' => 'valid', 'label' => __('Valid')]];
 
-		if ('user' !== $this->role) {
-			$headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
-		}
+        if ('user' !== $this->role) {
+            $headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
+        }
 
-		return array_merge($headers, [['key' => 'comments_count', 'label' => __('Comments')], ['key' => 'created_at', 'label' => __('Registration')]]);
-	}
+        return array_merge($headers, [['key' => 'comments_count', 'label' => __('Comments')], ['key' => 'created_at', 'label' => __('Registration')]]);
+    }
 
-	// Récupérer la liste des utilisateurs avec les filtres et tri appliqués.
-	public function users(): LengthAwarePaginator
-	{
-		// Récupération des utilisateurs paginés
-		$users = User::query()
-			->when($this->search, function (Builder $query) {
-				$query->where('name', 'like', "%{$this->search}%");
-			})
-			->when('all' !== $this->role, function (Builder $query) {
-				$query->where('role', $this->role);
-			})
-			->withCount('posts', 'comments')
-			->orderBy(...array_values($this->sortBy))
-			->paginate(10);
+    // Récupérer la liste des utilisateurs avec les filtres et tri appliqués.
+    public function users(): LengthAwarePaginator
+    {
+        // Récupération des utilisateurs paginés
+        $users = User::query()
+            ->when($this->search, function (Builder $query) {
+                $query->where('name', 'like', "%{$this->search}%");
+            })
+            ->when('all' !== $this->role, function (Builder $query) {
+                $query->where('role', $this->role);
+            })
+            ->withCount('posts', 'comments')
+            ->orderBy(...array_values($this->sortBy))
+            ->paginate(10);
 
-		// Récupération du nombre d'utilisateurs par rôle
-		$userCountsByRole = User::select('role', DB::raw('count(*) as total'))->groupBy('role')->pluck('total', 'role');
+        // Récupération du nombre d'utilisateurs par rôle
+        $userCountsByRole = User::select('role', DB::raw('count(*) as total'))->groupBy('role')->pluck('total', 'role');
 
-		// Calculer le nombre total d'utilisateurs à partir des comptes par rôle
-		$totalUsers = $userCountsByRole->sum();
+        // Calculer le nombre total d'utilisateurs à partir des comptes par rôle
+        $totalUsers = $userCountsByRole->sum();
 
-		// Création des rôles pour le choix avec 'all' inclus
-		$roles = collect([
-			'all' => __('All') . " ({$totalUsers})",
-		])
-			->merge(
-				collect([
-					'admin' => __('Administrators'),
-					'redac' => __('Redactors'),
-					'user'  => __('Users'),
-				])->map(function ($roleName, $roleId) use ($userCountsByRole) {
-					$count = $userCountsByRole->get($roleId, 0); // 0 si le rôle n'est pas trouvé
+        // Création des rôles pour le choix avec 'all' inclus
+        $roles = collect([
+            'all' => __('All') . " ({$totalUsers})",
+        ])
+            ->merge(
+                collect([
+                    'admin' => __('Administrators'),
+                    'redac' => __('Redactors'),
+                    'user' => __('Users'),
+                ])->map(function ($roleName, $roleId) use ($userCountsByRole) {
+                    $count = $userCountsByRole->get($roleId, 0); // 0 si le rôle n'est pas trouvé
 
-					return "{$roleName} ({$count})";
-				}),
-			)
-			->map(function ($roleName, $roleId) {
-				return ['name' => $roleName, 'id' => $roleId];
-			})
-			->values()
-			->all();
+                    return "{$roleName} ({$count})";
+                }),
+            )
+            ->map(function ($roleName, $roleId) {
+                return ['name' => $roleName, 'id' => $roleId];
+            })
+            ->values()
+            ->all();
 
-		$this->roles = $roles;
+        $this->roles = $roles;
 
-		// Retourner les utilisateurs paginés
-		return $users;
-	}
+        // Retourner les utilisateurs paginés
+        return $users;
+    }
 
-	// Fournir les données nécessaires à la vue.
-	public function with(): array
-	{
-		return [
-			'users'      => $this->users(),
-			'rolesCount' => $this->users()['userCountsByRole'],
-			'headers'    => $this->headers(),
-		];
-	}
+    // Fournir les données nécessaires à la vue.
+    public function with(): array
+    {
+        return [
+            'users' => $this->users(),
+            'rolesCount' => $this->users()['userCountsByRole'],
+            'headers' => $this->headers(),
+        ];
+    }
 }; ?>
 
 <div>
@@ -141,6 +141,11 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
                     {{ __('User') }}
                 @endif
             @endscope
+            @scope('cell_student', $user)
+                @if ($user->isStudent)
+                    <x-icon-student color="cyan" />
+                @endif
+            @endscope
             @scope('cell_posts_count', $user)
                 @if ($user->posts_count > 0)
                     <x-badge value="{{ $user->posts_count }}" class="badge-primary" />
@@ -156,33 +161,25 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
             @endscope
             @scope('actions', $user)
                 <div class="flex">
-					<x-popover>
-						<x-slot:trigger>
-							<x-button 
-								icon="o-envelope" 
-								link="mailto:{{ $user->email }}" 
-								no-wire-navigate 
-								spinner 
-								class="text-blue-500 btn-ghost btn-sm" />      
-						</x-slot:trigger>
-						<x-slot:content class="pop-small">
-							@lang('Send an email')
-						</x-slot:content>
-					</x-popover>
-					<x-popover>
-						<x-slot:trigger>
-							<x-button 
-								icon="o-trash" 
-								wire:click="deleteUser({{ $user->id }})"
-								wire:confirm="{{ __('Are you sure to delete this user?') }}" 
-								confirm-text="Are you sure?"
-								spinner 
-								class="text-red-500 btn-ghost btn-sm" />  
-						</x-slot:trigger>
-						<x-slot:content class="pop-small">
-							@lang('Delete')
-						</x-slot:content>
-					</x-popover>
+                    <x-popover>
+                        <x-slot:trigger>
+                            <x-button icon="o-envelope" link="mailto:{{ $user->email }}" no-wire-navigate spinner
+                                class="text-blue-500 btn-ghost btn-sm" />
+                        </x-slot:trigger>
+                        <x-slot:content class="pop-small">
+                            @lang('Send an email')
+                        </x-slot:content>
+                    </x-popover>
+                    <x-popover>
+                        <x-slot:trigger>
+                            <x-button icon="o-trash" wire:click="deleteUser({{ $user->id }})"
+                                wire:confirm="{{ __('Are you sure to delete this user?') }}" confirm-text="Are you sure?"
+                                spinner class="text-red-500 btn-ghost btn-sm" />
+                        </x-slot:trigger>
+                        <x-slot:content class="pop-small">
+                            @lang('Delete')
+                        </x-slot:content>
+                    </x-popover>
                 </div>
             @endscope
         </x-table>

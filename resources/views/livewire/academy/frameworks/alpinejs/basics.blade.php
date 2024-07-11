@@ -3,12 +3,14 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Component {
+new #[Title('Basics')] #[Layout('components.layouts.academy')] class extends Component {
 	// https://alpinejs.dev/start-here
 }; ?>
 
 <div>
     <script src="/assets/js/helpers.js"></script>
+    
+    <x-header title="Basics AlpineJS" shadow separator progress-indicator></x-header>
 
     <div x-data="{
         search: 'ba',
