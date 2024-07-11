@@ -53,7 +53,7 @@ class extends Component {
 			['key' => 'serie_title', 'label' => __('Serie')],
 			['key' => 'comments_count', 'label' => __('')],
 			['key' => 'active', 'label' => __('Published')],
-			['key' => 'date', 'label' => __('Date'), 'sortable' => false],
+			['key' => 'date', 'label' => __('Date')],
 		]);
 	}
 
@@ -70,7 +70,11 @@ class extends Component {
 			->withAggregate('serie', 'title')
 			->withcount('comments')
 			->when($this->search, fn (Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
-			->orderBy(...array_values($this->sortBy))
+			->when(
+				$this->sortBy['column'] === 'date',
+				fn (Builder $q) => $q->orderBy('created_at', $this->sortBy['direction']),
+				fn (Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction'])
+			)
 			->latest()
 			->paginate(5);
 	}
