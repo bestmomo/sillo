@@ -11,16 +11,16 @@ include_once '01_users.php';
         <div class="max-auto max-w-screen-3xl px-4 lg:px-12">
             <div class="bg-white dark:bg-gray-800 overflow-hidden">
                 <div class="flex items-center justify-between p-4 my-2">
-                    <div class="flex w-full justify-between items-center">
-                        <div>Page {{ $paginator['current'] }} / {{ $paginator['last'] }}</div>
-                        <div class="relative x-full ml-3">
+                    <div class="flex w-full justify-between items-center gap-2">
+                        <div class="flex-shrink-0 whitespace-nowrap">
+                            Page {{ $paginator['current'] }} / {{ $paginator['last'] }}
+                        </div>
+                        <div class="relative flex-grow mx-3">
                             <x-input type="text" class="bg-gray-700 border border-gray-300"
                                 wire:model.live.debounce.300ms="search" placeholder="Search..." required />
                         </div>
-                        <p class="flex items-center justify-end mr-5 italic">
-                            <span>Owner:</span>
-                            <x-heroicon-s-heart class="h-6 w-6 text-red-600 mx-2" />
-                            <span>{{ $name }}</span>
+                        <p class="flex-shrink-0 flex items-center justify-end italic text-sm">
+                            <span>(Student color cyan)</span>
                         </p>
 
                     </div>
@@ -54,9 +54,11 @@ include_once '01_users.php';
                         </thead>
                         <tbody>
                             @forelse ($users as $user)
-                                <tr class="border-b dark:border-gray-700">
+                                <tr wire:key="user-{{ $user->id }}"
+                                    class="{{ $user->isStudent ? 'text-cyan-500' : '' }}"
+                                    class="border-b dark:border-gray-700">
                                     <td class="px-4 py-3">{{ $user->id }}</td>
-                                    <td class="px-4 py-3">
+                                    <td class="px-4 py-3 ">
                                         {{ $user->name }}
                                         {{ $user->firstname }}
                                     </td>

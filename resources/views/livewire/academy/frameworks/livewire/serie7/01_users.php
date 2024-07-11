@@ -16,7 +16,7 @@ class() extends Component {
 	public $subtitle = 'Users';
 	public $name;
 	public $perPage       = 5;
-	public $search        = '';
+	public $search        = 'min';
 	public $sortDirection = 'ASC';
 	public $sortColumn    = 'name';
 
