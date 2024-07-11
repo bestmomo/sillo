@@ -29,7 +29,7 @@
         </a>
     </div>
 
-    @if (Auth::check() && Auth::user()->name == 'Student')
+    @if (Auth::check() && Auth::user()->student)
         {{-- MAIN MENU (Student) --}}
         <livewire:navigation.gc7.main />
     @endif

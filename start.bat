@@ -47,5 +47,6 @@ REM Envoi de l'email de Test
 
 echo.
 echo Les serveurs sont démarrés.
+echo.
 
 pause
