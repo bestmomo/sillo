@@ -32,7 +32,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
     // Définir les en-têtes de table.
     public function headers(): array
     {
-        $headers = [['key' => 'name', 'label' => __('Name')], ['key' => 'email', 'label' => 'E-mail'], ['key' => 'role', 'label' => __('Role')], ['key' => 'student', 'label' => __('Student')], ['key' => 'valid', 'label' => __('Valid')]];
+        $headers = [['key' => 'name', 'label' => __('Name')], ['key' => 'email', 'label' => 'E-mail'], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Student')], ['key' => 'valid', 'label' => __('Valid')]];
 
         if ('user' !== $this->role) {
             $headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
@@ -141,7 +141,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
                     {{ __('User') }}
                 @endif
             @endscope
-            @scope('cell_student', $user)
+            @scope('cell_isStudent', $user)
                 @if ($user->isStudent)
                     <x-icon-student color="cyan" />
                 @endif
