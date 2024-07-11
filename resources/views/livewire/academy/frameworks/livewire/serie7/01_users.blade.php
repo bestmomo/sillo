@@ -17,10 +17,8 @@ include_once '01_users.php';
                             <x-input type="text" class="bg-gray-700 border border-gray-300"
                                 wire:model.live.debounce.300ms="search" placeholder="Search..." required />
                         </div>
-                        <p class="flex items-center justify-end mr-5 italic">
-                            <span>Owner:</span>
-                            <x-heroicon-s-heart class="h-6 w-6 text-red-600 mx-2" />
-                            <span>{{ $name }}</span>
+                        <p class="flex items-center justify-end mr-5 italic text-sm">
+                            <span>(Student color cyan)</span>
                         </p>
 
                     </div>
@@ -54,11 +52,13 @@ include_once '01_users.php';
                         </thead>
                         <tbody>
                             @forelse ($users as $user)
-                                <tr class="border-b dark:border-gray-700">
+                                <tr wire:key="user-{{ $user->id }}" class="{{ $user->isStudent ? 'text-cyan-500' : '' }}" 
+                                    class="border-b dark:border-gray-700">
                                     <td class="px-4 py-3">{{ $user->id }}</td>
-                                    <td class="px-4 py-3">
+                                    <td class="px-4 py-3 ">
                                         {{ $user->name }}
                                         {{ $user->firstname }}
+                                        {{ $user->isStudent }}
                                     </td>
                                     <td class="px-4 py-3">{{ $user->email }}</td>
                                     <td class="px-4 py-3">{{ $user->gender }}</td>
