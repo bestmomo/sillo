@@ -18,7 +18,7 @@ class IsStudent
 	 */
 	public function handle(Request $request, \Closure $next): Response
 	{
-		if (!auth()->user()->student) {
+		if (!auth()->user()->isStudent) {
 			abort(403);
 		}
 

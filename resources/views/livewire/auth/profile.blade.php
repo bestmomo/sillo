@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ */
+
 use App\Models\User;
 use Illuminate\Support\Facades\{Auth, Hash};
 use Illuminate\Support\Str;
@@ -9,8 +13,8 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 // Définition du composant avec les attributs de titre et de mise en page
-new
-#[Title('Profile')]
+new 
+#[Title('Profile')] 
 #[Layout('components.layouts.auth')]
 class extends Component {
 	use Toast;
@@ -20,7 +24,7 @@ class extends Component {
 	public string $email                 = '';
 	public string $password              = '';
 	public string $password_confirmation = '';
-	public bool   $student              = false;
+	public bool $isStudent               = false;
 
 	// Méthode pour initialiser le composant
 	public function mount(): void
@@ -29,8 +33,8 @@ class extends Component {
 		$this->user = Auth::user();
 		// Remplissage des données de l'utilisateur dans le formulaire
 		$this->fill([
-			'email' => $this->user->email,
-			'student' => $this->user->student,
+			'email'     => $this->user->email,
+			'isStudent' => $this->user->isStudent,
 		]);
 	}
 
@@ -39,12 +43,9 @@ class extends Component {
 	{
 		// Validation des données
 		$data = $this->validate([
-			'email' => [
-				'required', 'email',
-				Rule::unique('users')->ignore($this->user->id),
-			],
-			'password' => 'confirmed',
-			'student' => 'boolean',
+			'email'     => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
+			'password'  => 'confirmed',
+			'isStudent' => 'boolean',
 		]);
 
 		// Hashage du mot de passe
@@ -72,59 +73,71 @@ class extends Component {
 	public function generatePassword($length = 16): void
 	{
 		// Génération d'un mot de passe aléatoire
-		$this->password = Str::random($length);
+		$this->password              = Str::random($length);
+		$this->password_confirmation = $this->password;
 	}
 }; ?>
 
 <div>
-    <!-- Formulaire de mise à jour du profil -->
-    <x-card class="flex items-center justify-center h-screen" title="{{__('Update profile')}}" shadow separator>
-        <x-form wire:submit="save">
+  <!-- Formulaire de mise à jour du profil -->
 
-            <!-- Avatar de l'utilisateur -->
-            <x-avatar :image="Gravatar::get($user->email)" class="!w-24">
-                <!-- Nom de l'utilisateur -->
-                <x-slot:title class="pl-2 text-xl">
-                    {{ $user->name }}
-                </x-slot:title>
-                <!-- Informations supplémentaires -->
-                <x-slot:subtitle class="flex flex-col gap-1 pl-2 mt-2 text-gray-500">
-                    <x-icon name="o-hand-raised" label="{{ __('Your name can\'t be changed') }}" />
-                    <a href="https://fr.gravatar.com/"><x-icon name="c-user" label="{{ __('You can change your profile picture on Gravatar') }}" /></a>
-                </x-slot:subtitle>
-            </x-avatar>
+  <x-card class="flex items-center justify-center h-screen" title="">
 
-            <!-- Champ d'email -->
-            <x-input label="{{__('E-mail')}}" wire:model="email" icon="o-envelope" inline />
+    <a href="/" title="{{ __('Go on site') }}">
+      <x-card class="items-center py-0" title="{{ __('Update profile') }}" shadow separator progress-indicator></x-card>
+    </a>
 
-            <hr>
+    <x-form wire:submit="save">
 
-            <!-- Champ de mot de passe -->
-            <x-input label="{{__('Password')}}" wire:model="password" icon="o-key" inline />
-            <!-- Confirmation du mot de passe -->
-            <x-input label="{{__('Confirm Password')}}" wire:model="password_confirmation" icon="o-key" inline />
-            <!-- Bouton pour générer un mot de passe sécurisé -->
-            <x-button label="{{ __('Generate a secure password')}}" wire:click="generatePassword()" icon="m-wrench" class="btn-outline btn-sm" />
-			<!-- Option pour devenir étudiant -->
-			<x-popover>
-				<x-slot:trigger>
-					<x-checkbox label="{{ __('Student access') }}" wire:model="student"/>
-				</x-slot:trigger>
-				<x-slot:content class="pop-small">
-					@lang('Gives access to numerous helping scripts, spaces to test...')
-				</x-slot:content>
-			</x-popover>
+      <!-- Avatar de l'utilisateur -->
+      <x-avatar :image="Gravatar::get($user->email)" class="!w-24">
+        <!-- Nom de l'utilisateur -->
+        <x-slot:title class="pl-2 text-xl">
+          {{ $user->name }}
+        </x-slot:title>
+        <!-- Informations supplémentaires -->
+        <x-slot:subtitle class="flex flex-col gap-1 pl-2 mt-2 text-gray-500">
+          <x-icon name="o-hand-raised" label="{{ __('Your name can\'t be changed') }}" />
+          <a href="https://fr.gravatar.com/">
+            <x-icon name="c-user" label="{{ __('You can change your profile picture on Gravatar') }}" />
+          </a>
+        </x-slot:subtitle>
+      </x-avatar>
 
-            <!-- Actions du formulaire -->
-            <x-slot:actions>
-                <!-- Bouton pour annuler -->
-                <x-button label="{{ __('Cancel') }}" link="/" class="btn-ghost" />
-                <!-- Bouton pour supprimer le compte -->
-                <x-button label="{{__('Delete account')}}" icon="c-hand-thumb-down" wire:confirm="{{__('Are you sure to delete your account?')}}" wire:click="deleteAccount" class="btn-warning" />
-                <!-- Bouton pour sauvegarder les modifications -->
-                <x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
-            </x-slot:actions>
+      <!-- Champ d'email -->
+      <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" inline />
 
-        </x-form>
-    </x-card>
+      <hr>
+
+      <!-- Champ de mot de passe -->
+      <x-input label="{{ __('Password') }}" wire:model="password" icon="o-key" inline />
+      <!-- Confirmation du mot de passe -->
+      <x-input label="{{ __('Confirm Password') }}" wire:model="password_confirmation" icon="o-key" inline />
+      <!-- Bouton pour générer un mot de passe sécurisé -->
+      <x-button label="{{ __('Generate a secure password') }}" wire:click="generatePassword()" icon="m-wrench"
+        class="btn-outline btn-sm" />
+      <!-- Option pour devenir étudiant -->
+      <x-popover>
+        <x-slot:trigger>
+          <x-checkbox label="{{ __('Academy access') }}" wire:model="isStudent" />
+        </x-slot:trigger>
+        <x-slot:content class="pop-small">
+          @lang('Gives access to numerous helping scripts, spaces to test...')
+        </x-slot:content>
+      </x-popover>
+
+      <!-- Actions du formulaire -->
+      <x-slot:actions>
+        <!-- Bouton pour annuler -->
+        <x-button label="{{ __('Cancel') }}" link="/" class="btn-ghost" />
+        <!-- Bouton pour supprimer le compte -->
+        <x-button label="{{ __('Delete account') }}" icon="c-hand-thumb-down"
+          wire:confirm="{{ __('Are you sure to delete your account?') }}" wire:click="deleteAccount"
+          class="btn-warning" />
+        <!-- Bouton pour sauvegarder les modifications -->
+        <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+      </x-slot:actions>
+
+    </x-form>
+  </x-card>
 </div>

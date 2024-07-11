@@ -7,7 +7,7 @@
 namespace App\Providers;
 
 use App\Models\{Menu, Setting};
-use App\Services\Gc7FrameworksLinksService;
+use App\Services\AcademyFrameworksLinksService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\{Facades, ServiceProvider};
 use Illuminate\View\View;
@@ -19,8 +19,8 @@ class AppServiceProvider extends ServiceProvider
 	 */
 	public function register(): void
 	{
-		$this->app->singleton(Gc7FrameworksLinksService::class, function () {
-			return new Gc7FrameworksLinksService();
+		$this->app->singleton(AcademyFrameworksLinksService::class, function () {
+			return new AcademyFrameworksLinksService();
 		});
 	}
 

@@ -6,7 +6,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\{Comment, Contact, Page, Post, PostGc7, User};
+use App\Models\{AcademyPost, Comment, Contact, Page, Post, User};
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
 			'name'       => 'Admin',
 			'email'      => 'admin@example.com',
 			'role'       => 'admin',
+			'isStudent'  => true,
 			'created_at' => Carbon::now()->subYears(3),
 		]);
 
@@ -185,7 +186,7 @@ class DatabaseSeeder extends Seeder
 			['key' => 'flash', 'value' => ''],
 		]);
 
-		PostGc7::factory()->count(9)->create();
+		AcademyPost::factory()->count(9)->create();
 
 		// REPORT
 		printf('%s%s', str_repeat(' ', 2), "Data tables properly filled.\n\n");

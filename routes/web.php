@@ -12,11 +12,11 @@ use Livewire\Volt\Volt;
 // Routes publiques
 Volt::route('/', 'index');
 
-Volt::route('/t', 'gc7.abc.aaa_test');
+Volt::route('/t', 'academy.abc.aaa_test');
 
-Volt::route('/frameworks', 'gc7.frameworks');
+Volt::route('/frameworks', 'academy.frameworks');
 Route::prefix('/framework')->group(function () {
-	getGc7FrameworksRoutes();
+	getAcademyFrameworksRoutes();
 });
 
 Route::post('/upload-image', [ImageController::class, 'upload']);
@@ -39,9 +39,8 @@ Route::middleware('guest')->group(function () {
 
 // Routes pour les utilisateurs authentifiés
 Route::middleware('auth')->group(function () {
-	
 	Route::middleware(IsStudent::class)->group(function () {
-		Volt::route('/framework/alpinejs/chats', 'gc7.frameworks.alpinejs.chats')->name('alpinejs.chats');
+		Volt::route('/framework/alpinejs/chats', 'academy.frameworks.alpinejs.chats')->name('alpinejs.chats');
 	});
 
 	Volt::route('/profile', 'auth.profile')->name('profile');
