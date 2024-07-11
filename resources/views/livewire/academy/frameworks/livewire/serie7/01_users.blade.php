@@ -61,7 +61,6 @@ include_once '01_users.php';
                                     <td class="px-4 py-3 ">
                                         {{ $user->name }}
                                         {{ $user->firstname }}
-                                        {{ $user->isStudent }}
                                     </td>
                                     <td class="px-4 py-3">{{ $user->email }}</td>
                                     <td class="px-4 py-3">{{ $user->gender }}</td>
