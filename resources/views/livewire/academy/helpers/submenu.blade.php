@@ -15,7 +15,7 @@ new class() extends Component {
 
         <template x-for="btn in btns" :key="btn">
 
-            <button class='mr-3 btn btn-sm mb-0 pb-0' :class="choice !== btn ? 'btn-primary' : 'btn-secondary'"
+            <button class='pb-0 mb-0 mr-3 btn btn-sm' :class="choice !== btn ? 'btn-primary' : 'btn-secondary'"
                 x-on:click="choice = btn; console.log('choice = ' + choice); $dispatch('update-subtitle', { newSubtitle: btn })"
                 :id="btn">
                 <span x-text="btn"></span>
@@ -23,8 +23,8 @@ new class() extends Component {
 
         </template>
 
-        <p class="w-1/4 flex justify-between items-center">N.B.:
-            <x-icon-student color="#f22" />
+        <p class="flex items-center justify-between w-1/4">N.B.:
+            <x-icon name="o-academic-cap" class="w-7 h-7 text-cyan-500" />
             <x-icon-smiley />
         </p>
     </div>

@@ -143,7 +143,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
             @endscope
             @scope('cell_isStudent', $user)
                 @if ($user->isStudent)
-                    <x-icon-student color="cyan" />
+                    <x-icon name="o-academic-cap" class="w-7 h-7 text-cyan-500" />
                 @endif
             @endscope
             @scope('cell_posts_count', $user)
