@@ -21,7 +21,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
-    public bool $student = false;
+    public bool $isStudent = false;
 
     // Méthode pour initialiser le composant
     public function mount(): void
@@ -31,7 +31,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
         // Remplissage des données de l'utilisateur dans le formulaire
         $this->fill([
             'email' => $this->user->email,
-            'student' => $this->user->student,
+            'isStudent' => $this->user->isStudent,
         ]);
     }
 
@@ -42,7 +42,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
         $data = $this->validate([
             'email' => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
             'password' => 'confirmed',
-            'student' => 'boolean',
+            'isStudent' => 'boolean',
         ]);
 
         // Hashage du mot de passe
@@ -117,7 +117,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
             <!-- Option pour devenir étudiant -->
             <x-popover>
                 <x-slot:trigger>
-                    <x-checkbox label="{{ __('Academy access') }}" wire:model="student" />
+                    <x-checkbox label="{{ __('Academy access') }}" wire:model="isStudent" />
                 </x-slot:trigger>
                 <x-slot:content class="pop-small">
                     @lang('Gives access to numerous helping scripts, spaces to test...')
@@ -136,7 +136,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
                 <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
                     class="btn-primary" />
             </x-slot:actions>
-            
+
         </x-form>
     </x-card>
 </div>
