@@ -53,6 +53,16 @@ npm run dev
 ```
 php artisan serv 
 ```
+---
+
+À noter: Si vous êtes sous **Windows** et avez opté pour **Sqlite** comme SGBD, alors, il existe 2 batchs à exécuter en CLI :
+
+- **start.bat**: Nettoie quelques fichiers logs et de cache, mais surtout, démarre tous les serveurs nécessaires (Apache, VitesJS, Reverb et même le script MailHog pour recevoir en local les emails émit par votre app, quasiment pareillement que si c'était dans votre 'vrai' email)
+  
+- **reset.bat**: Re-initialise complètement le projet.
+  (Supprime les fichiers -lock (de composer et package), leurs dossiers respectifs (vendor/ et node_modules/) et fait tout ce que fait ***start.bat***)
+
+---
 
 Ceci suffira si vous utilisez sqlite comme driver de BdD (Base de données ), que vous aurez renseigné dans le ***.env*** à la racine du projet.
 
