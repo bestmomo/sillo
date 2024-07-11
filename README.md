@@ -19,9 +19,9 @@ Ceci dit, voilà l'Opportunité Exceptionnelle qui vous est aujourd'hui offerte 
 
 Mais ce que je sais, c'est que quelque soit votre cas personnel, vous êtes à la bonne place !!!
 
-Après votre Fork (Voyez la page "installation" ci-dessous), installez le projet en local et loguez-vous avec " **admin@example.com/password** "
+Après votre Fork (Voyez la page "installation" ci-dessous), installez le projet en local et loguez-vous avec "[**admin@example.com/password**](https://discord.com/channels/423853760939556865/1253369416477835307)"
 
-Vous pourrez ensuite ajouter dans votre profile, une option:
+Si vous le souhaitez, vous pourrez alors ajouter dans votre profil, une option: "Accès étudiant"
 
 https://prnt.sc/WWNjMQsNk-GW
 
@@ -29,11 +29,11 @@ Ce qui vous permettra d'avoir ce nouveau *submenu*:
 
 https://prnt.sc/xDRQZnwdcm85
 
-Ain si, vous pouvez:
+Ainsi, vous pouvez:
 
 - Utiliser tout le projet dans sa toute dernière version,
-- Avoir complètement accès au code,
-- Et ensuite...? Bah, tester tout ce que vous voulez, sans aucun risque d'abîmer quoi que ce soit, ni de perdre non plus quoi que ce soit (Merci au Git), donc, le top pour apprendre n'importe quoi, tout en 'pratiquant' !!!, mais aussi corriger / améliorer / proposer des évolutions / remettre même en questions tout choix déjà fait / suggérer en 'live' de fusionner vos développements, etc...
+- Avoir complètement accès à tout le code,
+- Et en plus...: Bah, tester tout ce que vous voulez, sans aucun risque d'abîmer quoi que ce soit, ni de perdre non plus quoi que ce soit (Merci au Git), donc, le top pour apprendre n'importe quoi, tout en 'pratiquant' !!!, mais aussi corriger / améliorer / proposer des évolutions / remettre même en questions tout choix déjà fait / suggérer en 'live' de fusionner vos développements, etc...
 
 Si vous avez déjà rêvé d'être libre, c'est ICI et MAINTENANT !
 
