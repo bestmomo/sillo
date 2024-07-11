@@ -273,22 +273,56 @@ class extends Component {
       </x-slot:sub-value>
       <x-slot:actions>
         @if($menu->order > 1)
-        <x-button icon="s-chevron-up" wire:click="up({{ $menu->id }})" tooltip-left="{{ __('Up') }}" spinner />
+			<x-popover>
+				<x-slot:trigger>
+        			<x-button icon="s-chevron-up" wire:click="up({{ $menu->id }})" spinner />
+				</x-slot:trigger>
+				<x-slot:content class="pop-small">
+					@lang('Up')
+				</x-slot:content>
+			</x-popover>
         @endif
         @if($menu->order < $menus->count())
-          <x-button icon="s-chevron-down" wire:click="down({{ $menu->id }})" tooltip-left="{{ __('Down') }}" spinner />
-          @endif
-          <x-button icon="c-arrow-path-rounded-square" link="{{ route('menus.edit', $menu->id) }}"
-            tooltip-left="{{ __('Edit') }}" class="btn-ghost btn-sm text-blue-500" spinner />
-          <x-button icon="o-trash" wire:click="deleteMenu({{ $menu->id }})"
-            wire:confirm="{{__('Are you sure to delete this menu?')}}" tooltip-left="{{ __('Delete') }}" spinner
-            class="btn-ghost btn-sm text-red-500" />
+			<x-popover>
+				<x-slot:trigger>
+          			<x-button icon="s-chevron-down" wire:click="down({{ $menu->id }})" spinner />
+				</x-slot:trigger>
+				<x-slot:content class="pop-small">
+					@lang('Down')
+				</x-slot:content>
+			</x-popover>
+        @endif
+		  	<x-popover>
+				<x-slot:trigger>
+					<x-button 
+						icon="c-arrow-path-rounded-square" 
+						link="{{ route('menus.edit', $menu->id) }}"
+						class="text-blue-500 btn-ghost btn-sm" 
+						spinner />
+				</x-slot:trigger>
+				<x-slot:content class="pop-small">
+					@lang('Edit')
+				</x-slot:content>
+			</x-popover>
+			<x-popover>
+				<x-slot:trigger>
+					<x-button 
+						icon="o-trash" 
+						wire:click="deleteMenu({{ $menu->id }})"
+						wire:confirm="{{__('Are you sure to delete this menu?')}}" 
+						spinner
+						class="text-red-500 btn-ghost btn-sm" />
+				</x-slot:trigger>
+				<x-slot:content class="pop-small">
+					@lang('Delete')
+				</x-slot:content>
+			</x-popover>
       </x-slot:actions>
     </x-list-item>
 
     <x-collapse collapse-plus-minus no-icon class="ml-8">
       <x-slot:heading>
-        <x-icon name="o-chevron-down" /><span class="text-sm pl-2">{{ __('Submenus') }}</span>
+        <x-icon name="o-chevron-down" /><span class="pl-2 text-sm">{{ __('Submenus') }}</span>
       </x-slot:heading>
       <x-slot:content>
         @foreach($menu->submenus as $submenu)
@@ -309,10 +343,10 @@ class extends Component {
                 spinner />
               @endif
               <x-button icon="c-arrow-path-rounded-square" link="{{ route('submenus.edit', $submenu->id) }}"
-                tooltip-left="{{ __('Edit') }}" class="btn-ghost btn-sm text-blue-500" spinner />
+                tooltip-left="{{ __('Edit') }}" class="text-blue-500 btn-ghost btn-sm" spinner />
               <x-button icon="o-trash" wire:click="deleteSubmenu({{ $menu->id }}, {{ $submenu->id }})"
                 wire:confirm="{{__('Are you sure to delete this submenu?')}}" tooltip-left="{{ __('Delete') }}" spinner
-                class="btn-ghost btn-sm text-red-500" />
+                class="text-red-500 btn-ghost btn-sm" />
           </x-slot:actions>
         </x-list-item>
         @endforeach

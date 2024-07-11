@@ -165,24 +165,49 @@ class extends Component {
   <x-card>
     <x-table striped :headers="$headers" :rows="$images" with-pagination>
       @scope('cell_url', $image)
-      <img src="{{ $image['url'] }}" width="100" alt="">
+      	<img src="{{ $image['url'] }}" width="100" alt="">
       @endscope
       @scope('cell_usage', $image)
-      @if($image['usage'])
-      <x-icon name="o-check-circle" />
-      @endif
+		@if($image['usage'])
+			<x-icon name="o-check-circle" />
+		@endif
       @endscope
       @scope('actions', $image, $selectedYear, $selectedMonth, $perPage, $page, $loop)
-      <div class="flex gap-2">
-        <x-button icon="s-briefcase" data-url="{{ $image['url'] }}" onclick="copyUrl(this)"
-          tooltip-left="{!! __('Copy url') !!}" class="text-blue-500 btn-ghost btn-sm" spinner />
-        <x-button icon="c-wrench"
-          link="{{ route('images.edit', ['year' => $selectedYear, 'month' => $selectedMonth, 'id' => $loop->index + ($page - 1) * $perPage]) }}"
-          tooltip-left="{!! __('Manage image') !!}" class="text-blue-500 btn-ghost btn-sm" spinner />
-        <x-button icon="o-trash" wire:click="deleteImage({{ $loop->index }})"
-          wire:confirm="{{__('Are you sure to delete this image?')}}" tooltip-left="{!! __('Delete image') !!}" spinner
-          class="text-red-500 btn-ghost btn-sm" />
-      </div>
+		<div class="flex gap-2">
+			<x-popover>
+				<x-slot:trigger>
+					<x-button icon="s-briefcase" data-url="{{ $image['url'] }}" onclick="copyUrl(this)" class="text-blue-500 btn-ghost btn-sm" spinner />
+				</x-slot:trigger>
+				<x-slot:content class="pop-small">
+					@lang('Copy url')
+				</x-slot:content>
+			</x-popover>
+			<x-popover>
+				<x-slot:trigger>
+					<x-button 
+						icon="c-wrench"
+						link="{{ route('images.edit', ['year' => $selectedYear, 'month' => $selectedMonth, 'id' => $loop->index + ($page - 1) * $perPage]) }}"
+						class="text-blue-500 btn-ghost btn-sm" 
+						spinner />
+				</x-slot:trigger>
+				<x-slot:content class="pop-small">
+					@lang('Manage image')
+				</x-slot:content>
+			</x-popover>
+			<x-popover>
+				<x-slot:trigger>
+					<x-button 
+						icon="o-trash" 
+						wire:click="deleteImage({{ $loop->index }})"
+						wire:confirm="{{__('Are you sure to delete this image?')}}" 
+						spinner
+						class="text-red-500 btn-ghost btn-sm" />
+				</x-slot:trigger>
+				<x-slot:content class="pop-small">
+					@lang('Delete image')
+				</x-slot:content>
+			</x-popover>
+		</div>
       @endscope
     </x-table>
   </x-card>

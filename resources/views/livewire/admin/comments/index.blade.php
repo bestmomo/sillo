@@ -118,15 +118,45 @@ new #[Title('Comments'), Layout('components.layouts.admin')] class extends Compo
             @scope('actions', $comment)
                 <div class="flex">
                     @if (!$comment->user->valid)
-                        <x-button icon="c-eye" wire:click="validComment({{ $comment->id }})"
-                            wire:confirm="{{ __('Are you sure to validate this user for comment?') }}"
-                            tooltip-left="{!! __('Validate the user') !!}" spinner class="text-yellow-500 btn-ghost btn-sm" />
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button 
+                                    icon="c-eye" 
+                                    wire:click="validComment({{ $comment->id }})"
+                                    wire:confirm="{{ __('Are you sure to validate this user for comment?') }}"
+                                    spinner 
+                                    class="text-yellow-500 btn-ghost btn-sm" />   
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Validate the user')
+                            </x-slot:content>
+                        </x-popover>
                     @endif
-                    <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}"
-                        tooltip-left="{!! __('Show post') !!}" spinner class="btn-ghost btn-sm" />
-                    <x-button icon="o-trash" wire:click="deleteComment({{ $comment->id }})"
-                        wire:confirm="{{ __('Are you sure to delete this comment?') }}" tooltip-left="{{ __('Delete') }}"
-                        spinner class="text-red-500 btn-ghost btn-sm" />
+                    <x-popover>
+                        <x-slot:trigger>
+                            <x-button 
+                                icon="s-document-text" 
+                                link="{{ route('posts.show', $comment->post->slug) }}"
+                                spinner 
+                                class="btn-ghost btn-sm" /> 
+                        </x-slot:trigger>
+                        <x-slot:content class="pop-small">
+                            @lang('Show post')
+                        </x-slot:content>
+                    </x-popover>                    
+                    <x-popover>
+                        <x-slot:trigger>
+                            <x-button 
+                                icon="o-trash" 
+                                wire:click="deleteComment({{ $comment->id }})"
+                                wire:confirm="{{ __('Are you sure to delete this comment?') }}"
+                                spinner 
+                                class="text-red-500 btn-ghost btn-sm" />
+                        </x-slot:trigger>
+                        <x-slot:content class="pop-small">
+                            @lang('Delete')
+                        </x-slot:content>
+                    </x-popover>
                 </div>
             @endscope
         </x-table>

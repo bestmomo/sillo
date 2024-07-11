@@ -86,14 +86,20 @@ class extends Component {
             with-pagination
         >
             @scope('actions', $category)
-                <x-button 
-                    icon="o-trash" 
-                    wire:click="delete({{ $category->id }})" 
-                    wire:confirm="{{ __('Are you sure to delete this category?') }}" 
-                    tooltip-left="{{ __('Delete') }}" 
-                    spinner 
-                    class="text-red-500 btn-ghost btn-sm" 
-                />
+				<x-popover>
+					<x-slot:trigger>
+						<x-button 
+							icon="o-trash" 
+							wire:click="delete({{ $category->id }})" 
+							wire:confirm="{{ __('Are you sure to delete this category?') }}" 
+							spinner 
+							class="text-red-500 btn-ghost btn-sm" 
+						/>              
+					</x-slot:trigger>
+					<x-slot:content class="pop-small">
+						@lang('Delete')
+					</x-slot:content>
+				</x-popover>
             @endscope
         </x-table>
     </x-card>

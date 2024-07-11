@@ -68,18 +68,58 @@ class extends Component {
       @scope('actions', $contact)
       <div class="flex">
         @if($contact->handled)
-        <x-button icon="o-face-smile" wire:click="toggleContact({{ $contact->id }}, false)"
-          tooltip-left="{{ __('Mark as unhandled') }}" spinner class="text-green-500 btn-ghost btn-sm" />
+			<x-popover>
+				<x-slot:trigger>
+					<x-button 
+						icon="o-face-smile" 
+						wire:click="toggleContact({{ $contact->id }}, false)"
+						spinner 
+						class="text-green-500 btn-ghost btn-sm" />
+				</x-slot:trigger>
+				<x-slot:content class="pop-small">
+					@lang('Mark as unhandled')
+				</x-slot:content>
+			</x-popover>
         @else
-        <x-button icon="o-face-smile" wire:click="toggleContact({{ $contact->id }}, true)"
-          tooltip-left="{{ __('Mark as handled') }}" spinner class="text-red-500 btn-ghost btn-sm" />
+			<x-popover>
+				<x-slot:trigger>
+					<x-button 
+						icon="o-face-smile" 
+						wire:click="toggleContact({{ $contact->id }}, true)"
+						spinner 
+						class="text-red-500 btn-ghost btn-sm" />
+				</x-slot:trigger>
+				<x-slot:content class="pop-small">
+					@lang('Mark as handled')
+				</x-slot:content>
+			</x-popover>
         @endif
-        <x-button icon="o-envelope"
-          link="mailto:{{ $contact->email }}?subject={{ __('Contact') }}&body={{ $contact->message }}"
-          tooltip-left="{{ __('Answer') }}" no-wire-navigate spinner class="text-blue-500 btn-ghost btn-sm" />
-        <x-button icon="o-trash" wire:click="deleteContact({{ $contact->id }})"
-          wire:confirm="{{ __('Are you sure to delete this contact?') }}" tooltip-left="{{ __('Delete') }}" spinner
-          class="text-red-500 btn-ghost btn-sm" />
+		<x-popover>
+			<x-slot:trigger>
+				<x-button 
+					icon="o-envelope"
+					link="mailto:{{ $contact->email }}?subject={{ __('Contact') }}&body={{ $contact->message }}"
+					no-wire-navigate 
+					spinner 
+					class="text-blue-500 btn-ghost btn-sm" />
+			</x-slot:trigger>
+			<x-slot:content class="pop-small">
+				@lang('Answer')
+			</x-slot:content>
+		</x-popover>
+		<x-popover>
+			<x-slot:trigger>
+				<x-button 
+					icon="o-trash" 
+					wire:click="deleteContact({{ $contact->id }})"
+					wire:confirm="{{ __('Are you sure to delete this contact?') }}" 
+					spinner
+					class="text-red-500 btn-ghost btn-sm" />
+			</x-slot:trigger>
+			<x-slot:content class="pop-small">
+				@lang('Delete')
+			</x-slot:content>
+		</x-popover>
       </div>
       @endscope
     </x-table>

@@ -115,8 +115,14 @@ new #[Title('Dashboard')] #[Layout('components.layouts.admin')] class extends Co
                     @endif
                 @endscope
                 @scope('actions', $post)
-                    <x-button icon="s-document-text" link="{{ route('posts.show', $post->slug) }}"
-                        tooltip-left="{!! __('Show post') !!}" spinner class="btn-ghost btn-sm" />
+                    <x-popover>
+                        <x-slot:trigger>
+                            <x-button icon="s-document-text" link="{{ route('posts.show', $post->slug) }}" spinner class="btn-ghost btn-sm" />                            
+                        </x-slot:trigger>
+                        <x-slot:content class="pop-small">
+                            @lang('Show post')
+                        </x-slot:content>
+                    </x-popover>
                 @endscope
             </x-table>
         </x-slot:content>
@@ -142,13 +148,32 @@ new #[Title('Dashboard')] #[Layout('components.layouts.admin')] class extends Co
                         @lang ('in post:') {{ $comment->post->title }}
                     </x-slot:value>
                     <x-slot:actions>
-                        <x-button icon="c-eye" link="{{ route('comments.edit', $comment->id) }}"
-                            tooltip-left="{!! __('Edit or answer') !!}" spinner class="btn-ghost btn-sm" />
-                        <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}"
-                            tooltip-left="{!! __('Show post') !!}" spinner class="btn-ghost btn-sm" />
-                        <x-button icon="o-trash" wire:click="deleteComment({{ $comment->id }})"
-                            wire:confirm="{{ __('Are you sure to delete this comment?') }}"
-                            tooltip-left="{{ __('Delete') }}" spinner class="text-red-500 btn-ghost btn-sm" />
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="c-eye" link="{{ route('comments.edit', $comment->id) }}" spinner class="btn-ghost btn-sm" />                         
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Edit or answer')
+                            </x-slot:content>
+                        </x-popover>
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}" spinner class="btn-ghost btn-sm" />                       
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Show post')
+                            </x-slot:content>
+                        </x-popover>
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="o-trash" wire:click="deleteComment({{ $comment->id }})"
+                                    wire:confirm="{{ __('Are you sure to delete this comment?') }}" 
+                                    spinner class="text-red-500 btn-ghost btn-sm" />                   
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Delete')
+                            </x-slot:content>
+                        </x-popover>
                     </x-slot:actions>
                 </x-list-item>
                 <p class="ml-16">{{ Str::words($comment->body, 20, ' ...') }}</p>
