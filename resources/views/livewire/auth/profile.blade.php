@@ -31,7 +31,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
         // Remplissage des données de l'utilisateur dans le formulaire
         $this->fill([
             'email' => $this->user->email,
-            'isStudent' => $this->user->isStudent,
+            'isStudent' => $this->user->student,
         ]);
     }
 
