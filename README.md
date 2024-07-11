@@ -23,7 +23,7 @@ Après votre Fork (Voyez la page "installation" ci-dessous), installez le projet
 
 Si vous le souhaitez, vous pourrez alors ajouter dans votre profil, une option: "Accès étudiant"
 
-https://prnt.sc/WWNjMQsNk-GW
+https://prnt.sc/-_pte4qrtT9c
 
 Ce qui vous permettra d'avoir ce nouveau *submenu*:
 

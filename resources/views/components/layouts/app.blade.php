@@ -29,9 +29,9 @@
         </a>
     </div>
 
-    @if (Auth::check() && Auth::user()->student)
+    @if (Auth::check() && Auth::user()->isStudent)
         {{-- MAIN MENU (Student) --}}
-        <livewire:navigation.gc7.main />
+        <livewire:navigation.academy-nav />
     @endif
 
     {{-- NAVBAR --}}

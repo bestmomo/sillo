@@ -4,30 +4,30 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\{Auth, Session};
 use Livewire\Volt\Component;
 
-new class() extends Component {
-	// Collection de menus
-	public Collection $menus;
+new class extends Component {
+    // Collection de menus
+    public Collection $menus;
 
-	/**
-	 * Initialise le composant avec les menus donnés.
-	 */
-	public function mount(Collection $menus): void
-	{
-		$this->menus = $menus;
-	}
+    /**
+     * Initialise le composant avec les menus donnés.
+     */
+    public function mount(Collection $menus): void
+    {
+        $this->menus = $menus;
+    }
 
-	/**
-	 * Déconnecte l'utilisateur actuellement authentifié.
-	 */
-	public function logout(): void
-	{
-		Auth::guard('web')->logout();
+    /**
+     * Déconnecte l'utilisateur actuellement authentifié.
+     */
+    public function logout(): void
+    {
+        Auth::guard('web')->logout();
 
-		Session::invalidate();
-		Session::regenerateToken();
+        Session::invalidate();
+        Session::regenerateToken();
 
-		$this->redirect('/');
-	}
+        $this->redirect('/');
+    }
 };
 ?>
 
@@ -42,8 +42,8 @@ new class() extends Component {
     <!-- Actions de la barre de navigation -->
     <x-slot:actions>
         <span class="hidden lg:block">
-            @if($user = auth()->user())
-                @if($user->student)
+            @if ($user = auth()->user())
+                @if ($user->isStudent)
                     <x-button label="{{ __('Student') }}" link="{{ route('alpinejs.chats') }}" class="btn-ghost" />
                 @endif
                 <!-- Menu déroulant pour l'utilisateur connecté -->
@@ -53,7 +53,7 @@ new class() extends Component {
                     </x-slot:trigger>
                     <x-menu-item title="{{ __('Profile') }}" link="{{ route('profile') }}" />
                     <x-menu-item title="{{ __('Logout') }}" wire:click="logout" />
-                    @if($user->isAdminOrRedac())
+                    @if ($user->isAdminOrRedac())
                         <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin') }}" />
                     @endif
                 </x-dropdown>
@@ -64,13 +64,14 @@ new class() extends Component {
 
             <!-- Menus dynamiques -->
             @foreach ($menus as $menu)
-                @if($menu->submenus->isNotEmpty())
+                @if ($menu->submenus->isNotEmpty())
                     <x-dropdown>
                         <x-slot:trigger>
                             <x-button label="{{ $menu->label }}" class="btn-ghost" />
                         </x-slot:trigger>
                         @foreach ($menu->submenus as $submenu)
-                            <x-menu-item title="{{ $submenu->label }}" link="{{ $submenu->link }}" style="min-width: max-content;" />
+                            <x-menu-item title="{{ $submenu->label }}" link="{{ $submenu->link }}"
+                                style="min-width: max-content;" />
                         @endforeach
                     </x-dropdown>
                 @else
@@ -79,7 +80,8 @@ new class() extends Component {
             @endforeach
         </span>
         @auth
-            <x-button icon="c-chat-bubble-oval-left" link="/chat" tooltip-bottom="{{ __('Chat')}}" class="btn-circle btn-ghost" />
+            <x-button icon="c-chat-bubble-oval-left" link="/chat" tooltip-bottom="{{ __('Chat') }}"
+                class="btn-circle btn-ghost" />
         @endauth
         <x-theme-toggle />
         <livewire:search />
