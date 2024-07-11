@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
 		]);
 
 		// Create 798 redactors
-		User::factory()->count(797)->create([
+		User::factory()->count(798)->create([
 			'role'       => 'redac',
 			'created_at' => Carbon::now()->subYears(2),
 		]);
@@ -60,7 +60,7 @@ class DatabaseSeeder extends Seeder
 		// Create 1200 users
 		$start = Carbon::now()->subYears(2);  // Il y a 2 ans
 		$end   = Carbon::now()->subYear();      // Il y a 1 an
-		User::factory()->count(1200)->create([
+		User::factory()->count(1199)->create([
 			'created_at' => function () use ($start, $end) {
 				// Copie $start et ajoute un nombre de jours aléatoire
 				return Carbon::instance($start->copy()->addDays(rand(0, $start->diffInDays($end))));
