@@ -10,7 +10,7 @@ if (!function_exists('getAcademyFrameworksLinks')) {
 	function getAcademyFrameworksLinks()
 	{
 		return [
-			'livewire' => ['basics', 'blog', 'create-post', 'new-form', 'todos', 'counter', 'serie7'],
+			'livewire' => ['basics', 'blog', 'create-post', 'new-form', 'email', 'todos', 'counter', 'serie7'],
 			'alpinejs' => ['basics', 'test', 'pets', 'accordion', 'ga', 'characters', 'drag-drop', 'chats', 'kanboard', 'divers'],
 		];
 	}
