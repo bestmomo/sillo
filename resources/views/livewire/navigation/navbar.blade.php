@@ -80,7 +80,7 @@ new class extends Component {
             @if ($user->isStudent)
                 <a title="{{ __('Academy access') }}" href="{{ route('academy.test') }}"><x-icon name="o-academic-cap" class="w-7 h-7" /></a>
             @endif   
-            <a title="{{ __('ChatGPT') }}" href="{{ route('chat') }}"><x-icon name="o-chat-bubble-oval-left" class="w-6 h-6" /></a>         
+            <a title="{{ __('Chat') }}" href="{{ route('chat') }}"><x-icon name="o-chat-bubble-oval-left" class="w-6 h-6" /></a>         
         @endauth
         <x-theme-toggle title="{{ __('Toggle theme') }}" />
         <livewire:search />
