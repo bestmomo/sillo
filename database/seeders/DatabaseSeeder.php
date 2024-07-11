@@ -37,13 +37,6 @@ class DatabaseSeeder extends Seeder
 		]);
 
 		User::factory()->create([
-			'name'       => 'Student',
-			'email'      => 'student@example.com',
-			'role'       => 'admin',
-			'created_at' => Carbon::now()->subYears(3),
-		]);
-
-		User::factory()->create([
 			'name'       => 'Redac',
 			'role'       => 'redac',
 			'email'      => 'redac@example.com',
@@ -66,7 +59,7 @@ class DatabaseSeeder extends Seeder
 		// Create 1200 users
 		$start = Carbon::now()->subYears(2);  // Il y a 2 ans
 		$end   = Carbon::now()->subYear();      // Il y a 1 an
-		User::factory()->count(1199)->create([
+		User::factory()->count(1200)->create([
 			'created_at' => function () use ($start, $end) {
 				// Copie $start et ajoute un nombre de jours aléatoire
 				return Carbon::instance($start->copy()->addDays(rand(0, $start->diffInDays($end))));
