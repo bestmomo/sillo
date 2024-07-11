@@ -78,7 +78,7 @@ new class extends Component {
         </span>
         @auth
             @if ($user->isStudent)
-                <a title="{{ __('Academy access') }}" href="{{ route('academy.test') }}"><x-icon-student color="cyan" /></a>
+                <a title="{{ __('Academy access') }}" href="{{ route('academy.test') }}"><x-icon name="o-academic-cap" class="w-7 h-7 text-cyan-500" /></a>
             @endif
         @endauth
         <x-theme-toggle />
