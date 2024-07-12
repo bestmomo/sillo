@@ -6,13 +6,13 @@
 
 namespace App\Events;
 
-use App\Models\{Message, User};
+use App\Models\{AcademyChatV1Message, User};
 use Illuminate\Broadcasting\{Channel, InteractsWithSockets};
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageEvent implements ShouldBroadcastNow
+class AcademyChatV1MessageEvent implements ShouldBroadcastNow
 {
 	use Dispatchable;
 	use InteractsWithSockets;
@@ -29,7 +29,7 @@ class MessageEvent implements ShouldBroadcastNow
 	 */
 	public function __construct($user_id, $message)
 	{
-		$newMessage          = new Message();
+		$newMessage          = new AcademyChatV1Message();
 		$newMessage->user_id = $user_id;
 		$newMessage->message = $message;
 		$newMessage->save();
@@ -46,7 +46,7 @@ class MessageEvent implements ShouldBroadcastNow
 	public function broadcastOn(): array
 	{
 		return [
-			new Channel('our-channel'),
+			new Channel('chat-v1-channel'),
 		];
 	}
 }

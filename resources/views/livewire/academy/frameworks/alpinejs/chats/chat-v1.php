@@ -4,8 +4,8 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-use App\Events\MessageEvent;
-use App\Models\Message;
+use App\Events\AcademyChatV1MessageEvent;
+use App\Models\AcademyChatV1Message;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -18,7 +18,7 @@ new class() extends Component {
 	public function mount()
 	{
 		Debugbar::addMessage('Récupération de la conversation');
-		$messages = Message::all();
+		$messages = AcademyChatV1Message::all();
 
 		foreach ($messages as $message) {
 			$this->conversation[] = [
@@ -30,19 +30,19 @@ new class() extends Component {
 
 	public function submitMessage()
 	{
-		Debugbar::addMessage('Envoi du dernier thread');
+		Debugbar::addMessage('Envoi du dernier thread: ' . $this->message);
 
 		// Dispatch the event
-		MessageEvent::dispatch(Auth::user()->id, $this->message);
+		AcademyChatV1MessageEvent::dispatch(Auth::user()->id, $this->message);
 
 		// Reset the input field
 		$this->message = '';
 	}
 
-	#[On('echo:our-channel,MessageEvent')]
+	#[On('echo:chat-v1-channel,AcademyChatV1MessageEvent')]
 	public function listenForMessage($data): void
 	{
-		Debugbar::addMessage('Méthode listenForMessage appelée');
+		Debugbar::addMessage('Méthode listenForMessage chat V1 appelée');
 		Debugbar::addMessage($data);
 
 		$this->conversation[] = [

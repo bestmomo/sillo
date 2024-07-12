@@ -4,7 +4,7 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-use App\Events\MessageSent;
+use App\Events\AcademyChatV2MessageSentEvent;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Livewire\Attributes\On;
 use Livewire\Volt\Component;
@@ -19,15 +19,15 @@ new class() extends Component {
 
 	public function addMessage()
 	{
-		Debugbar::addMessage('Envoi dernier message');
-		MessageSent::dispatch(auth()->user()->name, $this->message);
+		Debugbar::addMessage('Envoi du dernier message: ' . $this->message);
+		AcademyChatV2MessageSentEvent::dispatch(auth()->user()->name, $this->message);
 		$this->reset('message');
 	}
 
-	#[On('echo-private:messages,MessageSent')]
+	#[On('echo-private:chat-v2-private-channel,AcademyChatV2MessageSentEvent')]
 	public function onMessageSent($event)
 	{
-		Debugbar::addMessage('Réception dernier message');
+		Debugbar::addMessage('Réception dernier message privé chat V2 → ' . $event['name'] . ': ' . $event['text']);
 		// dd($event);
 		$this->messages[] = [
 			'name'    => $event['name'],

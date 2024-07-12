@@ -2,7 +2,6 @@
 include_once 'chat-v1.php';
 ?>
 
-{{-- <div class="absolute top-16 left-3 border w-full wh-full" wire:poll.5s> --}}
 <div class="relative mt-24" 
      x-data="{ 
          scrollToBottom() {
