@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024.
+ * (ɛ) LARAVEL.Sillo.org - 2015-2024.
  */
 
 use App\Models\User;
@@ -20,31 +20,12 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
     public string $search = '';
     public array $sortBy = ['column' => 'name', 'direction' => 'asc'];
     public string $role = 'all';
+    public $isStudent = false;
     public array $roles = [];
 
-    // Supprimer un utilisateur.
-    public function deleteUser(User $user): void
+    // Fetch all users with filters and sorting.
+    public function fetchUsers(): LengthAwarePaginator
     {
-        $user->delete();
-        $this->success("{$user->name} deleted");
-    }
-
-    // Définir les en-têtes de table.
-    public function headers(): array
-    {
-        $headers = [['key' => 'name', 'label' => __('Name')], ['key' => 'email', 'label' => 'E-mail'], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Student')], ['key' => 'valid', 'label' => __('Valid')]];
-
-        if ('user' !== $this->role) {
-            $headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
-        }
-
-        return array_merge($headers, [['key' => 'comments_count', 'label' => __('Comments')], ['key' => 'created_at', 'label' => __('Registration')]]);
-    }
-
-    // Récupérer la liste des utilisateurs avec les filtres et tri appliqués.
-    public function users(): LengthAwarePaginator
-    {
-        // Récupération des utilisateurs paginés
         $users = User::query()
             ->when($this->search, function (Builder $query) {
                 $query->where('name', 'like', "%{$this->search}%");
@@ -52,29 +33,35 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
             ->when('all' !== $this->role, function (Builder $query) {
                 $query->where('role', $this->role);
             })
+            ->when($this->isStudent, function ($query) {
+                $query->where('isStudent', true);
+            })
             ->withCount('posts', 'comments')
             ->orderBy(...array_values($this->sortBy))
             ->paginate(10);
 
-        // Récupération du nombre d'utilisateurs par rôle
-        $userCountsByRole = User::select('role', DB::raw('count(*) as total'))->groupBy('role')->pluck('total', 'role');
+        // Récupération des statistiques globales
+        $result = User::query()->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN isStudent = true THEN 1 ELSE 0 END) as student_count')->groupBy('role')->get();
 
-        // Calculer le nombre total d'utilisateurs à partir des comptes par rôle
-        $totalUsers = $userCountsByRole->sum();
+        $roleCounts = $result->pluck('count', 'role');
+        $studentCounts = $result->pluck('student_count', 'role');
+        $nbrUsers = $result->sum('count');
+        $nbrStudents = $result->sum('student_count');
 
-        // Création des rôles pour le choix avec 'all' inclus
+        // Préparation des rôles pour l'affichage
         $roles = collect([
-            'all' => __('All') . " ({$totalUsers})",
+            'all' => __('All') . " ({$nbrUsers})",
         ])
             ->merge(
                 collect([
                     'admin' => __('Administrators'),
                     'redac' => __('Redactors'),
                     'user' => __('Users'),
-                ])->map(function ($roleName, $roleId) use ($userCountsByRole) {
-                    $count = $userCountsByRole->get($roleId, 0); // 0 si le rôle n'est pas trouvé
-
-                    return "{$roleName} ({$count})";
+                ])->map(function ($roleName, $roleId) use ($roleCounts, $studentCounts) {
+                    $count = $roleCounts->get($roleId, 0);
+                    $studentCount = $studentCounts->get($roleId, 0);
+                    $plur = $studentCount > 1 ? 's' : '';
+                    return "{$roleName} ({$count}, dont {$studentCount} étudiant{$plur})";
                 }),
             )
             ->map(function ($roleName, $roleId) {
@@ -85,18 +72,41 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 
         $this->roles = $roles;
 
-        // Retourner les utilisateurs paginés
+        // Ajout des statistiques à chaque utilisateur
+        $users->getCollection()->transform(function ($user) use ($roleCounts, $studentCounts) {
+            $user->userCountsByRole = $roleCounts;
+            $user->studentCountsByRole = $studentCounts;
+            return $user;
+        });
+
+        // Stockage des statistiques globales
+        $this->roleCounts = $roleCounts;
+        $this->studentCounts = $studentCounts;
+        $this->nbrUsers = $nbrUsers;
+        $this->nbrStudents = $nbrStudents;
+
         return $users;
     }
 
-    // Fournir les données nécessaires à la vue.
+    // Fetch the necessary data for the view.
     public function with(): array
     {
         return [
-            'users' => $this->users(),
-            'rolesCount' => $this->users()['userCountsByRole'],
+            'users' => $this->fetchUsers(),
             'headers' => $this->headers(),
         ];
+    }
+
+    // Define table headers.
+    public function headers(): array
+    {
+        $headers = [['key' => 'name', 'label' => __('Name')], ['key' => 'email', 'label' => 'E-mail'], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Student')], ['key' => 'valid', 'label' => __('Valid')]];
+
+        if ('user' !== $this->role) {
+            $headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
+        }
+
+        return array_merge($headers, [['key' => 'comments_count', 'label' => __('Comments')], ['key' => 'created_at', 'label' => __('Registration')]]);
     }
 }; ?>
 
@@ -115,6 +125,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 
 
     <x-radio inline :options="$roles" wire:model="role" wire:change="$refresh" />
+
     <br>
 
     <x-card>
