@@ -1,5 +1,4 @@
 <div>
-    {{-- //2do onglets alpinejs @ résoudre au mieux --}}
     <div role="tablist" class="tabs tabs-lifted">
         <input type="radio" name="my_tab_1" role="tab" class="tab text-red-500" aria-label="Tab 1" checked />
         <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 1</div>
