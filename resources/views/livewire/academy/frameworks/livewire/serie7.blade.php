@@ -5,7 +5,7 @@ use Livewire\Volt\Component;
 
 new #[Title('Serie7')] #[Layout('components.layouts.academy')] class extends Component {
 	public $btns         = ['Users', 'Infinite_Scroll', 'Offset', 'Api', 'Test'];
-	public $btnToClick   = 'Users'; // btn de la liste ci-dessus à cliquer
+	public $btnToClick   = 'Users'; // btn de la liste ci-dessus à auto cliquer
 	public $subtitle     = 'Chargement...';
 	protected $listeners = ['update-subtitle' => 'updateSubtitle'];
 
@@ -59,7 +59,7 @@ new #[Title('Serie7')] #[Layout('components.layouts.academy')] class extends Com
 
     <script>
         let btnToClick = @js($btnToClick);
-        console.log('Je cliquerai sur le bouton ' + btnToClick);
+        console.log('JS cliquera sur le bouton ' + btnToClick);
     </script>
     @include('livewire.academy.frameworks.livewire.serie7.00_click')
 

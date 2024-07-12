@@ -14,7 +14,7 @@ return new class() extends Migration {
 	 */
 	public function up(): void
 	{
-		Schema::create('messages', function (Blueprint $table) {
+		Schema::create('academy_chat_v1_messages', function (Blueprint $table) {
 			$table->id();
 			$table->unsignedBigInteger('user_id');
 			$table->text('message');
@@ -27,6 +27,6 @@ return new class() extends Migration {
 	 */
 	public function down(): void
 	{
-		Schema::dropIfExists('messages');
+		Schema::dropIfExists('academy_chat_v1_messages');
 	}
 };

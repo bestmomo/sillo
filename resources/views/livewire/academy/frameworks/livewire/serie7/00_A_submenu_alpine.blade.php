@@ -7,7 +7,7 @@
 use Livewire\Volt\Component;
 
 new class() extends Component {
-	public $btns = ['Users', 'Infinite_Scroll', 'Offset'];
+	public $btns;
 	public $choice;
 
 	public function setChoice($btn)
@@ -26,6 +26,7 @@ new class() extends Component {
 
     <div class="mb-3">
         <h2 class="text-center text-2xl mb-3 font-bold">Sub MENU AlpineJS</h2>
+        {{-- //2do subMenu AlpineJS --}}
         <div class='flex justify-between'>
             @foreach ($btns as $btn)
                 {{-- <span x-text="choice"></span> --}}

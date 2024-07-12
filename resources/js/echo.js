@@ -13,11 +13,11 @@ window.Echo = new Echo({
   enabledTransports: ["ws", "wss"],
 });
 
-window.Echo.channel("our-channel").listen("MessageSent", (e) => {
+window.Echo.channel("chat-v1-channel").listen("MessageSent", (e) => {
   console.log(e);
 });
 
-window.Echo.channel("messages").listen("MessageSent", (e) => {
+window.Echo.channel("chat-v2-private-channel").listen("MessageSent", (e) => {
   console.log(e);
 });
 

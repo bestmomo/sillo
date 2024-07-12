@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Broadcast;
 // });
 
 Broadcast::channel(
-	'messages',
+	'chat-v2-private-channel',
 	function () {
 		return true;
 	}

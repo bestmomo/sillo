@@ -10,90 +10,89 @@ use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Footer Menu'), Layout('components.layouts.admin')]
-class extends Component {
-	use Toast;
+new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Component {
+    use Toast;
 
-	public Collection $footers;
+    public Collection $footers;
 
-	#[Rule('required|max:255|unique:footers,label')]
-	public string $label = '';
+    #[Rule('required|max:255|unique:footers,label')]
+    public string $label = '';
 
-	#[Rule('nullable|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/')]
-	public string $link = '';
+    #[Rule('nullable|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/')]
+    public string $link = '';
 
-	// Méthode appelée lors de l'initialisation du composant.
-	public function mount(): void
-	{
-		$this->getFooters();
-	}
+    // Méthode appelée lors de l'initialisation du composant.
+    public function mount(): void
+    {
+        $this->getFooters();
+    }
 
-	// Récupérer les footers triés par ordre.
-	public function getFooters(): void
-	{
-		$this->footers = Footer::orderBy('order')->get();
-	}
+    // Récupérer les footers triés par ordre.
+    public function getFooters(): void
+    {
+        $this->footers = Footer::orderBy('order')->get();
+    }
 
-	// Monter un footer d'un rang.
-	public function up(Footer $footer): void
-	{
-		$previousFooter = Footer::where('order', '<', $footer->order)
-			->orderBy('order', 'desc')
-			->first();
+    // Monter un footer d'un rang.
+    public function up(Footer $footer): void
+    {
+        $previousFooter = Footer::where('order', '<', $footer->order)
+            ->orderBy('order', 'desc')
+            ->first();
 
-		$this->swap($footer, $previousFooter);
-	}
+        $this->swap($footer, $previousFooter);
+    }
 
-	// Descendre un footer d'un rang.
-	public function down(Footer $footer): void
-	{
-		$previousFooter = Footer::where('order', '>', $footer->order)
-			->orderBy('order', 'asc')
-			->first();
+    // Descendre un footer d'un rang.
+    public function down(Footer $footer): void
+    {
+        $previousFooter = Footer::where('order', '>', $footer->order)
+            ->orderBy('order', 'asc')
+            ->first();
 
-		$this->swap($footer, $previousFooter);
-	}
+        $this->swap($footer, $previousFooter);
+    }
 
-	// Supprimer un footer.
-	public function deleteFooter(Footer $footer): void
-	{
-		$footer->delete();
-		$this->reorderFooters();
-		$this->getFooters();
-		$this->success(__('Footer deleted with success.'));
-	}
+    // Supprimer un footer.
+    public function deleteFooter(Footer $footer): void
+    {
+        $footer->delete();
+        $this->reorderFooters();
+        $this->getFooters();
+        $this->success(__('Footer deleted with success.'));
+    }
 
-	// Enregistrer un nouveau footer.
-	public function saveFooter(): void
-	{
-		$data          = $this->validate();
-		$data['order'] = $this->footers->count() + 1;
-		$newFooter     = Footer::create($data);
-		$this->footers->push($newFooter);
-		$this->success(__('Footer created with success.'));
-	}
+    // Enregistrer un nouveau footer.
+    public function saveFooter(): void
+    {
+        $data = $this->validate();
+        $data['order'] = $this->footers->count() + 1;
+        $newFooter = Footer::create($data);
+        $this->footers->push($newFooter);
+        $this->success(__('Footer created with success.'));
+    }
 
-	// Échanger les ordres de deux footers.
-	private function swap(Footer $footer, Footer $previousFooter): void
-	{
-		$tempOrder             = $footer->order;
-		$footer->order         = $previousFooter->order;
-		$previousFooter->order = $tempOrder;
+    // Échanger les ordres de deux footers.
+    private function swap(Footer $footer, Footer $previousFooter): void
+    {
+        $tempOrder = $footer->order;
+        $footer->order = $previousFooter->order;
+        $previousFooter->order = $tempOrder;
 
-		$footer->save();
-		$previousFooter->save();
-		$this->getFooters();
-	}
+        $footer->save();
+        $previousFooter->save();
+        $this->getFooters();
+    }
 
-	// Réordonner les footers après suppression.
-	private function reorderFooters(): void
-	{
-		$footers = Footer::orderBy('order')->get();
-		foreach ($footers as $index => $footer) {
-			$footer->order = $index + 1;
-			$footer->save();
-		}
-	}
+    // Réordonner les footers après suppression.
+    private function reorderFooters(): void
+    {
+        $footers = Footer::orderBy('order')->get();
+        foreach ($footers as $index => $footer) {
+            $footer->order = $index + 1;
+            $footer->save();
+        }
+    }
 }; ?>
 
 <div>
@@ -113,50 +112,44 @@ class extends Component {
                 </x-slot:sub-value>
                 <x-slot:actions>
                     @if ($footer->order > 1)
-						<x-popover>
-							<x-slot:trigger>
-								<x-button icon="s-chevron-up" wire:click="up({{ $footer->id }})" spinner />
-							</x-slot:trigger>
-							<x-slot:content class="pop-small">
-								@lang('Up')
-							</x-slot:content>
-						</x-popover>
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="s-chevron-up" wire:click="up({{ $footer->id }})" spinner />
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Up')
+                            </x-slot:content>
+                        </x-popover>
                     @endif
                     @if ($footer->order < $footers->count())
-						<x-popover>
-							<x-slot:trigger>
-								<x-button icon="s-chevron-down" wire:click="down({{ $footer->id }})" spinner />
-							</x-slot:trigger>
-							<x-slot:content class="pop-small">
-								@lang('Down')
-							</x-slot:content>
-						</x-popover>
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="s-chevron-down" wire:click="down({{ $footer->id }})" spinner />
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Down')
+                            </x-slot:content>
+                        </x-popover>
                     @endif
-					<x-popover>
-						<x-slot:trigger>
-							<x-button 
-								icon="c-arrow-path-rounded-square" 
-								link="{{ route('menus.edit', $footer->id) }}"
-								class="text-blue-500 btn-ghost btn-sm" 
-								spinner />
-						</x-slot:trigger>
-						<x-slot:content class="pop-small">
-							@lang('Edit')
-						</x-slot:content>
-					</x-popover>
-					<x-popover>
-						<x-slot:trigger>
-							<x-button 
-								icon="o-trash" 
-								wire:click="deleteMenu({{ $footer->id }})"
-								wire:confirm="{{__('Are you sure to delete this footer?')}}" 
-								spinner
-								class="text-red-500 btn-ghost btn-sm" />
-						</x-slot:trigger>
-						<x-slot:content class="pop-small">
-							@lang('Delete')
-						</x-slot:content>
-					</x-popover>
+                    <x-popover>
+                        <x-slot:trigger>
+                            <x-button icon="c-arrow-path-rounded-square" link="{{ route('menus.edit', $footer->id) }}"
+                                class="text-blue-500 btn-ghost btn-sm" spinner />
+                        </x-slot:trigger>
+                        <x-slot:content class="pop-small">
+                            @lang('Edit')
+                        </x-slot:content>
+                    </x-popover>
+                    <x-popover>
+                        <x-slot:trigger>
+                            <x-button icon="o-trash" wire:click="deleteMenu({{ $footer->id }})"
+                                wire:confirm="{{ __('Are you sure to delete this footer?') }}" spinner
+                                class="text-red-500 btn-ghost btn-sm" />
+                        </x-slot:trigger>
+                        <x-slot:content class="pop-small">
+                            @lang('Delete')
+                        </x-slot:content>
+                    </x-popover>
                 </x-slot:actions>
             </x-list-item>
         @endforeach
@@ -176,6 +169,5 @@ class extends Component {
                     class="btn-primary" />
             </x-slot:actions>
         </x-form>
-        {{-- //2do: rafraichissement de la liste dès validation d'une nouvelle entrée acceptée --}}
     </x-card>
 </div>

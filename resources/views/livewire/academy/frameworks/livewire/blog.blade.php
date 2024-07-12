@@ -12,7 +12,7 @@ new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Compo
 
 	protected $listeners = ['refreshPosts'];
 
-	public function delete(PostAcademy $post)
+	public function delete(AcademyPost $post)
 	{
 		$postId = $post->id;
 		$post->delete();

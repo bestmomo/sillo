@@ -9,7 +9,7 @@
                 console.log('Pas de bouton cliqué par défaut')
             } else {
 
-                console.log('Je clique sur ' + btn);
+                console.log('JS clique sur ' + btn);
                 const btnTabs = document.querySelector('button[id=' + btn + ']');
                 if (btnTabs) {
                     btnTabs.click();
