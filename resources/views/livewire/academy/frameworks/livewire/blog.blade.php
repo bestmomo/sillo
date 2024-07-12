@@ -32,7 +32,7 @@ new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Compo
 <div>
     <x-header title="Blog" shadow separator progress-indicator>
     </x-header>
-    <h2 class="text-xl mb-2">{{ $posts->count() }} Post{{ $posts->count() > 1 ? 's' : '' }} / {{ $posts->total() }}</h2>
+    <h2 class="mb-2 text-xl">{{ $posts->count() }} Post{{ $posts->count() > 1 ? 's' : '' }} / {{ $posts->total() }}</h2>
 
     {{-- {{ dd($posts, $posts->withQueryString() )}} --}}
 
@@ -55,7 +55,7 @@ new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Compo
                     <tr wire:key="{{ $post->id }}">
                         <td>{{ $post->title }}</td>
                         <td>{{ str($post->content)->words(2) }}</td>
-                        <td class='text-center p-0' style='max-width:100px!important;'>
+                        <td class='p-0 text-center' style='max-width:100px!important;'>
                             <a href='/t/post/edit'>
                                 <x-button type='button' icon="s-pencil" wire:click='edit({{ $post->id }})' />
 
