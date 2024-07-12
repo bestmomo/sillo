@@ -13,7 +13,7 @@ new class() extends Component {
 
 	public $name;
 	public $subtitle      = 'Infinite Scroll';
-	public $amount        = 0;
+	public $amount        = 10;
 	public $search        = '';
 	public $sortDirection = 'ASC';
 	public $sortColumn    = 'id';
