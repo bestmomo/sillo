@@ -11,7 +11,7 @@ Ceci dit, voilà l'Opportunité Exceptionnelle qui vous est aujourd'hui offerte 
 
 - Vous êtes décidé à apprendre...? 
   
-- Vous êtes déjà bien compétant, et juste souhaitez vous améliorer, voire partager vos connaissances...?
+- Vous êtes déjà bien compétent, et juste souhaitez vous améliorer, voire partager vos connaissances...?
 
 - Vous avez une idée de projet ? Et vous devez maîtriser ce genre d'outil pour le réaliser ?
 
