@@ -1,7 +1,19 @@
 <?php
-include_once 'pets/pets.php';
-// https://learnwebcode.github.io/json-example/pets-data.json
-?>
+
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ */
+
+use Livewire\Attributes\{Layout, Title};
+use Livewire\Volt\Component;
+
+new
+#[Title('Pets')]
+#[Layout('components.layouts.academy')]
+class extends Component {
+    // https://learnwebcode.github.io/json-example/pets-data.json
+}; ?>
+
 <div>
     <script src="/assets/js/helpers.js"></script>
     @section('styles')
@@ -17,11 +29,11 @@ include_once 'pets/pets.php';
         loadedYet: false,
         ucfirst: window.ucFirst,
         affLog: function() {
-            console.log('OK! Ready.')
+            console.log('OK! Ready for Pets.')
         }
     }" x-init="affLog(), { pets } = await (await fetch('https://learnwebcode.github.io/json-example/pets-data.json')).json(), loadedYet = true" />
 
-    <template x-if="!pets.length && loadedYet" x-cloak>
+    <template x-if="!pets.length && loadedYet">
         <p>Whoops, you have no pets.</p>
     </template>
 
@@ -66,12 +78,10 @@ include_once 'pets/pets.php';
                                 {{-- DELETE --}}
                                 <button class="delete-pet btn btn-error btn-xs"
                                     x-on:click="pets=pets.filter(
-                                    (pet, loopIndex) => loopIndex !== index
+                                    (pet, loopedIndex) => loopedIndex !== index
                                     ),
                                     console.log('Imagine we also send an API request to an url to delete', pet.name)
-                                    ">Delete
-                                    Pet
-                                </button>
+                                    ">Delete Pet</button>
                             </p>
 
                         </div>

@@ -32,9 +32,8 @@
 
 11) [Chat V2: Real Time Chat With Laravel Reverb - v2](https://www.youtube.com/watch?v=BEKiNgcBqJw) - 50'
 
-<div style="text-align: center">En cours:</div>
+<div style="text-align: center;">En cours:</div>
 
-//2do before: Fix Event listener Chat V1 or V2 only if Chat V'x' is used
 
 1) [Chat V3: Real Time Chat With Laravel Reverb - Laravel 11, Livewire 3 Volt, AlpineJS and TailwindCSS](https://www.youtube.com/watch?v=yLGCxxwiygc&pp=ygUIYWxwaW5lanM%3D) - 22'
 
@@ -49,22 +48,23 @@
 
 ### Livewire
 
-
-//2do doc Livewire
+<div style="text-align: center">En cours:</div>
 
 1) [Découverte Livewire](https://www.youtube.com/watch?v=zPNdejemUtg) - 52' GA FR
 
-2) [Série free](https://livewire.laravel.com/screencast/getting_started/installation) -  11 épisodes (Fait 7)
+//2do doc Livewire
 
-3) [Serie 16](https://www.youtube.com/watch?v=m10TZpWKAVI&list=PLkZU2rKh1mT-Gx1PhzO5Cj83ntdZRmcbo) - 16 épisodes 2023
-   
-4) [Super serie](https://www.youtube.com/watch?v=dz6_RFrJQlo&list=PLqDySLfPKRn71KGwiS3JGf9aAseh6Gghz) - Série - 64 épisodes 2024
-   
-5) [A kit of resources, and tuto too](https://github.com/livewire/awesome-tall-stack?tab=readme-ov-file) A kit of resources, and tuto too - GH 2022
-   
-6) [Laravel Livewire v3 Full Tutorial 2024](https://www.youtube.com/watch?v=2tOgn2HydKE) 4H20' - 2024
+1) [Série free](https://livewire.laravel.com/screencast/getting_started/installation) -  11 épisodes (Fait 7)
 
-7) [Livewire Doc laravel](https://livewire.laravel.com/docs/)
+2) [Serie 16](https://www.youtube.com/watch?v=m10TZpWKAVI&list=PLkZU2rKh1mT-Gx1PhzO5Cj83ntdZRmcbo) - 16 épisodes 2023
+   
+3) [Super serie](https://www.youtube.com/watch?v=dz6_RFrJQlo&list=PLqDySLfPKRn71KGwiS3JGf9aAseh6Gghz) - Série - 64 épisodes 2024
+   
+4) [A kit of resources, and tuto too](https://github.com/livewire/awesome-tall-stack?tab=readme-ov-file) A kit of resources, and tuto too - GH 2022
+   
+5) [Laravel Livewire v3 Full Tutorial 2024](https://www.youtube.com/watch?v=2tOgn2HydKE) 4H20' - 2024
+
+6) [Livewire Doc laravel](https://livewire.laravel.com/docs/)
 
 ### Volt
 
