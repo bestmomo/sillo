@@ -25,6 +25,7 @@ return new class() extends Migration {
 			$table->string('seo_title');
 			$table->text('meta_description');
 			$table->text('meta_keywords');
+			$table->boolean('pinned')->default(false);
 
 			$table->foreignId('user_id')
 				->constrained()

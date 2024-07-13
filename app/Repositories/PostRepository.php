@@ -17,7 +17,9 @@ class PostRepository
 	 */
 	public function getPostsPaginate(?Category $category, ?Serie $serie): LengthAwarePaginator
 	{
-		$query = $this->getBaseQuery();
+		$query = $this->getBaseQuery()
+						->orderBy('pinned', 'desc')
+						->latest();
 
 		if ($category) {
 			$query->whereBelongsTo($category);
@@ -54,6 +56,7 @@ class PostRepository
 	public function search(string $search): LengthAwarePaginator
 	{
 		return $this->getBaseQuery()
+			->latest()
 			->where(function ($query) use ($search) {
 				$query->where('body', 'like', "%{$search}%")
 					->orWhere('title', 'like', "%{$search}%");
@@ -95,7 +98,7 @@ class PostRepository
 
 		$adaptedReq = $specificReqs[$usedDbSystem];
 
-		return Post::select('id', 'slug', 'image', 'title', 'user_id', 'category_id', 'serie_id', 'created_at')
+		return Post::select('id', 'slug', 'image', 'title', 'user_id', 'category_id', 'serie_id', 'created_at', 'pinned')
 			->selectRaw(
 				"CASE
                     WHEN LENGTH(body) <= 300 THEN body
@@ -103,7 +106,6 @@ class PostRepository
                 END AS excerpt"
 			)
 			->with('user:id,name', 'category', 'serie')
-			->whereActive(true)
-			->latest();
+			->whereActive(true);
 	}
 }

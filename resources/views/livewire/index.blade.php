@@ -118,6 +118,7 @@ new class() extends Component {
             <x-card
                 class="transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
                 title="{{ $post->title }}">
+        
                 <div class="text-justify">{!! str($post->excerpt)->words(config('app.excerptSize')) !!}</div>
                 <br>
                 <hr>
@@ -131,10 +132,16 @@ new class() extends Component {
                     </a>
                 </x-slot:figure>
 
+                <x-slot:menu>
+                    @if($post->pinned)
+                        <x-badge value="{{ __('Pinned') }}" class="badge-warning" />
+                    @elseif($post->created_at->gt(now()->subMonth(2)))             
+                        <x-badge value="{{ __('New') }}" class="badge-success" />
+                    @endif
+                </x-slot:menu>
+
                 <x-slot:actions class="flex items-center">
                     <x-popover>
-
-
                         <x-slot:trigger>
                             <x-button label="{{ $post->category->title }}"
                                 link="{{ url('/category/' . $post->category->slug) }}" class="btn-outline btn-sm" />
