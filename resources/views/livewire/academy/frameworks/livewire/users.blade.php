@@ -9,8 +9,9 @@ new
 class extends Component {};
 ?>
 <div>
-    <x-header title="Users" shadow separator progress-indicator/>
+    {{-- <x-header title="Users" shadow separator progress-indicator/> --}}
     
+    {{-- Source: https://www.youtube.com/watch?v=zPNdejemUtg --}}
     <livewire:academy.frameworks.livewire.components.users.users-table />
 
 </div>
