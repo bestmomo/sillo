@@ -6,10 +6,7 @@ include_once 'users-table.php';
 
     <div class="field">
         <p class="control has-icons-left has-icons-right">
-            <input type="email" placeholder="Rechercher un membre" class="input">
-            <span class="icon is-small is-left">
-                <ion-icon name="search"></ion-icon>
-            </span>
+            <x-input type="email" placeholder="Rechercher un membre" class="input mb-2" icon="o-magnifying-glass" />
         </p>
     </div>
     @php
@@ -29,39 +26,37 @@ include_once 'users-table.php';
 
         <tbody>
             @foreach ($users as $user)
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <span class="font-bold">
+                            {{ $user->name }} {{ $user->firstname }}
+                        </span><br>
+                        {{ $user->email }}
 
-            <tr>
-                <td>1</td>
-                <td>
-                    <span class="font-bold">
-                        {{ $user->name }} {{ $user->firstname }}
-                    </span><br>
-                    {{ $user->email }}
+                    </td>
+                    <td><span class="font-bold mr-2">
+                            {{ ucfirst($user->role) }}
+                        </span>
 
-                </td>
-                <td><span class="font-bold mr-2">
-                        {{ ucfirst($user->role) }}
-                    </span>
+                    </td>
 
-                </td>
-
-                <td>
-                    @if ($user->isStudent)
-                        <x-icon name="o-academic-cap" class="w-7 h-7 text-cyan-400" />
+                    <td>
+                        @if ($user->isStudent)
+                            <x-icon name="o-academic-cap" class="w-7 h-7 text-cyan-400" />
                         @else
-                        <x-icon name="o-user" class="w-7 h-7 text-gray-400" />
-                    @endif
-                </td>
+                            <x-icon name="o-user" class="w-7 h-7 text-gray-400" />
+                        @endif
+                    </td>
 
-                <td>
-                    @if ($user->valid)
-                        <x-icon-check />
+                    <td>
+                        @if ($user->valid)
+                            <x-icon-check />
                         @else
-                        <x-icon-novalid />
-                    @endif
-                </td>
-            </tr>
-                            
+                            <x-icon-novalid />
+                        @endif
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
