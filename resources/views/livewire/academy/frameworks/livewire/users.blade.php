@@ -12,6 +12,7 @@ class extends Component {};
     {{-- <x-header title="Users" shadow separator progress-indicator/> --}}
     
     {{-- Source: https://www.youtube.com/watch?v=zPNdejemUtg --}}
-    <livewire:academy.frameworks.livewire.components.users.users-table />
+    {{-- <livewire:academy.frameworks.livewire.components.users.users-table /> --}}
+    <livewire:uuusers />
 
 </div>
