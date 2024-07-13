@@ -4,23 +4,23 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new #[Layout('components.layouts.academy')] #[Title('Counter')] class extends Component {
-	public $count = 100;
-	public $by;
+    public $count = 100;
+    public $by;
 
-	public function mount($by = 1)
-	{
-		$this->by = (int) $by;
-	}
+    public function mount($by = 1)
+    {
+        $this->by = (int) $by;
+    }
 
-	public function increment($by = 1)
-	{
-		$this->count += $by ?? $this->by;
-	}
+    public function increment($by = 1)
+    {
+        $this->count += $by ?? $this->by;
+    }
 
-	public function decrement()
-	{
-		$this->count -= $this->by;
-	}
+    public function decrement()
+    {
+        $this->count -= $this->by;
+    }
 }; ?>
 
 <div class="mt-1">
@@ -35,8 +35,8 @@ new #[Layout('components.layouts.academy')] #[Title('Counter')] class extends Co
             {{-- <x-button class="btn-primary mt-1" wire:click.window="increment">+</x-button> --}}
             {{-- <x-button class="btn-primary mt-1" wire:click.throttle.3000ms="increment">+</x-button> --}}
             {{-- <x-button class="btn-primary mt-1" wire:click.debounce.0ms="increment(5)">+</x-button> --}}
-            <x-button class="btn-primary mt-1 text-2xl" wire:click.debounce.0ms="increment(2)"><b>+</b></x-button>
-            <x-button class="btn-primary mt-1 text-2xl px-5" wire:click.debounce.0ms="decrement"><b>-</b></x-button>
+            <x-button class="btn-primary mt-1 text-2xl" wire:click.debounce.0ms="increment(2)"><b>+ 2</b></x-button>
+            <x-button class="btn-primary mt-1 text-2xl px-5" wire:click.debounce.0ms="decrement"><b>- 1</b></x-button>
         </p>
     </div>
 
