@@ -91,6 +91,13 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 		return $users;
 	}
 
+	// Supprimer un utilisateur.
+	public function deleteUser(User $user): void
+    {
+        $user->delete();
+        $this->success("{$user->name} " . __('deleted'));
+    }
+
 	// Fetch the necessary data for the view.
 	public function with(): array
 	{
