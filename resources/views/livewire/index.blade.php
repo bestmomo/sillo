@@ -134,9 +134,9 @@ new class() extends Component {
 
                 <x-slot:menu>
                     @if($post->pinned)
-                        <x-badge value="{{ __('Pinned') }}" class="badge-warning" />
+                        <x-badge value="{{ __('Pinned') }}" class="p-3 badge-warning" />
                     @elseif($post->created_at->gt(now()->subMonth(2)))             
-                        <x-badge value="{{ __('New') }}" class="badge-success" />
+                        <x-badge value="{{ __('New') }}" class="p-3 badge-success" />
                     @endif
                 </x-slot:menu>
 
