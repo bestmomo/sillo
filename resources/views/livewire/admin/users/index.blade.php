@@ -60,8 +60,10 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 					$count        = $roleCounts->get($roleId, 0);
 					$studentCount = $studentCounts->get($roleId, 0);
 					$plur         = $studentCount > 1 ? 's' : '';
+					$with 		  = __('with');
+					$student 	  = __('student');
 
-					return "{$roleName} ({$count}, dont {$studentCount} étudiant{$plur})";
+					return "{$roleName} ({$count}), {$with} {$studentCount} {$student}{$plur}";
 				}),
 			)
 			->map(function ($roleName, $roleId) {
