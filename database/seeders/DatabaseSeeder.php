@@ -184,6 +184,7 @@ class DatabaseSeeder extends Seeder
 			['key' => 'title', 'value' => 'Laravel'],
 			['key' => 'subTitle', 'value' => 'Un framework qui rend heureux'],
 			['key' => 'flash', 'value' => ''],
+			['key' => 'newPost', 'value' => 4],
 		]);
 
 		AcademyPost::factory()->count(9)->create();
