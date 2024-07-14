@@ -26,7 +26,7 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
 	#[Rule('required|integer|between:1,8')]
 	public int $newPost;
 
-	#[Rule('max:500')]
+	#[Rule('max:1000')]
 	public string $flash;
 
 	public Collection $settings;
@@ -90,8 +90,11 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
 				<x-badge value="{{ $newPost }}" class="my-2 badge-neutral" />
 			</x-card>
 			<x-card separator class="border-4 bg-zinc-100 border-zinc-950">
-            <x-textarea label="{{ __('Flash message') }}" wire:model="flash"
-                hint="{{ __('Max 500 chars. Leave it empty to not show a message.') }}" rows="2" inline />
+				<x-editor 
+					wire:model="flash"
+					label="{{ __('Flash message') }}"
+					:config="config('tinymce.config')" 
+					folder="{{ 'photos/' . now()->format('Y/m') }}" />
 			</x-card>
             <x-slot:actions>
                 <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
