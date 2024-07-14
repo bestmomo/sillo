@@ -9,10 +9,9 @@
 
     <x-header title="Uuusers" shadow separator progress-indicator />
 
-    <x-button class="btn btn-primary btn-md font-bold text-xl mb-3" wire:click="incr">+ 1 : <span class="text-white">{{ $count }}</span></x-button>
-
     <div class="field mb-5">
-        <x-input type="email" placeholder="Rechercher un membre" icon="o-magnifying-glass" />
+        <x-input type="text" placeholder="Rechercher un membre" icon="o-magnifying-glass"
+        wire:model.live.debounce.500ms="search" />
     </div>
 
     <table class="w-full">

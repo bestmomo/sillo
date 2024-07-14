@@ -11,17 +11,25 @@ use Livewire\Component;
 
 class Uuusers extends Component
 {
-	public $count = 0;
+	public string $search = '';
+	// public $users;
 
-	public function incr(): void
+	// public function updatingSearch()
+	// {
+	// 	$this->resetPage();
+	// }
+
+	public function with()
 	{
-		++$this->count;
+		return [
+			'users' => User::all(),
+		];
 	}
 
 	public function render()
 	{
 		return view('livewire.uuusers', [
-			'users' => User::all(),
+			'users' => User::search($this->search)->get(),
 		]);
 	}
 }
