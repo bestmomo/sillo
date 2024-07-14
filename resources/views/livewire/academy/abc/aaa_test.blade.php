@@ -8,9 +8,9 @@ include_once 'aa_test.php';
 
     <hr>
 
-    <div class="my-3 font-bold text-xl">Users :</div>
+    <div class="my-3 font-bold text-xl">Users (1 DB request) :</div>
 
-    <table class="w-1/2 mx-auto">
+    <table class="w-full max-w-52 mx-auto">
         <thead>
             <th class="rounded-tl-lg">Role</th>
             <th>Student</th>
