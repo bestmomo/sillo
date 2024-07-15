@@ -133,3 +133,15 @@ https://www.youtube.com/watch?v=5MzhGQ8WL70&ab_channel=Algomius
 
 2see: https://www.youtube.com/watch?v=-XXRlMn04Dk
 (CSS 2024 - 12' - FR)
+
+
+### Pour mémoire:
+
+#### Commande pour avoir tous ces template de barre de pagination de Laravel:
+
+```
+php artisan vendor:publish --tag=laravel-pagination
+```
+
+Qques resources sympa:
+https://www.hover.dev/components

@@ -67,6 +67,11 @@ class DatabaseSeeder extends Seeder
 			'created_at' => generateRandomDateInRange('2022-01-01', '2024-01-01'),
 		]);
 
+		$unValidUser            = User::find(4);
+		$unValidUser->isStudent = true;
+		$unValidUser->valid  = false;
+		$unValidUser->save();
+
 		$nbrUsers = User::all()->count();
 
 		// Categories
