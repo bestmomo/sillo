@@ -11,7 +11,7 @@
 
     <div class="field mb-5">
         <x-input type="text" placeholder="Rechercher un membre" icon="o-magnifying-glass"
-        wire:model.live.debounce.500ms="search" />
+        wire:model.live.debounce.300ms="search" focus />
     </div>
 
     <table class="w-full">
@@ -64,6 +64,8 @@
             @endif
         </tbody>
     </table>
+    
+    {{  $users->links() }}
 
 
 </div>

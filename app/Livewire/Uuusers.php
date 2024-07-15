@@ -7,29 +7,41 @@
 namespace App\Livewire;
 
 use App\Models\User;
-use Livewire\Component;
+use Livewire\{Component, WithPagination};
 
 class Uuusers extends Component
 {
+	use WithPagination;
+
 	public string $search = '';
 	// public $users;
 
 	// public function updatingSearch()
+
 	// {
 	// 	$this->resetPage();
 	// }
 
-	public function with()
+	protected $queryString = [
+		'search' => ['except' => ''],
+	];
+
+	public function paginationView()
 	{
-		return [
-			'users' => User::all(),
-		];
+		return 'livewire.pagination';
 	}
+
+	// public function with()
+	// {
+	// 	return [
+	// 		'users' => User::all(),
+	// 	];
+	// }
 
 	public function render()
 	{
 		return view('livewire.uuusers', [
-			'users' => User::search($this->search)->get(),
+			'users' => User::search($this->search)->paginate(5),
 		]);
 	}
 }
