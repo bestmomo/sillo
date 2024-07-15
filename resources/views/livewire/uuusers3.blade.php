@@ -13,6 +13,14 @@
 
 
     @if (count($users))
+
+        @php
+            $this->roles = [
+                'admin' => 'Administrator',
+                'redac' => 'Redactor',
+                'user' => 'User',
+            ];
+        @endphp
         {{-- You can use any `$wire.METHOD` on `@row-click` --}}
         <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" striped link="/admin/users/{id}/edit"
             with-pagination>
@@ -39,16 +47,6 @@
                     {{ __('User') }}
                 @endif
             @endscope
-
-            @php
-
-                $this->roles = [
-                    'admin' => 'Administrator',
-                    'redac' => 'Redactor',
-                    'user' => 'User',
-                ];
-
-            @endphp
 
             @scope('cell_isStudent', $user)
                 @if ($user->isStudent)
