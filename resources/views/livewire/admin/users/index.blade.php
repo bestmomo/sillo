@@ -17,7 +17,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
     use WithPagination;
 
     public string $search = '';
-    public array $sortBy = ['column' => 'name', 'direction' => 'asc'];
+    public array $sortBy = ['column' => 'id', 'direction' => 'asc'];
     public string $role = 'all';
     public $isStudent = false;
     public array $roles = [];
@@ -114,7 +114,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
     // Define table headers.
     public function headers(): array
     {
-        $headers = [['key' => 'name', 'label' => __('Name')], ['key' => 'email', 'label' => 'E-mail'], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Status')], ['key' => 'valid', 'label' => __('Valid')]];
+        $headers = [['key' => 'id', 'label' => '#'], ['key' => 'name', 'label' => __('Name')], ['key' => 'email', 'label' => 'E-mail'], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Status')], ['key' => 'valid', 'label' => __('Valid')]];
 
         if ('user' !== $this->role) {
             $headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
@@ -132,8 +132,12 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
             </a>
         </x-slot:title>
         <x-slot:middle class="!justify-end">
-            <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable
+            {{-- <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable
                 icon="o-magnifying-glass" />
+								 --}}
+
+            @include('components.partials.academy.helpers.input')
+
         </x-slot:middle>
     </x-header>
 
