@@ -17,6 +17,12 @@
         <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" striped link="/admin/users/{id}/edit"
             with-pagination>
 
+            @scope('cell_id', $user)
+                <div class="!text-right">
+                    {{ $user->id }}
+                </div>
+            @endscope
+
             @scope('cell_name', $user)
                 <span class="font-bold">
                     {{ $user->name }} {{ $user->firstname }}
@@ -70,7 +76,7 @@
             @endscope
 
         </x-table>
-        @else
+    @else
         <p>No users with these criteria</p>
     @endif
     <br>

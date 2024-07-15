@@ -41,7 +41,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
             })
             ->withCount('posts', 'comments')
             ->orderBy(...array_values($this->sortBy))
-            ->paginate(10);
+            ->paginate(5);
 
         // Récupération des statistiques globales
         $result = User::query()->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN isStudent = true THEN 1 ELSE 0 END) as student_count')->groupBy('role')->get();
@@ -114,7 +114,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
     // Define table headers.
     public function headers(): array
     {
-        $headers = [['key' => 'id', 'label' => '#'], ['key' => 'name', 'label' => __('Name')], ['key' => 'email', 'label' => 'E-mail'], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Status')], ['key' => 'valid', 'label' => __('Valid')]];
+        $headers = [['key' => 'id', 'label' => '#'], ['key' => 'name', 'label' => __('Name')], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Status')], ['key' => 'valid', 'label' => __('Valid')]];
 
         if ('user' !== $this->role) {
             $headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
@@ -141,7 +141,6 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
         </x-slot:middle>
     </x-header>
 
-
     <x-radio inline :options="$roles" wire:model="role" wire:change="$refresh" />
 
     <br>
@@ -149,18 +148,30 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
     <x-card>
         <x-table striped :headers="$headers" :rows="$users" :sort-by="$sortBy" link="/admin/users/{id}/edit"
             with-pagination>
+						
+            @scope('cell_id', $user)
+                <div class="!text-right">
+                    {{ $user->id }}
+                </div>
+            @endscope
+						
             @scope('cell_name', $user)
                 <x-avatar :image="Gravatar::get($user->email)">
                     <x-slot:title>
-                        {{ $user->name }}
+                            <span class="font-bold">
+                                {{ $user->name }} {{ $user->firstname }}
+                            </span><br>
+                            {{ $user->email }}
                     </x-slot:title>
                 </x-avatar>
             @endscope
+						
             @scope('cell_valid', $user)
                 @if ($user->valid)
                     <x-icon name="o-check-circle" />
                 @endif
             @endscope
+						
             @scope('cell_role', $user)
                 @if ($user->role === 'admin')
                     <x-badge value="{{ __('Administrator') }}" class="badge-error" />
@@ -170,24 +181,29 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
                     {{ __('User') }}
                 @endif
             @endscope
+						
             @scope('cell_isStudent', $user)
                 @if ($user->isStudent)
                     <x-icon name="o-academic-cap" class="w-7 h-7 text-cyan-500" />
                 @endif
             @endscope
+						
             @scope('cell_posts_count', $user)
                 @if ($user->posts_count > 0)
                     <x-badge value="{{ $user->posts_count }}" class="badge-primary" />
                 @endif
             @endscope
+						
             @scope('cell_comments_count', $user)
                 @if ($user->comments_count > 0)
                     <x-badge value="{{ $user->comments_count }}" class="badge-success" />
                 @endif
             @endscope
+						
             @scope('cell_created_at', $user)
                 {{ $user->created_at->isoFormat('LL') }}
             @endscope
+						
             @scope('actions', $user)
                 <div class="flex">
                     <x-popover>
@@ -211,6 +227,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
                     </x-popover>
                 </div>
             @endscope
+						
         </x-table>
     </x-card>
 </div>
