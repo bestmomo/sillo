@@ -26,10 +26,10 @@ class Uuusers extends Component
 		'search' => ['except' => ''],
 	];
 
-	public function paginationView()
-	{
-		return 'livewire.pagination';
-	}
+	// public function paginationView()
+	// {
+	// 	return 'livewire.pagination';
+	// }
 
 	// public function with()
 	// {
