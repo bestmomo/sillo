@@ -18,9 +18,12 @@ new class() extends Component {
 
 <footer class="flex justify-center text-gray-500 gap-x-2">
     @foreach ($footers as $footer)
-        <a href="{{ $footer->link }}" class="mr-2 hover:text-gray-500">
+        <a href="{{ $footer->link }}" class="mr-1 hover:text-gray-500">
             @lang($footer->label)
         </a>
     @endforeach
-    <div>© {{ date('Y') }} - BestMomo</div>
+    <div>
+			 - 
+			 <a href="https://github.com/bestmomo/sillo" title="{{ __('Go to the GitHub repository and... Fork it!') }}" target="_blank">Version {{ config('app.version') }}</a> © {{ date('Y') }} - <a href="https://laravel.sillo.org/laravel-11/" title="{{  __('Go to the actual reference website') }} - Bersion" target="_blank">BestMomo</a>
+		</div>
 </footer>

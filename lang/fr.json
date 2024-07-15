@@ -1,4 +1,6 @@
 {
+    "Go to the actual reference website": "Aller sur le site web de référence actuel",
+    "Go to the GitHub repository and... Fork it!": "Aller sur le dépôt GitHub et... Clônez-le !",
     "(and :count more error)": "(et :count erreur en plus)",
     "(and :count more errors)": "(et :count erreur en plus)|(et :count erreurs en plus)|(et :count erreurs en plus)",
     "A Timeout Occurred": "Un dépassement de délai s'est produit",
