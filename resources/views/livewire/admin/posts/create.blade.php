@@ -41,6 +41,9 @@ class extends Component {
 	#[Rule('required')]
 	public bool $active = false;
 
+	#[Rule('required')]
+	public bool $pinned = false;
+
 	#[Rule('required|max:70')]
 	public string $seo_title = '';
 
@@ -153,7 +156,10 @@ class extends Component {
                 </x-collapse>
             @endif
             <br>
-            <x-checkbox label="{{ __('Published') }}" wire:model="active" />
+			<div class="flex gap-6">
+				<x-checkbox label="{{ __('Published') }}" wire:model="active" />
+				<x-checkbox label="{{ __('Pinned') }}" wire:model="pinned" />
+			</div>
             <x-input type="text" wire:model="title" label="{{ __('Title') }}" placeholder="{{ __('Enter the title') }}" wire:change="$refresh" />
             <x-input type="text" wire:model="slug" label="{{ __('Slug') }}" />
             <x-editor 

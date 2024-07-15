@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
 			'role'       => 'admin',
 			'isStudent'  => true,
 			'created_at' => Carbon::now()->subYears(3),
+			'updated_at' => Carbon::now()->subYears(3),
 		]);
 
 		User::factory()->create([
@@ -42,6 +43,7 @@ class DatabaseSeeder extends Seeder
 			'role'       => 'redac',
 			'email'      => 'redac@example.com',
 			'created_at' => Carbon::now()->subYears(3),
+			'updated_at' => Carbon::now()->subYears(3),
 		]);
 
 		User::factory()->create([
@@ -49,22 +51,20 @@ class DatabaseSeeder extends Seeder
 			'role'       => 'user',
 			'email'      => 'user@example.com',
 			'created_at' => Carbon::now()->subYears(3),
+			'updated_at' => Carbon::now()->subYears(3),
 		]);
 
 		// Create 798 redactors
 		User::factory()->count(798)->create([
 			'role'       => 'redac',
-			'created_at' => Carbon::now()->subYears(2),
+			'created_at' => generateRandomDateInRange('2022-01-01', '2024-01-01'),
 		]);
 
 		// Create 1200 users
 		$start = Carbon::now()->subYears(2);  // Il y a 2 ans
 		$end   = Carbon::now()->subYear();      // Il y a 1 an
 		User::factory()->count(1199)->create([
-			'created_at' => function () use ($start, $end) {
-				// Copie $start et ajoute un nombre de jours aléatoire
-				return Carbon::instance($start->copy()->addDays(rand(0, $start->diffInDays($end))));
-			},
+			'created_at' => generateRandomDateInRange('2022-01-01', '2024-01-01'),
 		]);
 
 		$unValidUser            = User::find(4);
@@ -189,6 +189,7 @@ class DatabaseSeeder extends Seeder
 			['key' => 'title', 'value' => 'Laravel'],
 			['key' => 'subTitle', 'value' => 'Un framework qui rend heureux'],
 			['key' => 'flash', 'value' => ''],
+			['key' => 'newPost', 'value' => 4],
 		]);
 
 		AcademyPost::factory()->count(9)->create();
@@ -201,6 +202,8 @@ class DatabaseSeeder extends Seeder
 	{
 		$months = ['03', '03', '03', '04', '04', '06', '06', '06', '06'];
 
+		$date = generateRandomDateInRange('2022-01-01', '2024-07-01');
+
 		return Post::factory()->create([
 			'title'       => 'Post ' . $id,
 			'seo_title'   => 'Post ' . $id,
@@ -210,6 +213,9 @@ class DatabaseSeeder extends Seeder
 			'category_id' => $category_id,
 			'serie_id'    => $serie_id,
 			'parent_id'   => $parent_id,
+			'created_at'  => $date,
+			'updated_at'  => $date,
+			'pinned'      => $id == 5,
 		]);
 	}
 

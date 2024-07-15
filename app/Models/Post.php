@@ -35,6 +35,7 @@ class Post extends Model
 		'seo_title',
 		'meta_description',
 		'meta_keywords',
+		'pinned',
 	];
 
 	/**

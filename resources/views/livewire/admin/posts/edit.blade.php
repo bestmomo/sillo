@@ -38,6 +38,7 @@ class extends Component {
 	public string $title                 = '';
 	public string $slug                  = '';
 	public bool $active                  = false;
+	public bool $pinned                  = false;
 	public string $seo_title             = '';
 	public string $meta_description      = '';
 	public string $meta_keywords         = '';
@@ -99,6 +100,7 @@ class extends Component {
 			'category_id'      => 'required',
 			'photo'            => 'nullable|image|max:2000',
 			'active'           => 'required',
+			'pinned'		   => 'required',
 			'slug'             => ['required', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('posts')->ignore($this->post->id)],
 			'seo_title'        => 'required|max:70',
 			'meta_description' => 'required|max:160',
@@ -164,7 +166,10 @@ class extends Component {
 			</x-slot:content>
 		</x-collapse>
 		@endif
-		<x-checkbox label="{{ __('Published') }}" wire:model="active" />
+		<div class="flex gap-6">
+			<x-checkbox label="{{ __('Published') }}" wire:model="active" />
+			<x-checkbox label="{{ __('Pinned') }}" wire:model="pinned" />
+		</div>
 		<x-input type="text" wire:model="title" label="{{ __('Title') }}" placeholder="{{ __('Enter the title') }}"
 			wire:change="$refresh" />
 		<x-input type="text" wire:model="slug" label="{{ __('Slug') }}" />

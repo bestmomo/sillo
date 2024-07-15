@@ -57,3 +57,28 @@ if (!function_exists('replaceAbsoluteUrlsWithRelative')) {
 		return preg_replace($pattern, $replacement, $content);
 	}
 }
+
+// Génère une date aléatoire entre deux dates au format '2020-01-01' en entrée
+if (!function_exists('generateRandomDateInRange')) {
+	function generateRandomDateInRange($startDate, $endDate)
+	{
+		// Convertir les dates en instances de Carbon
+		$start = Carbon\Carbon::parse($startDate);
+		$end = Carbon\Carbon::parse($endDate);
+
+		// Calculer la différence en secondes entre les deux dates
+		$difference = $end->timestamp - $start->timestamp;
+
+		// Générer un nombre aléatoire de secondes dans cette plage
+		$randomSeconds = rand(0, $difference);
+
+		// Ajouter les secondes aléatoires à la date de début pour obtenir la date aléatoire
+		$randomDate = $start->copy()->addSeconds($randomSeconds);
+
+		return $randomDate;
+	}
+}
+
+
+
+

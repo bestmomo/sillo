@@ -94,7 +94,9 @@ new class() extends Component {
 <div class="relative grid items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
 
     @if (config('app.flash') !== '')
-        <x-alert title="{!! config('app.flash') !!}" icon="o-exclamation-triangle" class="mb-2 alert-warning" dismissible />
+        <x-alert class="mb-2 alert-warning" dismissible >
+            {!! config('app.flash') !!}
+        </x-alert>
     @endif
 
     <!-- Affichage du titre en fonction de la catégorie, de la série ou du paramètre de recherche -->
@@ -118,6 +120,7 @@ new class() extends Component {
             <x-card
                 class="transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
                 title="{{ $post->title }}">
+        
                 <div class="text-justify">{!! str($post->excerpt)->words(config('app.excerptSize')) !!}</div>
                 <br>
                 <hr>
@@ -131,10 +134,16 @@ new class() extends Component {
                     </a>
                 </x-slot:figure>
 
+                <x-slot:menu>
+                    @if($post->pinned)
+                        <x-badge value="{{ __('Pinned') }}" class="p-3 badge-warning" />
+                    @elseif($post->created_at->gt(now()->subWeeks(4)))             
+                        <x-badge value="{{ __('New') }}" class="p-3 badge-success" />
+                    @endif
+                </x-slot:menu>
+
                 <x-slot:actions class="flex items-center">
                     <x-popover>
-
-
                         <x-slot:trigger>
                             <x-button label="{{ $post->category->title }}"
                                 link="{{ url('/category/' . $post->category->slug) }}" class="btn-outline btn-sm" />
