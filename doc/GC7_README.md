@@ -142,3 +142,6 @@ https://www.youtube.com/watch?v=5MzhGQ8WL70&ab_channel=Algomius
 ```
 php artisan vendor:publish --tag=laravel-pagination
 ```
+
+Qques resources sympa:
+https://www.hover.dev/components
