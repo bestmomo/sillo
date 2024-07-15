@@ -12,8 +12,7 @@
     @include('components.partials.academy.helpers.input')
 
     {{-- You can use any `$wire.METHOD` on `@row-click` --}}
-    <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" striped @row-click="alert($event.detail.name)"
-        @row-title="oOo">
+    <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" striped link="/admin/users/{id}/edit" with-pagination>
 
         @scope('cell_name', $user)
             <span class="font-bold">
@@ -44,8 +43,11 @@
 
         @scope('cell_isStudent', $user)
             @if ($user->isStudent)
-                <span title="{{ trans_choice(':n is registered with the Academy', 'n', ['n' => $user->name]) }}">
-                    <x-icon name="o-academic-cap" class="w-7 h-7 text-cyan-400" />
+                <span
+                    title="{{ trans_choice(':n is registered with the Academy', 'n', ['n' => $user->name]) }}
+@if (!$user->valid) {{ __('But invalid status') }} @endif">
+
+                    <x-icon name="o-academic-cap" :class="$user->valid ? 'text-cyan-500' : 'text-red-500'" style="width: 28px; height: 28px;" />
                 </span>
             @else
                 <span
@@ -65,4 +67,7 @@
         @endscope
 
     </x-table>
+
+    <br>
+
 </div>

@@ -46,7 +46,8 @@
 
                         <td>
                             @if ($user->isStudent)
-                                <x-icon name="o-academic-cap" class="w-7 h-7 text-cyan-400" />
+                                <x-icon name="o-academic-cap" class="w-7 h-7 text-@row-click="alert($event.detail.name)"
+        @row-title="oOo"cyan-400" />
                             @else
                                 <x-icon name="o-user" class="w-7 h-7 text-gray-400" />
                             @endif
