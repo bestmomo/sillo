@@ -67,6 +67,11 @@ class DatabaseSeeder extends Seeder
 			},
 		]);
 
+		$unValidUser            = User::find(4);
+		$unValidUser->isStudent = true;
+		$unValidUser->valid  = false;
+		$unValidUser->save();
+
 		$nbrUsers = User::all()->count();
 
 		// Categories
