@@ -10,18 +10,27 @@
     <x-header title="Uuusers" shadow separator progress-indicator />
 
     <div class="field mb-5">
-        <x-input type="text" placeholder="Rechercher un membre" icon="o-magnifying-glass"
-            wire:model.live.debounce.300ms="search" focus />
+        <x-input 
+            type="text" 
+            placeholder="Rechercher un membre" icon="o-magnifying-glass"
+            wire:model.live.debounce.300ms="search" 
+            :clearable="!empty($this->search)"
+             x-init="$nextTick(() => $el.focus())"
+            autofocus
+        />
     </div>
+    
+    {{-- @unless ($search) autofocus @endunless --}}
+    {{-- @if ($search) clearable @endif  --}}
 
     <table class="w-full mb-3">
         <thead>
             <tr>
-                <th class="rounded-tl-lg text-center">#</th>
-                <th>Name</th>
-                <th>Title</th>
-                <th>Role</th>
-                <th class>Status</th>
+                <th class="rounded-tl-lg text-center cursor-pointer" wire:click="setOrderField('id')">#</th>
+                <th class="cursor-pointer" wire:click="setOrderField('name')">Name</th>
+                <th class="cursor-pointer" wire:click="setOrderField('role')">Role</th>
+                <th class="cursor-pointer" wire:click="setOrderField('isStudent')">Student</th>
+                <th class="cursor-pointer" wire:click="setOrderField('valid')">Status</th>
                 <th class="rounded-tr-lg">&nbsp;</th>
             </tr>
         </thead>
@@ -67,7 +76,7 @@
             <tr class="w-full">
                 <td colspan="6" class="p-0">
                     <div class="overflow-x-auto">
-                        {{  $users->links() }}
+                        {{ $users->links() }}
                     </div>
                 </td>
             </tr>

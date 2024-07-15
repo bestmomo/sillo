@@ -13,7 +13,10 @@ class Uuusers extends Component
 {
 	use WithPagination;
 
-	public string $search = '';
+	public string $search         = '';
+	public string $orderField     = 'name';
+	public string $orderDirection = 'ASC';
+
 	// public $users;
 
 	// public function updatingSearch()
@@ -31,6 +34,16 @@ class Uuusers extends Component
 	// 	return 'livewire.pagination';
 	// }
 
+	public function setOrderField(string $name)
+	{
+		if ($name === $this->orderField) {
+			$this->orderDirection = 'ASC' === $this->orderDirection ? 'DESC' : 'ASC';
+		} else {
+			$this->orderField = $name;
+			$this->reset('orderDirection');
+		}
+	}
+
 	// public function with()
 	// {
 	// 	return [
@@ -41,7 +54,9 @@ class Uuusers extends Component
 	public function render()
 	{
 		return view('livewire.uuusers', [
-			'users' => User::search($this->search)->paginate(5),
+			'users' => User::search($this->search)
+				->orderBy($this->orderField, $this->orderDirection)
+				->paginate(5),
 		]);
 	}
 }
