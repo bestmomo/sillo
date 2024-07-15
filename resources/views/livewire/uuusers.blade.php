@@ -11,10 +11,10 @@
 
     <div class="field mb-5">
         <x-input type="text" placeholder="Rechercher un membre" icon="o-magnifying-glass"
-        wire:model.live.debounce.300ms="search" focus />
+            wire:model.live.debounce.300ms="search" focus />
     </div>
 
-    <table class="w-full">
+    <table class="w-full mb-3">
         <thead>
             <tr>
                 <th class="rounded-tl-lg text-center">#</th>
@@ -59,13 +59,20 @@
                                 <x-icon-novalid />
                             @endif
                         </td>
+                        <td></td>
                     </tr>
                 @endforeach
             @endif
+
+            <tr class="w-full">
+                <td colspan="6" class="p-0">
+                    <div class="overflow-x-auto">
+                        {{  $users->links() }}
+                    </div>
+                </td>
+            </tr>
+
         </tbody>
     </table>
-    
-    {{  $users->links() }}
-
 
 </div>
