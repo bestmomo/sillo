@@ -16,9 +16,9 @@
 
         @php
             $this->roles = [
-                'admin' => 'Administrator',
-                'redac' => 'Redactor',
-                'user' => 'User',
+                'admin' => ['Administrator', 'error'],
+                'redac' => ['Redactor', 'warning'],
+                'user' => ['User'],
             ];
         @endphp
         {{-- You can use any `$wire.METHOD` on `@row-click` --}}
@@ -39,13 +39,7 @@
             @endscope
 
             @scope('cell_role', $user)
-                @if ($user->role === 'admin')
-                    <x-badge value="{{ __('Administrator') }}" class="badge-error" />
-                @elseif($user->role === 'redac')
-                    <x-badge value="{{ __('Redactor') }}" class="badge-warning" />
-                @elseif($user->role === 'user')
-                    {{ __('User') }}
-                @endif
+                <x-badge value="{{ __($this->roles[$user->role][0]) }}" class="badge-{{ $this->roles[$user->role][1] ?? null}}" />
             @endscope
 
             @scope('cell_isStudent', $user)
@@ -58,7 +52,7 @@
                     </span>
                 @else
                     <span
-                        title="{{ trans_choice(':n is a :r not student', ['n', 'm'], ['n' => $user->name, 'r' => strtolower(__($this->roles[$user->role]))]) }}
+                        title="{{ trans_choice(':n is a :r not student', ['n', 'm'], ['n' => $user->name, 'r' => strtolower(__($this->roles[$user->role][0]))]) }}
 {{ __('Not registered with the Academy') }}">
                         <x-icon name="o-user" class="w-7 h-7 text-gray-400" />
                     </span>
