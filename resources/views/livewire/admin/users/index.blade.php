@@ -152,7 +152,9 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
             @php
                 $this->roles = [
                     'admin' => 'Administrator',
+                    'adminColor' => 'error',
                     'redac' => 'Redactor',
+                    'redacColor' => 'warning',
                     'user' => 'User',
                 ];
             @endphp
@@ -187,13 +189,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
                 @endscope
 
                 @scope('cell_role', $user)
-                    @if ($user->role === 'admin')
-                        <x-badge value="{{ __('Administrator') }}" class="badge-error" />
-                    @elseif($user->role === 'redac')
-                        <x-badge value="{{ __('Redactor') }}" class="badge-warning" />
-                    @elseif($user->role === 'user')
-                        {{ __('User') }}
-                    @endif
+                        <x-badge value="{{ $this->roles[$user->role] }}" class="badge-{{ $this->roles[$user->role.'Color'] ?? null }}" />
                 @endscope
 
                 @scope('cell_isStudent', $user)
