@@ -3,16 +3,16 @@
 use App\Models\Footer;
 use Livewire\Volt\Component;
 
-new class() extends Component {
-	/**
-	 * Retourne les données nécessaires à la vue.
-	 */
-	public function with(): array
-	{
-		return [
-			'footers' => Footer::orderBy('order')->get(),
-		];
-	}
+new class extends Component {
+    /**
+     * Retourne les données nécessaires à la vue.
+     */
+    public function with(): array
+    {
+        return [
+            'footers' => Footer::orderBy('order')->get(),
+        ];
+    }
 };
 ?>
 
@@ -23,7 +23,13 @@ new class() extends Component {
         </a>
     @endforeach
     <div>
-			 - 
-			 <a href="https://github.com/bestmomo/sillo" title="{{ __('Go to the GitHub repository and... Fork it!') }}" target="_blank">Version {{ config('app.version') }}</a> © {{ date('Y') }} - <a href="https://laravel.sillo.org/laravel-11/" title="{{  __('Go to the actual reference website') }} - Bersion" target="_blank">BestMomo</a>
-		</div>
+        -
+        <a href="https://github.com/bestmomo/sillo" title="{{ __('Go to the GitHub repository and... Fork it!') }}"
+            target="_blank">Version {{ config('app.version') }}</a> © {{ date('Y') }} - <a
+            href="https://laravel.sillo.org/laravel-11/" title="{{ __('Go to the actual reference website') }} - Bersion"
+            target="_blank">BestMomo</a>
+        @auth
+            - <a href="{{ route('admin') }}" title="{{ __('Go to Dashboard') }}">{{ __('Dashboard') }}</a>
+        @endauth
+    </div>
 </footer>
