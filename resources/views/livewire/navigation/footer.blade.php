@@ -27,8 +27,7 @@ new class extends Component {
         <a href="https://github.com/bestmomo/sillo" title="{{ __('Go to the GitHub repository and... Fork it!') }}"
             target="_blank">Version {{ config('app.version') }}</a> © {{ date('Y') }} - <a
             href="https://laravel.sillo.org/laravel-11/"
-            title="{{ __('Go to the actual reference website') }}
-Version {{ config('app.version') }}"
+            title="{{ __('Go to the actual reference website') }}"
             target="_blank">BestMomo</a>
         @auth
             - <a href="{{ route('admin') }}" title="{{ __('Go to Dashboard') }}">{{ __('Dashboard') }}</a>
