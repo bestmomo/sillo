@@ -7,19 +7,10 @@
         }
     </style>
 
-    <x-header title="Uuusers" shadow separator progress-indicator />
+    <x-header title="Uuusers1" shadow separator progress-indicator />
 
-    <div class="field mb-5">
-        <x-input 
-            type="text" 
-            placeholder="Rechercher un membre" icon="o-magnifying-glass"
-            wire:model.live.debounce.300ms="search" 
-            :clearable="!empty($this->search)"
-             x-init="$nextTick(() => $el.focus())"
-            autofocus
-        />
-    </div>
-    
+    @include('components.partials.academy.helpers.input')
+
     {{-- @unless ($search) autofocus @endunless --}}
     {{-- @if ($search) clearable @endif  --}}
 

@@ -9,22 +9,12 @@ namespace App\Livewire;
 use App\Models\User;
 use Livewire\{Component, WithPagination};
 
-class Uuusers extends Component
+class Uuusers3 extends Component
 {
 	use WithPagination;
 
-	public string $search         = '';
-	public string $orderField     = 'name';
-	public string $orderDirection = 'ASC';
-
-	// public $users;
-
-	// public function updatingSearch()
-
-	// {
-	// 	$this->resetPage();
-	// }
-
+	public string $search  = '';
+	public $sortBy         = ['column' => 'id', 'direction' => 'asc'];
 	protected $queryString = [
 		'search' => ['except' => ''],
 	];
@@ -53,10 +43,22 @@ class Uuusers extends Component
 
 	public function render()
 	{
-		return view('livewire.uuusers', [
-			'users' => User::search($this->search)
-				->orderBy($this->orderField, $this->orderDirection)
-				->paginate(5),
+		$users = User::search($this->search)
+			->orderBy(...array_values($this->sortBy))
+			->paginate(4);
+
+		$headers = [
+			['key' => 'id', 			 'label' => '#'],
+			['key' => 'name', 		 'label' => __('Name')],
+			['key' => 'role', 		 'label' => __('Role')],
+			['key' => 'isStudent', 'label' => __('Status')],
+			['key' => 'valid', 		 'label' => __('Valid')],
+			['key' => '', 				 'label' => ''],
+		];
+
+		return view('livewire.uuusers3', [
+			'users'   => $users,
+			'headers' => $headers,
 		]);
 	}
 }
