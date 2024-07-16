@@ -56,9 +56,16 @@ class Uuusers3 extends Component
 			['key' => '', 				 'label' => ''],
 		];
 
+		$roles = [
+			'admin' => ['Administrator', 'error'],
+			'redac' => ['Redactor', 'warning'],
+			'user'  => ['User'],
+		];
+
 		return view('livewire.uuusers3', [
-			'users'   => $users,
-			'headers' => $headers,
+			'users'     => $users,
+			'headers'   => $headers,
+			'roles' => $roles,
 		]);
 	}
 }

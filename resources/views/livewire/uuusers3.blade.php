@@ -11,19 +11,9 @@
 
     @include('components.partials.academy.helpers.input')
 
-
     @if (count($users))
-
-        @php
-            $this->roles = [
-                'admin' => ['Administrator', 'error'],
-                'redac' => ['Redactor', 'warning'],
-                'user' => ['User'],
-            ];
-        @endphp
         {{-- You can use any `$wire.METHOD` on `@row-click` --}}
-        <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" striped link="/admin/users/{id}/edit"
-            with-pagination>
+        <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" striped link="/admin/users/{id}/edit" with-pagination>
 
             @scope('cell_id', $user)
                 <div class="!text-right">
@@ -38,11 +28,11 @@
                 {{ $user->email }}
             @endscope
 
-            @scope('cell_role', $user)
-                <x-badge value="{{ __($this->roles[$user->role][0]) }}" class="badge-{{ $this->roles[$user->role][1] ?? null}}" />
+            @scope('cell_role', $user, $roles)
+                <x-badge value="{{ __($roles[$user->role][0]) }}" class="badge-{{ $roles[$user->role][1] ?? null }}" />
             @endscope
 
-            @scope('cell_isStudent', $user)
+            @scope('cell_isStudent', $user, $roles)
                 @if ($user->isStudent)
                     <span
                         title="{{ trans_choice(':n is registered with the Academy', 'n', ['n' => $user->name]) }}
@@ -52,7 +42,7 @@
                     </span>
                 @else
                     <span
-                        title="{{ trans_choice(':n is a :r not student', ['n', 'm'], ['n' => $user->name, 'r' => strtolower(__($this->roles[$user->role][0]))]) }}
+                        title="{{ trans_choice(':n is a :r not student', ['n', 'm'], ['n' => $user->name, 'r' => strtolower(__($roles[$user->role][0]))]) }}
 {{ __('Not registered with the Academy') }}">
                         <x-icon name="o-user" class="w-7 h-7 text-gray-400" />
                     </span>
