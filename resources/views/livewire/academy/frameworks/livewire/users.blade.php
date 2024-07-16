@@ -11,11 +11,13 @@ new #[Title('Users'), Layout('components.layouts.academy')] class extends Compon
 
     {{-- Source: https://www.youtube.com/watch?v=zPNdejemUtg --}}
     {{-- <livewire:academy.frameworks.livewire.components.users.users-table /> --}}
+    
     <livewire:uuusers3 />
-    @php
+    
+    {{-- @php
         echo str_repeat('<hr>', 7);
     @endphp
-    <livewire:uuusers2 />
+    <livewire:uuusers2 /> --}}
     {{-- @php
         echo str_repeat('<hr>', 7);
     @endphp

@@ -12,7 +12,8 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Title('Users'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Users'), Layout('components.layouts.admin')] 
+class extends Component {
 	use Toast;
 	use WithPagination;
 
@@ -93,7 +94,12 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 
 		return $users;
 	}
-
+	
+	public function updatedSearch()
+	{
+		Debugbar::addMessage("Page: {$this->getPage()}, New search: {$this->search}");
+		$this->setPage(1);
+	}
 	// Supprimer un utilisateur.
 	public function deleteUser(User $user): void
 	{
@@ -184,7 +190,9 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
       @endscope
 
       @scope('cell_role', $user, $roles)
-      <x-badge value="{{ __($roles[$user->role][0]) }}" class="badge-{{ $roles[$user->role][1] ?? null }}" />
+			
+      <x-badge value="{{ __($roles[$user->role][0]) }}" class="badge-{{$roles[$user->role][1] ?? 'error' }}" />
+							
       @endscope
 
       @scope('cell_isStudent', $user, $roles)

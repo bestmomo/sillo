@@ -9,11 +9,17 @@
 
     <x-header title="Uuusers3 - MaryUI" shadow separator progress-indicator />
 
+    <div class="mb-3 font-bold" id="queryString">
+        <p>Valeur de la querystring : {{ json_encode($queryStringOutput) }}</p>
+        <pre>{{ print_r($queryStringOutput, true) }}</pre>
+    </div>
+
     @include('components.partials.academy.helpers.input')
 
     @if (count($users))
         {{-- You can use any `$wire.METHOD` on `@row-click` --}}
-        <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" striped link="/admin/users/{id}/edit" with-pagination>
+        <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" striped link="/admin/users/{id}/edit"
+            with-pagination>
 
             @scope('cell_id', $user)
                 <div class="!text-right">
@@ -62,5 +68,59 @@
         <p>No users with these criteria</p>
     @endif
     <br>
+
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('console-log', (data) => {
+                console.log('From dispatch() < PHP : ', data[0].message);
+            });
+        });
+    </script>
+
+    <script>
+        // Fonction pour parser la chaîne de requête
+        function parseQueryString() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const params = {};
+            for (const [key, value] of urlParams) {
+                params[key] = value;
+            }
+            return params;
+        }
+
+        // Fonction pour afficher les paramètres actuels
+        function afficherParams(params) {
+            console.log("Paramètres actuels :", params);
+        }
+
+        // Initialisation
+        let paramsActuels = parseQueryString();
+        afficherParams(paramsActuels);
+
+        // Écouter les changements d'URL
+        window.addEventListener('popstate', function() {
+            const nouveauxParams = parseQueryString();
+
+            // Vérifier s'il y a eu des changements
+            if (JSON.stringify(nouveauxParams) !== JSON.stringify(paramsActuels)) {
+                console.log("La chaîne de requête a changé !");
+                afficherParams(nouveauxParams);
+                paramsActuels = nouveauxParams;
+            }
+        });
+
+        // Pour détecter les changements manuels de l'URL sans rechargement de page
+        setInterval(function() {
+            const nouveauxParams = parseQueryString();
+
+            if (JSON.stringify(nouveauxParams) !== JSON.stringify(paramsActuels)) {
+                console.log("La chaîne de requête a été modifiée manuellement !");
+                afficherParams(nouveauxParams);
+                paramsActuels = nouveauxParams;
+            }
+        }, 500); // Vérifier toutes les 500ms
+    </script>
+
 
 </div>
