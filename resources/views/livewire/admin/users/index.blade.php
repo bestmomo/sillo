@@ -92,11 +92,14 @@ class extends Component {
 		$this->nbrUsers      = $nbrUsers;
 		$this->nbrStudents   = $nbrStudents;
 
-		$this->setPage(1);
-
 		return $users;
 	}
 	
+	public function updatedSearch()
+	{
+		Debugbar::addMessage("Page: {$this->getPage()}, New search: {$this->search}");
+		$this->setPage(1);
+	}
 	// Supprimer un utilisateur.
 	public function deleteUser(User $user): void
 	{
@@ -108,9 +111,9 @@ class extends Component {
 	public function with(): array
 	{
 		$roles = [
-			'admin' => ['Administrator', 'error'],
-			'redac' => ['Redactor', 'warning'],
-			'user'  => ['User'],
+			'admin' => 'Administrator',
+			'redac' => 'Redactor',
+			'user'  => 'User',
 		];
 
 		return [
@@ -136,7 +139,9 @@ class extends Component {
 <div>
   <x-header separator progress-indicator>
     <x-slot:title>
+      <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
         {{ __('Users') }}
+      </a>
     </x-slot:title>
     <x-slot:middle class="!justify-end">
       {{-- <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable
@@ -184,10 +189,17 @@ class extends Component {
       @endif
       @endscope
 
-      @scope('cell_role', $user, $roles)
-			
-      <x-badge value="{{ __($roles[$user->role][0]) }}" class="badge-{{$roles[$user->role][1] ?? 'error' }}" />
-							
+      @scope('cell_role', $user)			
+		@switch($user->role)
+		  @case('admin')
+		  	<x-badge value="{{__('Administrator')}}" class="p-3 badge-error" />
+			@break
+		  @case('redac')		  
+		  <x-badge value="{{__('Redactor')}}" class="p-3 badge-warning" />
+			@break
+		  @default
+		  {{__('User')}}
+		@endswitch							
       @endscope
 
       @scope('cell_isStudent', $user, $roles)
@@ -199,7 +211,7 @@ class extends Component {
           style="width: 28px; height: 28px;" />
       </span>
       @else
-      <span title="{{ trans_choice(':n is a :r not student', ['n', 'm'], ['n' => $user->name, 'r' => strtolower(__($roles[$user->role][0]))]) }}
+      <span title="{{ trans_choice(':n is a :r not student', ['n', 'm'], ['n' => $user->name, 'r' => strtolower(__($roles[$user->role]))]) }}
 {{ __('Not registered with the Academy') }}">
         <x-icon name="o-user" class="text-gray-400 w-7 h-7" />
       </span>
