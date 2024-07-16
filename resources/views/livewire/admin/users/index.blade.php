@@ -191,7 +191,7 @@ class extends Component {
 
       @scope('cell_role', $user, $roles)
 			
-      <x-badge value="{{ __($roles[$user->role][0]) }}" class="badge-{{$roles[$user->role][1] ?? 'error' }}" />
+      <x-badge value="{{ __($roles[$user->role][0]) }}" class="badge-{{$roles[$user->role][1] ?? '' }}" />
 							
       @endscope
 
