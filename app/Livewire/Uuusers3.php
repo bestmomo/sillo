@@ -45,7 +45,7 @@ class Uuusers3 extends Component
 		// dump($this->sortBy['column']);
 		// Debugbar::warning($this->sortBy['direction']);
 
-		// TO no have double call of this listener
+		// To avoid displaying the new sort information twice
 		if ('column' === $key || 'direction' === $key) {
 			Debugbar::addMessage("New sort: By {$this->sortBy['column']}, {$this->sortBy['direction']}");
 		} else {
