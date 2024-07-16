@@ -92,14 +92,11 @@ class extends Component {
 		$this->nbrUsers      = $nbrUsers;
 		$this->nbrStudents   = $nbrStudents;
 
+		$this->setPage(1);
+
 		return $users;
 	}
 	
-	public function updatedSearch()
-	{
-		Debugbar::addMessage("Page: {$this->getPage()}, New search: {$this->search}");
-		$this->setPage(1);
-	}
 	// Supprimer un utilisateur.
 	public function deleteUser(User $user): void
 	{
@@ -139,9 +136,7 @@ class extends Component {
 <div>
   <x-header separator progress-indicator>
     <x-slot:title>
-      <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
         {{ __('Users') }}
-      </a>
     </x-slot:title>
     <x-slot:middle class="!justify-end">
       {{-- <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable
