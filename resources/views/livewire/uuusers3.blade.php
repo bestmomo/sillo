@@ -9,8 +9,9 @@
 
     <x-header title="Uuusers3 - MaryUI" shadow separator progress-indicator />
 
-    <div class="mb-3 font-bold text-center" id="queryString">
-        <p>Valeur de la querystring : </p>
+    <div class="mb-3 font-bold" id="queryString">
+        <p>Valeur de la querystring : {{ json_encode($queryStringOutput) }}</p>
+        <pre>{{ print_r($queryStringOutput, true) }}</pre>
     </div>
 
     @include('components.partials.academy.helpers.input')
@@ -71,7 +72,7 @@
     <script>
         document.addEventListener('livewire:init', () => {
             Livewire.on('console-log', (data) => {
-                console.log('From dispatch() < PHP : ' , data[0].message);
+                console.log('From dispatch() < PHP : ', data[0].message);
             });
         });
     </script>

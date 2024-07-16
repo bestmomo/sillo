@@ -23,6 +23,8 @@ class Uuusers3 extends Component
 		'search' => ['except' => ''],
 		'sortBy' => ['except' => ['column' => 'id', 'direction' => 'asc']],
 	];
+	
+	public $queryStringOutput=[];
 
 	// For custom pagination view
 	// public function paginationView()
@@ -32,12 +34,15 @@ class Uuusers3 extends Component
 	public function updatedSearch()
 	{
 		Debugbar::addMessage("New search: {$this->search}");
+		$this->queryStringOutput['search'] = $this->search;
+		$this->setPage(1);
 	}
 
 	public function updatedPage()
 	{
 		$currentPage = $this->getPage();
 		Debugbar::addMessage("New page: {$currentPage}");
+		$this->queryStringOutput['page'] = $currentPage;
 	}
 
 	public function updatedSortBy($value, $key)
@@ -48,6 +53,8 @@ class Uuusers3 extends Component
 		// To avoid displaying the new sort information twice
 		if ('column' === $key || 'direction' === $key) {
 			Debugbar::addMessage("New sort: By {$this->sortBy['column']}, {$this->sortBy['direction']}");
+			$this->queryStringOutput['sortColumn'] = $this->sortBy['column'];
+			$this->queryStringOutput['sortDirection'] = $this->sortBy['direction'];
 		} else {
 			$this->dispatch('console-log', ['message' => [$value, $key]]);
 		}
@@ -57,7 +64,7 @@ class Uuusers3 extends Component
 	public function setOrderField(string $name)
 	{
 		if ($name === $this->orderField) {
-			$this->orderDirection = 'ASC' === $this->orderDirection ? 'DESC' : 'ASC';
+			$this->orderDirection = 'asc' === $this->orderDirection ? 'desc' : 'ASascC';
 		} else {
 			$this->orderField = $name;
 			$this->reset('orderDirection');
