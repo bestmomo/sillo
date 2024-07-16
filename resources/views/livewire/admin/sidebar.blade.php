@@ -35,6 +35,10 @@ new class() extends Component {
             @endif
             <x-menu-item title="{{ __('Series') }}" link="{{ route('series.index') }}" />
         </x-menu-sub>
+        <x-menu-sub title="{{ __('Quizzes') }}" icon="c-question-mark-circle">
+            <x-menu-item title="{{ __('All Quizzes') }}" link="{{ route('quizzes.index') }}" />
+            <x-menu-item title="{{ __('Add a Quiz') }}" link="{{ route('quizzes.create') }}" />
+        </x-menu-sub>
         @if (Auth::user()->isAdmin())
             <x-menu-sub title="{{ __('Pages') }}" icon="s-document">
                 <x-menu-item title="{{ __('All pages') }}" link="{{ route('pages.index') }}" />

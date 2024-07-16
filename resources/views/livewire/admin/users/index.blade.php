@@ -206,7 +206,7 @@ class extends Component {
       @else
       <span title="{{ trans_choice(':n is a :r not student', ['n', 'm'], ['n' => $user->name, 'r' => strtolower(__($roles[$user->role][0]))]) }}
 {{ __('Not registered with the Academy') }}">
-        <x-icon name="o-user" class="w-7 h-7 text-gray-400" />
+        <x-icon name="o-user" class="text-gray-400 w-7 h-7" />
       </span>
       @endif
       @endscope

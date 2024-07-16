@@ -54,6 +54,9 @@ Route::middleware('auth')->group(function () {
 		Volt::route('/posts/{post:slug}/edit', 'admin.posts.edit')->name('posts.edit');
 		Volt::route('/series/index', 'admin.series.index')->name('series.index');
 		Volt::route('/series/{serie}/edit', 'admin.series.edit')->name('series.edit');
+		Volt::route('/quizzes/index', 'admin.quizzes.index')->name('quizzes.index');
+		Volt::route('/quizzes/create', 'admin.quizzes.create')->name('quizzes.create');
+		Volt::route('/quizzes/{quiz}/edit', 'admin.quizzes.edit')->name('quizzes.edit');
 
 		// Routes uniquement pour les administrateurs
 		Route::middleware(IsAdmin::class)->group(function () {

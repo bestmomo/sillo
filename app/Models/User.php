@@ -58,6 +58,11 @@ class User extends Authenticatable
 		return $this->hasMany(Message::class);
 	}
 
+	public function quizzes(): HasMany
+	{
+		return $this->hasMany(Quiz::class);
+	}
+
 	/**
 	 * Determine if user is administrator.
 	 */
