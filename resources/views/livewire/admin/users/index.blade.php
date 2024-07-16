@@ -94,7 +94,12 @@ class extends Component {
 
 		return $users;
 	}
-
+	
+	public function updatedSearch()
+	{
+		Debugbar::addMessage("Page: {$this->getPage()}, New search: {$this->search}");
+		$this->setPage(1);
+	}
 	// Supprimer un utilisateur.
 	public function deleteUser(User $user): void
 	{
