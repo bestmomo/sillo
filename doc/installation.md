@@ -1,6 +1,6 @@
 # Installation
 
-[Retour à la la table des matières](README.md)
+[Retour à la la table des matières](../README.md)
 
 ### &nbsp;I / Récupérez le dépôt:
 
