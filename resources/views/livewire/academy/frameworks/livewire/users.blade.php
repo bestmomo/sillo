@@ -12,6 +12,7 @@ new #[Title('Users'), Layout('components.layouts.academy')] class extends Compon
     {{-- Source: https://www.youtube.com/watch?v=zPNdejemUtg --}}
     {{-- <livewire:academy.frameworks.livewire.components.users.users-table /> --}}
     
+    <livewire:academy.frameworks.livewire.components.users.users-table />
     <livewire:uuusers3 />
     
     {{-- @php
