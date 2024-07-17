@@ -12,8 +12,7 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Title('Users'), Layout('components.layouts.admin')] 
-class extends Component {
+new #[Title('Users'), Layout('components.layouts.admin')] class extends Component {
 	use Toast;
 	use WithPagination;
 
@@ -41,7 +40,7 @@ class extends Component {
 			})
 			->withCount('posts', 'comments')
 			->orderBy(...array_values($this->sortBy))
-			->paginate(5);
+			->paginate(10);
 
 		// Récupération des statistiques globales
 		$result = User::query()->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN isStudent = true THEN 1 ELSE 0 END) as student_count')->groupBy('role')->get();
@@ -96,7 +95,7 @@ class extends Component {
 
 		return $users;
 	}
-	
+
 	// Supprimer un utilisateur.
 	public function deleteUser(User $user): void
 	{
@@ -134,128 +133,140 @@ class extends Component {
 }; ?>
 
 <div>
-  <x-header separator progress-indicator>
-    <x-slot:title>
-        {{ __('Users') }}
-    </x-slot:title>
-    <x-slot:middle class="!justify-end">
-      {{-- <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable
-      icon="o-magnifying-glass" />
-      --}}
-
-      @include('components.partials.academy.helpers.input')
-
-    </x-slot:middle>
-  </x-header>
-
-  <x-radio inline :options="$rolesCount" wire:model="role" wire:change="$refresh" />
-
-  <br>
-
-  <x-card>
-
-    @if (count($users))
-
-    <x-table striped :headers="$headers" :rows="$users" :sort-by="$sortBy" link="/admin/users/{id}/edit"
-      with-pagination>
-
-      @scope('cell_id', $user)
-      <div class="!text-right">
-        {{ $user->id }}
-      </div>
-      @endscope
-
-      @scope('cell_name', $user)
-      <x-avatar :image="Gravatar::get($user->email)">
+    <x-header separator progress-indicator class="-mb-4">
         <x-slot:title>
-          <span class="font-bold">
-            {{ $user->name }} {{ $user->firstname }}
-          </span><br>
-          {{ $user->email }}
+            <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+                {{ __('Users') }}
+            </a>
         </x-slot:title>
-      </x-avatar>
-      @endscope
+        <x-slot:middle class="!justify-end">
+            {{-- <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable
+                icon="o-magnifying-glass" />
+            --}}
 
-      @scope('cell_valid', $user)
-      @if ($user->valid)
-      <x-icon-check />
-      @else
-      <x-icon-novalid />
-      @endif
-      @endscope
+            @include('components.partials.academy.helpers.input')
 
-      @scope('cell_role', $user)			
-		@switch($user->role)
-		  @case('admin')
-		  	<x-badge value="{{__('Administrator')}}" class="p-3 badge-error" />
-			@break
-		  @case('redac')		  
-		  <x-badge value="{{__('Redactor')}}" class="p-3 badge-warning" />
-			@break
-		  @default
-		  {{__('User')}}
-		@endswitch							
-      @endscope
+        </x-slot:middle>
+    </x-header>
 
-      @scope('cell_isStudent', $user, $roles)
-      @if ($user->isStudent)
-      <span title="{{ trans_choice(':n is registered with the Academy', 'n', ['n' => $user->name]) }}
+    <div class="text-right text-sm mr-1 my-1">
+        @if ($users->lastPage() > 1)
+        Page {{ $users->currentPage() }} / {{ $users->lastPage() }}
+        @else
+        &nbsp;
+        @endif
+    </div>
+
+    <x-radio inline :options="$rolesCount" wire:model="role" wire:change="$refresh" />
+
+    <br>
+
+    <x-card>
+
+        @if (count($users))
+
+        <x-table striped :headers="$headers" :rows="$users" :sort-by="$sortBy" link="/admin/users/{id}/edit"
+            with-pagination>
+
+            @scope('cell_id', $user)
+            <div class="!text-right">
+                {{ $user->id }}
+            </div>
+            @endscope
+
+            @scope('cell_name', $user)
+            <x-avatar :image="Gravatar::get($user->email)">
+                <x-slot:title>
+                    <span class="font-bold">
+                        {{ $user->name }} {{ $user->firstname }}
+                    </span><br>
+                    {{ $user->email }}
+                </x-slot:title>
+            </x-avatar>
+            @endscope
+
+            @scope('cell_valid', $user)
+            @if ($user->valid)
+            <x-icon-check />
+            @else
+            <x-icon-novalid />
+            @endif
+            @endscope
+
+            @scope('cell_role', $user)
+            @switch($user->role)
+            @case('admin')
+            <x-badge value="{{ __('Administrator') }}" class="p-3 badge-error" />
+            @break
+
+            @case('redac')
+            <x-badge value="{{ __('Redactor') }}" class="p-3 badge-warning" />
+            @break
+
+            @default
+            {{ __('User') }}
+            @endswitch
+            @endscope
+
+            @scope('cell_isStudent', $user, $roles)
+            @if ($user->isStudent)
+            <span title="{{ trans_choice(':n is registered with the Academy', 'n', ['n' => $user->name]) }}
 @if (!$user->valid) {{ __('But invalid status') }} @endif">
 
-        <x-icon name="o-academic-cap" :class="$user->valid ? 'text-cyan-500' : 'text-red-500'"
-          style="width: 28px; height: 28px;" />
-      </span>
-      @else
-      <span title="{{ trans_choice(':n is a :r not student', ['n', 'm'], ['n' => $user->name, 'r' => strtolower(__($roles[$user->role]))]) }}
+                <x-icon name="o-academic-cap" :class="$user->valid ? 'text-cyan-500' : 'text-red-500'"
+                    style="width: 28px; height: 28px;" />
+            </span>
+            @else
+            <span title="{{ trans_choice(':n is a :r not student', ['n', 'm'], ['n' => $user->name, 'r' => strtolower(__($roles[$user->role]))]) }}
 {{ __('Not registered with the Academy') }}">
-        <x-icon name="o-user" class="text-gray-400 w-7 h-7" />
-      </span>
-      @endif
-      @endscope
+                <x-icon name="o-user" class="text-gray-400 w-7 h-7" />
+            </span>
+            @endif
+            @endscope
 
-      @scope('cell_posts_count', $user)
-      @if ($user->posts_count > 0)
-      <x-badge value="{{ $user->posts_count }}" class="badge-primary" />
-      @endif
-      @endscope
+            @scope('cell_posts_count', $user)
+            @if ($user->posts_count > 0)
+            <x-badge value="{{ $user->posts_count }}" class="badge-primary" />
+            @endif
+            @endscope
 
-      @scope('cell_comments_count', $user)
-      @if ($user->comments_count > 0)
-      <x-badge value="{{ $user->comments_count }}" class="badge-success" />
-      @endif
-      @endscope
+            @scope('cell_comments_count', $user)
+            @if ($user->comments_count > 0)
+            <x-badge value="{{ $user->comments_count }}" class="badge-success" />
+            @endif
+            @endscope
 
-      @scope('cell_created_at', $user)
-      {{ $user->created_at->isoFormat('LL') }}
-      @endscope
+            @scope('cell_created_at', $user)
+            {{ $user->created_at->isoFormat('LL') }}
+            @endscope
 
-      @scope('actions', $user)
-      <div class="flex">
-        <x-popover>
-          <x-slot:trigger>
-            <x-button icon="o-envelope" link="mailto:{{ $user->email }}" no-wire-navigate spinner
-              class="text-blue-500 btn-ghost btn-sm" />
-          </x-slot:trigger>
-          <x-slot:content class="pop-small">
-            @lang('Send an email')
-          </x-slot:content>
-        </x-popover>
-        <x-popover>
-          <x-slot:trigger>
-            <x-button icon="o-trash" wire:click="deleteUser({{ $user->id }})"
-              wire:confirm="{{ __('Are you sure to delete this user?') }}" confirm-text="Are you sure?" spinner
-              class="text-red-500 btn-ghost btn-sm" />
-          </x-slot:trigger>
-          <x-slot:content class="pop-small">
-            @lang('Delete')
-          </x-slot:content>
-        </x-popover>
-      </div>
-      @endscope
+            @scope('actions', $user)
+            <div class="flex">
+                <x-popover>
+                    <x-slot:trigger>
+                        <x-button icon="o-envelope" link="mailto:{{ $user->email }}" no-wire-navigate spinner
+                            class="text-blue-500 btn-ghost btn-sm" />
+                    </x-slot:trigger>
+                    <x-slot:content class="pop-small">
+                        @lang('Send an email')
+                    </x-slot:content>
+                </x-popover>
+                <x-popover>
+                    <x-slot:trigger>
+                        <x-button icon="o-trash" wire:click="deleteUser({{ $user->id }})"
+                            wire:confirm="{{ __('Are you sure to delete this user?') }}" confirm-text="Are you sure?"
+                            spinner class="text-red-500 btn-ghost btn-sm" />
+                    </x-slot:trigger>
+                    <x-slot:content class="pop-small">
+                        @lang('Delete')
+                    </x-slot:content>
+                </x-popover>
+            </div>
+            @endscope
 
-    </x-table>
-    @else
-    <p>No users with these criteria</p>
-    @endif
-  </x-card>
+        </x-table>
+        @else
+        <p>No users with these criteria</p>
+        @endif
+    </x-card>
 </div>
