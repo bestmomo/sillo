@@ -16,9 +16,22 @@ include_once 'users-table.php';
     <div class="mb-3 font-bold" id="queryString">
         <p>Valeur de la querystring : {{ json_encode($queryStringOutput) }}</p>
         <pre>{{ print_r($queryStringOutput, true) }}</pre>
+        <hr>
     </div>
+    
+    <div class="flex items-center justify-between p-4 my-2">
+        <div class="flex w-full justify-between items-center gap-2">
+            <div class="flex-shrink-0 whitespace-nowrap">
+                Page {{ $users->currentPage() }} / {{ $users->lastPage() }}
+            </div>
+            <div class="relative flex-grow mx-3">
+                @include('components.partials.academy.helpers.input')
+            </div>
+        </div>
+    </div>
+    
 
-    @include('components.partials.academy.helpers.input')
+
 
     @if (count($users))
         {{-- You can use any `$wire.METHOD` on `@row-click` --}}
