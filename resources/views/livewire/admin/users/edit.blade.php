@@ -77,7 +77,7 @@ new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Comp
 					<x-toggle label="{{ __('Valid user') }}" inline wire:model="valid" />
 					<x-slot:actions>
 				</div>
-				<div>
+				<div class="text-right">
 					<x-button label="{{ __('Cancel') }}" icon="o-hand-thumb-down" class="btn-outline"
                 link="/admin/users/index" />
             <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
