@@ -8,7 +8,7 @@ namespace App\Providers;
 
 use App\Models\{Menu, Setting};
 use App\Services\AcademyFrameworksLinksService;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\{Blade, Schema};
 use Illuminate\Support\{Facades, ServiceProvider};
 use Illuminate\View\View;
 
@@ -45,5 +45,7 @@ class AppServiceProvider extends ServiceProvider
 				config(['app.' . $setting->key => $setting->value]);
 			}
 		}
+
+		Blade::component('badge', \App\View\Components\Badge::class);
 	}
 }

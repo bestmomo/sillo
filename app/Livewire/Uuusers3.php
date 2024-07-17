@@ -96,7 +96,7 @@ class Uuusers3 extends Component
 		$roles = [
 			'admin' => ['Administrator', 	'error'],
 			'redac' => ['Redactor', 			'warning'],
-			'user'  => ['User'],
+			'user'  => ['User', 'default'],
 		];
 
 		return view('livewire.uuusers3', [

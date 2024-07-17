@@ -35,7 +35,7 @@
             @endscope
 
             @scope('cell_role', $user, $roles)
-                <x-badge value="{{ __($roles[$user->role][0]) }}" class="badge-{{ $roles[$user->role][1] ?? null }}" />
+                <x-badge value="{{ __($roles[$user->role][0]) }}" type="{{ $roles[$user->role][1] }}" />
             @endscope
 
             @scope('cell_isStudent', $user, $roles)
