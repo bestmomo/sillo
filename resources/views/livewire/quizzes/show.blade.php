@@ -18,9 +18,9 @@ new class() extends Component {
 		$this->quiz = Quiz::with('questions.answers', 'post:id,title')->findOrFail($id);
 		$this->subtitle = $this->quiz->post ? __('Post') . ' : ' . $this->quiz->post->title : '';
 
-        //if (auth()->user()->participatedQuizzes()->where('quiz_id', $id)->exists()) {
-        //    abort(403);
-        //}
+        if (auth()->user()->participatedQuizzes()->where('quiz_id', $id)->exists()) {
+            abort(403);
+        }
 	}
 
     public function save()
