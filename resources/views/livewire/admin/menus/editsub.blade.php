@@ -119,9 +119,7 @@ class extends Component {
 
 <x-card>
   
-	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-  	<x-card class="" title="{{__('Edit a submenu')}}" />
-	</a>
+	<x-header title="{{ __('Edit a submenu') }}" shadow separator progress-indicator />
 	
     <x-form wire:submit="save()">
       <x-radio :options="$subOptions" wire:model="subOption" wire:change="$refresh" />

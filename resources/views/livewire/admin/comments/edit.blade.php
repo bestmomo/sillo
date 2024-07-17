@@ -68,9 +68,8 @@ class extends Component {
 }; ?>
 
 <x-card>
-	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
   	<x-header title="{{ __('Edit a comment') }}" shadow separator progress-indicator />
-	</a>
+
 	<x-form wire:submit="save">
 		<x-textarea wire:model="body" label="{{ __('Content') }}" hint="{{ __('Max 1000 chars') }}" rows="5" inline />
 		<x-slot:actions>
@@ -80,7 +79,7 @@ class extends Component {
 		</x-slot:actions>
 	</x-form>
   
-  @if($depth < 3) 
+  	@if($depth < 3) 
 		<x-card title="{{ __('Your answer') }}" shadow separator progress-indicator>
 			<x-form wire:submit="saveAnswer">
 				<x-editor wire:model="body_answer" label="{{ __('Content') }}" :config="config('tinymce.config_comment')"

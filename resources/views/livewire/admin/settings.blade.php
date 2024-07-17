@@ -61,10 +61,8 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
 ?>
 
 <div>
-    <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-        <x-header title="{{ __('Settings') }}" separator progress-indicator />
-    </a>
-    
+    <x-header title="{{ __('Settings') }}" shadow separator progress-indicator />
+   
     <x-card>
         <x-form wire:submit="save">
 			<x-card separator class="border-4 bg-zinc-100 border-zinc-950">

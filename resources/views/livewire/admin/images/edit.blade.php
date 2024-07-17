@@ -285,9 +285,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 <div class="flex flex-col h-full lg:flex-row">
 
     <div class="w-full p-4 lg:w-3/4">
-        <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-            <x-card title="{{ __('Manage an image') }}" shadow separator progress-indicator />
-        </a>
+		<x-header title="{{ __('Manage an image') }}" shadow separator progress-indicator />
         
         <x-card>
             <div class="flex items-center justify-between h-full">

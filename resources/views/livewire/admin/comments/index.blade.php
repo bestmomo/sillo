@@ -82,11 +82,9 @@ new #[Title('Comments'), Layout('components.layouts.admin')] class extends Compo
 
 <div>
 
-    <x-header separator progress-indicator>
+    <x-header shadow separator progress-indicator>
         <x-slot:title>
-            <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-                {{ __('Comments') }}
-            </a>
+            {{ __('Comments') }}
         </x-slot:title>
         <x-slot:middle class="!justify-end">
             <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable

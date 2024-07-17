@@ -43,31 +43,29 @@ class extends Component {
 }; ?>
 
 <div>
-	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-		<x-header title="{{__('Pages')}}" separator progress-indicator>
-	</a>
-    <x-slot:actions>
-      <x-button label="{{ __('Add a page') }}" class="btn-outline" link="{{ route('pages.create') }}" />
-    </x-slot:actions>
-  </x-header>
+	<x-header title="{{__('Pages')}}" separator progress-indicator>
+		<x-slot:actions>
+			<x-button label="{{ __('Add a page') }}" class="btn-outline" link="{{ route('pages.create') }}" />
+		</x-slot:actions>
+	</x-header>
 
-  <x-card>
-    <x-table striped :headers="$headers" :rows="$pages" link="/admin/pages/{slug}/edit">
-      @scope('actions', $page)
-		<x-popover>
-			<x-slot:trigger>
-				<x-button 
-					icon="o-trash" 
-					wire:click="deletePage({{ $page->id }})" 
-					wire:confirm="{{ __('Are you sure to delete this page?') }}" 
-					spinner 
-					class="text-red-500 btn-ghost btn-sm" />          
-			</x-slot:trigger>
-			<x-slot:content class="pop-small">
-				@lang('Delete')
-			</x-slot:content>
-		</x-popover>
-      @endscope
-    </x-table>
-  </x-card>
+	<x-card>
+		<x-table striped :headers="$headers" :rows="$pages" link="/admin/pages/{slug}/edit">
+			@scope('actions', $page)
+				<x-popover>
+					<x-slot:trigger>
+						<x-button 
+							icon="o-trash" 
+							wire:click="deletePage({{ $page->id }})" 
+							wire:confirm="{{ __('Are you sure to delete this page?') }}" 
+							spinner 
+							class="text-red-500 btn-ghost btn-sm" />          
+					</x-slot:trigger>
+					<x-slot:content class="pop-small">
+						@lang('Delete')
+					</x-slot:content>
+				</x-popover>
+			@endscope
+		</x-table>
+	</x-card>
 </div>

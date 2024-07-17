@@ -149,83 +149,81 @@ class extends Component {
 }; ?>
 
 <div>
-	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
   	<x-header title="{{__('Images')}}" separator progress-indicator />
-	</a>
 	
-  <x-card title="{!!__('Select year and month')!!}" class="shadow-md">
-    <x-select label="{{ __('Year') }}" :options="$years" wire:model="selectedYear" wire:change="$refresh" />
+	<x-card title="{!!__('Select year and month')!!}" class="shadow-md">
+		<x-select label="{{ __('Year') }}" :options="$years" wire:model="selectedYear" wire:change="$refresh" />
 
-    <br>
+		<br>
 
-    <x-select label="{{ __('Month') }}" :options="$months" wire:model="selectedMonth" wire:change="$refresh" />
+		<x-select label="{{ __('Month') }}" :options="$months" wire:model="selectedMonth" wire:change="$refresh" />
 
-  </x-card>
+	</x-card>
 
-  <x-card>
-    <x-table striped :headers="$headers" :rows="$images" with-pagination>
-      @scope('cell_url', $image)
-      	<img src="{{ $image['url'] }}" width="100" alt="">
-      @endscope
-      @scope('cell_usage', $image)
-		@if($image['usage'])
-			<x-icon name="o-check-circle" />
-		@endif
-      @endscope
-      @scope('actions', $image, $selectedYear, $selectedMonth, $perPage, $page, $loop)
-		<div class="flex gap-2">
-			<x-popover>
-				<x-slot:trigger>
-					<x-button icon="s-briefcase" data-url="{{ $image['url'] }}" onclick="copyUrl(this)" class="text-blue-500 btn-ghost btn-sm" spinner />
-				</x-slot:trigger>
-				<x-slot:content class="pop-small">
-					@lang('Copy url')
-				</x-slot:content>
-			</x-popover>
-			<x-popover>
-				<x-slot:trigger>
-					<x-button 
-						icon="c-wrench"
-						link="{{ route('images.edit', ['year' => $selectedYear, 'month' => $selectedMonth, 'id' => $loop->index + ($page - 1) * $perPage]) }}"
-						class="text-blue-500 btn-ghost btn-sm" 
-						spinner />
-				</x-slot:trigger>
-				<x-slot:content class="pop-small">
-					@lang('Manage image')
-				</x-slot:content>
-			</x-popover>
-			<x-popover>
-				<x-slot:trigger>
-					<x-button 
-						icon="o-trash" 
-						wire:click="deleteImage({{ $loop->index }})"
-						wire:confirm="{{__('Are you sure to delete this image?')}}" 
-						spinner
-						class="text-red-500 btn-ghost btn-sm" />
-				</x-slot:trigger>
-				<x-slot:content class="pop-small">
-					@lang('Delete image')
-				</x-slot:content>
-			</x-popover>
-		</div>
-      @endscope
-    </x-table>
-  </x-card>
-  <script>
-  function copyUrl(button) {
-    const url = button.getAttribute('data-url');
-    const textArea = document.createElement('textarea');
-    textArea.value = url;
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-      document.execCommand('copy');
-      alert('URL copiée: ' + url);
-    } catch (err) {
-      console.error('Erreur lors de la copie de l\'URL: ', err);
-    }
-    document.body.removeChild(textArea);
-  }
-  </script>
+	<x-card>
+		<x-table striped :headers="$headers" :rows="$images" with-pagination>
+		@scope('cell_url', $image)
+			<img src="{{ $image['url'] }}" width="100" alt="">
+		@endscope
+		@scope('cell_usage', $image)
+			@if($image['usage'])
+				<x-icon name="o-check-circle" />
+			@endif
+		@endscope
+		@scope('actions', $image, $selectedYear, $selectedMonth, $perPage, $page, $loop)
+			<div class="flex gap-2">
+				<x-popover>
+					<x-slot:trigger>
+						<x-button icon="s-briefcase" data-url="{{ $image['url'] }}" onclick="copyUrl(this)" class="text-blue-500 btn-ghost btn-sm" spinner />
+					</x-slot:trigger>
+					<x-slot:content class="pop-small">
+						@lang('Copy url')
+					</x-slot:content>
+				</x-popover>
+				<x-popover>
+					<x-slot:trigger>
+						<x-button 
+							icon="c-wrench"
+							link="{{ route('images.edit', ['year' => $selectedYear, 'month' => $selectedMonth, 'id' => $loop->index + ($page - 1) * $perPage]) }}"
+							class="text-blue-500 btn-ghost btn-sm" 
+							spinner />
+					</x-slot:trigger>
+					<x-slot:content class="pop-small">
+						@lang('Manage image')
+					</x-slot:content>
+				</x-popover>
+				<x-popover>
+					<x-slot:trigger>
+						<x-button 
+							icon="o-trash" 
+							wire:click="deleteImage({{ $loop->index }})"
+							wire:confirm="{{__('Are you sure to delete this image?')}}" 
+							spinner
+							class="text-red-500 btn-ghost btn-sm" />
+					</x-slot:trigger>
+					<x-slot:content class="pop-small">
+						@lang('Delete image')
+					</x-slot:content>
+				</x-popover>
+			</div>
+		@endscope
+		</x-table>
+	</x-card>
+	<script>
+		function copyUrl(button) {
+			const url = button.getAttribute('data-url');
+			const textArea = document.createElement('textarea');
+			textArea.value = url;
+			document.body.appendChild(textArea);
+			textArea.select();
+			try {
+			document.execCommand('copy');
+			alert('URL copiée: ' + url);
+			} catch (err) {
+			console.error('Erreur lors de la copie de l\'URL: ', err);
+			}
+			document.body.removeChild(textArea);
+		}
+	</script>
 
 </div>

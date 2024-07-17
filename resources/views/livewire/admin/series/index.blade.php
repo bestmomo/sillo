@@ -91,7 +91,7 @@ class extends Component {
 }; ?>
 
 <div>
-    <x-header title="{{__('Series')}}" separator progress-indicator />
+    <x-header title="{{__('Series')}}" shadow separator progress-indicator />
     @if($series->count() > 0) 
         <x-card>        
             <x-table striped :headers="$headers" :rows="$series" :sort-by="$sortBy" link="/admin/series/{id}/edit" with-pagination >

@@ -146,9 +146,7 @@ class extends Component {
 }; ?>
 
 <x-card>
-	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
   	<x-header title="{{ __('Edit an article') }}" shadow separator progress-indicator />
-	</a>
 	<x-form wire:submit="save">
 		<x-select label="{{ __('Category') }}" option-label="title" :options="$categories" wire:model="category_id"
 			wire:change="$refresh" />

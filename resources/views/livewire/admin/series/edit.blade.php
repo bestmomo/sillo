@@ -67,8 +67,9 @@ class extends Component {
 }; ?>
 
 <div>
-    <x-card class="" title="{{__('Edit a serie')}}">
- 
+	
+    <x-card>
+ 		<x-header title="{{__('Edit a serie')}}" shadow separator progress-indicator />
         <x-form wire:submit="save"> 
             <x-select label="{{__('Category')}}" option-label="title" :options="$categories" wire:model="category_id" wire:change="$refresh" />
             <x-input label="{{__('Title')}}" wire:model="title" wire:change="$refresh" />

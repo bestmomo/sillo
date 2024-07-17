@@ -56,7 +56,7 @@ class extends Component {
 <div>
     <x-header title="{{__('Quizzes')}}" separator progress-indicator>
 		<x-slot:actions>
-		<x-button label="{{ __('Add a quiz') }}" class="btn-outline" link="{{ route('quizzes.create') }}" />
+		    <x-button label="{{ __('Add a quiz') }}" class="btn-outline" link="{{ route('quizzes.create') }}" />
 		</x-slot:actions>
 	</x-header>
 

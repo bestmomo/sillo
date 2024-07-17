@@ -66,7 +66,7 @@ class extends Component {
 }; ?>
 
 <div>
-    <x-card class="" title="{{__('Edit a category')}}">
+    <x-card title="{{__('Edit a category')}}">
  
         <x-form wire:submit="save"> 
             <x-input 

@@ -253,138 +253,136 @@ class extends Component {
 }; ?>
 
 <div>
-	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-  	<x-header title="{{__('Navigation')}}" separator progress-indicator />
-	</a>
+  	<x-header title="{{__('Navigation')}}" shadow separator progress-indicator />
 	
-  <x-card>
+	<x-card>
 
-    @foreach($menus as $menu)
-    <x-list-item :item="$menu" no-separator no-hover>
-      <x-slot:value>
-        {{ $menu->label }}
-      </x-slot:value>
-      <x-slot:sub-value>
-        @if($menu->link)
-        {{ $menu->link }}
-        @else
-        @lang('Root menu')
-        @endif
-      </x-slot:sub-value>
-      <x-slot:actions>
-        @if($menu->order > 1)
-			<x-popover>
-				<x-slot:trigger>
-        			<x-button icon="s-chevron-up" wire:click="up({{ $menu->id }})" spinner />
-				</x-slot:trigger>
-				<x-slot:content class="pop-small">
-					@lang('Up')
-				</x-slot:content>
-			</x-popover>
-        @endif
-        @if($menu->order < $menus->count())
-			<x-popover>
-				<x-slot:trigger>
-          			<x-button icon="s-chevron-down" wire:click="down({{ $menu->id }})" spinner />
-				</x-slot:trigger>
-				<x-slot:content class="pop-small">
-					@lang('Down')
-				</x-slot:content>
-			</x-popover>
-        @endif
-		  	<x-popover>
-				<x-slot:trigger>
-					<x-button 
-						icon="c-arrow-path-rounded-square" 
-						link="{{ route('menus.edit', $menu->id) }}"
-						class="text-blue-500 btn-ghost btn-sm" 
-						spinner />
-				</x-slot:trigger>
-				<x-slot:content class="pop-small">
-					@lang('Edit')
-				</x-slot:content>
-			</x-popover>
-			<x-popover>
-				<x-slot:trigger>
-					<x-button 
-						icon="o-trash" 
-						wire:click="deleteMenu({{ $menu->id }})"
-						wire:confirm="{{__('Are you sure to delete this menu?')}}" 
-						spinner
-						class="text-red-500 btn-ghost btn-sm" />
-				</x-slot:trigger>
-				<x-slot:content class="pop-small">
-					@lang('Delete')
-				</x-slot:content>
-			</x-popover>
-      </x-slot:actions>
-    </x-list-item>
+		@foreach($menus as $menu)
+		<x-list-item :item="$menu" no-separator no-hover>
+		<x-slot:value>
+			{{ $menu->label }}
+		</x-slot:value>
+		<x-slot:sub-value>
+			@if($menu->link)
+			{{ $menu->link }}
+			@else
+			@lang('Root menu')
+			@endif
+		</x-slot:sub-value>
+		<x-slot:actions>
+			@if($menu->order > 1)
+				<x-popover>
+					<x-slot:trigger>
+						<x-button icon="s-chevron-up" wire:click="up({{ $menu->id }})" spinner />
+					</x-slot:trigger>
+					<x-slot:content class="pop-small">
+						@lang('Up')
+					</x-slot:content>
+				</x-popover>
+			@endif
+			@if($menu->order < $menus->count())
+				<x-popover>
+					<x-slot:trigger>
+						<x-button icon="s-chevron-down" wire:click="down({{ $menu->id }})" spinner />
+					</x-slot:trigger>
+					<x-slot:content class="pop-small">
+						@lang('Down')
+					</x-slot:content>
+				</x-popover>
+			@endif
+				<x-popover>
+					<x-slot:trigger>
+						<x-button 
+							icon="c-arrow-path-rounded-square" 
+							link="{{ route('menus.edit', $menu->id) }}"
+							class="text-blue-500 btn-ghost btn-sm" 
+							spinner />
+					</x-slot:trigger>
+					<x-slot:content class="pop-small">
+						@lang('Edit')
+					</x-slot:content>
+				</x-popover>
+				<x-popover>
+					<x-slot:trigger>
+						<x-button 
+							icon="o-trash" 
+							wire:click="deleteMenu({{ $menu->id }})"
+							wire:confirm="{{__('Are you sure to delete this menu?')}}" 
+							spinner
+							class="text-red-500 btn-ghost btn-sm" />
+					</x-slot:trigger>
+					<x-slot:content class="pop-small">
+						@lang('Delete')
+					</x-slot:content>
+				</x-popover>
+		</x-slot:actions>
+		</x-list-item>
 
-    <x-collapse collapse-plus-minus no-icon class="ml-8">
-      <x-slot:heading>
-        <x-icon name="o-chevron-down" /><span class="pl-2 text-sm">{{ __('Submenus') }}</span>
-      </x-slot:heading>
-      <x-slot:content>
-        @foreach($menu->submenus as $submenu)
-        <x-list-item :item="$menu" no-separator no-hover>
-          <x-slot:value>
-            {{ $submenu->label }}
-          </x-slot:value>
-          <x-slot:sub-value>
-            {{ $submenu->link }}
-          </x-slot:sub-value>
-          <x-slot:actions>
-            @if($submenu->order > 1)
-            <x-button icon="s-chevron-up" wire:click="upSub({{ $submenu->id }})" tooltip-left="{{ __('Up') }}"
-              spinner />
-            @endif
-            @if($submenu->order < $menu->submenus->count())
-              <x-button icon="s-chevron-down" wire:click="downSub({{ $submenu->id }})" tooltip-left="{{ __('Down') }}"
-                spinner />
-              @endif
-              <x-button icon="c-arrow-path-rounded-square" link="{{ route('submenus.edit', $submenu->id) }}"
-                tooltip-left="{{ __('Edit') }}" class="text-blue-500 btn-ghost btn-sm" spinner />
-              <x-button icon="o-trash" wire:click="deleteSubmenu({{ $menu->id }}, {{ $submenu->id }})"
-                wire:confirm="{{__('Are you sure to delete this submenu?')}}" tooltip-left="{{ __('Delete') }}" spinner
-                class="text-red-500 btn-ghost btn-sm" />
-          </x-slot:actions>
-        </x-list-item>
-        @endforeach
+		<x-collapse collapse-plus-minus no-icon class="ml-8">
+		<x-slot:heading>
+			<x-icon name="o-chevron-down" /><span class="pl-2 text-sm">{{ __('Submenus') }}</span>
+		</x-slot:heading>
+		<x-slot:content>
+			@foreach($menu->submenus as $submenu)
+			<x-list-item :item="$menu" no-separator no-hover>
+			<x-slot:value>
+				{{ $submenu->label }}
+			</x-slot:value>
+			<x-slot:sub-value>
+				{{ $submenu->link }}
+			</x-slot:sub-value>
+			<x-slot:actions>
+				@if($submenu->order > 1)
+				<x-button icon="s-chevron-up" wire:click="upSub({{ $submenu->id }})" tooltip-left="{{ __('Up') }}"
+				spinner />
+				@endif
+				@if($submenu->order < $menu->submenus->count())
+				<x-button icon="s-chevron-down" wire:click="downSub({{ $submenu->id }})" tooltip-left="{{ __('Down') }}"
+					spinner />
+				@endif
+				<x-button icon="c-arrow-path-rounded-square" link="{{ route('submenus.edit', $submenu->id) }}"
+					tooltip-left="{{ __('Edit') }}" class="text-blue-500 btn-ghost btn-sm" spinner />
+				<x-button icon="o-trash" wire:click="deleteSubmenu({{ $menu->id }}, {{ $submenu->id }})"
+					wire:confirm="{{__('Are you sure to delete this submenu?')}}" tooltip-left="{{ __('Delete') }}" spinner
+					class="text-red-500 btn-ghost btn-sm" />
+			</x-slot:actions>
+			</x-list-item>
+			@endforeach
 
-        <br>
+			<br>
 
-        <x-card class="" title="{{__('Create a new submenu')}}">
+			<x-card class="" title="{{__('Create a new submenu')}}">
 
-          <x-form wire:submit="saveSubmenu({{ $menu->id }})">
-            <x-radio :options="$subOptions" wire:model="subOption" wire:change="$refresh" />
-            @if($subOption == 1)
-            <x-select label="{{__('Post')}}" option-label="title" :options="$posts"
-              placeholder="{{__('Select a post')}}" wire:model="subPost" wire:change="$refresh" />
-            @elseif($subOption == 2)
-            <x-select label="{{__('Page')}}" option-label="title" :options="$pages"
-              placeholder="{{__('Select a page')}}" wire:model="subPage" wire:change="$refresh" />
-            @elseif($subOption == 3)
-            <x-select label="{{__('Serie')}}" option-label="title" :options="$series"
-              placeholder="{{__('Select a serie')}}" wire:model="subSerie" wire:change="$refresh" />
-            @elseif($subOption == 4)
-            <x-select label="{{__('Category')}}" option-label="title" :options="$categories"
-              placeholder="{{__('Select a category')}}" wire:model="subCategory" wire:change="$refresh" />
-            @endif
-            <x-input label="{{__('Title')}}" wire:model="sublabel" />
-            <x-input type="text" wire:model="sublink" label="{{ __('Link') }}" />
-            <x-slot:actions>
-              <x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit"
-                class="btn-primary" />
-            </x-slot:actions>
-          </x-form>
+			<x-form wire:submit="saveSubmenu({{ $menu->id }})">
+				<x-radio :options="$subOptions" wire:model="subOption" wire:change="$refresh" />
+				@if($subOption == 1)
+				<x-select label="{{__('Post')}}" option-label="title" :options="$posts"
+				placeholder="{{__('Select a post')}}" wire:model="subPost" wire:change="$refresh" />
+				@elseif($subOption == 2)
+				<x-select label="{{__('Page')}}" option-label="title" :options="$pages"
+				placeholder="{{__('Select a page')}}" wire:model="subPage" wire:change="$refresh" />
+				@elseif($subOption == 3)
+				<x-select label="{{__('Serie')}}" option-label="title" :options="$series"
+				placeholder="{{__('Select a serie')}}" wire:model="subSerie" wire:change="$refresh" />
+				@elseif($subOption == 4)
+				<x-select label="{{__('Category')}}" option-label="title" :options="$categories"
+				placeholder="{{__('Select a category')}}" wire:model="subCategory" wire:change="$refresh" />
+				@endif
+				<x-input label="{{__('Title')}}" wire:model="sublabel" />
+				<x-input type="text" wire:model="sublink" label="{{ __('Link') }}" />
+				<x-slot:actions>
+				<x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit"
+					class="btn-primary" />
+				</x-slot:actions>
+			</x-form>
 
-        </x-card>
-      </x-slot:content>
-    </x-collapse>
+			</x-card>
+		</x-slot:content>
+		</x-collapse>
 
-    @endforeach
+		@endforeach
 
-  </x-card>
+	</x-card>
 
   <br>
 

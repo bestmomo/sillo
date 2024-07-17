@@ -96,9 +96,7 @@ new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Co
 }; ?>
 
 <div>
-    <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-        <x-header title="{{ __('Footer') }}" separator progress-indicator />
-    </a>
+    <x-header title="{{ __('Footer') }}" shadow separator progress-indicator />
 
     <x-card>
 

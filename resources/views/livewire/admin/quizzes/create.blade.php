@@ -50,9 +50,8 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
 }; ?>
 
 <div>
-    <x-header title="{{ __('Create a Quiz') }}" separator />
-
     <x-card>
+        <x-header title="{{ __('Create a Quiz') }}" shadow separator progress-indicator />
         <x-form wire:submit.prevent="save">
             <x-input type="text" wire:model="title" label="{{ __('Title') }}" placeholder="{{ __('Enter the title') }}" />
             <x-input type="text" wire:model="description" label="{{ __('Description') }}" placeholder="{{ __('Enter the description') }}" />

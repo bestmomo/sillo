@@ -56,72 +56,70 @@ class extends Component {
 }; ?>
 
 <div>
-	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-  	<x-header title="{{ __('Contacts') }}" separator progress-indicator />
-	</a>
 	
-  <x-card>
-    <x-table :headers="$headers" :rows="$contacts" :row-decoration="$row_decoration">
-      @scope('cell_created_at', $contact)
-      {{ $contact->created_at->isoFormat('LL') }} {{ __('at') }} {{ $contact->created_at->isoFormat('HH:mm') }}
-      @endscope
-      @scope('actions', $contact)
-      <div class="flex">
-        @if($contact->handled)
-			<x-popover>
-				<x-slot:trigger>
-					<x-button 
-						icon="o-face-smile" 
-						wire:click="toggleContact({{ $contact->id }}, false)"
-						spinner 
-						class="text-green-500 btn-ghost btn-sm" />
-				</x-slot:trigger>
-				<x-slot:content class="pop-small">
-					@lang('Mark as unhandled')
-				</x-slot:content>
-			</x-popover>
-        @else
-			<x-popover>
-				<x-slot:trigger>
-					<x-button 
-						icon="o-face-smile" 
-						wire:click="toggleContact({{ $contact->id }}, true)"
-						spinner 
-						class="text-red-500 btn-ghost btn-sm" />
-				</x-slot:trigger>
-				<x-slot:content class="pop-small">
-					@lang('Mark as handled')
-				</x-slot:content>
-			</x-popover>
-        @endif
-		<x-popover>
-			<x-slot:trigger>
-				<x-button 
-					icon="o-envelope"
-					link="mailto:{{ $contact->email }}?subject={{ __('Contact') }}&body={{ $contact->message }}"
-					no-wire-navigate 
-					spinner 
-					class="text-blue-500 btn-ghost btn-sm" />
-			</x-slot:trigger>
-			<x-slot:content class="pop-small">
-				@lang('Answer')
-			</x-slot:content>
-		</x-popover>
-		<x-popover>
-			<x-slot:trigger>
-				<x-button 
-					icon="o-trash" 
-					wire:click="deleteContact({{ $contact->id }})"
-					wire:confirm="{{ __('Are you sure to delete this contact?') }}" 
-					spinner
-					class="text-red-500 btn-ghost btn-sm" />
-			</x-slot:trigger>
-			<x-slot:content class="pop-small">
-				@lang('Delete')
-			</x-slot:content>
-		</x-popover>
-      </div>
-      @endscope
-    </x-table>
-  </x-card>
+	<x-card>
+		<x-header title="{{ __('Contacts') }}" shadow separator progress-indicator />
+		<x-table :headers="$headers" :rows="$contacts" :row-decoration="$row_decoration">
+			@scope('cell_created_at', $contact)
+				{{ $contact->created_at->isoFormat('LL') }} {{ __('at') }} {{ $contact->created_at->isoFormat('HH:mm') }}
+			@endscope
+			@scope('actions', $contact)
+				<div class="flex">
+					@if($contact->handled)
+						<x-popover>
+							<x-slot:trigger>
+								<x-button 
+									icon="o-face-smile" 
+									wire:click="toggleContact({{ $contact->id }}, false)"
+									spinner 
+									class="text-green-500 btn-ghost btn-sm" />
+							</x-slot:trigger>
+							<x-slot:content class="pop-small">
+								@lang('Mark as unhandled')
+							</x-slot:content>
+						</x-popover>
+					@else
+						<x-popover>
+							<x-slot:trigger>
+								<x-button 
+									icon="o-face-smile" 
+									wire:click="toggleContact({{ $contact->id }}, true)"
+									spinner 
+									class="text-red-500 btn-ghost btn-sm" />
+							</x-slot:trigger>
+							<x-slot:content class="pop-small">
+								@lang('Mark as handled')
+							</x-slot:content>
+						</x-popover>
+					@endif
+					<x-popover>
+						<x-slot:trigger>
+							<x-button 
+								icon="o-envelope"
+								link="mailto:{{ $contact->email }}?subject={{ __('Contact') }}&body={{ $contact->message }}"
+								no-wire-navigate 
+								spinner 
+								class="text-blue-500 btn-ghost btn-sm" />
+						</x-slot:trigger>
+						<x-slot:content class="pop-small">
+							@lang('Answer')
+						</x-slot:content>
+					</x-popover>
+					<x-popover>
+						<x-slot:trigger>
+							<x-button 
+								icon="o-trash" 
+								wire:click="deleteContact({{ $contact->id }})"
+								wire:confirm="{{ __('Are you sure to delete this contact?') }}" 
+								spinner
+								class="text-red-500 btn-ghost btn-sm" />
+						</x-slot:trigger>
+						<x-slot:content class="pop-small">
+							@lang('Delete')
+						</x-slot:content>
+					</x-popover>
+				</div>
+			@endscope
+		</x-table>
+	</x-card>
 </div>

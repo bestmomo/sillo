@@ -46,15 +46,13 @@ class extends Component {
 }; ?>
 
 <x-card>
-	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-		<x-card title="{{ __('Edit a footer') }}" />
-	</a>
-		<x-form wire:submit="save">
-			<x-input label="{{ __('Title') }}" wire:model="label" />
-			<x-input type="text" wire:model="link" label="{{ __('Link') }}" />
-			<x-slot:actions>
-				<x-button label="{{ __('Cancel') }}" icon="o-hand-thumb-down" class="btn-outline" link="/admin/footers/index" />
-				<x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
-			</x-slot:actions>
-		</x-form>
+	<x-header title="{{ __('Edit a footer') }}" shadow separator progress-indicator />
+	<x-form wire:submit="save">
+		<x-input label="{{ __('Title') }}" wire:model="label" />
+		<x-input type="text" wire:model="link" label="{{ __('Link') }}" />
+		<x-slot:actions>
+			<x-button label="{{ __('Cancel') }}" icon="o-hand-thumb-down" class="btn-outline" link="/admin/footers/index" />
+			<x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+		</x-slot:actions>
+	</x-form>
 </x-card>
