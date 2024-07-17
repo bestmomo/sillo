@@ -33,7 +33,7 @@ class extends Component {
 	public function save()
 	{
 		$data = $this->validate([
-			'name'  => ['required', 'string', 'max:255', Rule::unique('users')->ignore($this->user->id)],
+			'name'  => ['required', 'string', 'max:255'],
 			'email' => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
 			'role'  => ['required', Rule::in(['admin', 'redac', 'user'])],
 			'valid' => ['required', 'boolean'],
