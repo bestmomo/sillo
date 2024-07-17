@@ -10,16 +10,16 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new
-#[Title('Edit User'), Layout('components.layouts.admin')]
-class extends Component {
+new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Component {
 	use Toast;
 
 	public User $user;
-	public string $name  = '';
-	public string $email = '';
-	public string $role  = '';
-	public bool $valid   = false;
+	public string $name      = '';
+	public string $firstname = '';
+	public string $email     = '';
+	public string $role      = '';
+	public bool $valid       = false;
+	public bool $isStudent;
 
 	// Initialiser le composant avec un utilisateur donné.
 	public function mount(User $user): void
@@ -33,10 +33,12 @@ class extends Component {
 	public function save()
 	{
 		$data = $this->validate([
-			'name'  => ['required', 'string', 'max:255'],
-			'email' => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
-			'role'  => ['required', Rule::in(['admin', 'redac', 'user'])],
-			'valid' => ['required', 'boolean'],
+			'name'      => ['required', 'string', 'max:255'],
+			'firstname' => ['required', 'string', 'max:255'],
+			'email'     => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
+			'role'      => ['required', Rule::in(['admin', 'redac', 'user'])],
+			'isStudent' => ['required', 'boolean'],
+			'valid'     => ['required', 'boolean'],
 		]);
 
 		$this->user->update($data);
@@ -58,20 +60,29 @@ class extends Component {
 }; ?>
 
 <x-card>
-	<a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
-    <x-header title="{{ __('Edit an account') }}" shadow separator progress-indicator />
-	</a>
-			<x-form wire:submit="save" >
-					<x-input label="{{__('Name')}}" wire:model="name" icon="o-user" inline />
-					<x-input label="{{__('E-mail')}}" wire:model="email" icon="o-envelope" inline />
-					<br>
-					<x-radio label="{{__('User role')}}" inline label="{{__('Select a role')}}" :options="$roles" wire:model="role" />
-					<br>
-					<x-toggle label="{{__('Valid user')}}" inline wire:model="valid" />
+    <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+        <x-header title="{{ __('Edit an account') }}" shadow separator progress-indicator />
+    </a>
+    <x-form wire:submit="save">
+        {{-- // 2fix input group for name and firstname --}}
+        <x-input label="{{ __('Name') }}" wire:model="name" icon="o-user" inline />
+        <x-input label="{{ __('Firstname') }}" wire:model="firstname" icon="o-user" inline />
+        <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" inline />
+        <br>
+        <x-radio label="{{ __('User role') }}" inline label="{{ __('Select a role') }}" :options="$roles"
+            wire:model="role" />
+        <br>
+				<div class="flex justify-around">
+					<x-toggle label="{{ __('Valid user') }}" inline wire:model="valid" />
+					<x-toggle label="{{ __('Is student') }}" inline wire:model="isStudent" />
 					<x-slot:actions>
-							<x-button label="{{__('Cancel')}}" icon="o-hand-thumb-down" class="btn-outline" link="/admin/users/index" />
-							<x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+				</div>
+				<div>
+					<x-button label="{{ __('Cancel') }}" icon="o-hand-thumb-down" class="btn-outline"
+                link="/admin/users/index" />
+            <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
+						class="btn-primary" />
 					</x-slot:actions>
-			</x-form>    
+				</div>
+    </x-form>
 </x-card>
-
