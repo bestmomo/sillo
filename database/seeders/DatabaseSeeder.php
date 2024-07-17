@@ -225,7 +225,7 @@ class DatabaseSeeder extends Seeder
 		Answer::create([
 			'question_id' => $question1->id,
 			'answer_text' => 'Jesus Christ',
-			'is_correct' => true
+			'is_correct' => false
 		]);
 
 		$question2 = Question::create([
