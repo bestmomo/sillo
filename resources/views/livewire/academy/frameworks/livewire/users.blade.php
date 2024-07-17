@@ -8,19 +8,11 @@ new #[Title('Users'), Layout('components.layouts.academy')] class extends Compon
 ?>
 <div>
     {{-- <x-header title="Users" shadow separator progress-indicator/> --}}
-
-    {{-- Source: https://www.youtube.com/watch?v=zPNdejemUtg --}}
-    {{-- <livewire:academy.frameworks.livewire.components.users.users-table /> --}}
-    
-    <livewire:uuusers3 />
+        
+    <livewire:academy.frameworks.livewire.components.users.users-table />
     
     {{-- @php
         echo str_repeat('<hr>', 7);
-    @endphp
-    <livewire:uuusers2 /> --}}
-    {{-- @php
-        echo str_repeat('<hr>', 7);
-    @endphp
-    <livewire:uuusers1 /> --}}
+    @endphp --}}
 
 </div>
