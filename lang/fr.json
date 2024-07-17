@@ -513,5 +513,9 @@
     "Remove Question": "Supprimer la question",
     "Select a post or none, type to search": "Sélectionnez un article ou aucun, tapez pour rechercher",
     "No result found!": "Aucun résultat !",
-    "Quiz edited with success.": "Quiz modifié avec success."
+    "Quiz edited with success.": "Quiz modifié avec success.",
+    "Result": "Resultat",
+    "This post has a quiz. You must been logged to access.": "Cet article contient un quiz. Vous devez être authentifié pour y avoir acces.",
+    "You made the quiz of this post with a score of ": "Vous avez fait le quiz de cet article avec un score de ",
+    "Take the quiz": "Faites le quiz"
 }

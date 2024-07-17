@@ -226,4 +226,19 @@ new class() extends Component {
         @endif
     </div>
 
+    <!-- Section des quizzes -->
+    <div class="relative items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
+        @if($post->quiz)
+            @if(Auth::check())
+                @if($post->quiz->participants->isNotEmpty())
+                    <x-alert title="{{__('You made the quiz of this post with a score of ')}} {{ $post->quiz->participants->first()->pivot->correct_answers}}/{{$post->quiz->participants->first()->pivot->total_answers}}."  class="text-center" />
+                @else
+                    <x-button label="{{__('Take the quiz')}}" link="/quizzes/{{$post->quiz->id}}" class="btn-ghost" />
+                @endif
+            @else
+                <x-alert title="{{__('This post has a quiz. You must been logged to access.')}}" class="alert-info" />
+            @endif
+        @endif
+    </div>
+
 </div>

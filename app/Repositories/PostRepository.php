@@ -37,10 +37,12 @@ class PostRepository
 	 */
 	public function getPostBySlug(string $slug): Post
 	{
-		$post = Post::with('user:id,name', 'category', 'serie')
-			->withCount('validComments')
-			->whereSlug($slug)
-			->firstOrFail();
+		$post = Post::with(['user:id,name', 'category', 'serie', 'quiz:id,post_id', 'quiz.participants' => function($query) {
+						$query->where('user_id', auth()->id());
+					}])
+					->withCount('validComments')
+					->whereSlug($slug)
+					->firstOrFail();
 
 		if ($post->serie_id) {
 			$post->previous = $post->parent_id ? Post::findOrFail($post->parent_id) : null;

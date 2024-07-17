@@ -199,7 +199,7 @@ class DatabaseSeeder extends Seeder
 
 		// Création du premier quiz avec ses questions et réponses
 		$quiz1 = Quiz::create([
-			'title' => 'Quiz sur Laravel',
+			'title' => 'Laravel',
 			'description' => 'Testez vos connaissances sur Laravel.',
 			'user_id' => 1,
 			'post_id' => 5,
@@ -222,6 +222,12 @@ class DatabaseSeeder extends Seeder
 			'is_correct' => false
 		]);
 
+		Answer::create([
+			'question_id' => $question1->id,
+			'answer_text' => 'Jesus Christ',
+			'is_correct' => true
+		]);
+
 		$question2 = Question::create([
 			'quiz_id' => $quiz1->id,
 			'question_text' => 'Quelle est la dernière version stable de Laravel ?'
@@ -239,9 +245,15 @@ class DatabaseSeeder extends Seeder
 			'is_correct' => false
 		]);
 
+		Answer::create([
+			'question_id' => $question2->id,
+			'answer_text' => '9.x',
+			'is_correct' => false
+		]);
+
 		// Création du deuxième quiz avec ses questions et réponses
 		$quiz2 = Quiz::create([
-			'title' => 'Quiz sur PHP',
+			'title' => 'PHP',
 			'description' => 'Testez vos connaissances sur PHP.',
 			'user_id' => 2,
 		]);

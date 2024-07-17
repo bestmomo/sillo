@@ -8,7 +8,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany, HasOne};
 use Illuminate\Notifications\Notifiable;
 
 class Post extends Model
@@ -69,6 +69,14 @@ class Post extends Model
 	{
 		return $this->hasMany(Comment::class);
 	}
+
+	/**
+	 * Get quiz for the post.
+	 */
+	public function quiz(): HasOne
+    {
+        return $this->hasOne(Quiz::class);
+    }
 
 	/**
 	 * Get all valid comments for the post.

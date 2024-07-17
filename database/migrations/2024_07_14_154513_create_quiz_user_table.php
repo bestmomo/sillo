@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('quiz_id')->constrained()->onDelete('cascade'); // Relation avec les quizzes
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relation avec les utilisateurs
-            $table->integer('score')->nullable();
-            $table->timestamp('started_at')->nullable();
-            $table->timestamp('completed_at')->nullable();
+            $table->integer('correct_answers')->nullable(); // Nombre de réponses correctes
+            $table->integer('total_answers')->nullable(); // Nombre total de réponses attendues
+            $table->timestamps();
         });
     }
 

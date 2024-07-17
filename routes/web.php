@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
 
 	Volt::route('/profile', 'auth.profile')->name('profile');
 	Volt::route('/chat', 'chat')->name('chat');
+	Volt::route('/quizzes/{id}', 'quizzes.show')->name('quizzes.show');
 
 	// Routes pour les administrateurs et rédacteurs
 	Route::middleware(IsAdminOrRedac::class)->prefix('admin')->group(function () {

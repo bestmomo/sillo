@@ -7,7 +7,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\{ HasMany, BelongsToMany };
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -63,6 +63,14 @@ class User extends Authenticatable
 	{
 		return $this->hasMany(Quiz::class);
 	}
+
+	public function participatedQuizzes(): BelongsToMany
+	{
+		return $this->belongsToMany(Quiz::class, 'quiz_user')
+			->withPivot('correct_answers', 'total_answers')
+			->withTimestamps();
+	}
+
 
 	/**
 	 * Determine if user is administrator.
