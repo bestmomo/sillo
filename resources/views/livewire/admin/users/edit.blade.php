@@ -73,8 +73,8 @@ new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Comp
             wire:model="role" />
         <br>
 				<div class="flex justify-around">
+					<x-toggle label="{{ __('Student') }}" inline wire:model="isStudent" />
 					<x-toggle label="{{ __('Valid user') }}" inline wire:model="valid" />
-					<x-toggle label="{{ __('Is student') }}" inline wire:model="isStudent" />
 					<x-slot:actions>
 				</div>
 				<div>
