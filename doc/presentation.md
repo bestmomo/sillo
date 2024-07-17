@@ -1,6 +1,6 @@
 # Présentation
 
-[Retour à la table des matières](README.md)
+[Retour à la table des matières](../README.md)
 
 Je suis ravi de présenter mon projet de création de blog. Ce projet, dont le développement est déjà bien avancé, vise à offrir une plateforme complète et intuitive pour la publication et la gestion de contenu. L'idée première est de remplacer WordPress que j'utilise depuis plus de 10 ans pour mon blog par une application réalisée avec Laravel.
 
