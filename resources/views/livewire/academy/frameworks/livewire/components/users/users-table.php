@@ -45,6 +45,11 @@ new class() extends Component {
 			'redac' => ['Redactor', 		 'warning'],
 			'user'  => ['User'],
 		];
+
+		// $this->queryStringOutput['search'] = $this->search;
+		$this->updatedSearch(false);
+		$this->updatedSortBy();
+		$this->updatedPage();
 	}
 
 	// For custom pagination view
@@ -53,21 +58,20 @@ new class() extends Component {
 	// 	return 'livewire.pagination';
 	// }
 
-	public function updatedSearch()
+	public function updatedSearch($resetPage = true)
 	{
 		Debugbar::addMessage("New search: {$this->search}");
+		if ($resetPage) {
+			$this->setPage(1);
+			unset($this->queryStringOutput['page']);
+		}
 		$this->queryStringOutput['search'] = $this->search;
-		$this->setPage(1);
+		if ('' == $this->search) {
+			unset($this->queryStringOutput['search']);
+		}
 	}
 
-	public function updatedPage()
-	{
-		$currentPage = $this->getPage();
-		Debugbar::addMessage("New page: {$currentPage}");
-		$this->queryStringOutput['page'] = $currentPage;
-	}
-
-	public function updatedSortBy($value, $key)
+	public function updatedSortBy($value = 'id', $key = 'asc')
 	{
 		// dump($this->sortBy['column']);
 		// Debugbar::warning($this->sortBy['direction']);
@@ -75,18 +79,35 @@ new class() extends Component {
 		// To avoid displaying the new sort information twice
 		if ('column' === $key || 'direction' === $key) {
 			Debugbar::addMessage("New sort: By {$this->sortBy['column']}, {$this->sortBy['direction']}");
-			$this->queryStringOutput['sortColumn']    = $this->sortBy['column'];
-			$this->queryStringOutput['sortDirection'] = $this->sortBy['direction'];
+			$this->queryStringOutput['sortBy']['column']    = $this->sortBy['column'];
+			$this->queryStringOutput['sortBy']['direction'] = $this->sortBy['direction'];
 		} else {
-			$this->dispatch('console-log', ['message' => [$value, $key]]);
+			$this->dispatch('console-log', ['message' => [$this->sortBy['column'], $this->sortBy['direction']]]);
+			
+			if ('id' == $this->sortBy['column'] && 'asc' == $this->sortBy['direction']) {
+				unset($this->queryStringOutput['sortBy']);
+			} else {
+				$this->queryStringOutput['sortBy'] = [
+					$this->sortBy['column'],
+					$this->sortBy['direction'],
+				];
+			}
 		}
-		// Debugbar::addMessage("New sort: By {$this->sortBy['column']}, {$this->sortBy['direction']}");
+	}
+
+	public function updatedPage()
+	{
+		$currentPage = $this->getPage();
+		Debugbar::addMessage("New page: {$currentPage}");
+		if ($currentPage > 1) {
+			$this->queryStringOutput['page'] = $this->getPage();
+		}
 	}
 
 	public function setOrderField(string $name)
 	{
 		if ($name === $this->orderField) {
-			$this->orderDirection = 'asc' === $this->orderDirection ? 'desc' : 'ASascC';
+			$this->orderDirection = 'asc' === $this->orderDirection ? 'desc' : 'asc';
 		} else {
 			$this->orderField = $name;
 			$this->reset('orderDirection');
@@ -103,14 +124,4 @@ new class() extends Component {
 			'users' => $users,
 		];
 	}
-
-	// public function with()
-	// {
-	// 	return [
-	// 		'users'   => $this->users,
-	// 		'headers' => $this->headers,
-	// 		'roles'   => $this->roles,
-	// 		// 'queryStringOutput' => $this->queryStringOutput ?? [],
-	// 	];
-	// }
 };

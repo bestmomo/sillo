@@ -14,24 +14,24 @@ include_once 'users-table.php';
     <x-header title="Uuusers3 - MaryUI" shadow separator progress-indicator />
 
     <div class="mb-3 font-bold" id="queryString">
-        <p>Valeur de la querystring : {{ json_encode($queryStringOutput) }}</p>
+        <p>Valeur de la querystring : 
+            @if($queryStringOutput)
+            {{ json_encode($queryStringOutput) }}</p>
         <pre>{{ print_r($queryStringOutput, true) }}</pre>
+        @else
+        Vide</p>
+        @endif
         <hr>
     </div>
-    
-    <div class="flex items-center justify-between p-4 my-2">
-        <div class="flex w-full justify-between items-center gap-2">
-            <div class="flex-shrink-0 whitespace-nowrap">
-                Page {{ $users->currentPage() }} / {{ $users->lastPage() }}
-            </div>
-            <div class="relative flex-grow mx-3">
-                @include('components.partials.academy.helpers.input')
-            </div>
+
+    <div class="flex w-full justify-evenly items-center gap-4 mt-4">
+        <div class="relative flex-grow">
+            @include('components.partials.academy.helpers.input')
+        </div>
+        <div class="flex-shrink-0 whitespace-nowrap">
+            Page {{ $users->currentPage() }} / {{ $users->lastPage() }}
         </div>
     </div>
-    
-
-
 
     @if (count($users))
         {{-- You can use any `$wire.METHOD` on `@row-click` --}}
