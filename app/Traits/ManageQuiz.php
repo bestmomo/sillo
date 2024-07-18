@@ -20,10 +20,12 @@ trait ManageQuiz
 
     public function search(string $value = ''): void
     {
-        $selectedOption = Post::where('id', $this->post_id)->get();
+        $selectedOption = Post::select('id', 'title')->where('id', $this->post_id)->get();
 
         $this->postsSearchable = Post::query()
-            ->where('title', 'like', "%$value%")
+            ->select('id', 'title')
+            ->doesntHave('quiz')
+            ->where('title', 'like', "%$value%")            
             ->select('id', 'title')
             ->orderBy('title')
             ->take(5)
