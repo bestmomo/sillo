@@ -57,7 +57,11 @@ new #[Title('Create Page'), Layout('components.layouts.admin')] class extends Co
 
 <div>
     <x-card>
-		<x-header title="{{ __('Add a page') }}" shadow separator progress-indicator />
+		<x-header title="{{__('Add a page')}}" shadow separator progress-indicator>
+			<x-slot:actions>
+				<x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline" link="{{ route('admin') }}" />
+			</x-slot:actions>
+		</x-header>
 		<x-form wire:submit="save">
 			<x-input type="text" wire:model="title" label="{{ __('Title') }}" placeholder="{{ __('Enter the title') }}"
 				wire:change="$refresh" />
