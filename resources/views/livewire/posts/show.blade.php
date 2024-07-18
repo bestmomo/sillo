@@ -7,84 +7,107 @@ use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
 // Création d'une nouvelle classe anonyme étendant Component
-new class() extends Component {
-	// Propriétés publiques du composant
-	public Post $post;
-	public ?Post $next;
-	public ?Post $previous;
-	public Collection $comments;
-	public bool $listComments = false;
-	public int $commentsCount;
+new class extends Component {
+    // Propriétés publiques du composant
+    public Post $post;
+    public ?Post $next;
+    public ?Post $previous;
+    public Collection $comments;
+    public bool $listComments = false;
+    public int $commentsCount;
 
-	// Attribut de validation pour le message des commentaires
-	#[Rule('required|max:1000')]
-	public string $message = '';
+    // Attribut de validation pour le message des commentaires
+    #[Rule('required|max:1000')]
+    public string $message = '';
 
-	// Initialise le composant avec le post spécifié.
-	public function mount($slug): void
-	{
-		// Instanciation d'un nouveau repository de post
-		$postRepository = new PostRepository();
+    // Initialise le composant avec le post spécifié.
+    public function mount($slug): void
+    {
+        // Instanciation d'un nouveau repository de post
+        $postRepository = new PostRepository();
 
-		// Récupération du post par le slug
-		$this->post = $postRepository->getPostBySlug($slug);
+        // Récupération du post par le slug
+        $this->post = $postRepository->getPostBySlug($slug);
 
-		// Remplissage des propriétés next et previous du post
-		$this->fill($this->post->only('next', 'previous'));
+        // Remplissage des propriétés next et previous du post
+        $this->fill($this->post->only('next', 'previous'));
 
-		// Comptage des commentaires valides du post
-		$this->commentsCount = $this->post->valid_comments_count;
+        // Comptage des commentaires valides du post
+        $this->commentsCount = $this->post->valid_comments_count;
 
-		// Initialisation d'une collection de commentaires
-		$this->comments = new Collection();
-	}
+        // Initialisation d'une collection de commentaires
+        $this->comments = new Collection();
+    }
 
-	// Méthode pour cloner un article
-	public function clonePost(int $postId): void
-	{
-		// Récupération du post original à cloner
-		$originalPost = Post::findOrFail($postId);
+    // Méthode pour cloner un article
+    public function clonePost(int $postId): void
+    {
+        // Récupération du post original à cloner
+        $originalPost = Post::findOrFail($postId);
 
-		// Clonage du post
-		$clonedPost = $originalPost->replicate();
+        // Clonage du post
+        $clonedPost = $originalPost->replicate();
 
-		// Instanciation d'un nouveau repository de post
-		$postRepository = new PostRepository();
+        // Instanciation d'un nouveau repository de post
+        $postRepository = new PostRepository();
 
-		// Génération d'un slug unique pour le post cloné
-		$clonedPost->slug = $postRepository->generateUniqueSlug($originalPost->slug);
+        // Génération d'un slug unique pour le post cloné
+        $clonedPost->slug = $postRepository->generateUniqueSlug($originalPost->slug);
 
-		// Désactivation du post cloné
-		$clonedPost->active = false;
+        // Désactivation du post cloné
+        $clonedPost->active = false;
 
-		// Enregistrement du post cloné
-		$clonedPost->save();
+        // Enregistrement du post cloné
+        $clonedPost->save();
 
-		// Redirection vers la page d'édition du post cloné
-		redirect()->route('posts.edit', $clonedPost->slug);
-	}
+        // Redirection vers la page d'édition du post cloné
+        redirect()->route('posts.edit', $clonedPost->slug);
+    }
 
-	// Méthode pour afficher les commentaires du post
-	public function showComments(): void
-	{
-		// Activation de l'affichage des commentaires
-		$this->listComments = true;
+    // Méthode pour afficher les commentaires du post
+    public function showComments(): void
+    {
+        // Activation de l'affichage des commentaires
+        $this->listComments = true;
 
-		// Récupération des commentaires valides du post avec les informations utilisateur
-		$this->comments = $this->post
-			->validComments()
-			->with([
-				'user' => function ($query) {
-					$query->select('id', 'name', 'email', 'role')->withCount('comments');
-				},
-			])
-			->latest()
-			->get();
-	}
+        // Récupération des commentaires valides du post avec les informations utilisateur
+        $this->comments = $this->post
+            ->validComments()
+            ->with([
+                'user' => function ($query) {
+                    $query->select('id', 'name', 'email', 'role')->withCount('comments');
+                },
+            ])
+            ->latest()
+            ->get();
+    }
+
+    // Méthode pour mettre l'article en favoris
+    public function favoritePost(): void
+    {
+        $user = auth()->user();
+
+        if ($user) {
+            $user->favoritePosts()->attach($this->post->id);
+            $this->post->is_favorited = true;
+        }
+    }
+
+    // Méthode pour retirer l'article des favoris
+    public function unfavoritePost(): void
+    {
+        $user = auth()->user();
+
+        if ($user) {
+            $user->favoritePosts()->detach($this->post->id);
+            $this->post->is_favorited = false;
+        }
+    }
+    
 }; ?>
 
 <div>
-    
+
     @section('title', $post->seo_title ?? $post->title)
     @section('description', $post->meta_description)
     @section('keywords', $post->meta_keywords)
@@ -92,11 +115,29 @@ new class() extends Component {
     <!-- Actions disponibles pour les utilisateurs authentifiés -->
     <div class="flex justify-end gap-4">
         @auth
+            <x-popover>
+                <x-slot:trigger>
+                    @if ($post->is_favorited)
+                        <x-button icon="s-star" wire:click="unfavoritePost" spinner
+                            class="text-yellow-500 btn-ghost btn-sm" />
+                    @else
+                        <x-button icon="s-star" wire:click="favoritePost" spinner class="btn-ghost btn-sm" />
+                    @endif
+                </x-slot:trigger>
+                <x-slot:content class="pop-small">
+                    @if ($post->is_favorited)
+                        @lang('Remove from favorites')
+                    @else
+                        @lang('Bookmark this post')
+                    @endif
+                </x-slot:content>
+            </x-popover>
             <!-- Bouton pour modifier le post -->
             @if (Auth::user()->isAdmin() || Auth::user()->id == $post->user_id)
                 <x-popover>
                     <x-slot:trigger>
-                        <x-button icon="c-pencil-square" link="{{ route('posts.edit', $post) }}" spinner class="btn-ghost btn-sm" />
+                        <x-button icon="c-pencil-square" link="{{ route('posts.edit', $post) }}" spinner
+                            class="btn-ghost btn-sm" />
                     </x-slot:trigger>
                     <x-slot:content class="pop-small">
                         @lang('Edit this post')
@@ -104,36 +145,37 @@ new class() extends Component {
                 </x-popover>
                 <x-popover>
                     <x-slot:trigger>
-                        <x-button icon="o-finger-print" wire:click="clonePost({{ $post->id }})" spinner class="btn-ghost btn-sm" />
+                        <x-button icon="o-finger-print" wire:click="clonePost({{ $post->id }})" spinner
+                            class="btn-ghost btn-sm" />
                     </x-slot:trigger>
                     <x-slot:content class="pop-small">
                         @lang('Clone this post')
                     </x-slot:content>
                 </x-popover>
-
             @endif
         @endauth
         <!-- Bouton pour afficher la catégorie du post -->
         <x-popover>
             <x-slot:trigger>
-                <x-button class="btn-sm"><a href="{{ url('/category/' . $post->category->slug) }}">{{ $post->category->title }}</a></x-button>
+                <x-button class="btn-sm"><a
+                        href="{{ url('/category/' . $post->category->slug) }}">{{ $post->category->title }}</a></x-button>
             </x-slot:trigger>
             <x-slot:content class="pop-small">
                 @lang('Show this category')
             </x-slot:content>
         </x-popover>
-        
+
         <!-- Bouton pour afficher la série du post (s'il existe) -->
         @if ($post->serie)
             <x-popover>
                 <x-slot:trigger>
-                    <x-button class="btn-sm"><a href="{{ url('/serie/' . $post->serie->slug) }}">{{ $post->serie->title }}</a></x-button>
+                    <x-button class="btn-sm"><a
+                            href="{{ url('/serie/' . $post->serie->slug) }}">{{ $post->serie->title }}</a></x-button>
                 </x-slot:trigger>
                 <x-slot:content class="pop-small">
                     @lang('Show this serie')
                 </x-slot:content>
             </x-popover>
-            
         @endif
     </div>
 
@@ -173,24 +215,23 @@ new class() extends Component {
                 <x-popover>
                     <x-slot:trigger>
                         <x-button label="{{ __('Previous') }}" icon="s-arrow-left"
-                        link="{{ url('/posts/' . $previous->slug) }}" class="btn-sm" />
+                            link="{{ url('/posts/' . $previous->slug) }}" class="btn-sm" />
                     </x-slot:trigger>
                     <x-slot:content class="pop-small">
                         @lang('Previous post: ') {{ $previous->title }}
                     </x-slot:content>
-                </x-popover>                
+                </x-popover>
             @endif
             @if ($next)
                 <x-popover>
                     <x-slot:trigger>
                         <x-button label="{{ __('Next') }}" icon-right="s-arrow-right"
-                        link="{{ url('/posts/' . $next->slug) }}" class="btn-sm" />
+                            link="{{ url('/posts/' . $next->slug) }}" class="btn-sm" />
                     </x-slot:trigger>
                     <x-slot:content class="pop-small">
                         @lang('Next post: ') {{ $next->title }}
                     </x-slot:content>
-                </x-popover>  
-
+                </x-popover>
             @endif
         </div>
     @endif
@@ -228,16 +269,20 @@ new class() extends Component {
 
     <!-- Section des quizzes -->
     <div class="relative items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
-        @if($post->quiz)
+        @if ($post->quiz)
             <div class="flex justify-center">
-                @if(Auth::check())
-                    @if($post->quiz->participants->isNotEmpty())
-                        <x-alert title="{{__('You made the quiz of this post with a score of ')}} {{ $post->quiz->participants->first()->pivot->correct_answers}}/{{$post->quiz->participants->first()->pivot->total_answers}}."  class="alert-info" />
+                @if (Auth::check())
+                    @if ($post->quiz->participants->isNotEmpty())
+                        <x-alert
+                            title="{{ __('You made the quiz of this post with a score of ') }} {{ $post->quiz->participants->first()->pivot->correct_answers }}/{{ $post->quiz->participants->first()->pivot->total_answers }}."
+                            class="alert-info" />
                     @else
-                        <x-button label="{{__('Take the quiz!')}}" link="/quizzes/{{$post->quiz->id}}" class="btn-outline" />
+                        <x-button label="{{ __('Take the quiz!') }}" link="/quizzes/{{ $post->quiz->id }}"
+                            class="btn-outline" />
                     @endif
                 @else
-                    <x-alert title="{{__('This post has a quiz. You must been logged to access.')}}" class="alert-info" />
+                    <x-alert title="{{ __('This post has a quiz. You must been logged to access.') }}"
+                        class="alert-info" />
                 @endif
             </div>
         @endif
