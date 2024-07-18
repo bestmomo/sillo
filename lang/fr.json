@@ -288,7 +288,6 @@
     "Accounts": "Comptes",
     "All accounts": "Tous les comptes",
     "Add an account": "Ajouter un compte",
-    "Add an article": "Ajouter un article",
     "Title": "Titre",
     "Enter the title": "Entrez le titre",
     "Content": "Contenu",
@@ -308,7 +307,6 @@
     "Slug": "Permalien",
     "Post added with success.": "Article ajouté avec succès.",
     "Save and preview": "Sauvegarder et prévisualiser",
-    "Edit an article": "Modifier un article",
     "Author": "Auteur",
     "Updated": "Mis à jour",
     "Search...": "Rechercher...",
@@ -518,5 +516,7 @@
     "This post has a quiz. You must been logged to access.": "Cet article contient un quiz. Vous devez être authentifié pour y avoir acces.",
     "You made the quiz of this post with a score of ": "Vous avez fait le quiz de cet article avec un score de ",
     "Take the quiz!": "Faites le quiz !",
-    "Explain my error": "Expliquez mon erreur"
+    "Explain my error": "Expliquez mon erreur",
+    "Edit a post": "Modifier un article",
+    "No users with these criteria.": "Aucun utilisateur avec ces critères."
 }

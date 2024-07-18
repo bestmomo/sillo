@@ -10,63 +10,57 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new
-#[Title('Pages'), Layout('components.layouts.admin')]
-class extends Component {
-	use Toast;
-	use WithPagination;
+new #[Title('Pages'), Layout('components.layouts.admin')] class extends Component {
+    use Toast;
+    use WithPagination;
 
-	// Définir les en-têtes de la table.
-	public function headers(): array
-	{
-		return [
-			['key' => 'title', 'label' => __('Title')],
-			['key' => 'slug', 'label' => 'Slug'],
-		];
-	}
+    // Définir les en-têtes de la table.
+    public function headers(): array
+    {
+        return [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug']];
+    }
 
-	// Supprimer une page.
-	public function deletePage(Page $page): void
-	{
-		$page->delete();
-		$this->success(__('Page deleted'));
-	}
+    // Supprimer une page.
+    public function deletePage(Page $page): void
+    {
+        $page->delete();
+        $this->success(__('Page deleted'));
+    }
 
-	// Fournir les données nécessaires à la vue.
-	public function with(): array
-	{
-		return [
-			'pages'   => Page::select('id', 'title', 'slug')->get(),
-			'headers' => $this->headers(),
-		];
-	}
+    // Fournir les données nécessaires à la vue.
+    public function with(): array
+    {
+        return [
+            'pages' => Page::select('id', 'title', 'slug')->get(),
+            'headers' => $this->headers(),
+        ];
+    }
 }; ?>
 
 <div>
-	<x-header title="{{__('Pages')}}" separator progress-indicator>
-		<x-slot:actions class="lg:hidden">
-			<x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline" link="{{ route('admin') }}" />
-			<x-button icon="c-document-plus" label="{{ __('Add a page') }}" class="btn-outline" link="{{ route('pages.create') }}" />
-		</x-slot:actions>
-	</x-header>
+    <x-header title="{{ __('Pages') }}" separator progress-indicator >
+        <x-slot:actions class="lg:hidden">
+            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline"
+                link="{{ route('admin') }}" />
+            <x-button icon="c-document-plus" label="{{ __('Add a page') }}" class="btn-outline"
+                link="{{ route('pages.create') }}" />
+        </x-slot:actions>
+    </x-header>
 
-	<x-card>
-		<x-table striped :headers="$headers" :rows="$pages" link="/admin/pages/{slug}/edit">
-			@scope('actions', $page)
-				<x-popover>
-					<x-slot:trigger>
-						<x-button 
-							icon="o-trash" 
-							wire:click="deletePage({{ $page->id }})" 
-							wire:confirm="{{ __('Are you sure to delete this page?') }}" 
-							spinner 
-							class="text-red-500 btn-ghost btn-sm" />          
-					</x-slot:trigger>
-					<x-slot:content class="pop-small">
-						@lang('Delete')
-					</x-slot:content>
-				</x-popover>
-			@endscope
-		</x-table>
-	</x-card>
+    <x-card>
+        <x-table striped :headers="$headers" :rows="$pages" link="/admin/pages/{slug}/edit">
+            @scope('actions', $page)
+                <x-popover>
+                    <x-slot:trigger>
+                        <x-button icon="o-trash" wire:click="deletePage({{ $page->id }})"
+                            wire:confirm="{{ __('Are you sure to delete this page?') }}" spinner
+                            class="text-red-500 btn-ghost btn-sm" />
+                    </x-slot:trigger>
+                    <x-slot:content class="pop-small">
+                        @lang('Delete')
+                    </x-slot:content>
+                </x-popover>
+            @endscope
+        </x-table>
+    </x-card>
 </div>

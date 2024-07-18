@@ -96,8 +96,12 @@ new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Co
 }; ?>
 
 <div>
-    <x-header title="{{ __('Footer') }}" shadow separator progress-indicator />
-
+    <x-header title="{{ __('Footer') }}" separator progress-indicator>
+        <x-slot:actions class="lg:hidden">
+            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline"
+                link="{{ route('admin') }}" />
+        </x-slot:actions>
+    </x-header>
     <x-card>
 
         @foreach ($footers as $footer)
@@ -131,7 +135,7 @@ new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Co
                     @endif
                     <x-popover>
                         <x-slot:trigger>
-                            <x-button icon="c-arrow-path-rounded-square" link="{{ route('menus.edit', $footer->id) }}"
+                            <x-button icon="c-arrow-path-rounded-square" link="{{ route('footers.edit', $footer->id) }}"
                                 class="text-blue-500 btn-ghost btn-sm" spinner />
                         </x-slot:trigger>
                         <x-slot:content class="pop-small">

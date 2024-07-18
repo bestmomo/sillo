@@ -12,7 +12,7 @@ use App\Traits\ManageQuiz;
 use Illuminate\Support\Collection;
 
 new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Component {
-	use Toast, ManageQuiz;
+    use Toast, ManageQuiz;
 
     public string $title = '';
     public string $description = '';
@@ -30,9 +30,11 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
     {
         $data = $this->validate($this->rules);
 
-        $quiz = Quiz::create($data + [
-			'user_id' => Auth::id(),
-		]);
+        $quiz = Quiz::create(
+            $data + [
+                'user_id' => Auth::id(),
+            ],
+        );
 
         foreach ($data['questions'] as $question) {
             $quizQuestion = $quiz->questions()->create([
@@ -45,49 +47,56 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
         }
 
         $this->success(__('Quiz added with success.'), redirectTo: '/admin/quizzes/index');
-    }    
-  
+    }
 }; ?>
 
 <div>
+    <x-header title="{{ __('Create a Quiz') }}" separator progress-indicator>
+        <x-slot:actions class="lg:hidden">
+            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline"
+                link="{{ route('admin') }}" />
+        </x-slot:actions>
+    </x-header>
     <x-card>
-        <x-header title="{{ __('Create a Quiz') }}" shadow separator progress-indicator />
         <x-form wire:submit.prevent="save">
-            <x-input type="text" wire:model="title" label="{{ __('Title') }}" placeholder="{{ __('Enter the title') }}" />
-            <x-input type="text" wire:model="description" label="{{ __('Description') }}" placeholder="{{ __('Enter the description') }}" />
-            <x-choices
-                label="{{__('Post')}}"
-                wire:model="post_id"
-                :options="$postsSearchable"
-                option-label="title"
-                hint="{{__('Select a post or none, type to search')}}"
-                debounce="300ms"
-                min-chars="2"
-                no-result-text="{{__('No result found!')}}"
-                single
-                searchable />
+            <x-input type="text" wire:model="title" label="{{ __('Title') }}"
+                placeholder="{{ __('Enter the title') }}" />
+            <x-input type="text" wire:model="description" label="{{ __('Description') }}"
+                placeholder="{{ __('Enter the description') }}" />
+            <x-choices label="{{ __('Post') }}" wire:model="post_id" :options="$postsSearchable" option-label="title"
+                hint="{{ __('Select a post or none, type to search') }}" debounce="300ms" min-chars="2"
+                no-result-text="{{ __('No result found!') }}" single searchable />
             @foreach ($questions as $qIndex => $question)
                 <hr>
                 <div class="flex flex-row justify-between">
                     <x-badge value="Question {{ $qIndex + 1 }}" class="p-4 badge-accent" />
-                    @if($qIndex > 1)
-                        <x-button label="{{ __('Remove Question') }}" wire:click.prevent="removeQuestion({{ $qIndex }})" class="btn-warning" />
+                    @if ($qIndex > 1)
+                        <x-button label="{{ __('Remove Question') }}"
+                            wire:click.prevent="removeQuestion({{ $qIndex }})" class="btn-warning" />
                     @endif
                 </div>
-                <x-input type="text" wire:model="questions.{{ $qIndex }}.question_text" label="{{ __('Question') }}" placeholder="{{ __('Enter the question text') }}" /><hr>
+                <x-input type="text" wire:model="questions.{{ $qIndex }}.question_text"
+                    label="{{ __('Question') }}" placeholder="{{ __('Enter the question text') }}" />
+                <hr>
 
                 @foreach ($question['answers'] as $aIndex => $answer)
-                    <x-input type="text" wire:model="questions.{{ $qIndex }}.answers.{{ $aIndex }}.answer_text" label="{{ __('Answer ') }} {{ $aIndex + 1 }}" placeholder="{{ __('Enter the answer text') }}" />
-                    <x-checkbox wire:model="questions.{{ $qIndex }}.answers.{{ $aIndex }}.is_correct" label="{{ __('Is Correct') }}" />
-                    @if($aIndex > 1)
-                        <x-button label="{{ __('Remove Answer') }} {{ $aIndex + 1 }}" wire:click.prevent="removeAnswer({{ $qIndex }}, {{ $aIndex }})" class="btn-warning" />
+                    <x-input type="text"
+                        wire:model="questions.{{ $qIndex }}.answers.{{ $aIndex }}.answer_text"
+                        label="{{ __('Answer ') }} {{ $aIndex + 1 }}"
+                        placeholder="{{ __('Enter the answer text') }}" />
+                    <x-checkbox wire:model="questions.{{ $qIndex }}.answers.{{ $aIndex }}.is_correct"
+                        label="{{ __('Is Correct') }}" />
+                    @if ($aIndex > 1)
+                        <x-button label="{{ __('Remove Answer') }} {{ $aIndex + 1 }}"
+                            wire:click.prevent="removeAnswer({{ $qIndex }}, {{ $aIndex }})"
+                            class="btn-warning" />
                     @else
                         <hr>
                     @endif
                 @endforeach
 
-                <x-button label="{{ __('Add Answer') }}" wire:click.prevent="addAnswer({{ $qIndex }})" class="btn-primary" />
-
+                <x-button label="{{ __('Add Answer') }}" wire:click.prevent="addAnswer({{ $qIndex }})"
+                    class="btn-primary" />
             @endforeach
 
             <x-button label="{{ __('Add Question') }}" wire:click.prevent="addQuestion" class="btn-info" />

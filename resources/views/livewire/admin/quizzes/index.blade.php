@@ -12,9 +12,7 @@ use Mary\Traits\Toast;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
-new
-#[Title('Quizzes'), Layout('components.layouts.admin')]
-class extends Component {
+new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Component {
     use Toast;
     use WithPagination;
 
@@ -23,13 +21,7 @@ class extends Component {
     // Définir les en-têtes de la table
     public function headers(): array
     {
-        return [
-            ['key' => 'title', 'label' => __('Title')],
-            ['key' => 'user_name', 'label' => __('Creator')],
-            ['key' => 'post_title', 'label' => __('Post')],
-            ['key' => 'participants_count', 'label' => __('Participations')],
-            ['key' => 'description', 'label' => __('Description')],
-        ];
+        return [['key' => 'title', 'label' => __('Title')], ['key' => 'user_name', 'label' => __('Creator')], ['key' => 'post_title', 'label' => __('Post')], ['key' => 'participants_count', 'label' => __('Participations')], ['key' => 'description', 'label' => __('Description')]];
     }
 
     // Supprimer un quiz
@@ -44,23 +36,25 @@ class extends Component {
     {
         return [
             'quizzes' => Quiz::select('id', 'title', 'description')
-                                ->orderBy(...array_values($this->sortBy))
-                                ->when(!Auth::user()->isAdmin(), fn (Builder $q) => $q->where('user_id', Auth::id()))
-                                ->withAggregate('user', 'name')
-                                ->withAggregate('post', 'title')
-                                ->withCount('participants')
-                                ->paginate(10),
+                ->orderBy(...array_values($this->sortBy))
+                ->when(!Auth::user()->isAdmin(), fn(Builder $q) => $q->where('user_id', Auth::id()))
+                ->withAggregate('user', 'name')
+                ->withAggregate('post', 'title')
+                ->withCount('participants')
+                ->paginate(10),
             'headers' => $this->headers(),
         ];
     }
 }; ?>
 
 <div>
-    <x-header title="{{__('Quizzes')}}" separator progress-indicator>
-		<x-slot:actions>
-		    <x-button label="{{ __('Add a quiz') }}" class="btn-outline" link="{{ route('quizzes.create') }}" />
-		</x-slot:actions>
-	</x-header>
+    <x-header title="{{ __('Quizzes') }}" separator progress-indicator>
+        <x-slot:actions class="lg:hidden">
+            <x-button label="{{ __('Add a quiz') }}" class="btn-outline" link="{{ route('quizzes.create') }}" />
+            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline"
+                link="{{ route('admin') }}" />
+        </x-slot:actions>
+    </x-header>
 
     <x-card>
         <x-table :headers="$headers" :rows="$quizzes" :sort-by="$sortBy" link="/admin/quizzes/{id}/edit">
@@ -68,23 +62,19 @@ class extends Component {
                 @if ($quiz->participants_count > 0)
                     <x-badge value="{{ $quiz->participants_count }}" class="badge-primary" />
                 @endif
-            @endscope    
+            @endscope
             @scope('actions', $quiz)
-            <x-popover>
-                <x-slot:trigger>
-                    <x-button 
-                        icon="o-trash" 
-                        wire:click="deleteQuiz({{ $quiz->id }})" 
-                        wire:confirm="{{ __('Are you sure to delete this quiz?') }}" 
-                        spinner 
-                        class="text-red-500 btn-ghost btn-sm" />          
-                </x-slot:trigger>
-                <x-slot:content class="pop-small">
-                    @lang('Delete')
-                </x-slot:content>
-            </x-popover>
-          @endscope
+                <x-popover>
+                    <x-slot:trigger>
+                        <x-button icon="o-trash" wire:click="deleteQuiz({{ $quiz->id }})"
+                            wire:confirm="{{ __('Are you sure to delete this quiz?') }}" spinner
+                            class="text-red-500 btn-ghost btn-sm" />
+                    </x-slot:trigger>
+                    <x-slot:content class="pop-small">
+                        @lang('Delete')
+                    </x-slot:content>
+                </x-popover>
+            @endscope
         </x-table>
     </x-card>
 </div>
-

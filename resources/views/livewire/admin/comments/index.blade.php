@@ -13,85 +13,72 @@ use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 new #[Title('Comments'), Layout('components.layouts.admin')] class extends Component {
-	use Toast;
-	use WithPagination;
+    use Toast;
+    use WithPagination;
 
-	public string $search = '';
-	public array $sortBy  = ['column' => 'created_at', 'direction' => 'desc'];
-	public $role          = 'all';
+    public string $search = '';
+    public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
+    public $role = 'all';
 
-	// Méthode pour supprimer un commentaire
-	public function deleteComment(Comment $comment): void
-	{
-		$comment->delete();
+    // Méthode pour supprimer un commentaire
+    public function deleteComment(Comment $comment): void
+    {
+        $comment->delete();
 
-		$this->success(__('Comment deleted'));
-	}
+        $this->success(__('Comment deleted'));
+    }
 
-	// Méthode pour valider un commentaire
-	public function validComment(Comment $comment): void
-	{
-		$comment->user->valid = true;
-		$comment->user->save();
+    // Méthode pour valider un commentaire
+    public function validComment(Comment $comment): void
+    {
+        $comment->user->valid = true;
+        $comment->user->save();
 
-		$this->success(__('Comment validated'));
-	}
+        $this->success(__('Comment validated'));
+    }
 
-	// Méthode pour obtenir les en-têtes des colonnes
-	public function headers(): array
-	{
-		return [
-			['key' => 'user_name', 'label' => __('Author')],
-			['key' => 'body', 'label' => __('Comment'), 'sortable' => false],
-			['key' => 'post_title', 'label' => __('Post')],
-			['key' => 'created_at', 'label' => __('Sent on')],
-		];
-	}
+    // Méthode pour obtenir les en-têtes des colonnes
+    public function headers(): array
+    {
+        return [['key' => 'user_name', 'label' => __('Author')], ['key' => 'body', 'label' => __('Comment'), 'sortable' => false], ['key' => 'post_title', 'label' => __('Post')], ['key' => 'created_at', 'label' => __('Sent on')]];
+    }
 
-	// Méthode pour obtenir la liste des commentaires avec pagination
-	public function comments(): LengthAwarePaginator
-	{
-		return Comment::query()
-			->when($this->search, fn (Builder $q) => $q->where('body', 'like', "%{$this->search}%"))
-			->when(
-				'post_title' === $this->sortBy['column'],
-				fn (Builder $q) => $q->join('posts', 'comments.post_id', '=', 'posts.id')
-					->orderBy('posts.title', $this->sortBy['direction']),
-				fn (Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction'])
-			)
-			->when(Auth::user()->isRedac(), fn (Builder $q) => $q->whereRelation('post', 'user_id', Auth::id()))
-			->with([
-				'user',
-				'post' => function ($query) {
-					$query->select('id', 'title', 'slug');
-				},
-			])
-			->withAggregate('user', 'name')
-			->paginate(10);
-	}
+    // Méthode pour obtenir la liste des commentaires avec pagination
+    public function comments(): LengthAwarePaginator
+    {
+        return Comment::query()
+            ->when($this->search, fn(Builder $q) => $q->where('body', 'like', "%{$this->search}%"))
+            ->when('post_title' === $this->sortBy['column'], fn(Builder $q) => $q->join('posts', 'comments.post_id', '=', 'posts.id')->orderBy('posts.title', $this->sortBy['direction']), fn(Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction']))
+            ->when(Auth::user()->isRedac(), fn(Builder $q) => $q->whereRelation('post', 'user_id', Auth::id()))
+            ->with([
+                'user',
+                'post' => function ($query) {
+                    $query->select('id', 'title', 'slug');
+                },
+            ])
+            ->withAggregate('user', 'name')
+            ->paginate(10);
+    }
 
-	// Méthode pour fournir des données additionnelles au composant
-	public function with(): array
-	{
-		return [
-			'headers'  => $this->headers(),
-			'comments' => $this->comments(),
-		];
-	}
+    // Méthode pour fournir des données additionnelles au composant
+    public function with(): array
+    {
+        return [
+            'headers' => $this->headers(),
+            'comments' => $this->comments(),
+        ];
+    }
 }; ?>
 
 <div>
-
-    <x-header shadow separator progress-indicator>
-        <x-slot:title>
-            {{ __('Comments') }}
-        </x-slot:title>
-        <x-slot:middle class="!justify-end">
+    <x-header title="{{ __('Comments') }}" separator progress-indicator>
+        <x-slot:actions>
+            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"
+                link="{{ route('admin') }}" />
             <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable
                 icon="o-magnifying-glass" />
-        </x-slot:middle>
+        </x-slot:actions>
     </x-header>
-
     <x-card>
         <x-table striped :headers="$headers" :rows="$comments" link="/admin/comments/{id}/edit" :sort-by="$sortBy"
             with-pagination>
@@ -117,12 +104,9 @@ new #[Title('Comments'), Layout('components.layouts.admin')] class extends Compo
                     @if (!$comment->user->valid)
                         <x-popover>
                             <x-slot:trigger>
-                                <x-button 
-                                    icon="c-eye" 
-                                    wire:click="validComment({{ $comment->id }})"
-                                    wire:confirm="{{ __('Are you sure to validate this user for comment?') }}"
-                                    spinner 
-                                    class="text-yellow-500 btn-ghost btn-sm" />   
+                                <x-button icon="c-eye" wire:click="validComment({{ $comment->id }})"
+                                    wire:confirm="{{ __('Are you sure to validate this user for comment?') }}" spinner
+                                    class="text-yellow-500 btn-ghost btn-sm" />
                             </x-slot:trigger>
                             <x-slot:content class="pop-small">
                                 @lang('Validate the user')
@@ -131,23 +115,17 @@ new #[Title('Comments'), Layout('components.layouts.admin')] class extends Compo
                     @endif
                     <x-popover>
                         <x-slot:trigger>
-                            <x-button 
-                                icon="s-document-text" 
-                                link="{{ route('posts.show', $comment->post->slug) }}"
-                                spinner 
-                                class="btn-ghost btn-sm" /> 
+                            <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}" spinner
+                                class="btn-ghost btn-sm" />
                         </x-slot:trigger>
                         <x-slot:content class="pop-small">
                             @lang('Show post')
                         </x-slot:content>
-                    </x-popover>                    
+                    </x-popover>
                     <x-popover>
                         <x-slot:trigger>
-                            <x-button 
-                                icon="o-trash" 
-                                wire:click="deleteComment({{ $comment->id }})"
-                                wire:confirm="{{ __('Are you sure to delete this comment?') }}"
-                                spinner 
+                            <x-button icon="o-trash" wire:click="deleteComment({{ $comment->id }})"
+                                wire:confirm="{{ __('Are you sure to delete this comment?') }}" spinner
                                 class="text-red-500 btn-ghost btn-sm" />
                         </x-slot:trigger>
                         <x-slot:content class="pop-small">
