@@ -27,6 +27,7 @@ class extends Component {
             ['key' => 'title', 'label' => __('Title')],
             ['key' => 'user_name', 'label' => __('Creator')],
             ['key' => 'post_title', 'label' => __('Post')],
+            ['key' => 'participants_count', 'label' => __('Participations')],
             ['key' => 'description', 'label' => __('Description')],
         ];
     }
@@ -47,6 +48,7 @@ class extends Component {
                                 ->when(!Auth::user()->isAdmin(), fn (Builder $q) => $q->where('user_id', Auth::id()))
                                 ->withAggregate('user', 'name')
                                 ->withAggregate('post', 'title')
+                                ->withCount('participants')
                                 ->paginate(10),
             'headers' => $this->headers(),
         ];
@@ -62,6 +64,11 @@ class extends Component {
 
     <x-card>
         <x-table :headers="$headers" :rows="$quizzes" :sort-by="$sortBy" link="/admin/quizzes/{id}/edit">
+            @scope('cell_participants_count', $quiz)
+                @if ($quiz->participants_count > 0)
+                    <x-badge value="{{ $quiz->participants_count }}" class="badge-primary" />
+                @endif
+            @endscope    
             @scope('actions', $quiz)
             <x-popover>
                 <x-slot:trigger>
