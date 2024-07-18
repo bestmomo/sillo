@@ -17,6 +17,7 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
     use WithPagination;
 
     public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
+    public string $search = '';
 
     // Définir les en-têtes de la table
     public function headers(): array
@@ -38,6 +39,7 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
             'quizzes' => Quiz::select('id', 'title', 'description')
                 ->orderBy(...array_values($this->sortBy))
                 ->when(!Auth::user()->isAdmin(), fn(Builder $q) => $q->where('user_id', Auth::id()))
+                ->when($this->search, fn(Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
                 ->withAggregate('user', 'name')
                 ->withAggregate('post', 'title')
                 ->withCount('participants')
@@ -49,9 +51,11 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
 
 <div>
     <x-header title="{{ __('Quizzes') }}" separator progress-indicator>
-        <x-slot:actions class="lg:hidden">
-            <x-button label="{{ __('Add a quiz') }}" class="btn-outline" link="{{ route('quizzes.create') }}" />
-            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline"
+        <x-slot:actions>
+            <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable
+            icon="o-magnifying-glass" />
+            <x-button label="{{ __('Add a quiz') }}" class="btn-outline lg:hidden" link="{{ route('quizzes.create') }}" />
+            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"
                 link="{{ route('admin') }}" />
         </x-slot:actions>
     </x-header>
