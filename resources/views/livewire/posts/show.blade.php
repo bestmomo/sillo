@@ -215,7 +215,7 @@ new class() extends Component {
             @if ($commentsCount > 0)
                 <div class="flex justify-center">
                     <x-button label="{{ $commentsCount > 1 ? __('View comments') : __('View comment') }}"
-                        wire:click="showComments" class="btn-outline" />
+                        wire:click="showComments" class="btn-outline" spinner />
                 </div>
                 <!-- Afficher le formulaire pour ajouter un commentaire si aucun commentaire n'est disponible -->
             @else
@@ -229,15 +229,17 @@ new class() extends Component {
     <!-- Section des quizzes -->
     <div class="relative items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
         @if($post->quiz)
-            @if(Auth::check())
-                @if($post->quiz->participants->isNotEmpty())
-                    <x-alert title="{{__('You made the quiz of this post with a score of ')}} {{ $post->quiz->participants->first()->pivot->correct_answers}}/{{$post->quiz->participants->first()->pivot->total_answers}}."  class="text-center" />
+            <div class="flex justify-center">
+                @if(Auth::check())
+                    @if($post->quiz->participants->isNotEmpty())
+                        <x-alert title="{{__('You made the quiz of this post with a score of ')}} {{ $post->quiz->participants->first()->pivot->correct_answers}}/{{$post->quiz->participants->first()->pivot->total_answers}}."  class="alert-info" />
+                    @else
+                        <x-button label="{{__('Take the quiz!')}}" link="/quizzes/{{$post->quiz->id}}" class="btn-outline" />
+                    @endif
                 @else
-                    <x-button label="{{__('Take the quiz')}}" link="/quizzes/{{$post->quiz->id}}" class="btn-ghost" />
+                    <x-alert title="{{__('This post has a quiz. You must been logged to access.')}}" class="alert-info" />
                 @endif
-            @else
-                <x-alert title="{{__('This post has a quiz. You must been logged to access.')}}" class="alert-info" />
-            @endif
+            </div>
         @endif
     </div>
 
