@@ -44,7 +44,7 @@ class extends Component {
 
 <div>
 	<x-header title="{{__('Pages')}}" separator progress-indicator>
-		<x-slot:actions>
+		<x-slot:actions class="lg:hidden">
 			<x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline" link="{{ route('admin') }}" />
 			<x-button icon="c-document-plus" label="{{ __('Add a page') }}" class="btn-outline" link="{{ route('pages.create') }}" />
 		</x-slot:actions>

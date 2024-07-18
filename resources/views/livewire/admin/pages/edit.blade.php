@@ -63,7 +63,7 @@ new #[Title('Edit Page'), Layout('components.layouts.admin')] class extends Comp
 <div>
     <x-card>
 		<x-header title="{{__('Edit a page')}}" shadow separator progress-indicator>
-			<x-slot:actions>
+			<x-slot:actions class="lg:hidden">
 				<x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline" link="{{ route('admin') }}" />
 			</x-slot:actions>
 		</x-header>
