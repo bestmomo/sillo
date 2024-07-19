@@ -61,7 +61,7 @@ new class() extends Component {
 		sort($this->selected);
 		// dump('Devrait effacer: ' . json_encode($this->selected, JSON_PRETTY_PRINT));
 		// 2fix ATTENTION: Filtrer pour éviter de supprimer l'user en cours qui devrait être à minima admin ;-) !
-		User::destroy($this->selected);
+		// User::destroy($this->selected);
 		$this->error(json_encode($this->selected).' deleted!');
 		$this->selected = [];
 	}
