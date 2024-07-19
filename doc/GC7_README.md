@@ -48,13 +48,14 @@
 
 ### Livewire
 
-<div style="text-align: center">En cours:</div>
 
 1) [Découverte Livewire](https://www.youtube.com/watch?v=zPNdejemUtg) - 52' GA FR
 
-//2do doc Livewire
+<div style="text-align: center">En cours:</div>
 
 1) [Série free](https://livewire.laravel.com/screencast/getting_started/installation) -  11 épisodes (Fait 7)
+
+//2do doc Livewire
 
 2) [Serie 16](https://www.youtube.com/watch?v=m10TZpWKAVI&list=PLkZU2rKh1mT-Gx1PhzO5Cj83ntdZRmcbo) - 16 épisodes 2023
    

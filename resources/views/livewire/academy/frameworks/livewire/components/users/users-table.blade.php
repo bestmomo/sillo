@@ -2,7 +2,7 @@
 include_once 'users-table.php';
 ?>
 
-<div class="w-full">
+<div class="w-full" x-data="{selected: @entangle('selection').defer}">
 
     <style>
         .t3>thead>tr>th {
@@ -12,17 +12,24 @@ include_once 'users-table.php';
     </style>
 
     <x-header title="Uuusers3 - MaryUI" shadow separator progress-indicator />
+    
+    @dump($selected)
+    
+    {{-- <span x-html="JSON.stringify($wire.selected)"></span> --}}
+    <span x-html="$wire.selected"></span>
+    
+    {{-- @dump($queryStringOutput)
 
     <div class="mb-3 font-bold" id="queryString">
         <p>Valeur de la querystring : 
-            @if($queryStringOutput)
+            @ if($queryStringOutput)
             {{ json_encode($queryStringOutput) }}</p>
         <pre>{{ print_r($queryStringOutput, true) }}</pre>
         @else
         Vide</p>
         @endif
         <hr>
-    </div>
+    </div> --}}
 
     <div class="flex w-full justify-evenly items-center gap-4 mt-4">
         <div class="relative flex-grow">
@@ -34,9 +41,21 @@ include_once 'users-table.php';
     </div>
 
     @if (count($users))
+    
+    <x-button x-cloak class="btn btn-sm btn-error mb-3" x-show="$wire.selected.length > 0" wire:click="deleteSelectedUsers" spinner>Supprimer <span x-html="$wire.selected"></span></x-button>
+    
         {{-- You can use any `$wire.METHOD` on `@row-click` --}}
-        <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" striped link="/admin/users/{id}/edit"
-            with-pagination>
+        <x-table 
+            :headers="$headers" 
+            :rows="$users" 
+            :sort-by="$sortBy" 
+            striped link="/admin/users/{id}/edit"
+            wire:model="selected"
+            selectable
+            @row-selection="console.log($event.detail.row.id, ($event.detail.selected ? 'selected': 'unselected'))"
+            {{-- @row-selection="console.log($event.detail)" --}}
+            with-pagination
+        >
 
             @scope('cell_id', $user)
                 <div class="!text-right">

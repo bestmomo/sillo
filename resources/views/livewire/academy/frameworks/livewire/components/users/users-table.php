@@ -8,11 +8,13 @@ use App\Models\User;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 new class() extends Component {
 	// Source: https://www.youtube.com/watch?v=zPNdejemUtg
 
 	use WithPagination;
+	use Toast;
 
 	public $headers;
 	public $roles;
@@ -24,6 +26,7 @@ new class() extends Component {
 
 	// public $users;
 	public $queryStringOutput = [];
+	public array $selected    = [];
 	protected $queryString    = [
 		'search' => ['except' => ''],
 		'sortBy' => ['except' => ['column' => 'id', 'direction' => 'asc']],
@@ -52,6 +55,17 @@ new class() extends Component {
 		$this->updatedPage();
 	}
 
+	public function deleteSelectedUsers()
+	{
+		sleep(3);
+		sort($this->selected);
+		// dump('Devrait effacer: ' . json_encode($this->selected, JSON_PRETTY_PRINT));
+		// 2fix ATTENTION: Filtrer pour éviter de supprimer l'user en cours qui devrait être à minima admin ;-) !
+		// User::destroy($this->selected);
+		$this->error(json_encode($this->selected).' deleted (SIMU) !');
+		$this->selected = [];
+	}
+
 	// For custom pagination view
 	// public function paginationView()
 	// {
@@ -62,7 +76,7 @@ new class() extends Component {
 	{
 		Debugbar::addMessage("New search: {$this->search}");
 		if ($resetPage) {
-			$this->setPage(1);
+			$this->resetPage();
 			unset($this->queryStringOutput['page']);
 		}
 		$this->queryStringOutput['search'] = $this->search;
@@ -83,7 +97,7 @@ new class() extends Component {
 			$this->queryStringOutput['sortBy']['direction'] = $this->sortBy['direction'];
 		} else {
 			$this->dispatch('console-log', ['message' => [$this->sortBy['column'], $this->sortBy['direction']]]);
-			
+
 			if ('id' == $this->sortBy['column'] && 'asc' == $this->sortBy['direction']) {
 				unset($this->queryStringOutput['sortBy']);
 			} else {
