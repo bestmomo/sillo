@@ -18,6 +18,12 @@ trait ManageQuiz
         'questions.*.answers.*.is_correct' => 'required|boolean',
     ];
 
+    /**
+     * Search for posts based on the provided value.
+     *
+     * @param string $value The value to search for within post titles.
+     * @return void
+     */
     public function search(string $value = ''): void
     {
         $selectedOption = Post::select('id', 'title')->where('id', $this->post_id)->get();
@@ -33,6 +39,12 @@ trait ManageQuiz
             ->merge($selectedOption);
     }
 
+    /**
+     * Adds a new question with default empty text and answers to the quiz.
+     *
+     * @param int $number The number of questions to add. Default is 1.
+     * @return void
+     */
     public function addQuestion(int $number = 1): void
     {
         while($number--) {
@@ -47,23 +59,47 @@ trait ManageQuiz
         }
     }
 
+    /**
+     * Removes a question from the quiz by its index.
+     *
+     * @param int $index The index of the question to be removed.
+     * @return void
+     */
     public function removeQuestion($index): void
     {
         unset($this->questions[$index]);
         $this->questions = array_values($this->questions);
     }
 
+    /**
+     * Adds a new answer with default empty text and correct status to a question.
+     *
+     * @param int $index The index of the question to add the answer to.
+     * @return void
+     */
     public function addAnswer($index): void
     {
         $this->questions[$index]['answers'][] = ['answer_text' => '', 'is_correct' => false];
     }
 
+    /**
+     * Removes an answer from the quiz by question and answer index.
+     *
+     * @param int $qIndex The index of the question.
+     * @param int $aIndex The index of the answer in the question.
+     * @return void
+     */
     public function removeAnswer($qIndex, $aIndex): void
     {
         unset($this->questions[$qIndex]['answers'][$aIndex]);
         $this->questions[$qIndex]['answers'] = array_values($this->questions[$qIndex]['answers']);
     }
 
+    /**
+     * A method to define custom error messages for validation errors.
+     *
+     * @return array Custom error messages for specific validation rules.
+     */
     protected function messages(): array
     {
         return [

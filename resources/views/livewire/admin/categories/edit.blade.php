@@ -64,14 +64,14 @@ new #[Layout('components.layouts.admin')] class extends Component {
                 link="{{ route('admin') }}" />
         </x-slot:actions>
     </x-header>
-	<x-card>
-    <x-form wire:submit="save">
-        <x-input label="{{ __('Title') }}" wire:model.debounce.500ms="title" wire:change="$refresh" />
-        <x-input type="text" wire:model="slug" label="{{ __('Slug') }}" />
-        <x-slot:actions>
-            <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
-                class="btn-primary" />
-        </x-slot:actions>
-    </x-form>
+    <x-card>
+        <x-form wire:submit="save">
+            <x-input label="{{ __('Title') }}" wire:model.debounce.500ms="title" wire:change="$refresh" />
+            <x-input type="text" wire:model="slug" label="{{ __('Slug') }}" />
+            <x-slot:actions>
+                <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
+                    class="btn-primary" />
+            </x-slot:actions>
+        </x-form>
     </x-card>
 </div>

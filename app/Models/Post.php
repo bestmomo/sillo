@@ -13,8 +13,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Post extends Model
 {
-    use HasFactory;
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.

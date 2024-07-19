@@ -14,6 +14,11 @@ class Answer extends Model
 
     protected $fillable = ['answer_text', 'is_correct', 'question_id'];
 
+    /**
+     * Get the question that the answer belongs to.
+     *
+     * @return BelongsTo
+     */
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);

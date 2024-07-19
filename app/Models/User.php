@@ -32,27 +32,49 @@ class User extends Authenticatable
 
     /**
      * One to Many relation.
+     *
+     * @return HasMany
      */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * Retrieve the comments associated with the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * Define a one to many relation for messages.
+     *
+     * @return HasMany
+     */
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
     }
 
+    /**
+     * Retrieve the quizzes associated with the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function quizzes(): HasMany
     {
         return $this->hasMany(Quiz::class);
     }
 
+    /**
+     * Retrieve the quizzes that the user has participated in.
+     *
+     * @return BelongsToMany
+     */
     public function participatedQuizzes(): BelongsToMany
     {
         return $this->belongsToMany(Quiz::class, 'quiz_user')
@@ -60,6 +82,11 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    /**
+     * Retrieve the user's favorite posts.
+     *
+     * @return BelongsToMany
+     */
     public function favoritePosts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'favorites');
@@ -89,6 +116,13 @@ class User extends Authenticatable
         return 'admin' === $this->role || 'redac' === $this->role;
     }
 
+    /**
+     * Scope a query to search for a specific value in the 'name', 'firstname', or 'email' columns.
+     *
+     * @param datatype $query The query builder instance
+     * @param datatype $value The value to search for
+     * @return BelongsToMany
+     */
     public function scopeSearch($query, $value)
     {
         $query

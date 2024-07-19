@@ -27,22 +27,39 @@ class Serie extends Model
 
 	/**
 	 * Has Many relation.
+	 *
+	 * @return HasMany
 	 */
 	public function posts(): HasMany
 	{
 		return $this->hasMany(Post::class)->latest()->select('id', 'title', 'serie_id');
 	}
 
+	/**
+	 * Has Many relation.
+	 *
+	 * @return Post
+	 */
 	public function lastPost(): Post
 	{
 		return $this->hasMany(Post::class)->latest()->select('id', 'title', 'serie_id')->first();
 	}
 
+	/**
+	 * Has One relation to Category model.
+	 *
+	 * @return BelongsTo
+	 */
 	public function category(): BelongsTo
 	{
 		return $this->belongsTo(Category::class);
 	}
 
+	/**
+	 * Retrieve the associated User model for this Serie.
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
 	public function user(): BelongsTo
 	{
 		return $this->belongsTo(User::class);
