@@ -95,7 +95,7 @@ new class extends Component {
             <a title="{{ __('Chat') }}" href="{{ route('chat') }}"><x-icon name="o-chat-bubble-oval-left"
                     class="w-6 h-6" /></a>
         @endauth
-        <x-theme-toggle title="{{ __('Toggle theme') }}" />
+        <x-theme-toggle title="{{ __('Toggle theme') }}" class="w-4 h-8" />
         <livewire:search />
     </x-slot:actions>
 </x-nav>
