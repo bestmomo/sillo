@@ -2,8 +2,8 @@
 include_once 'users-table.php';
 ?>
 
-{{-- <div class="w-full" x-data="{selected: []}"> --}}
-<div class="w-full">
+<div class="w-full" x-data="{selected: []}">
+{{-- <div class="w-full"> --}}
 
     <style>
         .t3>thead>tr>th {
@@ -43,7 +43,7 @@ include_once 'users-table.php';
 
     @if (count($users))
     
-    <x-button x-cloak class="btn btn-sm btn-error mb-3" x-show="$wire.selected.length > 0" wire:click="deleteSelected" spinner>Supprimer</x-button>
+    <x-button x-cloak class="btn btn-sm btn-error mb-3" x-show="$wire.selected.length > 0" wire:click="deleteSelectedUsers" spinner>Supprimer <span x-html="$wire.selected"></span></x-button>
     
         {{-- You can use any `$wire.METHOD` on `@row-click` --}}
         <x-table 
