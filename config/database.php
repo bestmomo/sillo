@@ -32,8 +32,25 @@ return [
 	|
 	 */
 
+	// 2see : Way to use 2 connections for SGDB: 1 for read, 1 for write - Usefull if 40 orders / second
+	// https://www.youtube.com/watch?v=3CCwxLS8cB8&ab_channel=Laravel
+	// 2do Dble SGDB connection: Find a way to verify effect
+
 	'connections' => [
 		'sqlite' => [
+			'read' => [
+				'host' => [
+					'192.168.0.1',
+					'196.168.0.2',
+				],
+			],
+			'write' => [
+				'host' => [
+					'196.168.1.3',
+				],
+			],
+			'sticky' => true,
+
 			'driver'                  => 'sqlite',
 			'url'                     => env('DB_URL'),
 			'database'                => env('DB_DATABASE', database_path('database.sqlite')),
