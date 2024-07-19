@@ -21,14 +21,16 @@ new class() extends Component {
 		'column'    => 'id',
 		'direction' => 'asc',
 	];
-
+	
 	// public $users;
 	public $queryStringOutput = [];
 	protected $queryString    = [
 		'search' => ['except' => ''],
 		'sortBy' => ['except' => ['column' => 'id', 'direction' => 'asc']],
 	];
-
+	
+	public array $selected=[];
+	
 	public function mount()
 	{
 		$this->headers = [
@@ -51,7 +53,13 @@ new class() extends Component {
 		$this->updatedSortBy();
 		$this->updatedPage();
 	}
-
+	public function deleteSelected()
+	{
+			// Mettre à jour le dump de $selected
+			sleep(3);
+			sort($this->selected);
+			dump('Devrait effacer: '.json_encode($this->selected, JSON_PRETTY_PRINT));
+	}
 	// For custom pagination view
 	// public function paginationView()
 	// {
