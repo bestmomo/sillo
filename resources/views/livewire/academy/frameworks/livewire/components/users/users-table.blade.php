@@ -2,7 +2,7 @@
 include_once 'users-table.php';
 ?>
 
-<div class="w-full" x-data="{selected: []}">
+<div class="w-full" x-data="{selected: @entangle('selection').defer}">
 {{-- <div class="w-full"> --}}
 
     <style>

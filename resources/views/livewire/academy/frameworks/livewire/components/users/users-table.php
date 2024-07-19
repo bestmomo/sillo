@@ -8,11 +8,13 @@ use App\Models\User;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 new class() extends Component {
 	// Source: https://www.youtube.com/watch?v=zPNdejemUtg
 
 	use WithPagination;
+	use Toast;
 
 	public $headers;
 	public $roles;
@@ -55,10 +57,13 @@ new class() extends Component {
 
 	public function deleteSelectedUsers()
 	{
-		// Mettre à jour le dump de $selected
 		sleep(3);
 		sort($this->selected);
-		dump('Devrait effacer: ' . json_encode($this->selected, JSON_PRETTY_PRINT));
+		// dump('Devrait effacer: ' . json_encode($this->selected, JSON_PRETTY_PRINT));
+		// 2fix ATTENTION: Filtrer pour éviter de supprimer l'user en cours qui devrait être à minima admin ;-) !
+		User::destroy($this->selected);
+		$this->error(json_encode($this->selected).' deleted!');
+		$this->selected = [];
 	}
 
 	// For custom pagination view
