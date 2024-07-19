@@ -5,27 +5,34 @@ use Illuminate\Support\Facades\{Auth, Session};
 use Livewire\Volt\Component;
 
 new class extends Component {
-    // Collection de menus
+    // Property to hold the collection of menus
     public Collection $menus;
 
     /**
-     * Initialise le composant avec les menus donnés.
+     * Method to initialize the component with the given menus collection
+     *
+     * @param Collection $menus - The collection of menus to be assigned to the property
      */
     public function mount(Collection $menus): void
     {
+        // Assign the provided menus collection to the property
         $this->menus = $menus;
     }
 
     /**
-     * Déconnecte l'utilisateur actuellement authentifié.
+     * Method to handle the user logout process
      */
     public function logout(): void
     {
+        // Log out the user using the web guard
         Auth::guard('web')->logout();
 
+        // Invalidate the current session
         Session::invalidate();
+        // Regenerate the CSRF token for security purposes
         Session::regenerateToken();
 
+        // Redirect the user to the homepage
         $this->redirect('/');
     }
 };
@@ -77,10 +84,16 @@ new class extends Component {
             @endforeach
         </span>
         @auth
+            @if ($user->withExists('favoritePosts'))
+                <a title="{{ __('Favorites posts') }}" href="{{ route('posts.favorites') }}"><x-icon name="s-star"
+                        class="w-7 h-7" /></a>
+            @endif
             @if ($user->isStudent)
-                <a title="{{ __('Academy access') }}" href="{{ route('academy.test') }}"><x-icon name="o-academic-cap" class="w-7 h-7" /></a>
-            @endif   
-            <a title="{{ __('Chat') }}" href="{{ route('chat') }}"><x-icon name="o-chat-bubble-oval-left" class="w-6 h-6" /></a>         
+                <a title="{{ __('Academy access') }}" href="{{ route('academy.test') }}"><x-icon name="o-academic-cap"
+                        class="w-7 h-7" /></a>
+            @endif
+            <a title="{{ __('Chat') }}" href="{{ route('chat') }}"><x-icon name="o-chat-bubble-oval-left"
+                    class="w-6 h-6" /></a>
         @endauth
         <x-theme-toggle title="{{ __('Toggle theme') }}" />
         <livewire:search />

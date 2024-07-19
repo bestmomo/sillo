@@ -6,14 +6,18 @@
 
 namespace App\Repositories;
 
-use App\Models\{Category, Post, Serie};
+use App\Models\{Category, Post, Serie, user};
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class PostRepository
 {
     /**
-     * Récupère les articles paginés en fonction de la catégorie ou de la série.
+     * Retrieves paginated posts based on the provided category and serie.
+     *
+     * @param Category|null $category The category to filter the posts by.
+     * @param Serie|null $serie The serie to filter the posts by.
+     * @return LengthAwarePaginator The paginated posts.
      */
     public function getPostsPaginate(?Category $category, ?Serie $serie): LengthAwarePaginator
     {
@@ -31,7 +35,13 @@ class PostRepository
     }
 
     /**
-     * Récupère un article par son slug.
+     * Retrieves a post by its slug.
+     *
+     * @param string $slug The slug of the post.
+     * @return Post The post with its associated user, category, serie, quiz,
+     *              valid comments count, and favorite status.
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the post
+     *         with the given slug is not found.
      */
     public function getPostBySlug(string $slug): Post
     {
@@ -64,7 +74,10 @@ class PostRepository
     }
 
     /**
-     * Recherche les articles en fonction d'un terme de recherche.
+     * Searches for posts based on a given search term.
+     *
+     * @param string $search The search term to search for.
+     * @return LengthAwarePaginator The paginated list of posts that match the search term.
      */
     public function search(string $search): LengthAwarePaginator
     {
@@ -77,7 +90,26 @@ class PostRepository
     }
 
     /**
-     * Génère un slug unique pour un article.
+     * Retrieves the favorite posts for a specific user.
+     *
+     * @param User $user The user for whom to retrieve favorite posts
+     * @return LengthAwarePaginator The paginated list of favorite posts
+     */
+    public function getFavoritePosts(User $user): LengthAwarePaginator
+    {
+        return $this->getBaseQuery()
+            ->whereHas('favoritedByUsers', function (Builder $query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->latest()
+            ->paginate(config('app.pagination'));
+    }
+
+    /**
+     * Generates a unique slug for an article.
+     *
+     * @param string $slug The original slug to generate a unique version of.
+     * @return string The generated unique slug.
      */
     public function generateUniqueSlug(string $slug): string
     {
@@ -92,7 +124,9 @@ class PostRepository
     }
 
     /**
-     * Récupère la requête de base pour les articles.
+     * Retrieves the base query for articles.
+     *
+     * @return Builder The base query for articles
      */
     protected function getBaseQuery(): Builder
     {
@@ -117,6 +151,9 @@ class PostRepository
                     ELSE {$adaptedReq}
                 END AS excerpt",
             )
+            ->when($userId = auth()->id(), function ($query, $userId) {
+                $query->selectRaw('(SELECT 1 FROM favorites WHERE favorites.post_id = posts.id AND favorites.user_id = ?) AS is_favorited', [$userId]);
+            })
             ->with('user:id,name', 'category', 'serie')
             ->whereActive(true);
     }

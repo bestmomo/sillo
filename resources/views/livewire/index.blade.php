@@ -1,111 +1,116 @@
 <?php
 
-use App\Models\{Category, Comment, Serie};
+use App\Models\{Category, Comment, Serie, User};
 use App\Repositories\PostRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new class() extends Component {
-	use WithPagination;
+new class extends Component {
+    use WithPagination;
 
-	// Propriétés de la classe
-	public string $slug        = ''; // Slug pour identifier une catégorie ou une série
-	public string $param       = ''; // Paramètre de recherche optionnel
-	public ?Category $category = null; // Catégorie actuelle (ou null si aucune)
-	public ?Serie $serie       = null; // Série actuelle (ou null si aucune)
+    // Propriétés de la classe
+    public string $param = ''; // Paramètre de recherche optionnel
+    public ?Category $category = null; // Catégorie actuelle (ou null si aucune)
+    public ?Serie $serie = null; // Série actuelle (ou null si aucune)
+    public bool $favorites = false;
 
-	/**
-	 * Méthode de montage initiale appelée lors de la création du composant.
-	 *
-	 * @param string $slug  Slug pour identifier une catégorie ou une série
-	 * @param string $param Paramètre de recherche optionnel
-	 */
-	public function mount(string $slug = '', string $param = ''): void
-	{
-		$this->slug  = $slug;
-		$this->param = $param;
+    /**
+     * Méthode de montage initiale appelée lors de la création du composant.
+     *
+     * @param string $slug  Slug pour identifier une catégorie ou une série
+     * @param string $param Paramètre de recherche optionnel
+     */
+    public function mount(string $slug = '', string $param = ''): void
+    {
+        $this->param = $param;
 
-		if (!empty($slug)) {
-			// Détermine si le slug correspond à une catégorie ou une série
-			$this->category = $this->getCategoryBySlug($slug);
-			$this->serie    = $this->category ? null : $this->getSerieBySlug($slug);
-		}
-	}
+        if (request()->is('category/*')) {
+            $this->category = $this->getCategoryBySlug($slug);
+        } elseif (request()->is('serie/*')) {
+            $this->serie = $this->getSerieBySlug($slug);
+        } elseif (request()->is('favorites')) {
+            $this->favorites = true;
+        }
+    }
 
-	/**
-	 * Récupère les posts en fonction de la catégorie, de la série ou du paramètre de recherche.
-	 *
-	 * @return LengthAwarePaginator Les posts paginés
-	 */
-	public function getPosts(): LengthAwarePaginator
-	{
-		$postRepository = new PostRepository();
+    /**
+             * Récupère les posts en fonction de la catégorie, de la série ou du paramètre de recherche.
+             *
+             * @return LengthAwarePaginator Les posts paginés
+     */
+    public function getPosts(): LengthAwarePaginator
+    {
+        $postRepository = new PostRepository();
 
-		// Recherche les posts si un paramètre de recherche est présent
-		if (!empty($this->param)) {
-			return $postRepository->search($this->param);
-		}
+        // Recherche les posts si un paramètre de recherche est présent
+        if (!empty($this->param)) {
+            return $postRepository->search($this->param);
+        } elseif ($this->favorites) {
+            return $postRepository->getFavoritePosts(auth()->user());
+        }
 
-		// Récupère les posts paginés en fonction de la catégorie ou de la série
-		return $postRepository->getPostsPaginate($this->category, $this->serie);
-	}
+        // Récupère les posts paginés en fonction de la catégorie ou de la série
+        return $postRepository->getPostsPaginate($this->category, $this->serie);
+    }
 
-	/**
-	 * Définit les variables passées à la vue.
-	 *
-	 * @return array Les variables de la vue
-	 */
-	public function with(): array
-	{
-		return [
-			'posts'    => $this->getPosts(),
-			'comments' => Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get(),
-		];
-	}
+    /**
+     * Définit les variables passées à la vue.
+     *
+     * @return array Les variables de la vue
+     */
+    public function with(): array
+    {
+        return [
+            'posts' => $this->getPosts(),
+            'comments' => Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get(),
+        ];
+    }
 
-	/**
-	 * Récupère une catégorie en fonction du slug.
-	 *
-	 * @param string $slug Slug pour identifier la catégorie
-	 *
-	 * @return null|Category La catégorie correspondante ou null
-	 */
-	protected function getCategoryBySlug(string $slug): ?Category
-	{
-		// Vérifie si le premier segment de l'URL est 'category'
-		return 'category' === request()->segment(1) ? Category::whereSlug($slug)->firstOrFail() : null;
-	}
+    /**
+     * Récupère une catégorie en fonction du slug.
+     *
+     * @param string $slug Slug pour identifier la catégorie
+     *
+     * @return null|Category La catégorie correspondante ou null
+     */
+    protected function getCategoryBySlug(string $slug): ?Category
+    {
+        // Vérifie si le premier segment de l'URL est 'category'
+        return 'category' === request()->segment(1) ? Category::whereSlug($slug)->firstOrFail() : null;
+    }
 
-	/**
-	 * Récupère une série en fonction du slug.
-	 *
-	 * @param string $slug Slug pour identifier la série
-	 *
-	 * @return null|Serie La série correspondante ou null
-	 */
-	protected function getSerieBySlug(string $slug): ?Serie
-	{
-		return Serie::whereSlug($slug)->firstOrFail();
-	}
+    /**
+     * Récupère une série en fonction du slug.
+     *
+     * @param string $slug Slug pour identifier la série
+     *
+     * @return null|Serie La série correspondante ou null
+     */
+    protected function getSerieBySlug(string $slug): ?Serie
+    {
+        return Serie::whereSlug($slug)->firstOrFail();
+    }
 };
 ?>
 
 <div class="relative grid items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
 
     @if (config('app.flash') !== '')
-        <x-alert class="mb-2 alert-warning" dismissible >
+        <x-alert class="mb-2 alert-warning" dismissible>
             {!! config('app.flash') !!}
         </x-alert>
     @endif
 
     <!-- Affichage du titre en fonction de la catégorie, de la série ou du paramètre de recherche -->
     @if ($category)
-        <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" separator />
+        <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" />
     @elseif($serie)
-        <x-header title="{{ __('Posts for serie ') }} {{ $serie->title }}" separator />
+        <x-header title="{{ __('Posts for serie ') }} {{ $serie->title }}" />
     @elseif($param !== '')
-        <x-header title="{{ __('Posts for search ') }} '{{ $param }}'" separator />
+        <x-header title="{{ __('Posts for search ') }} '{{ $param }}'" />
+    @elseif($favorites)
+        <x-header title="{{ __('Your favorites posts') }}" />
     @endif
 
     <!-- Pagination supérieure -->
@@ -120,7 +125,7 @@ new class() extends Component {
             <x-card
                 class="transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
                 title="{{ $post->title }}">
-        
+
                 <div class="text-justify">{!! str($post->excerpt)->words(config('app.excerptSize')) !!}</div>
                 <br>
                 <hr>
@@ -135,11 +140,16 @@ new class() extends Component {
                 </x-slot:figure>
 
                 <x-slot:menu>
-                    @if($post->pinned)
+                    @if ($post->pinned)
                         <x-badge value="{{ __('Pinned') }}" class="p-3 badge-warning" />
-                    @elseif($post->created_at->gt(now()->subWeeks(4)))             
+                    @elseif($post->created_at->gt(now()->subWeeks(config('app.newPost'))))
                         <x-badge value="{{ __('New') }}" class="p-3 badge-success" />
                     @endif
+                    @auth
+                        @if ($post->is_favorited)
+                            <x-icon name="s-star" class="w-6 h-6 text-yellow-500 cursor-pointer" />
+                        @endif
+                    @endauth
                 </x-slot:menu>
 
                 <x-slot:actions class="flex items-center">
