@@ -62,7 +62,7 @@ new class() extends Component {
 	{
 		Debugbar::addMessage("New search: {$this->search}");
 		if ($resetPage) {
-			$this->setPage(1);
+			$this->resetPage();
 			unset($this->queryStringOutput['page']);
 		}
 		$this->queryStringOutput['search'] = $this->search;
