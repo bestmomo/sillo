@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quiz_user', function (Blueprint $table) {
+        Schema::create('survey_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('quiz_id')->constrained()->onDelete('cascade'); // Relation avec les quizzes
+            $table->foreignId('survey_id')->constrained()->onDelete('cascade'); // Relation avec les sondages
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relation avec les utilisateurs
-            $table->integer('correct_answers'); // Nombre de réponses correctes
-            $table->integer('total_answers'); // Nombre total de réponses attendues
+            $table->integer('question'); // Question
+            $table->integer('answer'); // Réponse
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quiz_user');
+        Schema::dropIfExists('survey_user');
     }
 };

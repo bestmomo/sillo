@@ -6,7 +6,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\{AcademyPost, Comment, Contact, Page, Post, User, Quiz, Answer, Question};
+use App\Models\{AcademyPost, Comment, Contact, Page, Post, User, Quiz, Answer, Question, Survey, SurveyQuestion, SurveyAnswer};
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -291,6 +291,64 @@ class DatabaseSeeder extends Seeder
 			'answer_text' => 'Taylor Otwell',
 			'is_correct' => false
 		]);
+
+		// Sondages
+		$survey1 = Survey::create([
+			'title' => 'Laravel',
+			'description' => 'Testez vos pratiques sur Laravel.',
+			'user_id' => 1,
+		]);
+
+		$question1 = SurveyQuestion::create([
+			'survey_id' => $survey1->id,
+			'question_text' => 'Comment appréciez-vous Laravel ?'
+		]);
+
+		SurveyAnswer::create([
+			'question_id' => $question1->id,
+			'answer_text' => 'Pas de tout',
+		]);
+
+		SurveyAnswer::create([
+			'question_id' => $question1->id,
+			'answer_text' => 'Moyennement',
+		]);
+
+		SurveyAnswer::create([
+			'question_id' => $question1->id,
+			'answer_text' => 'Plutôt bien',
+		]);
+
+		SurveyAnswer::create([
+			'question_id' => $question1->id,
+			'answer_text' => 'J\'adore',
+		]);
+
+		$question2 = SurveyQuestion::create([
+			'survey_id' => $survey1->id,
+			'question_text' => 'Combien de temps codez-vous tous les jours ?'
+		]);
+
+		SurveyAnswer::create([
+			'question_id' => $question2->id,
+			'answer_text' => 'moins de 10 minutes',
+		]);
+
+		SurveyAnswer::create([
+			'question_id' => $question2->id,
+			'answer_text' => 'une heure',
+		]);
+
+		SurveyAnswer::create([
+			'question_id' => $question2->id,
+			'answer_text' => 'plus de 2 heures',
+		]);
+
+		SurveyAnswer::create([
+			'question_id' => $question2->id,
+			'answer_text' => 'plus de 3 heures',
+		]);
+
 	}
 
 	protected function createPost($id, $category_id, $serie_id = null, $parent_id = null)

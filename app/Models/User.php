@@ -13,8 +13,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory;
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -71,6 +70,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Retrieve the surveys associated with the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function surveys(): HasMany
+    {
+        return $this->hasMany(Survey::class);
+    }
+
+    /**
      * Retrieve the quizzes that the user has participated in.
      *
      * @return BelongsToMany
@@ -79,6 +88,18 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Quiz::class, 'quiz_user')
             ->withPivot('correct_answers', 'total_answers')
+            ->withTimestamps();
+    }
+
+    /**
+     * Retrieve the surveys that the user has participated in.
+     *
+     * @return BelongsToMany
+     */
+    public function participatedSurveys(): BelongsToMany
+    {
+        return $this->belongsToMany(Survey::class, 'survey_user')
+            ->withPivot('question', 'answer')
             ->withTimestamps();
     }
 
