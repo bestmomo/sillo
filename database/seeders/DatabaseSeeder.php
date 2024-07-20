@@ -349,6 +349,15 @@ class DatabaseSeeder extends Seeder
 			'answer_text' => 'plus de 3 heures',
 		]);
 
+		DB::table('survey_user')->insert([
+			['user_id' => '5', 'survey_id' => 1, 'answers' => '13', 'created_at' => now(), 'updated_at' => now()],
+			['user_id' => '15', 'survey_id' => 1, 'answers' => '24', 'created_at' => now(), 'updated_at' => now()],
+			['user_id' => '3', 'survey_id' => 1, 'answers' => '31', 'created_at' => now(), 'updated_at' => now()],
+			['user_id' => '7', 'survey_id' => 1, 'answers' => '42', 'created_at' => now(), 'updated_at' => now()],
+			['user_id' => '22', 'survey_id' => 1, 'answers' => '22', 'created_at' => now(), 'updated_at' => now()],
+			['user_id' => '3', 'survey_id' => 1, 'answers' => '33', 'created_at' => now(), 'updated_at' => now()],
+		]);
+
 	}
 
 	protected function createPost($id, $category_id, $serie_id = null, $parent_id = null)

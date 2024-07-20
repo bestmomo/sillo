@@ -3,40 +3,42 @@
 use App\Models\Survey;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\DB;
-use Mary\Traits\Toast;
 
 new class() extends Component {
-    use Toast;
 
     public Survey $survey;
-    public array $userAnswers = [];
     public array $results = [];
 
     public function mount(int $id): void
     {
-        $this->survey = Survey::with('questions.answers')->findOrFail($id);
+        $this->survey = Survey::with(['questions.answers', 'participants'])->findOrFail($id);
 
-        if (auth()->user()->participatedSurveys()->where('survey_id', $id)->exists()) {
-            abort(403);
-        }
+        $this->loadResults();
     }
 
-    public function save()
+    private function loadResults(): void
     {
-        $this->validate([
-            'userAnswers' => 'required|array',
-            'userAnswers.*' => 'required|integer|exists:answers,id',
-        ]);
+        // Initialiser les résultats avec les questions
+        $questions = $this->survey->questions->mapWithKeys(function($question) {
+            return [$question->id => [
+                'text' => $question->question_text,
+                'answers' => array_fill(0, $question->answers->count(), 0)
+            ]];
+        })->toArray();
 
-        $answersString = implode('', $this->userAnswers);
+        // Parcourir tous les participants et leurs réponses
+        foreach($this->survey->participants as $participant) {
+            $answers = str_split($participant->pivot->answers);
 
-        auth()->user()->participatedSurveys()->attach($this->survey->id, [
-            'answers' => $answersString,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+            foreach($answers as $questionIndex => $answer) {
+                $questionId = $this->survey->questions[$questionIndex]->id;
+                if(isset($questions[$questionId])) {
+                    $questions[$questionId]['answers'][$answer - 1]++;
+                }
+            }
+        }
 
-        $this->success(__('Thank you for completing the survey.'), redirectTo: '/');
+        $this->results = $questions;
     }
 
 }; ?>
@@ -46,24 +48,16 @@ new class() extends Component {
 
         <x-header title="{{ __('Survey') }} : {!! $survey->title !!}" />
 
-        <x-form wire:submit.prevent="save">
+        @foreach ($results as $question)
+            <h2>@lang('Question') {{ $loop->index + 1 }}</h2>
+            <x-badge value="{!! $question['text'] !!}" class="p-4 badge-primary" /><br>
 
-            @foreach ($survey->questions as $question)
-                <h2>@lang('Question') {{ $loop->index + 1 }}</h2>
-                <x-badge value="{!! $question->question_text !!}" class="p-4 badge-primary" /><br>
-                @foreach($question->answers as $index => $answer)
-                    <div>
-                        <input type="radio" id="answer-{{ $answer->id }}" name="userAnswers[{{ $question->id }}]" value="{{ $index + 1 }}" wire:model="userAnswers.{{ $question->id }}">
-                        <label for="answer-{{ $answer->id }}">{{ $answer->answer_text }}</label>
-                    </div>
-                @endforeach
+            @foreach($question['answers'] as $index => $answerCount)
+                <div>
+                    <p>{{ $survey->questions[$loop->parent->index]->answers[$index]->answer_text }}: {{ $answerCount }} votes</p>
+                </div>
             @endforeach
+        @endforeach
 
-            <x-slot:actions>
-                <x-button label="{{__('Cancel')}}" link="/" class="btn-outline" icon="o-hand-thumb-down" title="Cancel" />
-                <x-button label="{{__('Submit')}}" class="btn-primary" type="submit" spinner="save" />
-            </x-slot:actions>
-
-        </x-form>
     </div>
 </div>
