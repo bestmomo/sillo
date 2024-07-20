@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('survey_id')->constrained()->onDelete('cascade'); // Relation avec les sondages
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relation avec les utilisateurs
-            $table->integer('question'); // Question
-            $table->integer('answer'); // Réponse
+            $table->string('answers'); // Réponses
             $table->timestamps();
         });
     }

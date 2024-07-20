@@ -99,7 +99,7 @@ class User extends Authenticatable
     public function participatedSurveys(): BelongsToMany
     {
         return $this->belongsToMany(Survey::class, 'survey_user')
-            ->withPivot('question', 'answer')
+            ->withPivot('answers')
             ->withTimestamps();
     }
 

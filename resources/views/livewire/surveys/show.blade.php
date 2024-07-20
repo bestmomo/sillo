@@ -28,28 +28,15 @@ new class() extends Component {
             'userAnswers.*' => 'required|integer|exists:answers,id',
         ]);
 
-        try {
-            DB::beginTransaction();
-            
-            foreach ($this->userAnswers as $questionId => $answerId) {
-                auth()->user()->participatedSurveys()->attach($this->survey->id, [
-                    'question' => $questionId,
-                    'answer' => $answerId,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
+        $answersString = implode('', $this->userAnswers);
 
-            DB::commit();
+        auth()->user()->participatedSurveys()->attach($this->survey->id, [
+            'answers' => $answersString,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-            $this->success(__('Thank you for completing the survey.'), redirectTo: '/');
-
-            return;
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            $this->error('An error occurred while saving your responses. Please try again.', redirectTo: '/');
-        }
+        $this->success(__('Thank you for completing the survey.'), redirectTo: '/');
     }
 
 }; ?>

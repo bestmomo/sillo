@@ -40,7 +40,7 @@ class Survey extends Model
     public function participants(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'survey_user')
-            ->withPivot('question', 'answer')
+            ->withPivot('answers')
             ->withTimestamps();
     }
 }
