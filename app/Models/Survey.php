@@ -23,6 +23,16 @@ class Survey extends Model
     }
 
     /**
+     * Define a one-to-many relationship for the Survey model, retrieving all questions associated with it.
+     *
+     * @return HasMany
+     */
+    public function questions(): HasMany
+    {
+        return $this->hasMany(SurveyQuestion::class);
+    }
+
+    /**
      * Define a many-to-many relationship for the Survey model, retrieving all participants associated with it.
      *
      * @return BelongsToMany

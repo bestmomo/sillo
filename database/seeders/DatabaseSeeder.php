@@ -306,7 +306,7 @@ class DatabaseSeeder extends Seeder
 
 		SurveyAnswer::create([
 			'question_id' => $question1->id,
-			'answer_text' => 'Pas de tout',
+			'answer_text' => 'Pas du tout',
 		]);
 
 		SurveyAnswer::create([

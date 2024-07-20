@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Volt::route('/profile', 'auth.profile')->name('profile');
     Volt::route('/chat', 'chat')->name('chat');
     Volt::route('/quizzes/{id}', 'quizzes.show')->name('quizzes.show');
+    Volt::route('/surveys/{id}', 'surveys.show')->name('surveys.show');
 
     // Routes pour les administrateurs et rédacteurs
     Route::middleware(IsAdminOrRedac::class)
@@ -62,6 +63,8 @@ Route::middleware('auth')->group(function () {
             Volt::route('/quizzes/create', 'admin.quizzes.create')->name('quizzes.create');
             Volt::route('/quizzes/{quiz}/edit', 'admin.quizzes.edit')->name('quizzes.edit');
             Volt::route('/surveys/index', 'admin.surveys.index')->name('surveys.index');
+            Volt::route('/surveys/create', 'admin.surveys.create')->name('surveys.create');
+            Volt::route('/surveys/{survey}/edit', 'admin.surveys.edit')->name('surveys.edit');
 
             // Routes uniquement pour les administrateurs
             Route::middleware(IsAdmin::class)->group(function () {

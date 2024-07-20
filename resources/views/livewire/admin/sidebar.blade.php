@@ -41,6 +41,7 @@ new class() extends Component {
         </x-menu-sub>
         <x-menu-sub title="{{ __('Surveys') }}" icon="o-scale">
             <x-menu-item title="{{ __('All Surveys') }}" link="{{ route('surveys.index') }}" />
+            <x-menu-item title="{{ __('Add a Survey') }}" link="{{ route('surveys.create') }}" />
         </x-menu-sub>
         @if (Auth::user()->isAdmin())
             <x-menu-sub title="{{ __('Pages') }}" icon="s-document">

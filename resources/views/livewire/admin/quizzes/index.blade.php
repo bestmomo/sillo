@@ -22,7 +22,7 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
     // Définir les en-têtes de la table
     public function headers(): array
     {
-        return [['key' => 'title', 'label' => __('Title')], ['key' => 'user_name', 'label' => __('Creator')], ['key' => 'post_title', 'label' => __('Post')], ['key' => 'participants_count', 'label' => __('Participations')], ['key' => 'description', 'label' => __('Description')]];
+        return [['key' => 'title', 'label' => __('Title')], ['key' => 'description', 'label' => __('Description')], ['key' => 'user_name', 'label' => __('Creator')], ['key' => 'post_title', 'label' => __('Post')], ['key' => 'participants_count', 'label' => __('Participations')]];
     }
 
     // Supprimer un quiz
