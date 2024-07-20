@@ -39,6 +39,9 @@ new class() extends Component {
             <x-menu-item title="{{ __('All Quizzes') }}" link="{{ route('quizzes.index') }}" />
             <x-menu-item title="{{ __('Add a Quiz') }}" link="{{ route('quizzes.create') }}" />
         </x-menu-sub>
+        <x-menu-sub title="{{ __('Surveys') }}" icon="o-scale">
+            <x-menu-item title="{{ __('All Surveys') }}" link="{{ route('surveys.index') }}" />
+        </x-menu-sub>
         @if (Auth::user()->isAdmin())
             <x-menu-sub title="{{ __('Pages') }}" icon="s-document">
                 <x-menu-item title="{{ __('All pages') }}" link="{{ route('pages.index') }}" />
