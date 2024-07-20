@@ -61,7 +61,7 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
     </x-header>
 
     <x-card>
-        <x-table :headers="$headers" :rows="$quizzes" :sort-by="$sortBy" link="/admin/quizzes/{id}/edit">
+        <x-table :headers="$headers" :rows="$quizzes" :sort-by="$sortBy" link="/admin/quizzes/{id}/edit" with-pagination>
             @scope('cell_participants_count', $quiz)
                 @if ($quiz->participants_count > 0)
                     <x-badge value="{{ $quiz->participants_count }}" class="badge-primary" />
