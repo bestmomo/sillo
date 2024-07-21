@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "barryvdh/laravel-debugbar": "^3.13",
         "blade-ui-kit/blade-icons": "^1.6",
         "blade-ui-kit/blade-ui-kit": "^0.6.2",
         "creativeorange/gravatar": "~1.0",
@@ -25,6 +24,7 @@
         "tinymce/tinymce": "^7.2"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
         "friendsofphp/php-cs-fixer": "*",
         "laravel-lang/common": "^6.3",
@@ -33,6 +33,7 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
         "phpunit/phpunit": "^11.2",
+        "spatie/laravel-error-solutions": "^1.0",
         "spatie/laravel-ignition": "^2.8"
     },
     "autoload": {

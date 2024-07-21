@@ -40,10 +40,7 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
                 ->when(!Auth::user()->isAdmin(), fn(Builder $q) => $q->where('user_id', Auth::id()))
                 ->when($this->search, fn(Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
                 ->withAggregate('user', 'name')
-                ->withCount(['participants' => function (Builder $query) {
-                        $query->select(DB::raw('count(distinct user_id)'));
-                    }
-                ])
+                ->withCount('participants')
                 ->paginate(10),
             'headers' => $this->headers(),
         ];
