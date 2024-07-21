@@ -36,13 +36,15 @@ new class extends Component {
             $this->favorites = true;
         }
 
-        $this->surveys = Survey::where('active', true)->get();
+        if(auth()->check()) {
+            $this->surveys = Survey::where('active', true)->get();
+        }        
     }
 
     /**
-             * Récupère les posts en fonction de la catégorie, de la série ou du paramètre de recherche.
-             *
-             * @return LengthAwarePaginator Les posts paginés
+     * Récupère les posts en fonction de la catégorie, de la série ou du paramètre de recherche.
+     *
+     * @return LengthAwarePaginator Les posts paginés
      */
     public function getPosts(): LengthAwarePaginator
     {
@@ -107,17 +109,19 @@ new class extends Component {
         </x-alert>
     @endif
 
-    @foreach ($surveys as $survey)
-        <x-alert title="{{ __('There is a survey!') }}" description="{!! $survey->title !!}" icon="s-chart-bar" class="mb-2 alert-info" >
-            <x-slot:actions>
-                @if(auth()->user()->participatedSurveys()->where('survey_id', $survey->id)->exists())
-                    <x-button label="{{ __('See results') }}" link="{{ route('surveys.show', $survey->id) }}" />
-                @else
-                    <x-button label="{{ __('Participate') }}" link="{{ route('surveys.doing', $survey->id) }}" />
-                @endif
-            </x-slot:actions>
-        </x-alert>       
-    @endforeach
+    @auth
+        @foreach ($surveys as $survey)
+            <x-alert title="{{ __('There is a survey!') }}" description="{!! $survey->title !!}" icon="s-chart-bar" class="mb-2 alert-info" >
+                <x-slot:actions>
+                    @if(auth()->user()->participatedSurveys()->where('survey_id', $survey->id)->exists())
+                        <x-button label="{{ __('See results') }}" link="{{ route('surveys.show', $survey->id) }}" />
+                    @else
+                        <x-button label="{{ __('Participate') }}" link="{{ route('surveys.doing', $survey->id) }}" />
+                    @endif
+                </x-slot:actions>
+            </x-alert>       
+        @endforeach
+    @endauth
 
     <!-- Affichage du titre en fonction de la catégorie, de la série ou du paramètre de recherche -->
     @if ($category)
