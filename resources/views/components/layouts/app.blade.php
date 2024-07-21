@@ -13,6 +13,9 @@
 
     <link rel="stylesheet" href="{{ asset('storage/css/prism.css') }}">
 
+    @if(request()->is('surveys/show/*'))
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    @endif
 </head>
 
 <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
