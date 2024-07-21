@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\{Layout, Rule};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
+use Illuminate\Support\Facades\Artisan;
 
 new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Component {
     use Toast;
@@ -29,14 +30,27 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
     #[Rule('max:1000')]
     public string $flash;
 
+    public bool $maintenance = false;
+
     public Collection $settings;
 
     public function mount(): void
     {
         $this->settings = Setting::all();
 
+        $this->maintenance = App::isDownForMaintenance();
+
         foreach (self::SETTINGS_KEYS as $key) {
             $this->{$key} = $this->settings->where('key', $key)->first()->value ?? null;
+        }
+    }
+
+    public function updatedMaintenance(): void
+    {
+        if ($this->maintenance) {            
+            Artisan::call('down', ['--secret' => env('APP_MAINTENANCE_SECRET'),]);
+        } else {
+            Artisan::call('up');
         }
     }
 
@@ -68,6 +82,14 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
         </x-slot:actions>
     </x-header>
     <x-card>
+        <x-card separator class="mb-6 border-4 {{ $maintenance ? 'bg-red-300' : 'bg-zinc-100' }} border-zinc-950">
+            <div class="flex items-center justify-between">
+                <x-toggle label="{{ __('Maintenance mode') }}" wire:model="maintenance" wire:change="$refresh" />
+                @if($maintenance)
+                    <x-button label="{{ __('Go to bypass page')}}" link="/{{ env('APP_MAINTENANCE_SECRET') }}"  />
+                @endif
+            </div>
+        </x-card>
         <x-form wire:submit="save">
             <x-card separator class="border-4 bg-zinc-100 border-zinc-950">
                 <x-input label="{{ __('Site title') }}" wire:model="title" />
