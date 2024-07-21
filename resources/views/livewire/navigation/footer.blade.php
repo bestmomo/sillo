@@ -16,7 +16,7 @@ new class extends Component {
 };
 ?>
 
-<footer class="flex justify-center text-gray-500 gap-x-2">
+<footer class="flex flex-wrap justify-center text-center text-gray-500 gap-x-2">
     @foreach ($footers as $footer)
         <a href="{{ $footer->link }}" class="mr-1 hover:text-gray-500">
             @lang($footer->label)
