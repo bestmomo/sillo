@@ -533,5 +533,8 @@
     "Create a Survey": "Créer un sondage",
     "Survey": "Sondage",
     "Thank you for completing the survey.": "Merci d'avoir participé au sondage.",
-    "An error occurred while saving your responses. Please try again.": "Une erreur est survenue en sauvegardant vos réponses. Veuillez réessayer."
+    "There is a survey!": "Il y a un sondage !",
+    "See results": "Voir les résultats",
+    "Participate": "Participer",
+    "The results": "Les résultats"
 }

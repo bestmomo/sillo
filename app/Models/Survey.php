@@ -10,7 +10,7 @@ class Survey extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'user_id'];
+    protected $fillable = ['title', 'description', 'user_id', 'active'];
 
     /**
      * Define a one-to-many relationship for the Surevy model, retrieving the user associated with it.

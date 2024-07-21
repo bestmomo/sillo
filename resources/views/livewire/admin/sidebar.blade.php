@@ -39,7 +39,7 @@ new class() extends Component {
             <x-menu-item title="{{ __('All Quizzes') }}" link="{{ route('quizzes.index') }}" />
             <x-menu-item title="{{ __('Add a Quiz') }}" link="{{ route('quizzes.create') }}" />
         </x-menu-sub>
-        <x-menu-sub title="{{ __('Surveys') }}" icon="o-scale">
+        <x-menu-sub title="{{ __('Surveys') }}" icon="s-chart-bar">
             <x-menu-item title="{{ __('All Surveys') }}" link="{{ route('surveys.index') }}" />
             <x-menu-item title="{{ __('Add a Survey') }}" link="{{ route('surveys.create') }}" />
         </x-menu-sub>

@@ -1,10 +1,11 @@
 <?php
 
-use App\Models\{Category, Comment, Serie, User};
+use App\Models\{Category, Comment, Serie, User, Survey};
 use App\Repositories\PostRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Collection;
 
 new class extends Component {
     use WithPagination;
@@ -14,6 +15,8 @@ new class extends Component {
     public ?Category $category = null; // Catégorie actuelle (ou null si aucune)
     public ?Serie $serie = null; // Série actuelle (ou null si aucune)
     public bool $favorites = false;
+    public Collection $surveys;
+
 
     /**
      * Méthode de montage initiale appelée lors de la création du composant.
@@ -32,6 +35,8 @@ new class extends Component {
         } elseif (request()->is('favorites')) {
             $this->favorites = true;
         }
+
+        $this->surveys = Survey::where('active', true)->get();
     }
 
     /**
@@ -101,6 +106,18 @@ new class extends Component {
             {!! config('app.flash') !!}
         </x-alert>
     @endif
+
+    @foreach ($surveys as $survey)
+        <x-alert title="{{ __('There is a survey!') }}" description="{!! $survey->title !!}" icon="s-chart-bar" class="mb-2 alert-info" >
+            <x-slot:actions>
+                @if(auth()->user()->participatedSurveys()->where('survey_id', $survey->id)->exists())
+                    <x-button label="{{ __('See results') }}" link="{{ route('surveys.show', $survey->id) }}" />
+                @else
+                    <x-button label="{{ __('Participate') }}" link="{{ route('surveys.doing', $survey->id) }}" />
+                @endif
+            </x-slot:actions>
+        </x-alert>       
+    @endforeach
 
     <!-- Affichage du titre en fonction de la catégorie, de la série ou du paramètre de recherche -->
     @if ($category)

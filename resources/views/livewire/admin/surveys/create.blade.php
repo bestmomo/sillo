@@ -15,11 +15,13 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
 
     public string $title = '';
     public string $description = '';
+    public bool $active = false;
     public array $questions = [];
 
     protected $rules = [
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
+        'active' => 'required',
         'questions.*.question_text' => 'required|string|max:255',
         'questions.*.answers.*.answer_text' => 'required|string|max:255',
     ];
@@ -136,6 +138,7 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
                 placeholder="{{ __('Enter the title') }}" />
             <x-input type="text" wire:model="description" label="{{ __('Description') }}"
                 placeholder="{{ __('Enter the description') }}" />
+            <x-checkbox label="{{ __('Published') }}" wire:model="active" />
             @foreach ($questions as $qIndex => $question)
                 <hr>
                 <div class="flex flex-row justify-between">

@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('surveys', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description')->nullable();            
+            $table->text('description')->nullable();
+            $table->boolean('active')->default(false);       
             $table->timestamps();
 
             $table->foreignId('user_id')

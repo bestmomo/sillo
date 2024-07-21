@@ -33,7 +33,7 @@ new class() extends Component {
             'answers' => $answersString,
         ]);
 
-        $this->success(__('Thank you for completing the survey.'), redirectTo: '/');
+        $this->success(__('Thank you for completing the survey.'), redirectTo: '/surveys/show/' . $this->survey->id);
     }
 
 }; ?>

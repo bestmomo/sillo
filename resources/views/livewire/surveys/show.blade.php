@@ -81,7 +81,7 @@ new class() extends Component {
 <div class="flex items-center justify-center my-8">
     <div class="w-full max-w-xl px-4 py-8 prose rounded-lg shadow-lg">
 
-        <x-header title="{{ __('Survey') }} : {!! $survey->title !!}" />
+        <x-header title="{{ __('Survey') }} : {!! $survey->title !!}" subtitle="{{ __('The results') }}" />
 
         @foreach ($results as $questionId => $question)
             <h2>@lang('Question') {{ $loop->index + 1 }}</h2>

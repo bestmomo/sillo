@@ -21,7 +21,7 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
     // Définir les en-têtes de la table
     public function headers(): array
     {
-        return [['key' => 'title', 'label' => __('Title')], ['key' => 'description', 'label' => __('Description')], ['key' => 'user_name', 'label' => __('Creator')],  ['key' => 'participants_count', 'label' => __('Participations')]];
+        return [['key' => 'title', 'label' => __('Title')], ['key' => 'description', 'label' => __('Description')], ['key' => 'active', 'label' => __('Published')], ['key' => 'user_name', 'label' => __('Creator')],  ['key' => 'participants_count', 'label' => __('Participations')]];
     }
 
     // Supprimer un sondage
@@ -35,8 +35,7 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
     public function with(): array
     {
         return [
-            'surveys' => Survey::select('id', 'title', 'description')
-                ->orderBy(...array_values($this->sortBy))
+            'surveys' => Survey::orderBy(...array_values($this->sortBy))
                 ->when(!Auth::user()->isAdmin(), fn(Builder $q) => $q->where('user_id', Auth::id()))
                 ->when($this->search, fn(Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
                 ->withAggregate('user', 'name')
@@ -63,6 +62,11 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
             @scope('cell_participants_count', $surveys)
                 @if ($surveys->participants_count > 0)
                     <x-badge value="{{ $surveys->participants_count }}" class="badge-primary" />
+                @endif
+            @endscope
+            @scope('cell_active', $survey)
+                @if ($survey->active)
+                    <x-icon name="o-check-circle" />
                 @endif
             @endscope
             @scope('actions', $survey)
