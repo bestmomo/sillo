@@ -5,86 +5,18 @@
  */
 
 use App\Models\Survey;
+use App\Traits\ManageSurvey;
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 use Illuminate\Support\Collection;
 
 new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Component {
-    use Toast;
-
-    public string $title = '';
-    public string $description = '';
-    public bool $active = false;
-    public array $questions = [];
-
-    protected $rules = [
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'active' => 'required',
-        'questions.*.question_text' => 'required|string|max:255',
-        'questions.*.answers.*.answer_text' => 'required|string|max:255',
-    ];
+    use Toast, ManageSurvey;
 
     public function mount(): void
     {
         $this->addQuestion(2);
-    }
-
-    /**
-     * Adds a new question with default empty text and answers to the survey.
-     *
-     * @param int $number The number of questions to add. Default is 1.
-     * @return void
-     */
-     public function addQuestion(int $number = 1): void
-    {
-        while($number--) {
-            $this->questions[] = [
-                'question_text' => '',
-                'answers' => [
-                    ['answer_text' => '', 'is_correct' => false],
-                    ['answer_text' => '', 'is_correct' => false],
-                    ['answer_text' => '', 'is_correct' => false],
-                ],
-            ];
-        }
-    }
-
-    /**
-     * Removes a question from the survey by its index.
-     *
-     * @param int $index The index of the question to be removed.
-     * @return void
-     */
-    public function removeQuestion($index): void
-    {
-        unset($this->questions[$index]);
-        $this->questions = array_values($this->questions);
-    }
-
-    /**
-     * Adds a new answer with default empty text ato a question.
-     *
-     * @param int $index The index of the question to add the answer to.
-     * @return void
-     */
-     public function addAnswer($index): void
-    {
-        $this->questions[$index]['answers'][] = ['answer_text' => ''];
-    }
-
-    /**
-     * Removes an answer from the survey by question and answer index.
-     *
-     * @param int $qIndex The index of the question.
-     * @param int $aIndex The index of the answer in the question.
-     * @return void
-     */
-    public function removeAnswer($qIndex, $aIndex): void
-    {
-        unset($this->questions[$qIndex]['answers'][$aIndex]);
-        $this->questions[$qIndex]['answers'] = array_values($this->questions[$qIndex]['answers']);
     }
 
     public function save()
@@ -110,19 +42,6 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
         $this->success(__('Survey added with success.'), redirectTo: '/admin/surveys/index');
     }
 
-    /**
-     * A method to define custom error messages for validation errors.
-     *
-     * @return array Custom error messages for specific validation rules.
-     */
-     protected function messages(): array
-    {
-        return [
-            'questions.*.question_text.required' => __('The question text is required.'),
-            'questions.*.answers.*.answer_text.required' => __('The answer text is required.'),
-        ];
-    }
-
 }; ?>
 
 <div>
@@ -132,52 +51,5 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
                 link="{{ route('admin') }}" />
         </x-slot:actions>
     </x-header>
-    <x-card>
-        <x-form wire:submit.prevent="save">
-            <x-input type="text" wire:model="title" label="{{ __('Title') }}"
-                placeholder="{{ __('Enter the title') }}" />
-            <x-input type="text" wire:model="description" label="{{ __('Description') }}"
-                placeholder="{{ __('Enter the description') }}" />
-            <x-checkbox label="{{ __('Published') }}" wire:model="active" />
-            @foreach ($questions as $qIndex => $question)
-                <hr>
-                <div class="flex flex-row justify-between">
-                    <x-badge value="Question {{ $qIndex + 1 }}" class="p-4 badge-accent" />
-                    @if ($qIndex > 1)
-                        <x-button label="{{ __('Remove Question') }}"
-                            wire:click.prevent="removeQuestion({{ $qIndex }})" class="btn-warning" />
-                    @endif
-                </div>
-                <x-input type="text" wire:model="questions.{{ $qIndex }}.question_text"
-                    label="{{ __('Question') }}" placeholder="{{ __('Enter the question text') }}" />
-                <hr>
-    
-                @foreach ($question['answers'] as $aIndex => $answer)
-                    <x-input type="text"
-                        wire:model="questions.{{ $qIndex }}.answers.{{ $aIndex }}.answer_text"
-                        label="{{ __('Answer ') }} {{ $aIndex + 1 }}"
-                        placeholder="{{ __('Enter the answer text') }}" />
-                    @if ($aIndex > 1)
-                        <x-button label="{{ __('Remove Answer') }} {{ $aIndex + 1 }}"
-                            wire:click.prevent="removeAnswer({{ $qIndex }}, {{ $aIndex }})"
-                            class="btn-warning" />
-                    @else
-                        <hr>
-                    @endif
-                @endforeach
-    
-                <x-button label="{{ __('Add Answer') }}" wire:click.prevent="addAnswer({{ $qIndex }})"
-                    class="btn-primary" />
-            @endforeach
-    
-            <x-button label="{{ __('Add Question') }}" wire:click.prevent="addQuestion" class="btn-info" />
-    
-            <x-slot:actions>
-                <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
-                    class="btn-primary" />
-            </x-slot:actions>
-        </x-form>
-    </x-card>
-    
-    
+    @include('livewire.admin.surveys.survey-form')    
 </div>
