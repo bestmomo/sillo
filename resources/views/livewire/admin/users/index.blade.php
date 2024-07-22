@@ -203,16 +203,21 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 
                 @scope('cell_isStudent', $user, $roles)
                     @if ($user->isStudent)
-                        <span
-                            title="{{ trans_choice(':n is registered with the Academy', 'n', ['n' => $user->name]) }}
-                            @if (!$user->valid) {{ __('But invalid status') }} @endif">
-
-                            <x-icon name="o-academic-cap" :class="$user->valid ? 'text-cyan-500' : 'text-red-500'" style="width: 28px; height: 28px;" />
+                        @php
+                            $title = trans_choice(':n is registered with the Academy', 'n', ['n' => $user->name]);
+                            if (!$user->valid) {
+                                $title .= ' - ' . __('But invalid status');
+                            }
+                        @endphp
+                        <span title="{{ $title }}">
+                            <x-icon name="o-academic-cap" :class="$user->valid ? 'w-7 h-7 text-cyan-500' : 'w-7 h-7 text-red-500'" />
                         </span>
                     @else
-                        <span
-                            title="{{ trans_choice(':n is a :r not student', ['n', 'm'], ['n' => $user->name, 'r' => strtolower(__($roles[$user->role]))]) }}
-                            {{ __('Not registered with the Academy') }}">
+                        @php
+                            $role = strtolower(__($roles[$user->role]));
+                            $title = trans_choice(':n is a :r not student', ['n' => $user->name, 'r' => $role]) . ' - ' . __('Not registered with the Academy');
+                        @endphp
+                        <span title="{{ $title }}">
                             <x-icon name="o-user" class="text-gray-400 w-7 h-7" />
                         </span>
                     @endif
