@@ -30,9 +30,9 @@ trait ManageSurvey
             $this->questions[] = [
                 'question_text' => '',
                 'answers' => [
-                    ['answer_text' => '', 'is_correct' => false],
-                    ['answer_text' => '', 'is_correct' => false],
-                    ['answer_text' => '', 'is_correct' => false],
+                    ['answer_text' => ''],
+                    ['answer_text' => ''],
+                    ['answer_text' => ''],
                 ],
             ];
         }
