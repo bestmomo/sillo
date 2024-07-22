@@ -11,6 +11,7 @@ use App\Services\AcademyFrameworksLinksService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\{Facades, ServiceProvider};
 use Illuminate\View\View;
+use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -45,5 +46,9 @@ class AppServiceProvider extends ServiceProvider
 				config(['app.' . $setting->key => $setting->value]);
 			}
 		}
+
+		LogViewer::auth(function ($request) {
+			return auth()->check() ? auth()->user()->isAdmin() : false;  
+		});
 	}
 }

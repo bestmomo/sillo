@@ -19,6 +19,7 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
         "livewire/volt": "^1.6",
+        "opcodesio/log-viewer": "^3.10",
         "openai-php/client": "^0.10.1",
         "robsontenorio/mary": "^1.34",
         "spatie/laravel-sitemap": "^7.2",
