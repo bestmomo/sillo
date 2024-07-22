@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\{Category, Comment, Serie, User, Survey};
+use App\Models\{Category, Comment, Serie, User, Survey, Event};
 use App\Repositories\PostRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Volt\Component;
@@ -70,12 +70,26 @@ new class extends Component {
     {
         $items = ['posts' => $this->getPosts()];
 
-        if(request()->is('/')) {
+        if (request()->is('/')) {
             $items['comments'] = Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get();
+            
+            // Récupérer les événements à venir
+            $upcomingEvents = Event::getUpcomingEvents();
+            
+            // Vérifier s'il y a des événements à venir et les formater en tableau
+            if ($upcomingEvents->isNotEmpty()) {
+                $items['upcoming_events'] = $upcomingEvents->map(function ($event) {
+                    return $event->formatForFrontend();
+                })->toArray(); // Convert the collection to an array
+            } else {
+                $items['upcoming_events'] = [];
+            }
         }
 
         return $items;
     }
+
+
 
     /**
      * Récupère une catégorie en fonction du slug.
@@ -255,4 +269,10 @@ new class extends Component {
             @endforeach
         </x-card>
     @endif
+
+    @isset($upcoming_events)
+        <x-card title="{{ __('Upcoming events') }}" shadow separator class="flex items-center justify-center mt-4">
+            <x-calendar :events="$upcoming_events" months="3" locale="{{ env('APP_CALENDAR_LOCALE') }}" />
+        </x-card>
+    @endisset
 </div>

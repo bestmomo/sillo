@@ -85,6 +85,9 @@ Route::middleware('auth')->group(function () {
                 Volt::route('/images/index', 'admin.images.index')->name('images.index');
                 Volt::route('/images/{year}/{month}/{id}/edit', 'admin.images.edit')->name('images.edit');
                 Volt::route('/settings', 'admin.settings')->name('settings');
+                Volt::route('/events/index', 'admin.events.index')->name('events.index');
+                Volt::route('/events/create', 'admin.events.create')->name('events.create');
+                Volt::route('/events/{event}/edit', 'admin.events.edit')->name('events.edit');
             });
 
             // Routes pour les commentaires

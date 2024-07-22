@@ -6,7 +6,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\{AcademyPost, Comment, Contact, Page, Post, User, Quiz, Answer, Question, Survey, SurveyQuestion, SurveyAnswer};
+use App\Models\{AcademyPost, Comment, Contact, Page, Post, User, Quiz, Answer, Question, Survey, SurveyQuestion, SurveyAnswer, Event};
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -357,6 +357,17 @@ class DatabaseSeeder extends Seeder
 			['user_id' => '22', 'survey_id' => 1, 'answers' => '22', 'created_at' => now(), 'updated_at' => now()],
 			['user_id' => '3', 'survey_id' => 1, 'answers' => '33', 'created_at' => now(), 'updated_at' => now()],
 		]);
+
+		// Events
+        Event::create(
+            ['label' => 'Version', 'description' => 'Laravel version', 'color' => 'amber', 'date' => now()->addDays(3), 'start_date' => null, 'end_date' => null]
+		);
+		Event::create(
+            ['label' => 'Update', 'description' => 'Site update', 'color' => 'green', 'date' => now()->addDays(8), 'start_date' => null, 'end_date' => null]
+        );
+		Event::create(
+            ['label' => 'Laracon', 'description' => 'Let`s go!', 'color' => 'blue', 'date' => null, 'start_date' => now()->addDays(13), 'end_date' => now()->addDays(15)]
+        );
 
 	}
 
