@@ -68,10 +68,13 @@ new class extends Component {
      */
     public function with(): array
     {
-        return [
-            'posts' => $this->getPosts(),
-            'comments' => Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get(),
-        ];
+        $items = ['posts' => $this->getPosts()];
+
+        if(request()->is('/')) {
+            $items['comments'] = Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get();
+        }
+
+        return $items;
     }
 
     /**
