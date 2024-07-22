@@ -221,7 +221,7 @@ new class extends Component {
         {{ $posts->links() }}
     </div>
 
-    @if (!$this->category && !$this->serie)
+    @if (request()->is('/'))
         <x-card title="{{ __('Recent Comments') }}" shadow separator class="mt-2">
             @foreach ($comments as $comment)
                 <x-list-item :item="$comment" no-separator no-hover>
