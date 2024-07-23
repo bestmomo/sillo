@@ -36,7 +36,7 @@ new #[Title('Edit Event'), Layout('components.layouts.admin')] class extends Com
 }; ?>
 
 <div>
-    <x-header title="{{ __('Add an event') }}" separator progress-indicator>
+    <x-header title="{{ __('Edit an event') }}" separator progress-indicator>
         <x-slot:actions class="lg:hidden">
             <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline"
                 link="{{ route('admin') }}" />
