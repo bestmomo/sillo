@@ -11,6 +11,11 @@
 
     <script src="{{ asset('storage/scripts/tinymce.min.js') }}" referrerpolicy="origin"></script>
 
+    @if (in_array(Route::currentRouteName(), ['events.create', 'events.edit']))
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
+    @endif
 </head>
 
 <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">

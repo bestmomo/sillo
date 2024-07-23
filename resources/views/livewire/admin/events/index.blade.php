@@ -10,7 +10,6 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -80,7 +79,7 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
     <x-card>
         <x-table :headers="$headers" :rows="$events" link="/admin/events/{id}/edit" with-pagination>
             @scope('cell_color', $event)
-                <x-badge value="  " class="bg-{{$event->color}}-200" />
+                <x-badge title="{{ $event->color }}" class="bg-{{$event->color}}-200" />
             @endscope
             @scope('cell_date', $event)
                 {{ $event->formatted_date }}

@@ -280,5 +280,7 @@ return [
 		'link'                     => 'lien',
 		'seo_title'                => 'seo titre',
 		'meta_keywords'            => 'meta mots-clefs',
+		'start_date'               => 'date de début',
+		'end_date'                 => 'date de fin',
 	],
 ];
