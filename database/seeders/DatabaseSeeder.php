@@ -360,13 +360,13 @@ class DatabaseSeeder extends Seeder
 
 		// Events
         Event::create(
-            ['label' => 'Version', 'description' => 'Laravel version', 'color' => 'amber', 'date' => now()->addDays(3), 'start_date' => null, 'end_date' => null]
+            ['label' => 'Version', 'description' => 'Laravel version', 'color' => 'amber', 'start_date' => now()->addDays(3), 'end_date' => null]
 		);
 		Event::create(
-            ['label' => 'Update', 'description' => 'Site update', 'color' => 'green', 'date' => now()->addDays(8), 'start_date' => null, 'end_date' => null]
+            ['label' => 'Update', 'description' => 'Site update', 'color' => 'green', 'start_date' => now()->addDays(8), 'end_date' => null]
         );
 		Event::create(
-            ['label' => 'Laracon', 'description' => 'Let`s go!', 'color' => 'blue', 'date' => null, 'start_date' => now()->addDays(13), 'end_date' => now()->addDays(15)]
+            ['label' => 'Laracon', 'description' => 'Let`s go!', 'color' => 'blue', 'start_date' => now()->addDays(13), 'end_date' => now()->addDays(15)]
         );
 
 	}

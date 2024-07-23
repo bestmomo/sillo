@@ -39,21 +39,20 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
 
     public function getEvents(): LengthAwarePaginator
     {
-        $events = Event::orderBy('date', 'asc')
-            ->orderBy('start_date', 'asc')
+        $events = Event::orderBy('start_date', 'asc')
             ->when($this->search, fn(Builder $q) => $q->where('label', 'like', "%{$this->search}%"))
             ->paginate(10);
 
         // Formater les événements pour inclure la date ou la plage de dates
         $events->getCollection()->transform(function ($event) {
-            if ($event->date) {
-                $event->formatted_date = Carbon::parse($event->date)->isoFormat('LL');
+            if (is_null($event->end_date)) {
+                $event->formatted_date = Carbon::parse($event->start_date)->isoFormat('LL');
             } else {
                 $event->formatted_date = Carbon::parse($event->start_date)->isoFormat('LL') . ' - ' . Carbon::parse($event->end_date)->isoFormat('LL');
             }
             return $event;
         });
-        
+
         return $events;
     }
 

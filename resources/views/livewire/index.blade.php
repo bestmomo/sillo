@@ -89,8 +89,6 @@ new class extends Component {
         return $items;
     }
 
-
-
     /**
      * Récupère une catégorie en fonction du slug.
      *

@@ -13,7 +13,6 @@ class Event extends Model
 		'label',
 		'description',
 		'color',
-        'date',
         'start_date',
         'end_date',
 	];
@@ -25,9 +24,11 @@ class Event extends Model
      */
     public static function getUpcomingEvents()
     {
-        return self::where('date', '>=', Carbon::now())
-                   ->orWhere('start_date', '>=', Carbon::now())
-                   ->orderBy('date', 'asc')
+        return self::where('start_date', '>=', Carbon::now())
+                   ->orWhere(function ($query) {
+                       $query->where('end_date', '>=', Carbon::now())
+                             ->whereNotNull('end_date');
+                   })
                    ->orderBy('start_date', 'asc')
                    ->get();
     }
@@ -42,11 +43,11 @@ class Event extends Model
         $formattedEvent = [
             'label' => $this->label,
             'description' => $this->description,
-            'css' => '!bg-' . $this->color . '-200', 
+            'css' => '!bg-' . $this->color . '-200',
         ];
 
-        if ($this->date) {
-            $formattedEvent['date'] = $this->date;
+        if (is_null($this->end_date)) {
+            $formattedEvent['date'] = $this->start_date;
         } else {
             $formattedEvent['range'] = [
                 $this->start_date,

@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('label');
             $table->text('description');
             $table->enum('color', ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']);
-            $table->dateTime('date')->nullable();
-            $table->dateTime('start_date')->nullable();
+            $table->dateTime('start_date');
             $table->dateTime('end_date')->nullable();
         });
     }
