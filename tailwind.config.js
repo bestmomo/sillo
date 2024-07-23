@@ -13,7 +13,7 @@ export default {
   ],
   safelist: [
     {
-      pattern: /bg-(red|green|yellow|blue|indigo|purple|pink|orange|teal|lime|cyan|amber|fuchsia|emerald|rose|sky|violet)-200/,
+      pattern: /(!)?bg-(red|green|yellow|blue|indigo|purple|pink|orange|teal|lime|cyan|amber|fuchsia|emerald|rose|sky|violet)-200/,
     },
     'bg-red-300',
   ],
@@ -30,6 +30,8 @@ export default {
   daisyui: {
     themes: ["light", "dark"],
   },
-
+  corePlugins: {
+    backgroundOpacity: false,
+  },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
 };
