@@ -57,4 +57,15 @@ class Event extends Model
 
         return $formattedEvent;
     }
+
+    /**
+     * Set the value of the 'end_date' attribute.
+     *
+     * @param mixed $value The value to set for the 'end_date' attribute.
+     * @return void
+     */
+    public function setEndDateAttribute($value)
+    {
+        $this->attributes['end_date'] = $value ?: null;
+    }
 }

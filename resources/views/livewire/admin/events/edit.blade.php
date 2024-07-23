@@ -22,7 +22,7 @@ new #[Title('Edit Event'), Layout('components.layouts.admin')] class extends Com
         $this->colors = $this->getColors();
     }
    
-    // Enregistre la nouvelle page
+    // Enregistre le nouvel événement
     public function save()
     {
         $data = $this->validate($this->rules);
