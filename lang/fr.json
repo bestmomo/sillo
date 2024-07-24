@@ -552,5 +552,7 @@
     "Edit an event": "Modifier un événement",
     "Optional": "Optionnel",
     "Event updated with success.": "Evénement mis à jour avec succès.",
-    "End date must be after start date.": "La date de fin doit être après la date de départ."
+    "End date must be after start date.": "La date de fin doit être après la date de départ.",
+    "Category updated successfully.": "Catégorie mise à jour avec succès.",
+    "Category deleted with success.": "Catégorie supprimée avec succès."
 }
