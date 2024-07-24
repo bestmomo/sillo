@@ -45,10 +45,6 @@ class AppServiceProvider extends ServiceProvider
 			foreach ($settings as $setting) {
 				config(['app.' . $setting->key => $setting->value]);
 			}
-		}
-
-		LogViewer::auth(function ($request) {
-			return auth()->check() ? auth()->user()->isAdmin() : false;  
-		});
+		}		
 	}
 }
