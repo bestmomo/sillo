@@ -202,7 +202,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
                         <x-popover>
                             <x-slot:trigger>
                                 <x-button icon="o-trash" wire:click="deletePost({{ $post->id }})"
-                                    wire:confirm="{{ __('Are you sure?') }}" spinner
+                                    wire:confirm="{{ __('Are you sure to delete this post?') }}" spinner
                                     class="text-red-500 btn-ghost btn-sm" />
                             </x-slot:trigger>
                             <x-slot:content class="pop-small">
