@@ -20,7 +20,6 @@
         "livewire/livewire": "^3.5",
         "livewire/volt": "^1.6",
         "opcodesio/log-viewer": "^3.10",
-        "openai-php/client": "^0.10.1",
         "robsontenorio/mary": "^1.34",
         "spatie/laravel-sitemap": "^7.2",
         "tinymce/tinymce": "^7.2"
@@ -36,7 +35,8 @@
         "nunomaduro/collision": "^8.1",
         "phpunit/phpunit": "^11.2",
         "spatie/laravel-error-solutions": "^1.0",
-        "spatie/laravel-ignition": "^2.8"
+        "spatie/laravel-ignition": "^2.8",
+        "openai-php/client": "^0.10.1"
     },
     "autoload": {
         "files": [
