@@ -116,10 +116,24 @@ new class extends Component {
 }; ?>
 
 <div>
+    <style>
+        @media (max-width: 768px) {
+            .ml-0 { margin-left: 0rem; }
+            .ml-3 { margin-left: 0.75rem; }
+            .ml-6 { margin-left: 1.5rem; }
+            .ml-9 { margin-left: 2.25rem; }
+        }    
+        @media (min-width: 769px) {
+            .ml-0 { margin-left: 0rem; }
+            .ml-3 { margin-left: 3rem; }
+            .ml-6 { margin-left: 6rem; }
+            .ml-9 { margin-left: 9rem; }
+        }
+    </style>
     <!-- Vérifie si un commentaire existe -->
     @if ($comment)
         <!-- Conteneur du commentaire avec une marge dépendant de la profondeur -->
-        <div class="flex flex-col mt-4" style="margin-left:{{ $depth * 3 }}rem">
+        <div class="flex flex-col mt-4 ml-{{ $depth * 3 }} lg:ml-{{ $depth * 3 }}">
 
             <!-- Entête du commentaire -->
             <div class="flex justify-between mb-4">
