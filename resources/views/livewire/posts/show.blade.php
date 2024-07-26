@@ -183,7 +183,7 @@ new class extends Component {
     <x-header title="{!! $post->title !!}" subtitle="{{ ucfirst($post->created_at->isoFormat('LLLL')) }} " size="text-2xl sm:text-3xl md:text-4xl" />
 
     <!-- Contenu du post -->
-    <div class="relative items-center w-full px-5 py-5 mx-auto prose md:px-12 max-w-7xl">
+    <div class="relative items-center w-full py-5 mx-auto prose md:px-12 max-w-7xl">
         <div class="flex flex-col items-center mb-4">
             <img src="{{ asset('storage/photos/' . $post->image) }}" />
         </div>
