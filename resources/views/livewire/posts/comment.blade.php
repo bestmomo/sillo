@@ -136,7 +136,7 @@ new class extends Component {
         <div class="flex flex-col mt-4 ml-{{ $depth * 3 }} lg:ml-{{ $depth * 3 }}">
 
             <!-- Entête du commentaire -->
-            <div class="flex justify-between mb-4">
+            <div class="flex flex-col justify-between mb-4 md:flex-row">
                 <!-- Avatar de l'utilisateur -->
                 <x-avatar :image="Gravatar::get($comment->user->email)" class="!w-24">
                     <!-- Titre de l'avatar -->
@@ -146,13 +146,12 @@ new class extends Component {
                     <!-- Sous-titre de l'avatar avec la date du commentaire et le nombre de commentaires de l'utilisateur -->
                     <x-slot:subtitle class="flex flex-col gap-1 pl-2 mt-2 text-gray-500">
                         <x-icon name="o-calendar" label="{{ $comment->created_at->isoFormat('LL') }}" />
-                        <x-icon name="o-chat-bubble-left"
-                            label="{{ $comment->user->comments_count }} {{ __(' comments') }}" />
+                        <x-icon name="o-chat-bubble-left" label="{{ $comment->user->comments_count }} {{ __(' comments') }}" />
                     </x-slot:subtitle>
                 </x-avatar>
-
+            
                 <!-- Actions disponibles pour l'utilisateur authentifié -->
-                <div>
+                <div class="flex flex-col mt-4 space-y-2 lg:mt-0 lg:flex-row lg:items-center lg:space-y-0 lg:space-x-2">
                     @auth
                         @if (Auth::user()->name == $comment->user->name)
                             <!-- Bouton pour modifier le commentaire -->
@@ -161,16 +160,16 @@ new class extends Component {
                             <!-- Bouton pour supprimer le commentaire -->
                             <x-button label="{{ __('Delete') }}" wire:click="deleteComment()"
                                 wire:confirm="{{ __('Are you sure to delete this comment?') }}"
-                                class="ml-2 btn-outline btn-error btn-sm" />
+                                class="btn-outline btn-error btn-sm" />
                         @endif
                         <!-- Bouton pour répondre au commentaire -->
                         @if ($comment->depth < config('app.commentsNestedLevel'))
-                            <x-button label="{{ __('Answer') }} " wire:click="toggleAnswerForm(true)"
-                                class="ml-2 btn-outline btn-sm" />
+                            <x-button label="{{ __('Answer') }}" wire:click="toggleAnswerForm(true)"
+                                class="btn-outline btn-sm" />
                         @endif
                     @endauth
                 </div>
-            </div>
+            </div>           
 
             <!-- Affichage du formulaire de modification si activé -->
             @if ($showModifyForm)

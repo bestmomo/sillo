@@ -100,7 +100,7 @@ new class extends Component {
                 class="alert-warning" />
         @else
             <!-- Affiche les détails du commentaire -->
-            <div class="flex justify-between mb-4">
+            <div class="flex flex-col justify-between mb-4 md:flex-row">
                 <x-avatar :image="Gravatar::get(Auth::user()->email)" class="!w-24">
                     <!-- Titre de l'avatar -->
                     <x-slot:title class="pl-2 text-xl">
@@ -114,7 +114,7 @@ new class extends Component {
                     </x-slot:subtitle>
                 </x-avatar>
 
-                <div>
+                <div class="flex flex-col mt-4 space-y-2 lg:mt-0 lg:flex-row lg:items-center lg:space-y-0 lg:space-x-2">
                     <!-- Boutons de modification et de suppression du commentaire -->
                     <x-button label="{{ __('Modify') }}" wire:click="toggleModifyForm(true)"
                         class="btn-outline btn-sm" />
