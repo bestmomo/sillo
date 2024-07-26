@@ -126,7 +126,7 @@ new class extends Component {
 
             <!-- Affiche le formulaire de modification si nécessaire -->
             @if ($showModifyForm)
-                <x-card title="{{ __('Update your comment') }}" shadow="hidden">
+                <x-card title="{{ __('Update your comment') }}" shadow="hidden" class="!p-0">
                     <x-form wire:submit="updateComment" class="mb-4">
                         <x-textarea wire:model="message" hint="{{ __('Max 1000 chars') }}" rows="5" inline />
                         <x-slot:actions>
@@ -145,7 +145,7 @@ new class extends Component {
 
         <!-- Si aucun commentaire n'existe, affiche le formulaire de création -->
     @else
-        <x-card title="{{ __('Leave a comment') }}" shadow="hidden">
+        <x-card title="{{ __('Leave a comment') }}" shadow="hidden" class="!p-0">
             <x-form wire:submit="createComment" class="mb-4">
                 <x-textarea label="" wire:model="message" placeholder="{{ __('Your comment') }} ..."
                     hint="{{ __('Max 1000 chars') }}" rows="5" inline />

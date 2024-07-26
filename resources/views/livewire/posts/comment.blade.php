@@ -173,7 +173,7 @@ new class extends Component {
 
             <!-- Affichage du formulaire de modification si activé -->
             @if ($showModifyForm)
-                <x-card title="{{ __('Update your comment') }}" shadow="hidden">
+                <x-card title="{{ __('Update your comment') }}" shadow="hidden" class="!p-0">
                     <x-form wire:submit="updateAnswer" class="mb-4">
                         <x-textarea wire:model="message" hint="{{ __('Max 1000 chars') }}" rows="5" inline />
                         <x-slot:actions>
@@ -205,7 +205,7 @@ new class extends Component {
 
             <!-- Affichage du formulaire de réponse si activé -->
             @if ($showAnswerForm)
-                <x-card title="{{ __('Your answer') }}" shadow="hidden">
+                <x-card title="{{ __('Your answer') }}" shadow="hidden" class="!p-0">
                     <x-form wire:submit="createAnswer" class="mb-4">
                         <x-textarea label="" wire:model="message" placeholder="{{ __('Your answer') }} ..."
                             hint="{{ __('Max 1000 chars') }}" rows="5" inline />
