@@ -32,9 +32,13 @@
         <a href="{{ '/' }}">
             <div class="text-center hero-content text-neutral-content">
                 <div>
-                    <h1 class="mb-5 font-bold text-[7vw]">{{ config('app.title') }}</h1>
-                    <p class="mb-5  text-[2.5vw]">{{ config('app.subTitle') }}</p>
-                </div>
+                    <h1 class="mb-5 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+                        {{ config('app.title') }}
+                    </h1>
+                    <p class="mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
+                        {{ config('app.subTitle') }}
+                    </p>
+                </div>                
             </div>
         </a>
     </div>
