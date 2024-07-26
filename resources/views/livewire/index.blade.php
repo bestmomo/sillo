@@ -139,14 +139,15 @@ new class extends Component {
 
     <!-- Affichage du titre en fonction de la catégorie, de la série ou du paramètre de recherche -->
     @if ($category)
-        <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" />
+        <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" size="text-2xl sm:text-3xl md:text-4xl" />
     @elseif($serie)
-        <x-header title="{{ __('Posts for serie ') }} {{ $serie->title }}" />
+        <x-header title="{{ __('Posts for serie ') }} {{ $serie->title }}" size="text-2xl sm:text-3xl md:text-4xl" />
     @elseif($param !== '')
-        <x-header title="{{ __('Posts for search ') }} '{{ $param }}'" />
+        <x-header title="{{ __('Posts for search ') }} '{{ $param }}'" size="text-2xl sm:text-3xl md:text-4xl" />
     @elseif($favorites)
-        <x-header title="{{ __('Your favorites posts') }}" />
+        <x-header title="{{ __('Your favorites posts') }}" size="text-2xl sm:text-3xl md:text-4xl" />
     @endif
+
 
     <!-- Pagination supérieure -->
     <div class="mb-4 mary-table-pagination">
