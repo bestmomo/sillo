@@ -142,6 +142,7 @@ new class() extends Component {
         <x-header 
             title="{{ __('Quiz') }} : {!! $quiz->title !!}" 
             subtitle="{{ $subtitle }}" 
+            size="text-2xl sm:text-3xl md:text-4xl" 
         />
 
         <x-form wire:submit.prevent="save">
@@ -158,7 +159,7 @@ new class() extends Component {
                         @endif
                     @endif
                 </h2>
-                <x-badge value="{!! $question->question_text !!}" class="p-4 badge-primary" /><br>
+                <x-badge value="{!! $question->question_text !!}" class="p-8 badge-primary" /><br>
                 @foreach($question->answers as $answer)
                     @php
                         $isCorrect = in_array($answer->id, $results[$question->id]['correctAnswers'] ?? []);
@@ -171,7 +172,7 @@ new class() extends Component {
                             }
                         }
                     @endphp
-                    <x-alert class="{{ $alertClass }}">
+                    <x-alert class="{{ $alertClass }}" style="justify-items: left;">
                         <x-checkbox
                             label="{!! $answer->answer_text !!}"
                             wire:model="userAnswers.{{ $question->id }}.{{ $answer->id }}"
