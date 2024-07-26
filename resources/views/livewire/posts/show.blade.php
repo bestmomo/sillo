@@ -237,7 +237,7 @@ new class extends Component {
     @endif
 
     <!-- Section des commentaires -->
-    <div class="relative items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
+    <div class="relative items-center w-full py-5 mx-auto md:px-12 max-w-7xl">
         @if ($listComments)
             <!-- Afficher les commentaires -->
             <x-card title="{{ __('Comments') }}" shadow separator>
