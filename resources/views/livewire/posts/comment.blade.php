@@ -160,12 +160,12 @@ new class extends Component {
                             <!-- Bouton pour supprimer le commentaire -->
                             <x-button label="{{ __('Delete') }}" wire:click="deleteComment()"
                                 wire:confirm="{{ __('Are you sure to delete this comment?') }}"
-                                class="btn-outline btn-error btn-sm" />
+                                class="mt-2 btn-outline btn-error btn-sm" />
                         @endif
                         <!-- Bouton pour répondre au commentaire -->
                         @if ($comment->depth < config('app.commentsNestedLevel'))
                             <x-button label="{{ __('Answer') }}" wire:click="toggleAnswerForm(true)"
-                                class="btn-outline btn-sm" />
+                                class="mt-2 btn-outline btn-sm" />
                         @endif
                     @endauth
                 </div>
