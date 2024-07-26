@@ -180,7 +180,7 @@ new class extends Component {
     </div>
 
     <!-- Titre et date du post -->
-    <x-header title="{!! $post->title !!}" subtitle="{{ ucfirst($post->created_at->isoFormat('LLLL')) }} " />
+    <x-header title="{!! $post->title !!}" subtitle="{{ ucfirst($post->created_at->isoFormat('LLLL')) }} " size="text-2xl sm:text-3xl md:text-4xl" />
 
     <!-- Contenu du post -->
     <div class="relative items-center w-full px-5 py-5 mx-auto prose md:px-12 max-w-7xl">
