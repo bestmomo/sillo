@@ -115,7 +115,7 @@ new class extends Component {
 };
 ?>
 
-<div class="relative grid items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
+<div class="relative grid items-center w-full py-5 mx-auto md:px-12 max-w-7xl">
 
     @if (config('app.flash') !== '')
         <x-alert class="mb-2 alert-warning" dismissible>
@@ -155,7 +155,7 @@ new class extends Component {
     </div>
 
     <!-- Liste des posts -->
-    <div class="container px-4 mx-auto">
+    <div class="container mx-auto">
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse($posts as $post)
                 <x-card
@@ -189,7 +189,7 @@ new class extends Component {
                     </x-slot:menu>
     
                     <x-slot:actions>
-                        <div class="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
+                        <div class="flex flex-col items-end space-y-2 sm:items-start sm:flex-row sm:space-y-0 sm:space-x-2">
                             <x-popover>
                                 <x-slot:trigger>
                                     <x-button label="{{ $post->category->title }}"
@@ -204,7 +204,7 @@ new class extends Component {
                                 <x-popover>
                                     <x-slot:trigger>
                                         <x-button label="{{ $post->serie->title }}"
-                                            link="{{ url('/serie/' . $post->serie->slug) }}" class="btn-outline btn-sm" />
+                                            link="{{ url('/serie/' . $post->serie->slug) }}" class="mt-1 btn-outline btn-sm" />
                                     </x-slot:trigger>
                                     <x-slot:content class="pop-small">
                                         @lang('Show this serie')
@@ -214,7 +214,7 @@ new class extends Component {
                             <x-popover>
                                 <x-slot:trigger>
                                     <x-button label="{{ __('Read') }}" link="{{ url('/posts/' . $post->slug) }}"
-                                        class="btn-outline btn-sm" />
+                                        class="mt-1 btn-outline btn-sm" />
                                 </x-slot:trigger>
                                 <x-slot:content class="pop-small">
                                     @lang('Read this post')
