@@ -159,7 +159,7 @@ new class() extends Component {
                         @endif
                     @endif
                 </h2>
-                <x-badge value="{!! $question->question_text !!}" class="p-8 badge-primary" /><br>
+                <x-alert title="{!! $question->question_text !!}" class="alert-info" /><br>
                 @foreach($question->answers as $answer)
                     @php
                         $isCorrect = in_array($answer->id, $results[$question->id]['correctAnswers'] ?? []);
