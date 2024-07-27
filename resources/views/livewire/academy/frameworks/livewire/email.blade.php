@@ -13,7 +13,8 @@ use Mary\Traits\Toast;
 new #[Title('Basics')] #[Layout('components.layouts.academy')]
 class extends Component {
 	use Toast;
-
+    
+    public $dev;
 	public $name         = '';
 	public $to           = 'Tartempion@example.com';
 	public $subject      = 'Salut !';
@@ -21,9 +22,11 @@ class extends Component {
 	public $emailSubject = '';
 	public $emailContent = '';
 	public $message      = '';
+    
 
 	public function mount()
 	{
+        $this->dev  = app()->environment('local');
 		$this->name = auth()->user()->name ?? 'Friend !';
 		$this->sendMail();
 	}
@@ -48,7 +51,7 @@ class extends Component {
 			$this->emailContent = $email->render();
 
 			// Envoie l'email
-			Mail::to($this->to)->send($email);
+			if ($this->dev) Mail::to($this->to)->send($email);
 
 			$this->message = 'Email sent successfully!';
 
@@ -69,7 +72,7 @@ class extends Component {
 
 	public function sendMailOnly()
 	{
-		$this->sendMail();
+		if ($this->dev) $this->sendMail();
 		$this->success('Email re-sent successfully!');
 		$this->skipRender();
 	}
@@ -79,7 +82,9 @@ class extends Component {
     <x-header class="pb-0 mb-[-14px]" title="Email" shadow separator progress-indicator />
 
     <div>
-        <!-- Votre contenu existant -->
+        @if (!$dev)
+        <h2 class="text-center text-red-500 text-xl font-bold">Envoi des emails simulé</h2>
+        @endif
 
         @if (!empty($this->notifications))
             <div id="notifications" wire:ignore></div>
@@ -142,5 +147,9 @@ class extends Component {
             </tr>
         </tbody>
     </table>
+    
+    @php
+        echo $dev;
+    @endphp
 
 </div>
