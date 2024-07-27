@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "barryvdh/laravel-debugbar": "^3.13",
         "blade-ui-kit/blade-icons": "^1.6",
         "blade-ui-kit/blade-ui-kit": "^0.6.2",
         "creativeorange/gravatar": "^1.0",
@@ -21,8 +22,7 @@
         "livewire/volt": "^1.6",
         "robsontenorio/mary": "^1.35",
         "spatie/laravel-sitemap": "^7.2",
-        "tinymce/tinymce": "^7.2",
-        "barryvdh/laravel-debugbar": "^3.13"
+        "tinymce/tinymce": "^7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

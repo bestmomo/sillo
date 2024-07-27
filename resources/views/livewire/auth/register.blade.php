@@ -7,6 +7,7 @@ use Livewire\Volt\Component;
 
 // Définition du composant avec les attributs de titre et de mise en page
 new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Component {
+
     // Définition des règles de validation pour les champs du formulaire
     #[Rule('required|string|max:255|unique:users')]
     public string $name = '';
@@ -23,9 +24,18 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
     #[Rule('required')]
     public string $password_confirmation = '';
 
+    #[Rule('sometimes|nullable')]
+    public ?string $gender = null;
+
     // Méthode pour enregistrer un nouvel utilisateur
     public function register()
     {
+        // Vérification du champ honeypot
+        if ($this->gender) {
+            // Si le champ honeypot est rempli, c'est probablement un bot
+            abort(403);
+        }
+        
         // Validation des données
         $data = $this->validate();
 
@@ -63,6 +73,10 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
             <!-- Champ de confirmation du mot de passe -->
             <x-input label="{{ __('Confirm Password') }}" wire:model="password_confirmation" type="password"
                 icon="o-key" inline />
+                
+            <div style="display: none;">
+                <x-input wire:model="gender" type="text" inline />
+            </div>
 
             <x-slot:actions>
                 <!-- Bouton pour rediriger vers la page de connexion -->
