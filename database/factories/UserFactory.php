@@ -33,7 +33,6 @@ class UserFactory extends Factory
 			'firstname'      => ('male' == $gender) ? fake()->firstNameMale() : fake()->firstNameFemale(),
 			'name'           => fake()->lastname(),
 			'email'          => fake()->unique()->safeEmail(),
-			'gender'         => $gender,
 			'password'       => static::$password ??= Hash::make('password'),
 			'remember_token' => Str::random(10),
 			'valid'          => true,
