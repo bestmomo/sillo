@@ -44,9 +44,9 @@ new class() extends Component {
 		];
 
 		$this->roles = [
-			'tutor'			=> ['Administrator', 'error'],
-			'student'   => ['Redactor', 		 'warning'],
-			'none'  		=> ['User'],
+			'tutor'			=> ['Tutor',   'error'],
+			'student'   => ['Student', 'warning'],
+			'none'  		=> ['None'],
 		];
 
 		// $this->queryStringOutput['search'] = $this->search;
