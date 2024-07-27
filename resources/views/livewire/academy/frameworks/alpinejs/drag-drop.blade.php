@@ -46,6 +46,9 @@ new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Com
 
 @section('scripts')
     <script>
+        
+        dev = <?= json_encode(app()->environment()) ?> == 'local'
+        
         function fileUpload() {
             return {
                 dragover: false,
@@ -65,7 +68,7 @@ new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Com
                     }
                     reader.readAsDataURL(file);
 
-                    this.saveImage(file);
+                    if(dev) this.saveImage(file);
                 },
 
                 saveImage(file) {
