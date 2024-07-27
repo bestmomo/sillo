@@ -4,11 +4,11 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-use Mary\Traits\Toast;
 use App\Models\AcademyUser;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
-use Barryvdh\Debugbar\Facades\Debugbar;
+use Mary\Traits\Toast;
 
 new class() extends Component {
 	// Source: https://www.youtube.com/watch?v=zPNdejemUtg
@@ -44,9 +44,9 @@ new class() extends Component {
 		];
 
 		$this->roles = [
-			'tutor'			=> ['Tutor',   'error'],
-			'student'   => ['Student', 'warning'],
-			'none'  		=> ['None'],
+			'tutor'   => ['Tutor',   'error'],
+			'student' => ['Student', 'warning'],
+			'none'    => ['None'],
 		];
 
 		// $this->queryStringOutput['search'] = $this->search;
@@ -62,7 +62,7 @@ new class() extends Component {
 		// dump('Devrait effacer: ' . json_encode($this->selected, JSON_PRETTY_PRINT));
 		// 2fix ATTENTION: Filtrer pour éviter de supprimer l'user en cours qui devrait être à minima admin ;-) !
 		// User::destroy($this->selected);
-		$this->error(json_encode($this->selected).' deleted (SIMU) !');
+		$this->error(json_encode($this->selected) . ' deleted (SIMU) !');
 		$this->selected = [];
 	}
 
@@ -74,6 +74,7 @@ new class() extends Component {
 
 	public function updatedSearch($resetPage = true)
 	{
+		// 2fix Test if debugbar is active ?
 		Debugbar::addMessage("New search: {$this->search}");
 		if ($resetPage) {
 			$this->resetPage();
@@ -92,6 +93,7 @@ new class() extends Component {
 
 		// To avoid displaying the new sort information twice
 		if ('column' === $key || 'direction' === $key) {
+			// 2fix Test if debugbar is active ?
 			Debugbar::addMessage("New sort: By {$this->sortBy['column']}, {$this->sortBy['direction']}");
 			$this->queryStringOutput['sortBy']['column']    = $this->sortBy['column'];
 			$this->queryStringOutput['sortBy']['direction'] = $this->sortBy['direction'];
@@ -112,6 +114,7 @@ new class() extends Component {
 	public function updatedPage()
 	{
 		$currentPage = $this->getPage();
+		// 2fix Test if debugbar is active ?
 		Debugbar::addMessage("New page: {$currentPage}");
 		if ($currentPage > 1) {
 			$this->queryStringOutput['page'] = $this->getPage();
