@@ -25,6 +25,7 @@ class extends Component {}; ?>
                         php artisan config:clear<br>
 
                         composer dump-autoload
+                        composer dump-autoload & php artisan migrate:refresh --seed
                     </div>
 
                     <hr>

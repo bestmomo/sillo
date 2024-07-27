@@ -6,7 +6,6 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\Academy\{AcademyPostSeeder, AcademyUserSeeder};
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -23,9 +22,12 @@ class AcademyDatabaseSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$this->call([
-			AcademyUserSeeder::class,
-			AcademyPostSeeder::class,
-		]);
+		$namespace = 'Database\\Seeders\\Academy\\';
+		$items     = ['User', 'Post'];
+
+		foreach ($items as $item) {
+			$seederClass = "{$namespace}Academy{$item}Seeder";
+			$this->call($seederClass);
+		}
 	}
 }
