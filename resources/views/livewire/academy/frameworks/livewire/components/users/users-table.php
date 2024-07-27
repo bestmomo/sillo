@@ -4,11 +4,11 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-use App\Models\User;
-use Barryvdh\Debugbar\Facades\Debugbar;
+use Mary\Traits\Toast;
+use App\Models\AcademyUser;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
-use Mary\Traits\Toast;
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 new class() extends Component {
 	// Source: https://www.youtube.com/watch?v=zPNdejemUtg
@@ -35,18 +35,18 @@ new class() extends Component {
 	public function mount()
 	{
 		$this->headers = [
-			['key' => 'id', 			 'label' => '#'],
-			['key' => 'name', 		 'label' => __('Name')],
-			['key' => 'role', 		 'label' => __('Role')],
-			['key' => 'isStudent', 'label' => __('Status')],
-			['key' => 'valid', 		 'label' => __('Valid')],
-			['key' => '', 				 'label' => ''],
+			['key' => 'id', 					 'label' => '#'],
+			['key' => 'name', 				 'label' => __('Name')],
+			['key' => 'role', 		 		 'label' => __('Role')],
+			['key' => 'academyAccess', 'label' => __('Status')],
+			['key' => 'valid', 		 		 'label' => __('Valid')],
+			['key' => '', 				 		 'label' => ''],
 		];
 
 		$this->roles = [
-			'admin' => ['Administrator', 'error'],
-			'redac' => ['Redactor', 		 'warning'],
-			'user'  => ['User'],
+			'tutor'			=> ['Administrator', 'error'],
+			'student'   => ['Redactor', 		 'warning'],
+			'none'  		=> ['User'],
 		];
 
 		// $this->queryStringOutput['search'] = $this->search;
@@ -130,7 +130,7 @@ new class() extends Component {
 
 	public function with()
 	{
-		$users = User::search($this->search)
+		$users = AcademyUser::search($this->search)
 			->orderBy(...array_values($this->sortBy))
 			->paginate(4);
 
