@@ -39,7 +39,7 @@ class AcademyUserFactory extends Factory
 
 		// role: none: pour les 70% ci-dessus, tutor: 7% des 25%, student: le reste
 		if ($academyAccess) {
-			$role = (fake()->numberBetween(1, 10) <= 9) ? 'tutor' : 'student';
+			$role = (fake()->numberBetween(1, 10) <= 9) ? 'student' : 'tutor';
 		}
 		// 2fix: parr pri au hazard parmi les users déjà enregistrés, si n'a pas déjà 7 filleuls
 		// Pour l'heure, le parrain est le précédent enregistré
