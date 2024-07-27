@@ -34,6 +34,7 @@ new class() extends Component {
 
 	public function mount()
 	{
+		// Debugbar::disable();
 		$this->headers = [
 			['key' => 'id', 					 'label' => '#'],
 			['key' => 'name', 				 'label' => __('Name')],
@@ -74,8 +75,9 @@ new class() extends Component {
 
 	public function updatedSearch($resetPage = true)
 	{
-		// 2fix Test if debugbar is active ?
-		Debugbar::addMessage("New search: {$this->search}");
+		if (class_exists('Barryvdh\Debugbar\Facade')) {
+			Debugbar::addMessage("New search: {$this->search}");
+		}
 		if ($resetPage) {
 			$this->resetPage();
 			unset($this->queryStringOutput['page']);
@@ -93,8 +95,9 @@ new class() extends Component {
 
 		// To avoid displaying the new sort information twice
 		if ('column' === $key || 'direction' === $key) {
-			// 2fix Test if debugbar is active ?
-			Debugbar::addMessage("New sort: By {$this->sortBy['column']}, {$this->sortBy['direction']}");
+			if (class_exists('Barryvdh\Debugbar\Facade')) {
+				Debugbar::addMessage("New sort: By {$this->sortBy['column']}, {$this->sortBy['direction']}");
+			}
 			$this->queryStringOutput['sortBy']['column']    = $this->sortBy['column'];
 			$this->queryStringOutput['sortBy']['direction'] = $this->sortBy['direction'];
 		} else {
@@ -114,8 +117,10 @@ new class() extends Component {
 	public function updatedPage()
 	{
 		$currentPage = $this->getPage();
-		// 2fix Test if debugbar is active ?
-		Debugbar::addMessage("New page: {$currentPage}");
+
+		if (class_exists('Barryvdh\Debugbar\Facade')) {
+			Debugbar::addMessage("New page: {$currentPage}");
+		}
 		if ($currentPage > 1) {
 			$this->queryStringOutput['page'] = $this->getPage();
 		}
