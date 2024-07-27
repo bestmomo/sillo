@@ -21,10 +21,10 @@
         "livewire/volt": "^1.6",
         "robsontenorio/mary": "^1.35",
         "spatie/laravel-sitemap": "^7.2",
-        "tinymce/tinymce": "^7.2"
+        "tinymce/tinymce": "^7.2",
+        "barryvdh/laravel-debugbar": "^3.13"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
         "friendsofphp/php-cs-fixer": "^3.60",
         "laravel-lang/common": "^6.4",
