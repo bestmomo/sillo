@@ -26,7 +26,7 @@ class AcademyDatabaseSeeder extends Seeder
 		$items     = ['User', 'Post'];
 
 		foreach ($items as $item) {
-			$seederClass = $namespace . 'Academy' . $item . 'Seeder';
+			$seederClass = "{$namespace}Academy{$item}Seeder";
 			$this->call($seederClass);
 		}
 	}

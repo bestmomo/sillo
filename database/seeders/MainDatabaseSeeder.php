@@ -22,7 +22,7 @@ class MainDatabaseSeeder extends Seeder
 		$items     = ['User', 'Category', 'Serie', 'Post', 'Comment', 'Menus', 'Contact', 'Page', 'Footer', 'Setting', 'Event', 'Survey', 'Quiz'];
 
 		foreach ($items as $item) {
-			$seederClass = $namespace . $item . 'Seeder';
+			$seederClass = "{$namespace}{$item}Seeder";
 			$this->call($seederClass);
 		}
 	}
