@@ -33,7 +33,6 @@ class AcademyDatabaseSeeder extends Seeder
 		]);
 
 		$unValidUser                = AcademyUser::find(4);
-		$unValidUser->academyAccess = true;
 		$unValidUser->valid         = false;
 		$unValidUser->save();
 

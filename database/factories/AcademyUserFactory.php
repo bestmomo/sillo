@@ -6,9 +6,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -25,28 +25,39 @@ class AcademyUserFactory extends Factory
 	 *
 	 * @return array<string, mixed>
 	 */
-	public function definition($idPrev=1): array
+	public function definition($idPrev = 1): array
 	{
 		// 2fix email: prenom.nom@example.com (Devant être unique)
-		
+
+		static $parrId = 1;
+		--$parrId;
+
 		$gender = fake()->randomElement(['unknown', 'female', 'male']);
-		
-		$idPrev         += 1;
-		
-		$role = fake()->randomElement(['none', 'student', 'tutor']);
-		// $count = DB::table('academy_users')->count();
-		$parr = $idPrev;
-		
+
+		// accessAcademy: 0=non (70%), 1=oui (25%)
+		$academyAccess = (fake()->numberBetween(1, 10) <= 7) ? 0 : 1;
+
+		// role: none: pour les 70% ci-dessus, tutor: 7% des 25%, student: le reste
+		if ($academyAccess) {
+			$role = (fake()->numberBetween(1, 10) <= 9) ? 'tutor' : 'student';
+		}
+		// 2fix: parr pri au hazard parmi les users déjà enregistrés, si n'a pas déjà 7 filleuls
+		// Pour l'heure, le parrain est le précédent enregistré
+		$parr = abs($parrId);
+
+		// 2fix: Calcul des bornes left et droite au fur et à mesure des enregistrements
+
 		return [
-			'firstname'      => ('male' == $gender) ? fake()->firstNameMale() : (('female' == $gender) ? fake()->firstNameFemale(): fake()->firstName()),
+			'firstname'      => ('male' == $gender) ? fake()->firstNameMale() : (('female' == $gender) ? fake()->firstNameFemale() : fake()->firstName()),
 			'name'           => fake()->lastname(),
 			'email'          => fake()->unique()->safeEmail(),
 			'gender'         => $gender,
 			'password'       => static::$password ??= Hash::make('password'),
 			'remember_token' => Str::random(10),
-			
-			'role'=>$role,
-			'parr'=>$parr
+
+			'academyAccess' => $academyAccess,
+			'role'          => $role ?? 'none',
+			'parr'          => $parr,
 		];
 	}
 

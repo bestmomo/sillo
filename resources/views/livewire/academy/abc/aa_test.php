@@ -5,8 +5,8 @@
  */
 
 use App\Models\AcademyUser;
-use Livewire\Volt\Component;
 use Livewire\Attributes\{Layout, Title};
+use Livewire\Volt\Component;
 
 new
 #[Title('Test')]
@@ -14,8 +14,8 @@ new
 class() extends Component {
 	public $roleCounts = [];
 	public $studentCounts;
-	public $nbrStudents;
-	public $nbrUsers;
+	public $studentsCount;
+	public $usersCount;
 
 	public function mount()
 	{
@@ -30,13 +30,13 @@ class() extends Component {
 	protected function usersStat()
 	{
 		$result = AcademyUser::query()
-			->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN isStudent = true THEN 1 ELSE 0 END) as student_count')
+			->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN academyAccess = true THEN 1 ELSE 0 END) as academy_users')
 			->groupBy('role')
 			->get();
 
 		$this->roleCounts    = $result->pluck('count', 'role');
-		$this->studentCounts = $result->pluck('student_count', 'role');
-		$this->nbrUsers      = $result->sum('count');
-		$this->nbrStudents   = $result->sum('student_count');
+		$this->studentCounts = $result->pluck('academy_users', 'role');
+		$this->usersCount    = $result->sum('count');
+		$this->studentsCount = $result->sum('academy_users');
 	}
 };

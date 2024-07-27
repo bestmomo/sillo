@@ -26,8 +26,8 @@ include_once 'aa_test.php';
             @endforeach
             <tr>
                 <td class="border-0 font-bold"></td>
-                <td class="text-right font-bold border-0 pr-7">{{ $nbrStudents }}</td>
-                <td class="text-right font-bold border-0 pr-7">{{ $nbrUsers }}</td>
+                <td class="text-right font-bold border-0 pr-7">{{ $studentsCount }}</td>
+                <td class="text-right font-bold border-0 pr-7">{{ $usersCount }}</td>
             </tr>
         </tbody>
     </table>
