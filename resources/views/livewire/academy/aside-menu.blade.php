@@ -14,6 +14,10 @@
     <div class="mt-5 w-[99px]">
 
         <div
+            class="mt-4 -ml-1 pt-1 px-1 text-lg font-bold text-left rounded mr-3 {{ request()->is('academy') ? 'bg-gray-700 text-white' : '' }}">
+            <a href="/academy">ACADÉMIE</a>
+        </div>
+        <div
             class="mt-4 ml-0 pt-1 px-1 text-xs text-left rounded mr-3 {{ request()->is('frameworks') ? 'bg-gray-700 text-white' : '' }}">
             <a href="/frameworks">FRAMEWORKS</a>
         </div>

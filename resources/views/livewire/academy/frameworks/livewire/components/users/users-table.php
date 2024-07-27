@@ -4,11 +4,11 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-use Mary\Traits\Toast;
 use App\Models\AcademyUser;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
-use Barryvdh\Debugbar\Facades\Debugbar;
+use Mary\Traits\Toast;
 
 new class() extends Component {
 	// Source: https://www.youtube.com/watch?v=zPNdejemUtg
@@ -34,6 +34,7 @@ new class() extends Component {
 
 	public function mount()
 	{
+		// Debugbar::disable();
 		$this->headers = [
 			['key' => 'id', 					 'label' => '#'],
 			['key' => 'name', 				 'label' => __('Name')],
@@ -44,9 +45,9 @@ new class() extends Component {
 		];
 
 		$this->roles = [
-			'tutor'			=> ['Tutor',   'error'],
-			'student'   => ['Student', 'warning'],
-			'none'  		=> ['None'],
+			'tutor'   => ['Tutor',   'error'],
+			'student' => ['Student', 'warning'],
+			'none'    => ['None'],
 		];
 
 		// $this->queryStringOutput['search'] = $this->search;
@@ -62,7 +63,7 @@ new class() extends Component {
 		// dump('Devrait effacer: ' . json_encode($this->selected, JSON_PRETTY_PRINT));
 		// 2fix ATTENTION: Filtrer pour éviter de supprimer l'user en cours qui devrait être à minima admin ;-) !
 		// User::destroy($this->selected);
-		$this->error(json_encode($this->selected).' deleted (SIMU) !');
+		$this->error(json_encode($this->selected) . ' deleted (SIMU) !');
 		$this->selected = [];
 	}
 
@@ -74,7 +75,9 @@ new class() extends Component {
 
 	public function updatedSearch($resetPage = true)
 	{
-		Debugbar::addMessage("New search: {$this->search}");
+		if (class_exists('Barryvdh\Debugbar\Facade')) {
+			Debugbar::addMessage("New search: {$this->search}");
+		}
 		if ($resetPage) {
 			$this->resetPage();
 			unset($this->queryStringOutput['page']);
@@ -92,7 +95,9 @@ new class() extends Component {
 
 		// To avoid displaying the new sort information twice
 		if ('column' === $key || 'direction' === $key) {
-			Debugbar::addMessage("New sort: By {$this->sortBy['column']}, {$this->sortBy['direction']}");
+			if (class_exists('Barryvdh\Debugbar\Facade')) {
+				Debugbar::addMessage("New sort: By {$this->sortBy['column']}, {$this->sortBy['direction']}");
+			}
 			$this->queryStringOutput['sortBy']['column']    = $this->sortBy['column'];
 			$this->queryStringOutput['sortBy']['direction'] = $this->sortBy['direction'];
 		} else {
@@ -112,7 +117,10 @@ new class() extends Component {
 	public function updatedPage()
 	{
 		$currentPage = $this->getPage();
-		Debugbar::addMessage("New page: {$currentPage}");
+
+		if (class_exists('Barryvdh\Debugbar\Facade')) {
+			Debugbar::addMessage("New page: {$currentPage}");
+		}
 		if ($currentPage > 1) {
 			$this->queryStringOutput['page'] = $this->getPage();
 		}
