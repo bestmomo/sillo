@@ -4,9 +4,9 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-use App\Models\User;
-use Livewire\Attributes\{Layout, Title};
+use App\Models\AcademyUser;
 use Livewire\Volt\Component;
+use Livewire\Attributes\{Layout, Title};
 
 new
 #[Title('Test')]
@@ -29,7 +29,7 @@ class() extends Component {
 
 	protected function usersStat()
 	{
-		$result = User::query()
+		$result = AcademyUser::query()
 			->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN isStudent = true THEN 1 ELSE 0 END) as student_count')
 			->groupBy('role')
 			->get();

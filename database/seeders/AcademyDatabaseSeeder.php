@@ -32,9 +32,9 @@ class AcademyDatabaseSeeder extends Seeder
 			'created_at' => generateRandomDateInRange($start, $end),
 		]);
 
-		$unValidUser            = AcademyUser::find(4);
-		$unValidUser->isStudent = true;
-		$unValidUser->valid     = false;
+		$unValidUser                = AcademyUser::find(4);
+		$unValidUser->academyAccess = true;
+		$unValidUser->valid         = false;
 		$unValidUser->save();
 
 		AcademyPost::factory()->count(9)->create();

@@ -6,8 +6,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\{Answer, Comment, Contact, Event, Page, Post, Question, Quiz, Survey, SurveyAnswer, SurveyQuestion, User};
+use App\Models\{Comment, Contact, Event, Page, Post, User};
 use Carbon\Carbon;
+use Database\Seeders\Main\{QuizSeeder, SurveySeeder};
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -186,167 +187,6 @@ class MainDatabaseSeeder extends Seeder
 			['key' => 'newPost', 'value' => 4],
 		]);
 
-		// Création du premier quiz avec ses questions et réponses
-		$quiz1 = Quiz::create([
-			'title'       => 'Laravel',
-			'description' => 'Testez vos connaissances sur Laravel.',
-			'user_id'     => 1,
-			'post_id'     => 5,
-		]);
-
-		$question1 = Question::create([
-			'quiz_id'       => $quiz1->id,
-			'question_text' => 'Quel est le nom du créateur de Laravel ?',
-		]);
-
-		Answer::create([
-			'question_id' => $question1->id,
-			'answer_text' => 'Taylor Otwell',
-			'is_correct'  => true,
-		]);
-
-		Answer::create([
-			'question_id' => $question1->id,
-			'answer_text' => 'Jeffrey Way',
-			'is_correct'  => false,
-		]);
-
-		Answer::create([
-			'question_id' => $question1->id,
-			'answer_text' => 'Jesus Christ',
-			'is_correct'  => false,
-		]);
-
-		$question2 = Question::create([
-			'quiz_id'       => $quiz1->id,
-			'question_text' => 'Quelle est la dernière version stable de Laravel ?',
-		]);
-
-		Answer::create([
-			'question_id' => $question2->id,
-			'answer_text' => '11.x',
-			'is_correct'  => true,
-		]);
-
-		Answer::create([
-			'question_id' => $question2->id,
-			'answer_text' => '10.x',
-			'is_correct'  => false,
-		]);
-
-		Answer::create([
-			'question_id' => $question2->id,
-			'answer_text' => '9.x',
-			'is_correct'  => false,
-		]);
-
-		// Création du deuxième quiz avec ses questions et réponses
-		$quiz2 = Quiz::create([
-			'title'       => 'PHP',
-			'description' => 'Testez vos connaissances sur PHP.',
-			'user_id'     => 2,
-		]);
-
-		$question3 = Question::create([
-			'quiz_id'       => $quiz2->id,
-			'question_text' => 'Quel est l\'acronyme de PHP ?',
-		]);
-
-		Answer::create([
-			'question_id' => $question3->id,
-			'answer_text' => 'Hypertext Preprocessor',
-			'is_correct'  => true,
-		]);
-
-		Answer::create([
-			'question_id' => $question3->id,
-			'answer_text' => 'Personal Home Page',
-			'is_correct'  => false,
-		]);
-
-		$question4 = Question::create([
-			'quiz_id'       => $quiz2->id,
-			'question_text' => 'Quel est le fondateur de PHP ?',
-		]);
-
-		Answer::create([
-			'question_id' => $question4->id,
-			'answer_text' => 'Rasmus Lerdorf',
-			'is_correct'  => true,
-		]);
-
-		Answer::create([
-			'question_id' => $question4->id,
-			'answer_text' => 'Taylor Otwell',
-			'is_correct'  => false,
-		]);
-
-		// Sondages
-		$survey1 = Survey::create([
-			'title'       => 'Laravel',
-			'description' => 'Testez vos pratiques sur Laravel.',
-			'user_id'     => 1,
-		]);
-
-		$question1 = SurveyQuestion::create([
-			'survey_id'     => $survey1->id,
-			'question_text' => 'Comment appréciez-vous Laravel ?',
-		]);
-
-		SurveyAnswer::create([
-			'question_id' => $question1->id,
-			'answer_text' => 'Pas du tout',
-		]);
-
-		SurveyAnswer::create([
-			'question_id' => $question1->id,
-			'answer_text' => 'Moyennement',
-		]);
-
-		SurveyAnswer::create([
-			'question_id' => $question1->id,
-			'answer_text' => 'Plutôt bien',
-		]);
-
-		SurveyAnswer::create([
-			'question_id' => $question1->id,
-			'answer_text' => 'J\'adore',
-		]);
-
-		$question2 = SurveyQuestion::create([
-			'survey_id'     => $survey1->id,
-			'question_text' => 'Combien de temps codez-vous tous les jours ?',
-		]);
-
-		SurveyAnswer::create([
-			'question_id' => $question2->id,
-			'answer_text' => 'moins de 10 minutes',
-		]);
-
-		SurveyAnswer::create([
-			'question_id' => $question2->id,
-			'answer_text' => 'une heure',
-		]);
-
-		SurveyAnswer::create([
-			'question_id' => $question2->id,
-			'answer_text' => 'plus de 2 heures',
-		]);
-
-		SurveyAnswer::create([
-			'question_id' => $question2->id,
-			'answer_text' => 'plus de 3 heures',
-		]);
-
-		DB::table('survey_user')->insert([
-			['user_id' => '5', 'survey_id' => 1, 'answers' => '13', 'created_at' => now(), 'updated_at' => now()],
-			['user_id' => '2', 'survey_id' => 1, 'answers' => '24', 'created_at' => now(), 'updated_at' => now()],
-			['user_id' => '3', 'survey_id' => 1, 'answers' => '31', 'created_at' => now(), 'updated_at' => now()],
-			['user_id' => '7', 'survey_id' => 1, 'answers' => '42', 'created_at' => now(), 'updated_at' => now()],
-			['user_id' => '6', 'survey_id' => 1, 'answers' => '22', 'created_at' => now(), 'updated_at' => now()],
-			['user_id' => '3', 'survey_id' => 1, 'answers' => '33', 'created_at' => now(), 'updated_at' => now()],
-		]);
-
 		// Events
 		Event::create(
 			['label' => 'Version', 'description' => 'Laravel version', 'color' => 'amber', 'start_date' => now()->addDays(3), 'end_date' => null]
@@ -357,6 +197,11 @@ class MainDatabaseSeeder extends Seeder
 		Event::create(
 			['label' => 'Laracon', 'description' => 'Let`s go!', 'color' => 'blue', 'start_date' => now()->addDays(13), 'end_date' => now()->addDays(15)]
 		);
+
+		$this->call([
+			SurveySeeder::class,
+			QuizSeeder::class,
+		]);
 	}
 
 	protected function createPost($id, $category_id, $serie_id = null, $parent_id = null)
