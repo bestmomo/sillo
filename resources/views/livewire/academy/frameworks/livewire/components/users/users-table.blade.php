@@ -11,7 +11,7 @@ include_once 'users-table.php';
         }
     </style>
 
-    <x-header title="Uuusers3 - MaryUI" shadow separator progress-indicator />
+    <x-header title="Academy Users - MaryUI" shadow separator progress-indicator />
     
     @dump($selected)
     
@@ -49,7 +49,7 @@ include_once 'users-table.php';
             :headers="$headers" 
             :rows="$users" 
             :sort-by="$sortBy" 
-            striped link="/admin/users/{id}/edit"
+            striped link="#"
             wire:model="selected"
             selectable
             @row-selection="console.log($event.detail.row.id, ($event.detail.selected ? 'selected': 'unselected'))"
@@ -74,8 +74,8 @@ include_once 'users-table.php';
                 <x-badge value="{{ __($roles[$user->role][0]) }}" class="badge-{{ $roles[$user->role][1] ?? null }}" />
             @endscope
 
-            @scope('cell_isStudent', $user, $roles)
-                @if ($user->isStudent)
+            @scope('cell_academyAccess', $user, $roles)
+                @if ($user->academyAccess)
                     <span
                         title="{{ trans_choice(':n is registered with the Academy', 'n', ['n' => $user->name]) }}
 @if (!$user->valid) {{ __('But invalid status') }} @endif">
