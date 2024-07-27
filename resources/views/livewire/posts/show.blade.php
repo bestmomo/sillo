@@ -75,7 +75,7 @@ new class extends Component {
             ->validComments()
             ->with([
                 'user' => function ($query) {
-                    $query->select('id', 'name', 'email', 'role')->withCount('comments');
+                    $query->select('id', 'name', 'firstname', 'email', 'role')->withCount('comments');
                 },
             ])
             ->latest()

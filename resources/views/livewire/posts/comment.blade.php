@@ -141,11 +141,11 @@ new class extends Component {
                 <x-avatar :image="Gravatar::get($comment->user->email)" class="!w-24">
                     <!-- Titre de l'avatar -->
                     <x-slot:title class="pl-2 text-xl">
-                        {{ $comment->user->name }}
+                        {{ $comment->user->name }} {{ $comment->user->firstname }}
                     </x-slot:title>
                     <!-- Sous-titre de l'avatar avec la date du commentaire et le nombre de commentaires de l'utilisateur -->
                     <x-slot:subtitle class="flex flex-col gap-1 pl-2 mt-2 text-gray-500">
-                        <x-icon name="o-calendar" label="{{ $comment->created_at->isoFormat('LL') }}" />
+                        <x-icon name="o-calendar" label="{{ $comment->created_at->diffForHumans() }}" />
                         <x-icon name="o-chat-bubble-left" label="{{ $comment->user->comments_count }} {{ __(' comments') }}" />
                     </x-slot:subtitle>
                 </x-avatar>
