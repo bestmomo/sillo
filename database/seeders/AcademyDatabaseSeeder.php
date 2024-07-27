@@ -6,8 +6,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\{AcademyPost, AcademyUser};
-use Carbon\Carbon;
+use Database\Seeders\Academy\{AcademyPostSeeder, AcademyUserSeeder};
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -24,18 +23,9 @@ class AcademyDatabaseSeeder extends Seeder
 	 */
 	public function run()
 	{
-		// Academy Users
-
-		$start = Carbon::now()->subYears(2);  // Il y a 2 ans
-		$end   = Carbon::now()->subYear();      // Il y a 1 an
-		AcademyUser::factory()->count(777)->create([
-			'created_at' => generateRandomDateInRange($start, $end),
+		$this->call([
+			AcademyUserSeeder::class,
+			AcademyPostSeeder::class,
 		]);
-
-		$unValidUser                = AcademyUser::find(4);
-		$unValidUser->valid         = false;
-		$unValidUser->save();
-
-		AcademyPost::factory()->count(9)->create();
 	}
 }

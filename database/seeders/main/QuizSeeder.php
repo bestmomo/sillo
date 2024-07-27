@@ -4,7 +4,13 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-namespace Database\Seeders\Main;
+
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ */
+
+namespace database\seeders\main;
+
 
 use App\Models\{Answer, Question, Quiz};
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

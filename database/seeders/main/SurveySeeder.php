@@ -4,7 +4,7 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-namespace Database\Seeders\Main;
+namespace database\seeders\main;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

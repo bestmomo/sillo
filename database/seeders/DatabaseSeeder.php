@@ -12,11 +12,6 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
 	use WithoutModelEvents;
-
-	// Remise à 0 de l'auto-increment
-	// Sqlite: DELETE FROM sqlite_sequence WHERE name = 'messages';
-	// MySQL: ALTER TABLE nom_de_la_table AUTO_INCREMENT = 1;
-
 	/**
 	 * Seed the application's database.
 	 */
