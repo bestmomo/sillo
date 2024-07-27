@@ -4,11 +4,6 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024
  */
 
-
-/**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
- */
-
 namespace database\seeders\main;
 
 

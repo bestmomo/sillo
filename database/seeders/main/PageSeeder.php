@@ -12,21 +12,22 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PageSeeder extends Seeder
 {
-	use WithoutModelEvents;
+    use WithoutModelEvents;
 
-	public function run()
-	{
-		$items = [
-			['terms', 'Terms'],
-			['privacy-policy', 'Privacy Policy'],
-		];
+    public function run()
+    {
+        // Données des pages
+        $items = [
+            ['slug' => 'terms', 'title' => 'Terms'],
+            ['slug' => 'privacy-policy', 'title' => 'Privacy Policy'],
+        ];
 
-		foreach ($items as $item) {
-			Page::factory()->create([
-				'title'     => $item[1],
-				'seo_title' => 'Page ' . $item[1],
-				'slug'      => $item[0],
-			]);
-		}
-	}
+        foreach ($items as $item) {
+            Page::factory()->create([
+                'title'     => $item['title'],
+                'seo_title' => 'Page ' . $item['title'],
+                'slug'      => $item['slug'],
+            ]);
+        }
+    }
 }
