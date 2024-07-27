@@ -4,8 +4,7 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new #[Title('Divers')] #[Layout('components.layouts.academy')] 
-class extends Component {
-}; ?>
+class extends Component {}; ?>
 <div class="relative w-full h-screen flex flex-col">
 
     <x-header class="!-mb-5" title="Divers" shadow separator progress-indicator></x-header>
@@ -24,6 +23,8 @@ class extends Component {
                         php artisan cache:clear<br>
                         php artisan route:clear<br>
                         php artisan config:clear<br>
+
+                        composer dump-autoload
                     </div>
 
                     <hr>
