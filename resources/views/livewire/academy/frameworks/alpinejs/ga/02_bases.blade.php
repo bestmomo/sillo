@@ -2,7 +2,8 @@
 
     @section('styles')
         <style>
-            {{ file_get_contents(resource_path('views\\livewire\\academy\\frameworks\\alpinejs\\ga\\02_css.css')) }}
+            /* {{ file_get_contents(resource_path('views\\livewire\\academy\\frameworks\\alpinejs\\ga\\02_css.css')) }} */
+            {{ Storage::get(resource_path('views/livewire/academy/frameworks/alpinejs/ga/02_css.css')) }}
         </style>
     @endsection
 
