@@ -19,12 +19,18 @@ return new class() extends Migration {
 			$table->string('name');
 			$table->string('firstname');
 			$table->string('email')->unique();
-			$table->enum('gender', ['female', 'male', 'other']);
+			$table->enum('gender', ['unknown', 'female', 'male'])->default('unknown');
+
+			$table->boolean('academyAccess')->default(false);
+			$table->enum('role', ['none', 'student', 'tutor'])->default('none');
+			$table->integer('parr');
+			$table->integer('level')->default(0);
+			$table->integer('lb')->default(0);
+			$table->integer('rb')->default(0);
+
 			$table->string('password');
-			$table->enum('role', ['user', 'redac', 'admin'])->default('user');
-			$table->boolean('valid')->default(false);
-			$table->boolean('isStudent')->default(false);
 			$table->rememberToken();
+			$table->boolean('valid')->default(true);
 			$table->timestamps();
 		});
 	}
