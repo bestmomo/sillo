@@ -3,7 +3,8 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Component {
+new #[Title('Divers')] #[Layout('components.layouts.academy')] 
+class extends Component {
 }; ?>
 <div class="relative w-full h-screen flex flex-col">
 
@@ -21,6 +22,7 @@ new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Com
                         php artisan optimize<br>
                         php artisan view:clear<br>
                         php artisan cache:clear<br>
+                        php artisan route:clear<br>
                         php artisan config:clear<br>
                     </div>
 
