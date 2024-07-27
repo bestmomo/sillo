@@ -6,9 +6,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Database\Seeders\AcademyDatabaseSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,8 +22,10 @@ class DatabaseSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$this->call(MainDatabaseSeeder::class);
-		$this->call(AcademyDatabaseSeeder::class);
+		$this->call([
+			MainDatabaseSeeder::class,
+			AcademyDatabaseSeeder::class,
+		]);
 
 		// REPORT
 		printf('%s%s', str_repeat(' ', 2), "Data tables properly filled.\n\n");
