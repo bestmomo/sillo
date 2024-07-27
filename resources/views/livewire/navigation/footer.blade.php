@@ -26,7 +26,8 @@ new class extends Component {
     </nav>
     <nav>
         <div class="grid grid-flow-col gap-4">
-            <a href="https://github.com/bestmomo/sillo" title="{{ __('Go to the GitHub repository and... Fork it!') }}">
+            <a href="https://github.com/bestmomo/sillo" title="{{ __('Go to the GitHub repository and... Fork it!') }}"
+            target="_blank">
                 <svg 
                     xmlns="http://www.w3.org/2000/svg" 
                     width="24" 

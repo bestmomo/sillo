@@ -32,7 +32,7 @@ return [
 	|
 	 */
 
-	// 2see : Way to use 2 connections for SGDB: 1 for read, 1 for write - Usefull if 40 orders / second
+	// 2see : Way to use 2 connections for SGDB: 1 for read, 1 for write - Usefull if more than 40 orders / second
 	// https://www.youtube.com/watch?v=3CCwxLS8cB8&ab_channel=Laravel
 	// 2do Dble SGDB connection: Find a way to verify effect
 
