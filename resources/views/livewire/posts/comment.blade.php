@@ -10,8 +10,7 @@ use Livewire\Volt\Component;
 new class extends Component {
     // Propriétés du composant
     public ?Comment $comment;
-    public Collection $comments;
-    public array $childs = [];
+    public ?Collection $childs;
     public bool $showAnswerForm = false;
     public bool $showModifyForm = false;
     public int $depth;
@@ -22,19 +21,16 @@ new class extends Component {
     public string $message = '';
 
     // Initialise le composant avec les données du commentaire.
-    public function mount($comment, $comments, $depth): void
+    public function mount($comment, $depth): void
     {
         $this->comment = $comment;
-        $this->comments = $comments;
         $this->depth = $depth;
         $this->message = $comment->body;
+    }
 
-        // Récupération des enfants du commentaire actuel
-        foreach ($comments as $item) {
-            if ($item->parent_id == $comment->id) {
-                array_unshift($this->childs, $item);
-            }
-        }
+    public function showAnswers(): void
+    {
+        $this->childs = Comment::where('parent_id', $this->comment->id)->withCount('children')->get();
     }
 
     // Affiche ou masque le formulaire de réponse.
@@ -196,6 +192,10 @@ new class extends Component {
                 </div>
             @endif
 
+            @if($comment->children_count > 0)
+                <x-button label="{{ __('Show the answers') }} ({{ $comment->children_count }})" wire:click="showAnswers" class="btn-outline btn-sm" spinner />
+            @endif
+
             <!-- Affichage de l'alerte si activée -->
             @if ($alert)
                 <x-alert title="{!! __('This is your first comment') !!}"
@@ -221,11 +221,14 @@ new class extends Component {
             @endif
 
         </div>
+        <hr>
     @endif
 
     <!-- Rendu récursif des enfants du commentaire actuel -->
-    @foreach ($childs as $child)
-        <livewire:posts.comment :comment="$child" :$comments :depth="$depth + 1" :key="$child->id">
-    @endforeach
+    @if($childs)
+        @foreach ($childs as $child)
+            <livewire:posts.comment :comment="$child" :depth="$depth + 1" :key="$child->id">
+        @endforeach
+    @endif
 
 </div>

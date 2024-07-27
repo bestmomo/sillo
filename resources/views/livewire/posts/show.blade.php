@@ -73,6 +73,8 @@ new class extends Component {
         // Récupération des commentaires valides du post avec les informations utilisateur
         $this->comments = $this->post
             ->validComments()
+            ->where('parent_id', null)
+            ->withCount('children') 
             ->with([
                 'user' => function ($query) {
                     $query->select('id', 'name', 'firstname', 'email', 'role')->withCount('comments');
@@ -243,7 +245,7 @@ new class extends Component {
             <x-card title="{{ __('Comments') }}" shadow separator>
                 @foreach ($comments as $comment)
                     @if (!$comment->parent_id)
-                        <livewire:posts.comment :$comment :$comments :depth="0" :key="$comment->id" />
+                        <livewire:posts.comment :$comment :depth="0" :key="$comment->id" />
                     @endif
                 @endforeach
                 <!-- Formulaire pour ajouter un nouveau commentaire -->
