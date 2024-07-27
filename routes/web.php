@@ -12,8 +12,8 @@ use Livewire\Volt\Volt;
 // Routes publiques
 Volt::route('/', 'index');
 
+Volt::route('/academy', 'academy.academy');
 Volt::route('/t', 'academy.abc.aaa_test')->name('academy.test');
-
 Volt::route('/frameworks', 'academy.frameworks');
 Route::prefix('/framework')->group(function () {
     getAcademyFrameworksRoutes();
