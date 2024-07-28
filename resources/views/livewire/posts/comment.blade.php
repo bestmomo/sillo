@@ -124,7 +124,7 @@ new class extends Component {
             .ml-3 { margin-left: 0.75rem; }
             .ml-6 { margin-left: 1.5rem; }
             .ml-9 { margin-left: 2.25rem; }
-        }    
+        }
         @media (min-width: 769px) {
             .ml-0 { margin-left: 0rem; }
             .ml-3 { margin-left: 3rem; }
@@ -132,6 +132,7 @@ new class extends Component {
             .ml-9 { margin-left: 9rem; }
         }
     </style>
+
     <!-- Vérifie si un commentaire existe -->
     @if ($comment)
         <!-- Conteneur du commentaire avec une marge dépendant de la profondeur -->
@@ -151,7 +152,7 @@ new class extends Component {
                         <x-icon name="o-chat-bubble-left" label="{{ $comment->user->comments_count }} {{ __(' comments') }}" />
                     </x-slot:subtitle>
                 </x-avatar>
-            
+
                 <!-- Actions disponibles pour l'utilisateur authentifié -->
                 <div class="flex flex-col mt-4 space-y-2 lg:mt-0 lg:flex-row lg:items-center lg:space-y-0 lg:space-x-2">
                     @auth
@@ -171,23 +172,22 @@ new class extends Component {
                         @endif
                     @endauth
                 </div>
-            </div>           
+            </div>
 
-            <!-- Affichage du formulaire de modification si activé -->
-            @if ($showModifyForm)
-                <x-card title="{{ __('Update your comment') }}" shadow="hidden" class="!p-0">
-                    <x-form wire:submit="updateAnswer" class="mb-4">
-                        <x-textarea wire:model="message" hint="{{ __('Max 1000 chars') }}" rows="5" inline />
+            <!-- Affichage du formulaire de modification ou du corps du commentaire -->
+            @if ($showModifyForm || $showAnswerForm)
+                <x-card :title="($showModifyForm ? __('Update your comment') : __('Your answer'))" shadow="hidden" class="!p-0">
+                    <x-form :wire:submit="($showModifyForm ? 'updateAnswer' : 'createAnswer')" class="mb-4">
+                        <x-textarea wire:model="message" :placeholder="($showAnswerForm ? __('Your answer') . ' ...' : '')" hint="{{ __('Max 1000 chars') }}" rows="5" inline />
                         <x-slot:actions>
-                            <!-- Bouton pour annuler la modification -->
-                            <x-button label="{{ __('Cancel') }}" wire:click="toggleModifyForm(false)"
+                            <!-- Bouton pour annuler -->
+                            <x-button label="{{ __('Cancel') }}" :wire:click="($showModifyForm ? 'toggleModifyForm(false)' : 'toggleAnswerForm(false)')"
                                 class="btn-ghost" />
-                            <!-- Bouton pour sauvegarder la modification -->
+                            <!-- Bouton pour sauvegarder -->
                             <x-button label="{{ __('Save') }}" class="btn-primary" type="submit" spinner="save" />
                         </x-slot:actions>
                     </x-form>
                 </x-card>
-                <!-- Affichage du corps du commentaire -->
             @else
                 <div class="mb-4">
                     {!! $comment->body !!}
@@ -199,23 +199,6 @@ new class extends Component {
                 <x-alert title="{!! __('This is your first comment') !!}"
                     description="{{ __('It will be validated by an administrator before it appears here') }}"
                     icon="o-exclamation-triangle" class="alert-warning" />
-            @endif
-
-            <!-- Affichage du formulaire de réponse si activé -->
-            @if ($showAnswerForm)
-                <x-card title="{{ __('Your answer') }}" shadow="hidden" class="!p-0">
-                    <x-form wire:submit="createAnswer" class="mb-4">
-                        <x-textarea label="" wire:model="message" placeholder="{{ __('Your answer') }} ..."
-                            hint="{{ __('Max 1000 chars') }}" rows="5" inline />
-                        <x-slot:actions>
-                            <!-- Bouton pour annuler la réponse -->
-                            <x-button label="{{ __('Cancel') }}" wire:click="toggleAnswerForm(false)"
-                                class="btn-ghost" />
-                            <!-- Bouton pour sauvegarder la réponse -->
-                            <x-button label="{{ __('Save') }}" class="btn-primary" type="submit" spinner="save" />
-                        </x-slot:actions>
-                    </x-form>
-                </x-card>
             @endif
 
             @if($comment->children_count > 0)
@@ -233,3 +216,4 @@ new class extends Component {
     @endif
 
 </div>
+
