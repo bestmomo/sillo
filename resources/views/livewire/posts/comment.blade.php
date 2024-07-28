@@ -37,6 +37,8 @@ new class extends Component {
                     });
                 }])
                 ->get();
+
+        $this->comment->children_count = 0;
     }
 
     // Affiche ou masque le formulaire de réponse.
@@ -63,23 +65,8 @@ new class extends Component {
 
         $item = Comment::create($data);
 
-        // Attribution de la profondeur au nouveau commentaire
-        $item->depth = $this->depth + 1;
-
-        // Ajout du nouveau commentaire aux enfants du commentaire actuel
-        if (Auth::user()->valid) {
-            array_push($this->childs, $item);
-        } else {
-            $this->alert = true;
-        }
-
-        // Chargement des relations pour le nouveau commentaire
-        $item->load([
-            'post' => function (Builder $query) {
-                $query->with('user')->select('id', 'title', 'user_id', 'slug');
-            },
-            'user',
-        ]);
+        $item->save();
+        $this->comment->children_count = $this->comment->children_count + 1;
 
         // Notification de l'auteur de l'article
         $item->post->user->notify(new CommentCreated($item));
@@ -89,6 +76,8 @@ new class extends Component {
 
         // Masquage du formulaire de réponse
         $this->toggleAnswerForm(false);
+
+        $this->showAnswers();
     }
 
     // Met à jour le commentaire actuel.
@@ -216,4 +205,3 @@ new class extends Component {
     @endif
 
 </div>
-
