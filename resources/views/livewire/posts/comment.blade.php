@@ -192,10 +192,6 @@ new class extends Component {
                 </div>
             @endif
 
-            @if($comment->children_count > 0)
-                <x-button label="{{ __('Show the answers') }} ({{ $comment->children_count }})" wire:click="showAnswers" class="btn-outline btn-sm" spinner />
-            @endif
-
             <!-- Affichage de l'alerte si activée -->
             @if ($alert)
                 <x-alert title="{!! __('This is your first comment') !!}"
@@ -220,8 +216,11 @@ new class extends Component {
                 </x-card>
             @endif
 
+            @if($comment->children_count > 0)
+                <x-button label="{{ __('Show the answers') }} ({{ $comment->children_count }})" wire:click="showAnswers" class="btn-outline btn-sm" spinner />
+            @endif
+
         </div>
-        <hr>
     @endif
 
     <!-- Rendu récursif des enfants du commentaire actuel -->
