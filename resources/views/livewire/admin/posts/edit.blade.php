@@ -94,7 +94,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
     {
         $data = $this->validate([
             'title' => 'required|string|max:255',
-            'body' => 'required|max:65000',
+            'body' => 'required|string|max:16777215',
             'category_id' => 'required',
             'photo' => 'nullable|image|max:2000',
             'active' => 'required',

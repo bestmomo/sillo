@@ -27,10 +27,10 @@ new #[Layout('components.layouts.admin')] class extends Component {
     public int $serie_id;
 
     // Déclaration des règles de validation pour les propriétés
-    #[Rule('required|max:65000')]
+    #[Rule('required|string|max:16777215')]
     public string $body = '';
 
-    #[Rule('required|max:255')]
+    #[Rule('required|string|max:255')]
     public string $title = '';
 
     #[Rule('required|max:255|unique:posts,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
