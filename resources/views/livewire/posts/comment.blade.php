@@ -106,7 +106,7 @@ new class extends Component {
         $this->comment->delete();
 
         // Réinitialisation des enfants et du commentaire actuel
-        $this->childs = [];
+        $this->childs = null;
         $this->comment = null;
     }
 }; ?>

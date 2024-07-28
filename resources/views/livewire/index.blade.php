@@ -194,7 +194,7 @@ new class extends Component {
                             <x-popover>
                                 <x-slot:trigger>
                                     <x-button label="{{ $post->category->title }}"
-                                        link="{{ url('/category/' . $post->category->slug) }}" class="btn-outline btn-sm" />
+                                        link="{{ url('/category/' . $post->category->slug) }}" class="mt-1 btn-outline btn-sm" />
                                 </x-slot:trigger>
                                 <x-slot:content class="pop-small">
                                     @lang('Show this category')
