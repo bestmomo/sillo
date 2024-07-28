@@ -96,7 +96,7 @@ new class extends Component {
 
         <!-- Affiche une alerte si nécessaire -->
         @if ($alert)
-            <x-alert title="{!! __('This is your first comment') !!}" description="{!! __('It will be validated by an administrator before it appears here') !!}" icon="o-exclamation-triangle"
+            <x-alert title="{!! __('This is your first comment') !!}" description="{!! __('It will be validated by an administrator before it appears here.') !!}" icon="o-exclamation-triangle"
                 class="alert-warning" />
         @else
             <!-- Affiche les détails du commentaire -->
@@ -138,7 +138,7 @@ new class extends Component {
                 </x-card>
             @else
                 <!-- Affiche le corps du commentaire -->
-                <div class="mb-4">{{ $comment->body }}</div>
+                <div class="mb-4">{!! $comment->body !!}</div>
             @endif
 
         @endif

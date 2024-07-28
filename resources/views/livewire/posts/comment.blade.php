@@ -190,11 +190,7 @@ new class extends Component {
                 <!-- Affichage du corps du commentaire -->
             @else
                 <div class="mb-4">
-                    @if ($comment->user->role === 'admin' || $comment->user->role === 'redac')
-                        {!! $comment->body !!}
-                    @else
-                        {{ $comment->body }}
-                    @endif
+                    {!! $comment->body !!}
                 </div>
             @endif
 
