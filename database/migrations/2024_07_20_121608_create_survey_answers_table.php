@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('survey_answers', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->unique();
-            $table->text('value');
+            $table->foreignId('question_id')->constrained(table: 'survey_questions', indexName: 'id')->onDelete('cascade');
+            $table->text('answer_text');
         });
     }
 
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('survey_answers');
     }
 };

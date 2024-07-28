@@ -1,23 +1,18 @@
 <?php
 
-use Livewire\Volt\Component;
-use App\Models\{ Category,Serie };
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
-use Mary\Traits\Toast;
-use Illuminate\Support\Str;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Livewire\WithPagination;
+use App\Models\{Category, Serie};
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
+use Livewire\Attributes\{Layout, Rule};
+use Livewire\Volt\Component;
+use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
-new 
-#[Layout('components.layouts.admin')]
-class extends Component {
-
-    use Toast, WithPagination;
+new #[Layout('components.layouts.admin')] class extends Component {
+    use Toast;
+    use WithPagination;
 
     public int $category_id;
-
     public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
 
     #[Rule('required|max:255|unique:categories,title')]
@@ -36,11 +31,7 @@ class extends Component {
     // Définir les en-têtes de table.
     public function headers(): array
     {
-        $headers = [
-            ['key' => 'title', 'label' => __('Title')],
-            ['key' => 'slug', 'label' => 'Slug'],
-            ['key' => 'category_title', 'label' => __('Category')],
-        ];
+        $headers = [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug'], ['key' => 'category_title', 'label' => __('Category')]];
 
         if (Auth::user()->isAdmin()) {
             $headers[] = ['key' => 'user_name', 'label' => __('Author')];
@@ -52,7 +43,7 @@ class extends Component {
     // Mettre à jour le slug lorsque le titre change.
     public function updating($property, $value)
     {
-        if($property == 'title') {
+        if ('title' == $property) {
             $this->slug = Str::slug($value, '-');
         }
     }
@@ -69,11 +60,13 @@ class extends Component {
     public function save(): void
     {
         $data = $this->validate();
-        
-        Serie::create($data + [
-            'category_id' => $this->category_id,
-            'user_id' => Auth::id(),
-        ]);
+
+        Serie::create(
+            $data + [
+                'category_id' => $this->category_id,
+                'user_id' => Auth::id(),
+            ],
+        );
 
         $this->success(__('Serie created with success.'));
     }
@@ -91,32 +84,47 @@ class extends Component {
             'headers' => $this->headers(),
         ];
     }
-
 }; ?>
 
 <div>
-    <x-header title="{{__('Series')}}" separator progress-indicator />
-    @if($series->count() > 0) 
-        <x-card>        
-            <x-table striped :headers="$headers" :rows="$series" :sort-by="$sortBy" link="/admin/series/{id}/edit" with-pagination >
+    <x-header title="{{ __('Series') }}" separator progress-indicator>
+        <x-slot:actions class="lg:hidden">
+            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline"
+                link="{{ route('admin') }}" />
+        </x-slot:actions>
+    </x-header>
+    @if ($series->count() > 0)
+        <x-card>
+            <x-table striped :headers="$headers" :rows="$series" :sort-by="$sortBy" link="/admin/series/{id}/edit"
+                with-pagination>
                 @scope('cell_category.title', $post)
                     {{ $serie->category->title }}
                 @endscope
                 @scope('actions', $serie)
-                    <x-button icon="o-trash" wire:click="delete({{ $serie->id }})" tooltip-left="{{ __('Delete') }}" wire:confirm="{{__('Are you sure to delete this serie?')}}" spinner class="btn-ghost btn-sm text-red-500" />
+                    <x-popover>
+                        <x-slot:trigger>
+                            <x-button icon="o-trash" wire:click="delete({{ $serie->id }})"
+                                wire:confirm="{{ __('Are you sure to delete this serie?') }}" spinner
+                                class="text-red-500 btn-ghost btn-sm" />
+                        </x-slot:trigger>
+                        <x-slot:content class="pop-small">
+                            @lang('Delete')
+                        </x-slot:content>
+                    </x-popover>
                 @endscope
             </x-table>
         </x-card>
         <br>
     @endif
-    <x-card class="" title="{{__('Create a new serie')}}">
- 
+    <x-card class="" title="{{ __('Create a new serie') }}">
+
         <x-form wire:submit="save">
-            <x-select label="{{__('Category')}}" option-label="title" :options="$categories" wire:model="category_id" />
-            <x-input label="{{__('Title')}}" wire:model="title" wire:change="$refresh" />
-            <x-input type="text" wire:model="slug" label="{{ __('Slug') }}" />   
+            <x-select label="{{ __('Category') }}" option-label="title" :options="$categories" wire:model="category_id" />
+            <x-input label="{{ __('Title') }}" wire:model="title" wire:change="$refresh" />
+            <x-input type="text" wire:model="slug" label="{{ __('Slug') }}" />
             <x-slot:actions>
-                <x-button label="{{__('Save')}}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+                <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
+                    class="btn-primary" />
             </x-slot:actions>
         </x-form>
 

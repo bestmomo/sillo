@@ -1,60 +1,43 @@
 <?php
 
-use Livewire\Volt\Component;
-use App\Models\{Category, Serie, Comment};
+use App\Models\{Category, Comment, Serie, User, Survey, Event};
 use App\Repositories\PostRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Livewire\Volt\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Collection;
 
 new class extends Component {
     use WithPagination;
 
     // Propriétés de la classe
-    public string $slug = ''; // Slug pour identifier une catégorie ou une série
     public string $param = ''; // Paramètre de recherche optionnel
     public ?Category $category = null; // Catégorie actuelle (ou null si aucune)
     public ?Serie $serie = null; // Série actuelle (ou null si aucune)
+    public bool $favorites = false;
+    public Collection $surveys;
 
     /**
      * Méthode de montage initiale appelée lors de la création du composant.
      *
-     * @param string $slug Slug pour identifier une catégorie ou une série
+     * @param string $slug  Slug pour identifier une catégorie ou une série
      * @param string $param Paramètre de recherche optionnel
-     * @return void
      */
     public function mount(string $slug = '', string $param = ''): void
     {
-        $this->slug = $slug;
         $this->param = $param;
 
-        if (!empty($slug)) {
-            // Détermine si le slug correspond à une catégorie ou une série
+        if (request()->is('category/*')) {
             $this->category = $this->getCategoryBySlug($slug);
-            $this->serie = $this->category ? null : $this->getSerieBySlug($slug);
+        } elseif (request()->is('serie/*')) {
+            $this->serie = $this->getSerieBySlug($slug);
+        } elseif (request()->is('favorites')) {
+            $this->favorites = true;
         }
-    }
 
-    /**
-     * Récupère une catégorie en fonction du slug.
-     *
-     * @param string $slug Slug pour identifier la catégorie
-     * @return Category|null La catégorie correspondante ou null
-     */
-    protected function getCategoryBySlug(string $slug): ?Category
-    {
-        // Vérifie si le premier segment de l'URL est 'category'
-        return request()->segment(1) === 'category' ? Category::whereSlug($slug)->firstOrFail() : null;
-    }
-
-    /**
-     * Récupère une série en fonction du slug.
-     *
-     * @param string $slug Slug pour identifier la série
-     * @return Serie|null La série correspondante ou null
-     */
-    protected function getSerieBySlug(string $slug): ?Serie
-    {
-        return Serie::whereSlug($slug)->firstOrFail();
+        if(auth()->check()) {
+            $this->surveys = Survey::where('active', true)->get();
+        }        
     }
 
     /**
@@ -69,6 +52,8 @@ new class extends Component {
         // Recherche les posts si un paramètre de recherche est présent
         if (!empty($this->param)) {
             return $postRepository->search($this->param);
+        } elseif ($this->favorites) {
+            return $postRepository->getFavoritePosts(auth()->user());
         }
 
         // Récupère les posts paginés en fonction de la catégorie ou de la série
@@ -82,32 +67,87 @@ new class extends Component {
      */
     public function with(): array
     {
-        return [
-            'posts'     => $this->getPosts(),
-            'comments'  => Comment::with('user', 'post:id,title,slug')
-                                    ->latest()
-                                    ->take(5)
-                                    ->get(),
-        ];
+        $items = ['posts' => $this->getPosts()];
+
+        if (request()->is('/')) {
+            $items['comments'] = Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get();
+            
+            // Récupérer les événements à venir
+            $upcomingEvents = Event::getUpcomingEvents();
+            
+            // Vérifier s'il y a des événements à venir et les formater en tableau
+            if ($upcomingEvents->isNotEmpty()) {
+                $items['upcoming_events'] = $upcomingEvents->map(function ($event) {
+                    return $event->formatForFrontend();
+                })->toArray(); // Convert the collection to an array
+            } else {
+                $items['upcoming_events'] = [];
+            }
+        }
+
+        return $items;
+    }
+
+    /**
+     * Récupère une catégorie en fonction du slug.
+     *
+     * @param string $slug Slug pour identifier la catégorie
+     *
+     * @return null|Category La catégorie correspondante ou null
+     */
+    protected function getCategoryBySlug(string $slug): ?Category
+    {
+        // Vérifie si le premier segment de l'URL est 'category'
+        return 'category' === request()->segment(1) ? Category::whereSlug($slug)->firstOrFail() : null;
+    }
+
+    /**
+     * Récupère une série en fonction du slug.
+     *
+     * @param string $slug Slug pour identifier la série
+     *
+     * @return null|Serie La série correspondante ou null
+     */
+    protected function getSerieBySlug(string $slug): ?Serie
+    {
+        return Serie::whereSlug($slug)->firstOrFail();
     }
 };
 ?>
 
-<div class="relative grid items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
+<div class="relative grid items-center w-full py-5 mx-auto md:px-12 max-w-7xl">
 
     @if (config('app.flash') !== '')
-        <x-alert title="{!! config('app.flash') !!}" icon="o-exclamation-triangle" class="mb-2 alert-warning" dismissible  />
+        <x-alert class="mb-2 alert-warning" dismissible>
+            {!! config('app.flash') !!}
+        </x-alert>
     @endif
-    
- 
+
+    @auth
+        @foreach ($surveys as $survey)
+            <x-alert title="{{ __('There is a survey!') }}" description="{!! $survey->title !!}" icon="s-chart-bar" class="mb-2 alert-info" >
+                <x-slot:actions>
+                    @if(auth()->user()->participatedSurveys()->where('survey_id', $survey->id)->exists())
+                        <x-button label="{{ __('See results') }}" link="{{ route('surveys.show', $survey->id) }}" />
+                    @else
+                        <x-button label="{{ __('Participate') }}" link="{{ route('surveys.doing', $survey->id) }}" />
+                    @endif
+                </x-slot:actions>
+            </x-alert>       
+        @endforeach
+    @endauth
+
     <!-- Affichage du titre en fonction de la catégorie, de la série ou du paramètre de recherche -->
     @if ($category)
-        <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" separator />
+        <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" size="text-2xl sm:text-3xl md:text-4xl" />
     @elseif($serie)
-        <x-header title="{{ __('Posts for serie ') }} {{ $serie->title }}" separator />
+        <x-header title="{{ __('Posts for serie ') }} {{ $serie->title }}" size="text-2xl sm:text-3xl md:text-4xl" />
     @elseif($param !== '')
-        <x-header title="{{ __('Posts for search ') }} '{{ $param }}'" separator />
+        <x-header title="{{ __('Posts for search ') }} '{{ $param }}'" size="text-2xl sm:text-3xl md:text-4xl" />
+    @elseif($favorites)
+        <x-header title="{{ __('Your favorites posts') }}" size="text-2xl sm:text-3xl md:text-4xl" />
     @endif
+
 
     <!-- Pagination supérieure -->
     <div class="mb-4 mary-table-pagination">
@@ -116,67 +156,84 @@ new class extends Component {
     </div>
 
     <!-- Liste des posts -->
-    <div class="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3">
-        @forelse($posts as $post)
-            <x-card
-                class="transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
-                title="{{ $post->title }}">
-                <div class="text-justify">{!! str($post->excerpt)->words(config('app.excerptSize')) !!}</div>
-                <br>
-                <hr>
-                <div class="flex justify-between">
-                    <p wire:click="" class="text-left cursor-pointer">{{ $post->user->name }}</p>
-                    <p class="text-right"><em>{{ $post->created_at->isoFormat('LL') }}</em></p>
-                </div>
-                <x-slot:figure>
-                    <a href="{{ url('/posts/' . $post->slug) }}">
-                        <img src="{{ asset('storage/photos/' . $post->image) }}" alt="{{ $post->title }}" />
-                    </a>
-                </x-slot:figure>
-
-                <x-slot:actions class="flex items-center">
-                    <x-popover>
-
-
-                        <x-slot:trigger>
-                            <x-button label="{{ $post->category->title }}"
-                                link="{{ url('/category/' . $post->category->slug) }}" class="btn-outline btn-sm" />
-                        </x-slot:trigger>
-                        <x-slot:content>
-                            @lang('Show this category')
-                        </x-slot:content>
-                    </x-popover>
-
-                    @if ($post->serie)
-                        <x-popover>
-                            <x-slot:trigger>
-                                <x-button label="{{ $post->serie->title }}"
-                                    link="{{ url('/serie/' . $post->serie->slug) }}" class="btn-outline btn-sm" />
-                            </x-slot:trigger>
-                            <x-slot:content>
-                                @lang('Show this serie')
-                            </x-slot:content>
-                        </x-popover>
-                    @endif
-                    <x-popover>
-                        <x-slot:trigger>
-                            <x-button label="{{ __('Read') }}" link="{{ url('/posts/' . $post->slug) }}"
-                                class="btn-outline btn-sm" />
-                        </x-slot:trigger>
-                        <x-slot:content>
-                            @lang('Read this post')
-                        </x-slot:content>
-                    </x-popover>
-                </x-slot:actions>
-            </x-card>
-        @empty
-            <div class="col-span-3">
-                <x-card title="{{ __('Nothing to show !') }}">
-                    {{ __('No Post found with these criteria') }}
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            @forelse($posts as $post)
+                <x-card
+                    class="w-full transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
+                    title="{{ $post->title }}">
+    
+                    <div class="text-justify">{!! str($post->excerpt)->words(config('app.excerptSize')) !!}</div>
+                    <br>
+                    <hr>
+                    <div class="flex justify-between">
+                        <p wire:click="" class="text-left cursor-pointer">{{ $post->user->name }}</p>
+                        <p class="text-right"><em>{{ $post->created_at->isoFormat('LL') }}</em></p>
+                    </div>
+                    <x-slot:figure>
+                        <a href="{{ url('/posts/' . $post->slug) }}">
+                            <img src="{{ asset('storage/photos/' . $post->image) }}" alt="{{ $post->title }}" />
+                        </a>
+                    </x-slot:figure>
+    
+                    <x-slot:menu>
+                        @if ($post->pinned)
+                            <x-badge value="{{ __('Pinned') }}" class="p-3 badge-warning" />
+                        @elseif($post->created_at->gt(now()->subWeeks(config('app.newPost'))))
+                            <x-badge value="{{ __('New') }}" class="p-3 badge-success" />
+                        @endif
+                        @auth
+                            @if ($post->is_favorited)
+                                <x-icon name="s-star" class="w-6 h-6 text-yellow-500 cursor-pointer" />
+                            @endif
+                        @endauth
+                    </x-slot:menu>
+    
+                    <x-slot:actions>
+                        <div class="flex flex-col items-end space-y-2 sm:items-start sm:flex-row sm:space-y-0 sm:space-x-2">
+                            <x-popover>
+                                <x-slot:trigger>
+                                    <x-button label="{{ $post->category->title }}"
+                                        link="{{ url('/category/' . $post->category->slug) }}" class="btn-outline btn-sm" />
+                                </x-slot:trigger>
+                                <x-slot:content class="pop-small">
+                                    @lang('Show this category')
+                                </x-slot:content>
+                            </x-popover>
+        
+                            @if ($post->serie)
+                                <x-popover>
+                                    <x-slot:trigger>
+                                        <x-button label="{{ $post->serie->title }}"
+                                            link="{{ url('/serie/' . $post->serie->slug) }}" class="mt-1 btn-outline btn-sm" />
+                                    </x-slot:trigger>
+                                    <x-slot:content class="pop-small">
+                                        @lang('Show this serie')
+                                    </x-slot:content>
+                                </x-popover>
+                            @endif
+                            <x-popover>
+                                <x-slot:trigger>
+                                    <x-button label="{{ __('Read') }}" link="{{ url('/posts/' . $post->slug) }}"
+                                        class="mt-1 btn-outline btn-sm" />
+                                </x-slot:trigger>
+                                <x-slot:content class="pop-small">
+                                    @lang('Read this post')
+                                </x-slot:content>
+                            </x-popover>
+                        </div>
+                    </x-slot:actions>
                 </x-card>
-            </div>
-        @endforelse
+            @empty
+                <div class="col-span-3">
+                    <x-card title="{{ __('Nothing to show !') }}">
+                        {{ __('No Post found with these criteria') }}
+                    </x-card>
+                </div>
+            @endforelse
+        </div>
     </div>
+    
 
     <!-- Pagination inférieure -->
     <div class="mb-4 mary-table-pagination">
@@ -184,7 +241,7 @@ new class extends Component {
         {{ $posts->links() }}
     </div>
 
-    @if(!$this->category && !$this->serie)
+    @if (request()->is('/'))
         <x-card title="{{ __('Recent Comments') }}" shadow separator class="mt-2">
             @foreach ($comments as $comment)
                 <x-list-item :item="$comment" no-separator no-hover>
@@ -199,12 +256,12 @@ new class extends Component {
                         @lang ('in post:') {{ $comment->post->title }}
                     </x-slot:value>
                     <x-slot:actions>
-                        <x-popover position="top-start" >
+                        <x-popover position="top-start">
                             <x-slot:trigger>
                                 <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}"
-                                     spinner class="btn-ghost btn-sm" />
+                                    spinner class="btn-ghost btn-sm" />
                             </x-slot:trigger>
-                            <x-slot:content>
+                            <x-slot:content class="pop-small">
                                 @lang('Show post')
                             </x-slot:content>
                         </x-popover>
@@ -215,4 +272,10 @@ new class extends Component {
             @endforeach
         </x-card>
     @endif
+
+    @isset($upcoming_events)
+        <x-card title="{{ __('Upcoming events') }}" shadow separator class="flex items-center justify-center mt-4">
+            <x-calendar :events="$upcoming_events" months="3" locale="{{ env('APP_CALENDAR_LOCALE') }}" />
+        </x-card>
+    @endisset
 </div>

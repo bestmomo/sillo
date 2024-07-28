@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+    <url>
+        <loc>http://127.0.0.1:8000/_debugbar/open</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/_debugbar/clockwork/{id}</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/_debugbar/assets/stylesheets</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/_debugbar/assets/javascript</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/_debugbar/cache/{key}/{tags?}</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/livewire/update</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/livewire/livewire.js</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/livewire/livewire.min.js.map</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/livewire/upload-file</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/livewire/preview-file/{filename}</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/mary/toogle-sidebar</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/mary/spotlight</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/mary/upload</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/_ignition/health-check</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/_ignition/execute-solution</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/_ignition/update-config</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/up</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/t</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/frameworks</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/livewire/basics</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/livewire/blog</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/livewire/create-post</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/livewire/todos</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/livewire/counter</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/livewire/new-form</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/livewire/serie7</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/alpinejs/basics</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/alpinejs/test</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/alpinejs/pets</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/alpinejs/accordion</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/alpinejs/ga</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/alpinejs/characters</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/framework/alpinejs/divers</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/contact</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/{slug}</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/serie/{slug}</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/search/{param}</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/posts/{slug}</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/pages/{page}</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/login</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/register</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/forgot-password</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/reset-password/{token}</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/profile</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/chat</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/dashboard</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/posts/index</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/posts/create</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/posts/{post}/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/series/index</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/series/{serie}/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/categories/index</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/categories/{category}/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/pages/index</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/pages/create</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/pages/{page}/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/users/index</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/users/{user}/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/menus/index</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/menus/{menu}/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/footers/index</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/footers/{footer}/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/submenus/{submenu}/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/contacts/index</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/comments/index</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/admin/comments/{comment}/edit</loc>
+    
+            </url>
+</urlset>

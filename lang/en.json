@@ -74,7 +74,7 @@
     "Hide :name": "Hide :name",
     "Home": "Home",
     "HTTP Version Not Supported": "HTTP Version Not Supported",
-    "I.e.":"I.e.",
+    "I.e.": "I.e.",
     "I'm a teapot": "I'm a teapot",
     "If you did not create an account, no further action is required.": "If you did not create an account, no further action is required.",
     "If you did not request a password reset, no further action is required.": "If you did not request a password reset, no further action is required.",
@@ -225,5 +225,7 @@
     "Web Server is Down": "Web Server is Down",
     "Whoops!": "Whoops!",
     "Yes": "Yes",
-    "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account."
+    "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
+    "Chars2 used: :n :m": "{0}No chars used (:m possible)|{1}Char used: :n / :m|{2,*}Chars used: :n / :m",
+    "All chars used :m": "All chars used (:m)"
 }

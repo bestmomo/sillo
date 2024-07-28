@@ -1,12 +1,15 @@
 <?php
 
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany, HasOne, BelongsToMany};
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
@@ -17,24 +20,10 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'title', 
-        'slug', 
-        'excerpt', 
-        'body', 
-        'active', 
-        'image', 
-        'user_id',
-        'serie_id',
-        'serie_number',
-        'category_id',
-        'seo_title', 
-        'meta_description', 
-        'meta_keywords',
-    ];
+    protected $fillable = ['title', 'slug', 'excerpt', 'body', 'active', 'image', 'user_id', 'serie_id', 'serie_number', 'category_id', 'seo_title', 'meta_description', 'meta_keywords', 'pinned'];
 
     /**
-     * Get user of the Post
+     * Get user of the Post.
      */
     public function user(): BelongsTo
     {
@@ -42,7 +31,7 @@ class Post extends Model
     }
 
     /**
-     * Get the category for the post
+     * Get the category for the post.
      */
     public function category(): BelongsTo
     {
@@ -50,7 +39,7 @@ class Post extends Model
     }
 
     /**
-     * Get the serie for the post
+     * Get the serie for the post.
      */
     public function serie(): BelongsTo
     {
@@ -58,7 +47,7 @@ class Post extends Model
     }
 
     /**
-     * Get all comments for the post
+     * Get all comments for the post.
      */
     public function comments(): HasMany
     {
@@ -66,7 +55,20 @@ class Post extends Model
     }
 
     /**
-     * Get all valid comments for the post
+     * Get quiz for the post.
+     */
+    public function quiz(): HasOne
+    {
+        return $this->hasOne(Quiz::class);
+    }
+
+    public function favoritedByUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'favorites');
+    }
+
+    /**
+     * Get all valid comments for the post.
      */
     public function validComments(): HasMany
     {

@@ -1,0 +1,12 @@
+.myBtnEffect:hover {
+  color:  yellow;
+  transition: 1s
+}
+.myBtnEffect {
+  /* color:  yellow; */
+  transition: 1s
+}
+
+.brdb0 {
+  border-bottom: none!important;
+}

@@ -1,18 +1,17 @@
 <?php
 
-use Livewire\Volt\Component;
 use Livewire\Attributes\Rule;
+use Livewire\Volt\Component;
 
 new class extends Component {
-  
     // Propriété pour le champ de recherche avec validation
     #[Rule('required|string|max:100')]
     public string $search = '';
 
     /**
      * Sauvegarde la recherche et redirige vers la page de résultats de recherche.
-     * 
-     * @return \Illuminate\Http\RedirectResponse
+     *
+     * @return Illuminate\Http\RedirectResponse
      */
     public function save()
     {
@@ -26,11 +25,6 @@ new class extends Component {
 <div>
     <!-- Formulaire de recherche -->
     <form wire:submit.prevent="save">
-        <x-input 
-            placeholder="{{ __('Search') }}..."
-            wire:model="search"
-            clearable
-            icon="o-magnifying-glass"
-        />
+        <x-input placeholder="{{ __('Search') }}..." wire:model="search" clearable icon="o-magnifying-glass" />
     </form>
 </div>

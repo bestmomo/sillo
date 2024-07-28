@@ -1,16 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Http;
+use Livewire\Attributes\{Layout, Rule};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
-use Illuminate\Support\Facades\Http;
-use Livewire\Attributes\Rule;
-use Livewire\Attributes\Layout;
 
 // Définition du composant avec les attributs de titre et de mise en page
-new 
-#[Title('Chat')] 
-#[Layout('components.layouts.app')] 
-class extends Component {
+new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component {
     use Toast;
 
     #[Rule('required|max:1000')]
@@ -63,12 +59,12 @@ class extends Component {
                 $this->answer = $answer;
             } else {
                 // Gestion des erreurs
-                throw new \Exception(__('Error in API response: ') . $response->body());
+                throw new Exception(__('Error in API response: ') . $response->body());
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $erreur_obj = json_decode($response->body());
             $error_code = $erreur_obj->error->code;
-            \Log::error('Failed to get answer from OpenAI: ' . $e->getMessage());
+            Log::error('Failed to get answer from OpenAI: ' . $e->getMessage());
             $this->answer = __('An error occurred while trying to retrieve the answer') . ' (' . __($error_code) . ')' . "\n";
         }
     }

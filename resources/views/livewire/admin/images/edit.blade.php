@@ -1,17 +1,14 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
-use App\Models\Page;
-use App\Models\Post;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
+use App\Models\{Page, Post};
+use Illuminate\Support\Facades\{File, Storage};
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
@@ -100,8 +97,10 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 
     public function updated($property, $value)
     {
-        if($property === 'group') return;
-        
+        if ('group' === $property) {
+            return;
+        }
+
         $manager = new ImageManager(new Driver());
         $image = $manager->read($this->tempPath);
 
@@ -153,8 +152,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
                 $this->sharpen = 0;
 
                 break;
-            case ('clipW'):
-                $width = $this->width - $this->width * $value * .01;
+            case 'clipW':
+                $width = $this->width - $this->width * $value * 0.01;
                 $offset = ($this->width - $width) / 2;
                 $image->crop($width, $this->height, $offset);
                 $this->width = $image->width();
@@ -162,20 +161,20 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
                 $this->clipW = 0;
 
                 break;
-            case ('clipH'):
-                $height = $this->height - $this->height * $value * .01;
+            case 'clipH':
+                $height = $this->height - $this->height * $value * 0.01;
                 $offset = ($this->height - $height) / 2;
                 $image->crop($this->width, $height, 0, $offset);
                 $this->width = $image->width();
-                $this->height = $image->height();             
+                $this->height = $image->height();
                 $this->clipH = 0;
 
                 break;
-            case ('reduce'):
+            case 'reduce':
                 $image->reduceColors(49 - $value);
                 $this->reduce = 0;
-                break;
 
+                break;
         }
 
         $image->save();
@@ -284,9 +283,14 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 }; ?>
 
 <div class="flex flex-col h-full lg:flex-row">
-
     <div class="w-full p-4 lg:w-3/4">
-        <x-card title="{{ __('Manage an image') }}" shadow separator progress-indicator>
+        <x-header title="{{ __('Manage an image') }}" separator progress-indicator>
+            <x-slot:actions class="lg:hidden">
+                <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline"
+                    link="{{ route('admin') }}" />
+            </x-slot:actions>
+        </x-header>
+        <x-card>
             <div class="flex items-center justify-between h-full">
                 <p>@lang('The url of this image is :') <i>{{ $this->displayImage }}</i></p>
                 <x-button label="{!! __('Copy url') !!}" data-url="{{ $this->displayImage }}" onclick="copyUrl(this)"
@@ -307,18 +311,14 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
                 @endforeach
             @endif
             <br>
-
             <br><br>
-            <div class="flex items-center justify-center h-full" >
+            <div class="flex items-center justify-center h-full">
                 <img src="{{ $image }}" alt="">
             </div>
-
         </x-card>
     </div>
 
     <div class="w-full p-4 lg:w-1/4">
-        <x-header shadow separator progress-indicator></x-header>
-
         <p class="mb-2 text-3xl">@lang('Settings')</p>
         <x-accordion wire:model="group" class="mb-4 shadow-md">
             <x-collapse name="group1">
@@ -386,10 +386,10 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
                 </x-slot:content>
             </x-collapse>
         </x-accordion>
-        @if($changed)
+        @if ($changed)
             <x-button wire:click="restoreImage(false)" class="btn-sm">@lang('Restore image to its original state')
             </x-button><br>
-            <x-button wire:click="applyChanges" class="mt-2 btn-sm">@lang('Valid changes')</x-button><br>        
+            <x-button wire:click="applyChanges" class="mt-2 btn-sm">@lang('Valid changes')</x-button><br>
             <x-button wire:click="restoreImage(true)" class="mt-2 btn-sm">@lang('Finish and discard this version')</x-button>
         @endif
         <x-button wire:click="keepVersion" class="mt-2 btn-sm">@lang('Finish and keep this version')</x-button><br>

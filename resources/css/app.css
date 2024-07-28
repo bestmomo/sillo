@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* Table pagination: active page highlight */
-.mary-table-pagination span[aria-current="page"] > span {
+.mary-table-pagination span[aria-current="page"]>span {
     @apply bg-primary text-base-100
 }
 
@@ -18,7 +18,10 @@
 }
 
 .shadow-hover {
-    @apply shadow shadow-gray-500 hover:shadow-md hover:shadow-gray-500 transition duration-500 ease-in-out hover:text-orange-500;
+    @apply transition duration-500 ease-in-out shadow shadow-gray-500 hover:shadow-md hover:shadow-gray-500 hover:text-orange-500;
 }
 
-
+/* Small popover */
+.pop-small {
+    @apply !p-1 !px-2 text-sm border-info text-center
+}

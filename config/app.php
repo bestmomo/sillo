@@ -20,14 +20,6 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
-	| Application sub name
-	|--------------------------------------------------------------------------
-	 */
-
-	'subName' => env('APP_SUBNAME', 'Un framework qui rend heureux'),
-
-	/*
-	|--------------------------------------------------------------------------
 	| Application Environment
 	|--------------------------------------------------------------------------
 	|
@@ -63,7 +55,7 @@ return [
 	|
 	 */
 
-	'url' => env('APP_URL', 'http://localhost'),
+	'url' => env('APP_URL', 'http://laravel.sillo.com'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -76,7 +68,7 @@ return [
 	|
 	 */
 
-	'timezone' => env('APP_TIMEZONE', 'UTC'),
+	'timezone' => env('APP_TIMEZONE', 'Europe/Paris'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -89,11 +81,11 @@ return [
 	|
 	 */
 
-	'locale' => env('APP_LOCALE', 'en'),
+	'locale' => env('APP_LOCALE', 'fr'),
 
 	'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
-	'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
+	'faker_locale' => env('APP_FAKER_LOCALE', 'fr_FR'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -157,4 +149,25 @@ return [
 	 */
 
 	'commentsNestedLevel' => 3,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Date configuration
+	|--------------------------------------------------------------------------
+	 */
+
+	 'dateConfig' => [
+		'locale' => env('APP_LOCALE'),
+		'minDate' => now(),
+		'altFormat' => env('APP_CALENDAR_FORMAT'),
+	 ],
+
+
+	/*
+	|--------------------------------------------------------------------------
+	| Version
+	|--------------------------------------------------------------------------
+	 */
+	// 2do Api request taht get the last tag of the projet from Github
+	'version' => '0.1.0',
 ];

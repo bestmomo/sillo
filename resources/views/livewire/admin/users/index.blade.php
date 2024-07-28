@@ -1,171 +1,271 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new
-#[Title('Users'), Layout('components.layouts.admin')]
-class extends Component {
-	use Toast;
-	use WithPagination;
+new #[Title('Users'), Layout('components.layouts.admin')] class extends Component {
+    use Toast;
+    use WithPagination;
 
-	public string $search = '';
-	public array $sortBy  = ['column' => 'name', 'direction' => 'asc'];
-	public string $role   = 'all';
-	public array $roles   = [];
+    public string $search = '';
+    public array $sortBy = ['column' => 'id', 'direction' => 'asc'];
+    public string $role = 'all';
+    public $isStudent = false;
+    public array $rolesCount = [];
+    protected $queryString = [
+        'search' => ['except' => ''],
+    ];
 
-	// Supprimer un utilisateur.
-	public function deleteUser(User $user): void
-	{
-		$user->delete();
-		$this->success("{$user->name} deleted");
-	}
+    // Fetch all users with filters and sorting.
+    public function fetchUsers(): LengthAwarePaginator
+    {
+        $users = User::query()
+            ->when($this->search, function (Builder $query) {
+                $query->where('name', 'like', "%{$this->search}%");
+            })
+            ->when('all' !== $this->role, function (Builder $query) {
+                $query->where('role', $this->role);
+            })
+            ->when($this->isStudent, function ($query) {
+                $query->where('isStudent', true);
+            })
+            ->withCount('posts', 'comments')
+            ->orderBy(...array_values($this->sortBy))
+            ->paginate(10);
 
-	// Définir les en-têtes de table.
-	public function headers(): array
-	{
-		$headers = [
-			['key' => 'name', 'label' => __('Name')],
-			['key' => 'email', 'label' => 'E-mail'],
-			['key' => 'role', 'label' => __('Role')],
-			['key' => 'valid', 'label' => __('Valid')],
-		];
+        // Récupération des statistiques globales
+        $result = User::query()->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN isStudent = true THEN 1 ELSE 0 END) as student_count')->groupBy('role')->get();
 
-		if ('user' !== $this->role) {
-			$headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
-		}
+        $roleCounts = $result->pluck('count', 'role');
+        $studentCounts = $result->pluck('student_count', 'role');
+        $nbrUsers = $result->sum('count');
+        $nbrStudents = $result->sum('student_count');
 
-		return array_merge($headers, [
-			['key' => 'comments_count', 'label' => __('Comments')],
-			['key' => 'created_at', 'label' => __('Registration')],
-		]);
-	}
+        // Préparation des rôles pour l'affichage
+        $rolesCount = collect([
+            'all' => __('All') . " ({$nbrUsers})",
+        ])
+            ->merge(
+                collect([
+                    'admin' => __('Administrators'),
+                    'redac' => __('Redactors'),
+                    'user' => __('Users'),
+                ])->map(function ($roleName, $roleId) use ($roleCounts, $studentCounts) {
+                    $count = $roleCounts->get($roleId, 0);
+                    $studentCount = $studentCounts->get($roleId, 0);
+                    $plur = $studentCount > 1 ? 's' : '';
+                    $with = __('with');
+                    $student = __('student');
 
-	// Récupérer la liste des utilisateurs avec les filtres et tri appliqués.
-	public function users(): LengthAwarePaginator
-	{
-		// Récupération des utilisateurs paginés
-		$users = User::query()
-			->when($this->search, function (Builder $query) {
-				$query->where('name', 'like', "%{$this->search}%");
-			})
-			->when('all' !== $this->role, function (Builder $query) {
-				$query->where('role', $this->role);
-			})
-			->withCount('posts', 'comments')
-			->orderBy(...array_values($this->sortBy))
-			->paginate(10);
+                    return "{$roleName} ({$count}), {$with} {$studentCount} {$student}{$plur}";
+                }),
+            )
+            ->map(function ($roleName, $roleId) {
+                return ['name' => $roleName, 'id' => $roleId];
+            })
+            ->values()
+            ->all();
 
-		// Récupération du nombre d'utilisateurs par rôle
-		$userCountsByRole = User::select('role', DB::raw('count(*) as total'))
-			->groupBy('role')
-			->pluck('total', 'role');
+        $this->rolesCount = $rolesCount;
 
-		// Calculer le nombre total d'utilisateurs à partir des comptes par rôle
-		$totalUsers = $userCountsByRole->sum();
+        // Ajout des statistiques à chaque utilisateur
+        $users->getCollection()->transform(function ($user) use ($roleCounts, $studentCounts) {
+            $user->userCountsByRole = $roleCounts;
+            $user->studentCountsByRole = $studentCounts;
 
-		// Création des rôles pour le choix avec 'all' inclus
-		$roles = collect([
-			'all' => __('All') . " ({$totalUsers})",
-		])->merge(
-			collect([
-				'admin' => __('Administrators'),
-				'redac' => __('Redactors'),
-				'user'  => __('Users'),
-			])->map(function ($roleName, $roleId) use ($userCountsByRole) {
-				$count = $userCountsByRole->get($roleId, 0); // 0 si le rôle n'est pas trouvé
+            return $user;
+        });
 
-				return "{$roleName} ({$count})";
-			})
-		)->map(function ($roleName, $roleId) {
-			return ['name' => $roleName, 'id' => $roleId];
-		})->values()->all();
+        // Stockage des statistiques globales
+        $this->roleCounts = $roleCounts;
+        $this->studentCounts = $studentCounts;
+        $this->nbrUsers = $nbrUsers;
+        $this->nbrStudents = $nbrStudents;
 
-		$this->roles = $roles;
+        $this->setPage(1);
 
-		// Retourner les utilisateurs paginés
-		return $users;
-	}
+        return $users;
+    }
 
-	// Fournir les données nécessaires à la vue.
-	public function with(): array
-	{
-		return [
-			'users'      => $this->users(),
-			'rolesCount' => $this->users()['userCountsByRole'],
-			'headers'    => $this->headers(),
-		];
-	}
+    // Supprimer un utilisateur.
+    public function deleteUser(User $user): void
+    {
+        $user->delete();
+        $this->success("{$user->name} " . __('deleted'));
+    }
+
+    // Fetch the necessary data for the view.
+    public function with(): array
+    {
+        $roles = [
+            'admin' => 'Administrator',
+            'redac' => 'Redactor',
+            'user' => 'User',
+        ];
+
+        return [
+            'users' => $this->fetchUsers(),
+            'headers' => $this->headers(),
+            'roles' => $roles,
+        ];
+    }
+
+    // Define table headers.
+    public function headers(): array
+    {
+        $headers = [['key' => 'id', 'label' => '#'], ['key' => 'name', 'label' => __('Name')], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Status')], ['key' => 'valid', 'label' => __('Valid')]];
+
+        if ('user' !== $this->role) {
+            $headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
+        }
+
+        return array_merge($headers, [['key' => 'comments_count', 'label' => __('Comments')], ['key' => 'created_at', 'label' => __('Registration')]]);
+    }
 }; ?>
 
 <div>
-  <x-header title="{{__('Users')}}" separator progress-indicator>
-    <x-slot:middle class="!justify-end">
-      <x-input placeholder="{{__('Search...')}}" wire:model.live.debounce="search" clearable
-        icon="o-magnifying-glass" />
-    </x-slot:middle>
-  </x-header>
+    <x-header title="{{ __('Users') }}" separator progress-indicator>
+        <x-slot:actions>
+            <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce="search" clearable
+                icon="o-magnifying-glass" />
+            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"
+                link="{{ route('admin') }}" />
+        </x-slot:actions>
+    </x-header>
 
-  <x-radio inline :options="$roles" wire:model="role" wire:change="$refresh" />
-  <br>
+    <div class="my-1 mr-1 text-sm text-right">
+        @if ($users->lastPage() > 1)
+            Page {{ $users->currentPage() }} / {{ $users->lastPage() }}
+        @else
+            &nbsp;
+        @endif
+    </div>
 
-  <x-card>
-    <x-table striped :headers="$headers" :rows="$users" :sort-by="$sortBy" link="/admin/users/{id}/edit"
-      with-pagination>
-      @scope('cell_name', $user)
-      <x-avatar :image="Gravatar::get($user->email)">
-        <x-slot:title>
-          {{ $user->name }}
-        </x-slot:title>
-      </x-avatar>
-      @endscope
-      @scope('cell_valid', $user)
-      @if($user->valid)
-      <x-icon name="o-check-circle" />
-      @endif
-      @endscope
-      @scope('cell_role', $user)
-      @if($user->role === 'admin')
-      <x-badge value="{{ __('Administrator') }}" class="badge-error" />
-      @elseif($user->role === 'redac')
-      <x-badge value="{{ __('Redactor') }}" class="badge-warning" />
-      @elseif($user->role === 'user')
-      {{ __('User') }}
-      @endif
-      @endscope
-      @scope('cell_posts_count', $user)
-      @if($user->posts_count > 0)
-      <x-badge value="{{ $user->posts_count }}" class="badge-primary" />
-      @endif
-      @endscope
-      @scope('cell_comments_count', $user)
-      @if($user->comments_count > 0)
-      <x-badge value="{{ $user->comments_count }}" class="badge-success" />
-      @endif
-      @endscope
-      @scope('cell_created_at', $user)
-      {{ $user->created_at->isoFormat('LL') }}
-      @endscope
-      @scope('actions', $user)
-      <div class="flex">
-        <x-button icon="o-envelope" link="mailto:{{ $user->email }}" tooltip-left="{{ __('Send an email') }}"
-          no-wire-navigate spinner class="text-blue-500 btn-ghost btn-sm" />
-        <x-button icon="o-trash" wire:click="deleteUser({{ $user->id }})"
-          wire:confirm="{{__('Are you sure to delete this user?')}}" confirm-text="Are you sure?"
-          tooltip-left="{{ __('Delete') }}" spinner class="text-red-500 btn-ghost btn-sm" />
-      </div>
-      @endscope
-    </x-table>
-  </x-card>
+    <x-radio inline :options="$rolesCount" wire:model="role" wire:change="$refresh" />
+
+    <br>
+
+    <x-card>
+
+        @if (count($users))
+
+            <x-table striped :headers="$headers" :rows="$users" :sort-by="$sortBy" link="/admin/users/{id}/edit"
+                with-pagination>
+
+                @scope('cell_id', $user)
+                    <div class="!text-right">
+                        {{ $user->id }}
+                    </div>
+                @endscope
+
+                @scope('cell_name', $user)
+                    <x-avatar :image="Gravatar::get($user->email)">
+                        <x-slot:title>
+                            <span class="font-bold">
+                                {{ $user->name }} {{ $user->firstname }}
+                            </span><br>
+                            {{ $user->email }}
+                        </x-slot:title>
+                    </x-avatar>
+                @endscope
+
+                @scope('cell_valid', $user)
+                    @if ($user->valid)
+                        <x-icon-check />
+                    @else
+                        <x-icon-novalid />
+                    @endif
+                @endscope
+
+                @scope('cell_role', $user)
+                    @switch($user->role)
+                        @case('admin')
+                            <x-badge value="{{ __('Administrator') }}" class="p-3 badge-error" />
+                        @break
+
+                        @case('redac')
+                            <x-badge value="{{ __('Redactor') }}" class="p-3 badge-warning" />
+                        @break
+
+                        @default
+                            {{ __('User') }}
+                    @endswitch
+                @endscope
+
+                @scope('cell_isStudent', $user, $roles)
+                    @if ($user->isStudent)
+                        @php
+                            $title = trans_choice(':n is registered with the Academy', 'n', ['n' => $user->name]);
+                            if (!$user->valid) {
+                                $title .= ' - ' . __('But invalid status');
+                            }
+                        @endphp
+                        <span title="{{ $title }}">
+                            <x-icon name="o-academic-cap" :class="$user->valid ? 'w-7 h-7 text-cyan-500' : 'w-7 h-7 text-red-500'" />
+                        </span>
+                    @else
+                        @php
+                            $role = strtolower(__($roles[$user->role]));
+                            $title = trans_choice(':n is a :r not student', ['n' => $user->name, 'r' => $role]) . ' - ' . __('Not registered with the Academy');
+                        @endphp
+                        <span title="{{ $title }}">
+                            <x-icon name="o-user" class="text-gray-400 w-7 h-7" />
+                        </span>
+                    @endif
+                @endscope
+
+                @scope('cell_posts_count', $user)
+                    @if ($user->posts_count > 0)
+                        <x-badge value="{{ $user->posts_count }}" class="badge-primary" />
+                    @endif
+                @endscope
+
+                @scope('cell_comments_count', $user)
+                    @if ($user->comments_count > 0)
+                        <x-badge value="{{ $user->comments_count }}" class="badge-success" />
+                    @endif
+                @endscope
+
+                @scope('cell_created_at', $user)
+                    {{ $user->created_at->isoFormat('LL') }}
+                @endscope
+
+                @scope('actions', $user)
+                    <div class="flex">
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="o-envelope" link="mailto:{{ $user->email }}" no-wire-navigate spinner
+                                    class="text-blue-500 btn-ghost btn-sm" />
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Send an email')
+                            </x-slot:content>
+                        </x-popover>
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="o-trash" wire:click="deleteUser({{ $user->id }})"
+                                    wire:confirm="{{ __('Are you sure to delete this user?') }}"
+                                    confirm-text="Are you sure?" spinner class="text-red-500 btn-ghost btn-sm" />
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Delete')
+                            </x-slot:content>
+                        </x-popover>
+                    </div>
+                @endscope
+
+            </x-table>
+        @else
+            <p>@lang('No users with these criteria.')</p>
+        @endif
+    </x-card>
 </div>

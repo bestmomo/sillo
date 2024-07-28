@@ -1,21 +1,17 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
-use App\Models\Page;
-use App\Models\Post;
-use App\Models\User;
-use Mary\Traits\Toast;
-use App\Models\Comment;
-use App\Models\Contact;
-use Livewire\Volt\Component;
-use Livewire\Attributes\Layout;
-use Illuminate\Support\Facades\Auth;
+use App\Models\{Comment, Contact, Page, Post, User};
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\{Layout, Title};
+use Livewire\Volt\Component;
+use Mary\Traits\Toast;
 
-new #[Layout('components.layouts.admin')] class extends Component {
+new #[Title('Dashboard')] #[Layout('components.layouts.admin')] class extends Component {
 	use Toast;
 
 	public array $headersPosts;
@@ -33,29 +29,21 @@ new #[Layout('components.layouts.admin')] class extends Component {
 		$this->warning('Comment deleted', __('Good bye!'), position: 'toast-bottom');
 	}
 
-    public function with(): array
-    {
-        $user = Auth::user();
-        $isRedac = $user->isRedac();
-        $userId = $user->id;
+	public function with(): array
+	{
+		$user    = Auth::user();
+		$isRedac = $user->isRedac();
+		$userId  = $user->id;
 
-        return [
-            'pages'          => Page::select('id', 'title', 'slug')->get(),
-            'posts'          => Post::select('id', 'title', 'slug', 'user_id', 'created_at', 'updated_at')
-                                    ->when($isRedac, fn (Builder $q) => $q->where('user_id', $userId))
-                                    ->latest()
-                                    ->get(),
-            'commentsNumber' => Comment::when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))
-                                       ->count(),
-            'comments'       => Comment::with('user', 'post:id,title,slug')
-                                       ->when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))
-                                       ->latest()
-                                       ->take(5)
-                                       ->get(),
-            'users'          => User::count(),
-            'contacts'       => Contact::whereHandled(false)->get(),
-        ];
-    }
+		return [
+			'pages'          => Page::select('id', 'title', 'slug')->get(),
+			'posts'          => Post::select('id', 'title', 'slug', 'user_id', 'created_at', 'updated_at')->when($isRedac, fn (Builder $q) => $q->where('user_id', $userId))->latest()->get(),
+			'commentsNumber' => Comment::when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))->count(),
+			'comments'       => Comment::with('user', 'post:id,title,slug')->when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))->latest()->take(5)->get(),
+			'users'          => User::count(),
+			'contacts'       => Contact::whereHandled(false)->get(),
+		];
+	}
 }; ?>
 
 <div>
@@ -91,8 +79,8 @@ new #[Layout('components.layouts.admin')] class extends Component {
 
     @foreach ($comments as $comment)
         @if (!$comment->user->valid)
-            <x-alert title="{!! __('Comment to valid from ') . $comment->user->name !!}"
-                description="{!! $comment->body !!}" icon="c-chat-bubble-left" class="shadow-md alert-warning">
+            <x-alert title="{!! __('Comment to valid from ') . $comment->user->name !!}" description="{!! $comment->body !!}" icon="c-chat-bubble-left"
+                class="shadow-md alert-warning">
                 <x-slot:actions>
                     <x-button link="{{ route('comments.index') }}" label="{!! __('Show the comments') !!}" />
                 </x-slot:actions>
@@ -103,8 +91,8 @@ new #[Layout('components.layouts.admin')] class extends Component {
 
     @if (Auth::user()->isAdmin())
         @foreach ($contacts as $contact)
-            <x-alert title="{!! __('Contact to handle from ') . $contact->name !!}"
-                description="{!! $contact->message !!}" icon="s-pencil-square" class="shadow-md alert-info">
+            <x-alert title="{!! __('Contact to handle from ') . html_entity_decode($contact->name) !!}" description="{!! html_entity_decode($contact->message) !!}" icon="s-pencil-square"
+                class="shadow-md alert-info">
                 <x-slot:actions>
                     <x-button link="{{ route('contacts.index') }}" label="{!! __('Show the contacts') !!}" />
                 </x-slot:actions>
@@ -127,8 +115,14 @@ new #[Layout('components.layouts.admin')] class extends Component {
                     @endif
                 @endscope
                 @scope('actions', $post)
-                    <x-button icon="s-document-text" link="{{ route('posts.show', $post->slug) }}"
-                        tooltip-left="{!! __('Show post') !!}" spinner class="btn-ghost btn-sm" />
+                    <x-popover>
+                        <x-slot:trigger>
+                            <x-button icon="s-document-text" link="{{ route('posts.show', $post->slug) }}" spinner class="btn-ghost btn-sm" />                            
+                        </x-slot:trigger>
+                        <x-slot:content class="pop-small">
+                            @lang('Show post')
+                        </x-slot:content>
+                    </x-popover>
                 @endscope
             </x-table>
         </x-slot:content>
@@ -154,13 +148,32 @@ new #[Layout('components.layouts.admin')] class extends Component {
                         @lang ('in post:') {{ $comment->post->title }}
                     </x-slot:value>
                     <x-slot:actions>
-                        <x-button icon="c-eye" link="{{ route('comments.edit', $comment->id) }}"
-                            tooltip-left="{!! __('Edit or answer') !!}" spinner class="btn-ghost btn-sm" />
-                        <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}"
-                            tooltip-left="{!! __('Show post') !!}" spinner class="btn-ghost btn-sm" />
-                        <x-button icon="o-trash" wire:click="deleteComment({{ $comment->id }})"
-                            wire:confirm="{{ __('Are you sure to delete this comment?') }}"
-                            tooltip-left="{{ __('Delete') }}" spinner class="text-red-500 btn-ghost btn-sm" />
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="c-eye" link="{{ route('comments.edit', $comment->id) }}" spinner class="btn-ghost btn-sm" />                         
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Edit or answer')
+                            </x-slot:content>
+                        </x-popover>
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}" spinner class="btn-ghost btn-sm" />                       
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Show post')
+                            </x-slot:content>
+                        </x-popover>
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="o-trash" wire:click="deleteComment({{ $comment->id }})"
+                                    wire:confirm="{{ __('Are you sure to delete this comment?') }}" 
+                                    spinner class="text-red-500 btn-ghost btn-sm" />                   
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Delete')
+                            </x-slot:content>
+                        </x-popover>
                     </x-slot:actions>
                 </x-list-item>
                 <p class="ml-16">{{ Str::words($comment->body, 20, ' ...') }}</p>

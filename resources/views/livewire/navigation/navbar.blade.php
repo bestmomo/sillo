@@ -1,45 +1,44 @@
 <?php
 
-use Livewire\Volt\Component;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use App\Models\Menu;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\{Auth, Session};
+use Livewire\Volt\Component;
 
-new class extends Component 
-{
-    // Collection de menus
+new class extends Component {
+    // Property to hold the collection of menus
     public Collection $menus;
 
     /**
-     * Initialise le composant avec les menus donnés.
-     * 
-     * @param Collection $menus
-     * @return void
+     * Method to initialize the component with the given menus collection
+     *
+     * @param Collection $menus - The collection of menus to be assigned to the property
      */
     public function mount(Collection $menus): void
     {
+        // Assign the provided menus collection to the property
         $this->menus = $menus;
     }
 
     /**
-     * Déconnecte l'utilisateur actuellement authentifié.
-     * 
-     * @return void
+     * Method to handle the user logout process
      */
     public function logout(): void
     {
+        // Log out the user using the web guard
         Auth::guard('web')->logout();
 
+        // Invalidate the current session
         Session::invalidate();
+        // Regenerate the CSRF token for security purposes
         Session::regenerateToken();
 
+        // Redirect the user to the homepage
         $this->redirect('/');
     }
 };
 ?>
 
-<x-nav sticky full-width>
+<x-nav sticky full-width :class="App::isDownForMaintenance() ? 'bg-red-300' : ''">
     <!-- Marque du site -->
     <x-slot:brand>
         <label for="main-drawer" class="mr-3 lg:hidden">
@@ -50,7 +49,7 @@ new class extends Component
     <!-- Actions de la barre de navigation -->
     <x-slot:actions>
         <span class="hidden lg:block">
-            @if($user = auth()->user())
+            @if ($user = auth()->user())
                 <!-- Menu déroulant pour l'utilisateur connecté -->
                 <x-dropdown>
                     <x-slot:trigger>
@@ -58,7 +57,7 @@ new class extends Component
                     </x-slot:trigger>
                     <x-menu-item title="{{ __('Profile') }}" link="{{ route('profile') }}" />
                     <x-menu-item title="{{ __('Logout') }}" wire:click="logout" />
-                    @if($user->isAdminOrRedac())
+                    @if ($user->isAdminOrRedac())
                         <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin') }}" />
                     @endif
                 </x-dropdown>
@@ -69,13 +68,14 @@ new class extends Component
 
             <!-- Menus dynamiques -->
             @foreach ($menus as $menu)
-                @if($menu->submenus->isNotEmpty())
+                @if ($menu->submenus->isNotEmpty())
                     <x-dropdown>
                         <x-slot:trigger>
                             <x-button label="{{ $menu->label }}" class="btn-ghost" />
                         </x-slot:trigger>
                         @foreach ($menu->submenus as $submenu)
-                            <x-menu-item title="{{ $submenu->label }}" link="{{ $submenu->link }}" style="min-width: max-content;" />
+                            <x-menu-item title="{{ $submenu->label }}" link="{{ $submenu->link }}"
+                                style="min-width: max-content;" />
                         @endforeach
                     </x-dropdown>
                 @else
@@ -84,9 +84,18 @@ new class extends Component
             @endforeach
         </span>
         @auth
-            <x-button icon="c-chat-bubble-oval-left" link="/chat" tooltip-bottom="{{ __('Chat')}}" class="btn-circle btn-ghost" />
+            @if ($user->favoritePosts()->exists())
+                <a title="{{ __('Favorites posts') }}" href="{{ route('posts.favorites') }}"><x-icon name="s-star"
+                        class="w-7 h-7" /></a>
+            @endif
+            @if ($user->isStudent)
+                <a title="{{ __('Academy access') }}" href="{{ route('academy.academy') }}"><x-icon name="o-academic-cap"
+                        class="w-7 h-7" /></a>
+            @endif
+            <a title="{{ __('Chat') }}" href="{{ route('chat') }}"><x-icon name="o-chat-bubble-oval-left"
+                    class="w-6 h-6" /></a>
         @endauth
-        <x-theme-toggle />
+        <x-theme-toggle title="{{ __('Toggle theme') }}" class="w-4 h-8" />
         <livewire:search />
     </x-slot:actions>
 </x-nav>
