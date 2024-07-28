@@ -66,7 +66,6 @@ new class extends Component {
         $item = Comment::create($data);
 
         $item->save();
-        $this->comment->children_count = $this->comment->children_count + 1;
 
         // Notification de l'auteur de l'article
         $item->post->user->notify(new CommentCreated($item));
@@ -77,6 +76,7 @@ new class extends Component {
         // Masquage du formulaire de réponse
         $this->toggleAnswerForm(false);
 
+        // On montre les réponses
         $this->showAnswers();
     }
 
