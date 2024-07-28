@@ -30,7 +30,13 @@ new class extends Component {
 
     public function showAnswers(): void
     {
-        $this->childs = Comment::where('parent_id', $this->comment->id)->withCount('children')->get();
+        $this->childs = Comment::where('parent_id', $this->comment->id)
+                ->withCount(['children' => function ($query) {
+                    $query->whereHas('user', function ($q) {
+                        $q->where('valid', true);
+                    });
+                }])
+                ->get();
     }
 
     // Affiche ou masque le formulaire de réponse.

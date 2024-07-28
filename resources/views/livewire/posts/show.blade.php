@@ -74,7 +74,11 @@ new class extends Component {
         $this->comments = $this->post
             ->validComments()
             ->where('parent_id', null)
-            ->withCount('children') 
+            ->withCount(['children' => function ($query) {
+                $query->whereHas('user', function ($q) {
+                    $q->where('valid', true);
+                });
+            }])
             ->with([
                 'user' => function ($query) {
                     $query->select('id', 'name', 'firstname', 'email', 'role')->withCount('comments');
