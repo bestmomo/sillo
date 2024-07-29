@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
 use Illuminate\Notifications\Notifiable;
+use Mews\Purifier\Casts\CleanHtmlInput;
 
 class Comment extends Model
 {
@@ -26,6 +27,10 @@ class Comment extends Model
 		'user_id',
 		'parent_id',
 	];
+
+	protected $casts = [
+        'body' => CleanHtmlInput::class,
+    ];
 
 	/**
 	 * One to Many relation.
