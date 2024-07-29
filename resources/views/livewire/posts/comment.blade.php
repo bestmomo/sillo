@@ -148,16 +148,16 @@ new class extends Component {
                         @if (Auth::user()->name == $comment->user->name)
                             <!-- Bouton pour modifier le commentaire -->
                             <x-button label="{{ __('Modify') }}" wire:click="toggleModifyForm(true)"
-                                class="btn-outline btn-warning btn-sm" />
+                                class="btn-outline btn-warning btn-sm" spinner />
                             <!-- Bouton pour supprimer le commentaire -->
                             <x-button label="{{ __('Delete') }}" wire:click="deleteComment()"
                                 wire:confirm="{{ __('Are you sure to delete this comment?') }}"
-                                class="mt-2 btn-outline btn-error btn-sm" />
+                                class="mt-2 btn-outline btn-error btn-sm" spinner />
                         @endif
                         <!-- Bouton pour répondre au commentaire -->
                         @if ($comment->depth < config('app.commentsNestedLevel'))
                             <x-button label="{{ __('Answer') }}" wire:click="toggleAnswerForm(true)"
-                                class="mt-2 btn-outline btn-sm" />
+                                class="mt-2 btn-outline btn-sm" / spinner >
                         @endif
                     @endauth
                 </div>
