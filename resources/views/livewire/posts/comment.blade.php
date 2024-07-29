@@ -155,9 +155,9 @@ new class extends Component {
                                 class="mt-2 btn-outline btn-error btn-sm" spinner />
                         @endif
                         <!-- Bouton pour répondre au commentaire -->
-                        @if ($comment->depth < config('app.commentsNestedLevel'))
+                        @if ($depth < config('app.commentsNestedLevel'))
                             <x-button label="{{ __('Answer') }}" wire:click="toggleAnswerForm(true)"
-                                class="mt-2 btn-outline btn-sm" / spinner >
+                                class="mt-2 btn-outline btn-sm" spinner />
                         @endif
                     @endauth
                 </div>
