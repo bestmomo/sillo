@@ -96,7 +96,7 @@ new class extends Component {
 
         <!-- Affiche une alerte si nécessaire -->
         @if ($alert)
-            <x-alert title="{!! __('This is your first comment') !!}" description="{!! __('It will be validated by an administrator before it appears here') !!}" icon="o-exclamation-triangle"
+            <x-alert title="{!! __('This is your first comment') !!}" description="{!! __('It will be validated by an administrator before it appears here.') !!}" icon="o-exclamation-triangle"
                 class="alert-warning" />
         @else
             <!-- Affiche les détails du commentaire -->
@@ -124,37 +124,14 @@ new class extends Component {
                 </div>
             </div>
 
-            <!-- Affiche le formulaire de modification si nécessaire -->
-            @if ($showModifyForm)
-                <x-card title="{{ __('Update your comment') }}" shadow="hidden" class="!p-0">
-                    <x-form wire:submit="updateComment" class="mb-4">
-                        <x-textarea wire:model="message" hint="{{ __('Max 1000 chars') }}" rows="5" inline />
-                        <x-slot:actions>
-                            <x-button label="{{ __('Cancel') }}" wire:click="toggleModifyForm(false)"
-                                class="btn-ghost" />
-                            <x-button label="{{ __('Save') }}" class="btn-primary" type="submit" spinner="save" />
-                        </x-slot:actions>
-                    </x-form>
-                </x-card>
-            @else
-                <!-- Affiche le corps du commentaire -->
-                <div class="mb-4">{{ $comment->body }}</div>
-            @endif
+            <!-- Affiche le formulaire de modification ou le corps du commentaire -->
+            @include('livewire.posts.comment-form', ['formTitle' => __('Update your comment'), 'formAction' => 'updateComment', 'showForm' => $showModifyForm, 'message' => $comment->body])
 
         @endif
 
-        <!-- Si aucun commentaire n'existe, affiche le formulaire de création -->
+    <!-- Si aucun commentaire n'existe, affiche le formulaire de création -->
     @else
-        <x-card title="{{ __('Leave a comment') }}" shadow="hidden" class="!p-0">
-            <x-form wire:submit="createComment" class="mb-4">
-                <x-textarea label="" wire:model="message" placeholder="{{ __('Your comment') }} ..."
-                    hint="{{ __('Max 1000 chars') }}" rows="5" inline />
-                <x-slot:actions>
-                    <x-button label="{{ __('Save') }}" class="btn-primary" type="submit" spinner="save" />
-                </x-slot:actions>
-            </x-form>
-        </x-card>
-
+        @include('livewire.posts.comment-form', ['formTitle' => __('Leave a comment'), 'formAction' => 'createComment', 'showForm' => true, 'message' => ''])
     @endif
 
 </div>
