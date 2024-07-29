@@ -89,9 +89,9 @@ new class() extends Component {
         // Définition du prompt
         $prompt = __("You're an expert in the Laravel framework, renowned for your ability to explain every concept clearly and patiently. Your aim is to provide detailed and understandable explanations, adapted to all skill levels.");
 
-        $prompt .= "\nI made a quiz and had to answer to questions: \n" . $currentQuestionText;
-        $prompt .= "\nI answered: \n" . $wrongAnswerText;
-        $prompt .= "\nCorrect answer was: \n" . $correctAnswerText;
+        $prompt .= "\n" . __('I made a quiz and had to answer to questions') . ": \n" . $currentQuestionText;
+        $prompt .= "\n" . __('I answered') . ": \n" . $wrongAnswerText;
+        $prompt .= "\n" . __('Correct answer was') . ": \n" . $correctAnswerText;
         $prompt .= "\nexplain my error";
 
         // Préparation de la requête
