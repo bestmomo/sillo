@@ -4,37 +4,37 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\{Auth, Session};
 use Livewire\Volt\Component;
 
-new class extends Component {
-    // Property to hold the collection of menus
-    public Collection $menus;
+new class() extends Component {
+	// Property to hold the collection of menus
+	public Collection $menus;
 
-    /**
-     * Method to initialize the component with the given menus collection
-     *
-     * @param Collection $menus - The collection of menus to be assigned to the property
-     */
-    public function mount(Collection $menus): void
-    {
-        // Assign the provided menus collection to the property
-        $this->menus = $menus;
-    }
+	/**
+	 * Method to initialize the component with the given menus collection.
+	 *
+	 * @param Collection $menus - The collection of menus to be assigned to the property
+	 */
+	public function mount(Collection $menus): void
+	{
+		// Assign the provided menus collection to the property
+		$this->menus = $menus;
+	}
 
-    /**
-     * Method to handle the user logout process
-     */
-    public function logout(): void
-    {
-        // Log out the user using the web guard
-        Auth::guard('web')->logout();
+	/**
+	 * Method to handle the user logout process.
+	 */
+	public function logout(): void
+	{
+		// Log out the user using the web guard
+		Auth::guard('web')->logout();
 
-        // Invalidate the current session
-        Session::invalidate();
-        // Regenerate the CSRF token for security purposes
-        Session::regenerateToken();
+		// Invalidate the current session
+		Session::invalidate();
+		// Regenerate the CSRF token for security purposes
+		Session::regenerateToken();
 
-        // Redirect the user to the homepage
-        $this->redirect('/');
-    }
+		// Redirect the user to the homepage
+		$this->redirect('/');
+	}
 };
 ?>
 

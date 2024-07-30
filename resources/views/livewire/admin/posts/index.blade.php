@@ -16,114 +16,114 @@ use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
 new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Component {
-    // Utilisation des traits Toast et WithPagination
-    use Toast;
-    use WithPagination;
+	// Utilisation des traits Toast et WithPagination
+	use Toast;
+	use WithPagination;
 
-    // Déclaration des propriétés du composant
-    public string $search = '';
-    public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
-    public Collection $categories;
-    public Collection $series;
-    public $category_id = 0;
-    public $serie_id = 0;
+	// Déclaration des propriétés du composant
+	public string $search = '';
+	public array $sortBy  = ['column' => 'created_at', 'direction' => 'desc'];
+	public Collection $categories;
+	public Collection $series;
+	public $category_id = 0;
+	public $serie_id    = 0;
 
-    // Initialisation du composant avec les données par défaut
-    public function mount(): void
-    {
-        $this->categories = $this->getCategories();
-        $this->series = new Collection();
-    }
+	// Initialisation du composant avec les données par défaut
+	public function mount(): void
+	{
+		$this->categories = $this->getCategories();
+		$this->series     = new Collection();
+	}
 
-    // Méthode pour obtenir les en-têtes des colonnes
-    public function headers(): array
-    {
-        $headers = [['key' => 'title', 'label' => __('Title')]];
+	// Méthode pour obtenir les en-têtes des colonnes
+	public function headers(): array
+	{
+		$headers = [['key' => 'title', 'label' => __('Title')]];
 
-        if (Auth::user()->isAdmin()) {
-            $headers = array_merge($headers, [['key' => 'user_name', 'label' => __('Author')]]);
-        }
+		if (Auth::user()->isAdmin()) {
+			$headers = array_merge($headers, [['key' => 'user_name', 'label' => __('Author')]]);
+		}
 
-        return array_merge($headers, [['key' => 'category_title', 'label' => __('Category')], ['key' => 'serie_title', 'label' => __('Serie')], ['key' => 'comments_count', 'label' => __('')], ['key' => 'active', 'label' => __('Published')], ['key' => 'date', 'label' => __('Date')]]);
-    }
+		return array_merge($headers, [['key' => 'category_title', 'label' => __('Category')], ['key' => 'serie_title', 'label' => __('Serie')], ['key' => 'comments_count', 'label' => __('')], ['key' => 'active', 'label' => __('Published')], ['key' => 'date', 'label' => __('Date')]]);
+	}
 
-    // Méthode pour obtenir les posts avec pagination
-    public function posts(): LengthAwarePaginator
-    {
-        return Post::query()
-            ->select('id', 'title', 'slug', 'category_id', 'active', 'user_id', 'created_at', 'updated_at')
-            ->when(Auth::user()->isAdmin(), fn(Builder $q) => $q->withAggregate('user', 'name'))
-            ->when(!Auth::user()->isAdmin(), fn(Builder $q) => $q->where('user_id', Auth::id()))
-            ->when($this->category_id, fn(Builder $q) => $q->where('category_id', $this->category_id))
-            ->when($this->serie_id, fn(Builder $q) => $q->whereHas('serie', fn(Builder $q) => $q->where('id', $this->serie_id)))
-            ->withAggregate('category', 'title')
-            ->withAggregate('serie', 'title')
-            ->withcount('comments')
-            ->when($this->search, fn(Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
-            ->when('date' === $this->sortBy['column'], fn(Builder $q) => $q->orderBy('created_at', $this->sortBy['direction']), fn(Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction']))
-            ->latest()
-            ->paginate(5);
-    }
+	// Méthode pour obtenir les posts avec pagination
+	public function posts(): LengthAwarePaginator
+	{
+		return Post::query()
+			->select('id', 'title', 'slug', 'category_id', 'active', 'user_id', 'created_at', 'updated_at')
+			->when(Auth::user()->isAdmin(), fn (Builder $q) => $q->withAggregate('user', 'name'))
+			->when(!Auth::user()->isAdmin(), fn (Builder $q) => $q->where('user_id', Auth::id()))
+			->when($this->category_id, fn (Builder $q) => $q->where('category_id', $this->category_id))
+			->when($this->serie_id, fn (Builder $q) => $q->whereHas('serie', fn (Builder $q) => $q->where('id', $this->serie_id)))
+			->withAggregate('category', 'title')
+			->withAggregate('serie', 'title')
+			->withcount('comments')
+			->when($this->search, fn (Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
+			->when('date' === $this->sortBy['column'], fn (Builder $q) => $q->orderBy('created_at', $this->sortBy['direction']), fn (Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction']))
+			->latest()
+			->paginate(5);
+	}
 
-    // Méthode pour obtenir les catégories
-    public function getCategories(): Collection
-    {
-        if (Auth::user()->isAdmin()) {
-            return Category::all();
-        }
+	// Méthode pour obtenir les catégories
+	public function getCategories(): Collection
+	{
+		if (Auth::user()->isAdmin()) {
+			return Category::all();
+		}
 
-        return Category::whereHas('posts', fn(Builder $q) => $q->where('user_id', Auth::id()))->get();
-    }
+		return Category::whereHas('posts', fn (Builder $q) => $q->where('user_id', Auth::id()))->get();
+	}
 
-    // Méthode pour obtenir les séries d'une catégorie donnée
-    public function getSeries(int $category_id): Collection
-    {
-        return Serie::whereHas('posts', fn(Builder $q) => $q->where('category_id', $category_id)->when(Auth::user()->isRedac(), fn(Builder $q) => $q->where('user_id', Auth::id())))->get();
-    }
+	// Méthode pour obtenir les séries d'une catégorie donnée
+	public function getSeries(int $category_id): Collection
+	{
+		return Serie::whereHas('posts', fn (Builder $q) => $q->where('category_id', $category_id)->when(Auth::user()->isRedac(), fn (Builder $q) => $q->where('user_id', Auth::id())))->get();
+	}
 
-    // Méthode appelée avant la mise à jour d'une propriété
-    public function updating($property, $value): void
-    {
-        if ('serie_id' == $property) {
-            $this->serie_id = $value;
-        }
+	// Méthode appelée avant la mise à jour d'une propriété
+	public function updating($property, $value): void
+	{
+		if ('serie_id' == $property) {
+			$this->serie_id = $value;
+		}
 
-        if ('category_id' == $property) {
-            $this->series = '' != $value ? $this->getSeries($value) : new Collection();
-            $this->serie_id = 0;
-        }
-    }
+		if ('category_id' == $property) {
+			$this->series   = '' != $value ? $this->getSeries($value) : new Collection();
+			$this->serie_id = 0;
+		}
+	}
 
-    // Méthode pour supprimer un article
-    public function deletePost(int $postId): void
-    {
-        $post = Post::findOrFail($postId);
-        // Storage::disk('public')->delete('photos/' . $post->image); // Décommenter pour supprimer l'image associée
-        $post->delete();
-        $this->success("{$post->title} " . __('deleted'));
-    }
+	// Méthode pour supprimer un article
+	public function deletePost(int $postId): void
+	{
+		$post = Post::findOrFail($postId);
+		// Storage::disk('public')->delete('photos/' . $post->image); // Décommenter pour supprimer l'image associée
+		$post->delete();
+		$this->success("{$post->title} " . __('deleted'));
+	}
 
-    // Méthode pour cloner un article
-    public function clonePost(int $postId): void
-    {
-        $originalPost = Post::findOrFail($postId);
-        $clonedPost = $originalPost->replicate();
-        $postRepository = new PostRepository();
-        $clonedPost->slug = $postRepository->generateUniqueSlug($originalPost->slug);
-        $clonedPost->active = false;
-        $clonedPost->save();
+	// Méthode pour cloner un article
+	public function clonePost(int $postId): void
+	{
+		$originalPost       = Post::findOrFail($postId);
+		$clonedPost         = $originalPost->replicate();
+		$postRepository     = new PostRepository();
+		$clonedPost->slug   = $postRepository->generateUniqueSlug($originalPost->slug);
+		$clonedPost->active = false;
+		$clonedPost->save();
 
-        redirect()->route('posts.edit', $clonedPost->slug);
-    }
+		redirect()->route('posts.edit', $clonedPost->slug);
+	}
 
-    // Méthode pour fournir des données additionnelles au composant
-    public function with(): array
-    {
-        return [
-            'posts' => $this->posts(),
-            'headers' => $this->headers(),
-        ];
-    }
+	// Méthode pour fournir des données additionnelles au composant
+	public function with(): array
+	{
+		return [
+			'posts'   => $this->posts(),
+			'headers' => $this->headers(),
+		];
+	}
 }; ?>
 
 <div>

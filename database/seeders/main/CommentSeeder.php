@@ -1,14 +1,14 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace database\seeders\main;
 
 use App\Models\Comment;
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
 class CommentSeeder extends Seeder
 {
@@ -43,9 +43,9 @@ class CommentSeeder extends Seeder
 	protected function createComment($post_id, $user_id, $id = null)
 	{
 		return Comment::factory()->create([
-			'post_id'   => $post_id,
-			'user_id'   => $user_id,
-			
+			'post_id' => $post_id,
+			'user_id' => $user_id,
+
 			'parent_id' => $id,
 		]);
 	}

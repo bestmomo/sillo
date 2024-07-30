@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Models;
@@ -13,7 +13,8 @@ use Illuminate\Notifications\Notifiable;
 
 class Contact extends Model
 {
-	use HasFactory, Notifiable;
+	use HasFactory;
+	use Notifiable;
 
 	/**
 	 * The attributes that are mass assignable.

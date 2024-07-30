@@ -9,81 +9,81 @@ use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 new #[Layout('components.layouts.admin')] class extends Component {
-    use Toast;
-    use WithPagination;
+	use Toast;
+	use WithPagination;
 
-    public int $category_id;
-    public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
+	public int $category_id;
+	public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
 
-    #[Rule('required|max:255|unique:categories,title')]
-    public string $title = '';
+	#[Rule('required|max:255|unique:categories,title')]
+	public string $title = '';
 
-    #[Rule('required|max:255|unique:posts,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
-    public string $slug = '';
+	#[Rule('required|max:255|unique:posts,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
+	public string $slug = '';
 
-    // Définir l'ID de la catégorie par défaut lors du montage du composant.
-    public function mount(): void
-    {
-        $category = Category::first();
-        $this->category_id = $category->id;
-    }
+	// Définir l'ID de la catégorie par défaut lors du montage du composant.
+	public function mount(): void
+	{
+		$category          = Category::first();
+		$this->category_id = $category->id;
+	}
 
-    // Définir les en-têtes de table.
-    public function headers(): array
-    {
-        $headers = [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug'], ['key' => 'category_title', 'label' => __('Category')]];
+	// Définir les en-têtes de table.
+	public function headers(): array
+	{
+		$headers = [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug'], ['key' => 'category_title', 'label' => __('Category')]];
 
-        if (Auth::user()->isAdmin()) {
-            $headers[] = ['key' => 'user_name', 'label' => __('Author')];
-        }
+		if (Auth::user()->isAdmin()) {
+			$headers[] = ['key' => 'user_name', 'label' => __('Author')];
+		}
 
-        return $headers;
-    }
+		return $headers;
+	}
 
-    // Mettre à jour le slug lorsque le titre change.
-    public function updating($property, $value)
-    {
-        if ('title' == $property) {
-            $this->slug = Str::slug($value, '-');
-        }
-    }
+	// Mettre à jour le slug lorsque le titre change.
+	public function updating($property, $value)
+	{
+		if ('title' == $property) {
+			$this->slug = Str::slug($value, '-');
+		}
+	}
 
-    // Supprimer une série.
-    public function delete(Serie $serie): void
-    {
-        $serie->delete();
+	// Supprimer une série.
+	public function delete(Serie $serie): void
+	{
+		$serie->delete();
 
-        $this->warning(__('Serie deleted with success.'));
-    }
+		$this->warning(__('Serie deleted with success.'));
+	}
 
-    // Enregistrer une nouvelle série.
-    public function save(): void
-    {
-        $data = $this->validate();
+	// Enregistrer une nouvelle série.
+	public function save(): void
+	{
+		$data = $this->validate();
 
-        Serie::create(
-            $data + [
-                'category_id' => $this->category_id,
-                'user_id' => Auth::id(),
-            ],
-        );
+		Serie::create(
+			$data + [
+				'category_id' => $this->category_id,
+				'user_id'     => Auth::id(),
+			],
+		);
 
-        $this->success(__('Serie created with success.'));
-    }
+		$this->success(__('Serie created with success.'));
+	}
 
-    // Fournir les données nécessaires à la vue.
-    public function with(): array
-    {
-        return [
-            'categories' => Category::all(),
-            'series' => Serie::withAggregate('category', 'title')
-                ->when(Auth::user()->isAdmin(), fn(Builder $q) => $q->withAggregate('user', 'name'))
-                ->when(!Auth::user()->isAdmin(), fn(Builder $q) => $q->where('user_id', Auth::id()))
-                ->orderBy(...array_values($this->sortBy))
-                ->paginate(10),
-            'headers' => $this->headers(),
-        ];
-    }
+	// Fournir les données nécessaires à la vue.
+	public function with(): array
+	{
+		return [
+			'categories' => Category::all(),
+			'series'     => Serie::withAggregate('category', 'title')
+				->when(Auth::user()->isAdmin(), fn (Builder $q) => $q->withAggregate('user', 'name'))
+				->when(!Auth::user()->isAdmin(), fn (Builder $q) => $q->where('user_id', Auth::id()))
+				->orderBy(...array_values($this->sortBy))
+				->paginate(10),
+			'headers' => $this->headers(),
+		];
+	}
 }; ?>
 
 <div>

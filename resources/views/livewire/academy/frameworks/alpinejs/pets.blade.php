@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
 use Livewire\Attributes\{Layout, Title};
@@ -11,7 +11,7 @@ new
 #[Title('Pets')]
 #[Layout('components.layouts.academy')]
 class extends Component {
-    // https://learnwebcode.github.io/json-example/pets-data.json
+	// https://learnwebcode.github.io/json-example/pets-data.json
 }; ?>
 
 <div>

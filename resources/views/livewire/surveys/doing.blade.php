@@ -5,37 +5,36 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new class() extends Component {
-    use Toast;
+	use Toast;
 
-    public Survey $survey;
-    public array $userAnswers = [];
-    public array $results = [];
+	public Survey $survey;
+	public array $userAnswers = [];
+	public array $results     = [];
 
-    public function mount(int $id): void
-    {
-        $this->survey = Survey::with('questions.answers')->findOrFail($id);
+	public function mount(int $id): void
+	{
+		$this->survey = Survey::with('questions.answers')->findOrFail($id);
 
-        if (auth()->user()->participatedSurveys()->where('survey_id', $id)->exists()) {
-            abort(403);
-        }
-    }
+		if (auth()->user()->participatedSurveys()->where('survey_id', $id)->exists()) {
+			abort(403);
+		}
+	}
 
-    public function save()
-    {
-        $this->validate([
-            'userAnswers' => 'required|array',
-            'userAnswers.*' => 'required|integer|exists:answers,id',
-        ]);
+	public function save()
+	{
+		$this->validate([
+			'userAnswers'   => 'required|array',
+			'userAnswers.*' => 'required|integer|exists:answers,id',
+		]);
 
-        $answersString = implode('', $this->userAnswers);
+		$answersString = implode('', $this->userAnswers);
 
-        auth()->user()->participatedSurveys()->attach($this->survey->id, [
-            'answers' => $answersString,
-        ]);
+		auth()->user()->participatedSurveys()->attach($this->survey->id, [
+			'answers' => $answersString,
+		]);
 
-        $this->success(__('Thank you for completing the survey.'), redirectTo: '/surveys/show/' . $this->survey->id);
-    }
-
+		$this->success(__('Thank you for completing the survey.'), redirectTo: '/surveys/show/' . $this->survey->id);
+	}
 }; ?>
 
 <div class="flex items-center justify-center my-8">

@@ -11,49 +11,49 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Title('Create Page'), Layout('components.layouts.admin')] class extends Component {
-    use Toast;
+	use Toast;
 
-    #[Rule('required|max:65000')]
-    public string $body = '';
+	#[Rule('required|max:65000')]
+	public string $body = '';
 
-    #[Rule('required|max:255')]
-    public string $title = '';
+	#[Rule('required|max:255')]
+	public string $title = '';
 
-    #[Rule('required|max:255|unique:posts,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
-    public string $slug = '';
+	#[Rule('required|max:255|unique:posts,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
+	public string $slug = '';
 
-    #[Rule('required|max:70')]
-    public string $seo_title = '';
+	#[Rule('required|max:70')]
+	public string $seo_title = '';
 
-    #[Rule('required|max:160')]
-    public string $meta_description = '';
+	#[Rule('required|max:160')]
+	public string $meta_description = '';
 
-    #[Rule('required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/')]
-    public string $meta_keywords = '';
+	#[Rule('required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/')]
+	public string $meta_keywords = '';
 
-    // Méthode appelée avant la mise à jour de la propriété $title
-    public function updatedTitle($value): void
-    {
-        $this->generateSlug($value);
-		
-        $this->seo_title = $value;
-    }
+	// Méthode appelée avant la mise à jour de la propriété $title
+	public function updatedTitle($value): void
+	{
+		$this->generateSlug($value);
 
-    // Enregistre la nouvelle page
-    public function save()
-    {
-        $data = $this->validate();
+		$this->seo_title = $value;
+	}
 
-        Page::create($data);
+	// Enregistre la nouvelle page
+	public function save()
+	{
+		$data = $this->validate();
 
-        $this->success(__('Page added with success.'), redirectTo: '/admin/pages/index');
-    }
+		Page::create($data);
 
-    // Méthode pour générer le slug à partir du titre
-    private function generateSlug(string $title): void
-    {
-        $this->slug = Str::of($title)->slug('-');
-    }
+		$this->success(__('Page added with success.'), redirectTo: '/admin/pages/index');
+	}
+
+	// Méthode pour générer le slug à partir du titre
+	private function generateSlug(string $title): void
+	{
+		$this->slug = Str::of($title)->slug('-');
+	}
 }; ?>
 
 <div>

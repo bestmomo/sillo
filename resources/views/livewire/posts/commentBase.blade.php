@@ -7,87 +7,87 @@ use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
 // Création d'une nouvelle classe anonyme étendant Component
-new class extends Component {
-    // Propriétés du composant
-    public int $postId;
-    public ?Comment $comment = null;
-    public bool $showCreateForm = true;
-    public bool $showModifyForm = false;
-    public bool $alert = false;
+new class() extends Component {
+	// Propriétés du composant
+	public int $postId;
+	public ?Comment $comment    = null;
+	public bool $showCreateForm = true;
+	public bool $showModifyForm = false;
+	public bool $alert          = false;
 
-    // Attribut de validation pour le message des commentaires
-    #[Rule('required|max:1000')]
-    public string $message = '';
+	// Attribut de validation pour le message des commentaires
+	#[Rule('required|max:1000')]
+	public string $message = '';
 
-    // Méthode de montage pour initialiser le postId
-    public function mount($postId): void
-    {
-        $this->postId = $postId;
-    }
+	// Méthode de montage pour initialiser le postId
+	public function mount($postId): void
+	{
+		$this->postId = $postId;
+	}
 
-    // Méthode pour créer un nouveau commentaire
-    public function createComment(): void
-    {
-        // Validation des données du formulaire
-        $data = $this->validate();
+	// Méthode pour créer un nouveau commentaire
+	public function createComment(): void
+	{
+		// Validation des données du formulaire
+		$data = $this->validate();
 
-        // Vérification de la validité de l'utilisateur
-        if (!Auth::user()->valid) {
-            $this->alert = true;
-        }
+		// Vérification de la validité de l'utilisateur
+		if (!Auth::user()->valid) {
+			$this->alert = true;
+		}
 
-        // Création du commentaire
-        $this->comment = Comment::create([
-            'user_id' => Auth::id(),
-            'post_id' => $this->postId,
-            'body' => $data['message'],
-        ]);
+		// Création du commentaire
+		$this->comment = Comment::create([
+			'user_id' => Auth::id(),
+			'post_id' => $this->postId,
+			'body'    => $data['message'],
+		]);
 
-        // Chargement des relations pour le commentaire créé
-        $this->comment->load([
-            'post' => function (Builder $query) {
-                $query->with('user')->select('id', 'title', 'user_id');
-            },
-            'user',
-        ]);
+		// Chargement des relations pour le commentaire créé
+		$this->comment->load([
+			'post' => function (Builder $query) {
+				$query->with('user')->select('id', 'title', 'user_id');
+			},
+			'user',
+		]);
 
-        // Notification de l'auteur de l'article
-        $this->comment->post->user->notify(new CommentCreated($this->comment));
+		// Notification de l'auteur de l'article
+		$this->comment->post->user->notify(new CommentCreated($this->comment));
 
-        // Réinitialisation du message du formulaire
-        $this->message = $data['message'];
-    }
+		// Réinitialisation du message du formulaire
+		$this->message = $data['message'];
+	}
 
-    // Méthode pour mettre à jour un commentaire
-    public function updateComment(): void
-    {
-        // Validation des données du formulaire
-        $data = $this->validate();
+	// Méthode pour mettre à jour un commentaire
+	public function updateComment(): void
+	{
+		// Validation des données du formulaire
+		$data = $this->validate();
 
-        // Mise à jour du corps du commentaire
-        $this->comment->body = $data['message'];
-        $this->comment->save();
+		// Mise à jour du corps du commentaire
+		$this->comment->body = $data['message'];
+		$this->comment->save();
 
-        // Masquage du formulaire de modification
-        $this->toggleModifyForm(false);
-    }
+		// Masquage du formulaire de modification
+		$this->toggleModifyForm(false);
+	}
 
-    // Méthode pour afficher ou masquer le formulaire de modification
-    public function toggleModifyForm(bool $state): void
-    {
-        $this->showModifyForm = $state;
-    }
+	// Méthode pour afficher ou masquer le formulaire de modification
+	public function toggleModifyForm(bool $state): void
+	{
+		$this->showModifyForm = $state;
+	}
 
-    // Méthode pour supprimer un commentaire
-    public function deleteComment(): void
-    {
-        // Suppression du commentaire
-        $this->comment->delete();
+	// Méthode pour supprimer un commentaire
+	public function deleteComment(): void
+	{
+		// Suppression du commentaire
+		$this->comment->delete();
 
-        // Réinitialisation des propriétés du commentaire et du message du formulaire
-        $this->comment = null;
-        $this->message = '';
-    }
+		// Réinitialisation des propriétés du commentaire et du message du formulaire
+		$this->comment = null;
+		$this->message = '';
+	}
 }; ?>
 
 <div class="flex flex-col mt-4">

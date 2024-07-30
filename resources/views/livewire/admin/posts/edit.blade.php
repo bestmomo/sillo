@@ -17,130 +17,130 @@ use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
 new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Component {
-    // Utilisation des traits WithFileUploads et Toast
-    use WithFileUploads;
-    use Toast;
+	// Utilisation des traits WithFileUploads et Toast
+	use WithFileUploads;
+	use Toast;
 
-    // Déclaration des propriétés du composant
-    public bool $inSerie = false;
-    public Collection $seriePosts;
-    public Post $seriePost;
-    public int $postId;
-    public Collection $series;
-    public ?Serie $serie;
-    public int $category_id;
-    public ?int $serie_id;
-    public Post $post;
-    public string $body = '';
-    public string $excerpt = '';
-    public string $title = '';
-    public string $slug = '';
-    public bool $active = false;
-    public bool $pinned = false;
-    public string $seo_title = '';
-    public string $meta_description = '';
-    public string $meta_keywords = '';
-    public ?TemporaryUploadedFile $photo = null;
+	// Déclaration des propriétés du composant
+	public bool $inSerie = false;
+	public Collection $seriePosts;
+	public Post $seriePost;
+	public int $postId;
+	public Collection $series;
+	public ?Serie $serie;
+	public int $category_id;
+	public ?int $serie_id;
+	public Post $post;
+	public string $body                  = '';
+	public string $excerpt               = '';
+	public string $title                 = '';
+	public string $slug                  = '';
+	public bool $active                  = false;
+	public bool $pinned                  = false;
+	public string $seo_title             = '';
+	public string $meta_description      = '';
+	public string $meta_keywords         = '';
+	public ?TemporaryUploadedFile $photo = null;
 
-    // Initialisation du composant avec les données du post
-    public function mount(Post $post): void
-    {
-        if (Auth()->user()->isRedac() && $post->user_id !== Auth()->id()) {
-            abort(403);
-        }
+	// Initialisation du composant avec les données du post
+	public function mount(Post $post): void
+	{
+		if (Auth()->user()->isRedac() && $post->user_id !== Auth()->id()) {
+			abort(403);
+		}
 
-        $this->post = $post;
+		$this->post = $post;
 
-        $this->fill($this->post);
+		$this->fill($this->post);
 
-        $category = Category::find($this->category_id);
-        $this->series = $category->series;
-        if ($this->series->count() > 0) {
-            $this->serie = $this->serie_id ? Serie::find($this->serie_id) : $this->series->first();
-            $this->seriePosts = $this->serie->posts;
-            $this->seriePost = $this->seriePosts->first();
-        }
-    }
+		$category     = Category::find($this->category_id);
+		$this->series = $category->series;
+		if ($this->series->count() > 0) {
+			$this->serie      = $this->serie_id ? Serie::find($this->serie_id) : $this->series->first();
+			$this->seriePosts = $this->serie->posts;
+			$this->seriePost  = $this->seriePosts->first();
+		}
+	}
 
-    // Méthode appelée lorsqu'une propriété est mise à jour
-    public function updating($property, $value)
-    {
-        switch ($property) {
-            case 'title':
-                $this->slug = Str::slug($value);
+	// Méthode appelée lorsqu'une propriété est mise à jour
+	public function updating($property, $value)
+	{
+		switch ($property) {
+			case 'title':
+				$this->slug = Str::slug($value);
 
-                break;
-            case 'serie_id':
-                $this->serie = Serie::find($value);
-                $this->seriePost = $this->serie->lastPost();
+				break;
+			case 'serie_id':
+				$this->serie     = Serie::find($value);
+				$this->seriePost = $this->serie->lastPost();
 
-                break;
-            case 'category_id':
-                $category = Category::with('series')->find($value);
-                $this->series = $category->series;
+				break;
+			case 'category_id':
+				$category     = Category::with('series')->find($value);
+				$this->series = $category->series;
 
-                if ($this->series->count() > 0) {
-                    $this->seriePost = $this->series->first()->lastPost();
-                } else {
-                    $this->inSerie = false;
-                }
+				if ($this->series->count() > 0) {
+					$this->seriePost = $this->series->first()->lastPost();
+				} else {
+					$this->inSerie = false;
+				}
 
-                break;
-        }
-    }
+				break;
+		}
+	}
 
-    // Méthode pour sauvegarder le post
-    public function save()
-    {
-        $data = $this->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string|max:16777215',
-            'category_id' => 'required',
-            'photo' => 'nullable|image|max:2000',
-            'active' => 'required',
-            'pinned' => 'required',
-            'slug' => ['required', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('posts')->ignore($this->post->id)],
-            'seo_title' => 'required|max:70',
-            'meta_description' => 'required|max:160',
-            'meta_keywords' => 'required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/',
-        ]);
+	// Méthode pour sauvegarder le post
+	public function save()
+	{
+		$data = $this->validate([
+			'title'            => 'required|string|max:255',
+			'body'             => 'required|string|max:16777215',
+			'category_id'      => 'required',
+			'photo'            => 'nullable|image|max:2000',
+			'active'           => 'required',
+			'pinned'           => 'required',
+			'slug'             => ['required', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('posts')->ignore($this->post->id)],
+			'seo_title'        => 'required|max:70',
+			'meta_description' => 'required|max:160',
+			'meta_keywords'    => 'required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/',
+		]);
 
-        // Sauvegarde de l'image si elle a été modifiée et suppression de l'ancienne
-        if ($this->photo) {
-            Storage::disk('public')->delete('photos/' . $this->post->image);
-            $date = now()->format('Y/m'); // Détermination année et mois de publication genre 2024/06
-            $path = $date . '/' . basename($this->photo->store('photos/' . $date, 'public'));
-            $data['image'] = $path;
-        }
+		// Sauvegarde de l'image si elle a été modifiée et suppression de l'ancienne
+		if ($this->photo) {
+			Storage::disk('public')->delete('photos/' . $this->post->image);
+			$date          = now()->format('Y/m'); // Détermination année et mois de publication genre 2024/06
+			$path          = $date . '/' . basename($this->photo->store('photos/' . $date, 'public'));
+			$data['image'] = $path;
+		}
 
-        // Série
-        if ($this->inSerie) {
-            $data += [
-                'serie_id' => $this->serie_id,
-                'parent_id' => $this->seriePost->id,
-            ];
-        }
+		// Série
+		if ($this->inSerie) {
+			$data += [
+				'serie_id'  => $this->serie_id,
+				'parent_id' => $this->seriePost->id,
+			];
+		}
 
-        $data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);
+		$data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);
 
-        // Mise à jour du post
-        $this->post->update(
-            $data + [
-                'category_id' => $this->category_id,
-            ],
-        );
+		// Mise à jour du post
+		$this->post->update(
+			$data + [
+				'category_id' => $this->category_id,
+			],
+		);
 
-        // Affichage d'un message de succès
-        $this->success(__('Post updated with success.'));
-    }
+		// Affichage d'un message de succès
+		$this->success(__('Post updated with success.'));
+	}
 
-    // Méthode pour fournir des données additionnelles au composant
-    public function with(): array
-    {
-        return [
-            'categories' => Category::all(),
-        ];
-    }
+	// Méthode pour fournir des données additionnelles au composant
+	public function with(): array
+	{
+		return [
+			'categories' => Category::all(),
+		];
+	}
 }; ?>
 
 <div>

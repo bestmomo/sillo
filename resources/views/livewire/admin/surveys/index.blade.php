@@ -5,45 +5,46 @@
  */
 
 use App\Models\Survey;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 
 new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Component {
-    use Toast, WithPagination;
+	use Toast;
+	use WithPagination;
 
-    public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
-    public string $search = '';
+	public array $sortBy  = ['column' => 'title', 'direction' => 'asc'];
+	public string $search = '';
 
-    // Définir les en-têtes de la table
-    public function headers(): array
-    {
-        return [['key' => 'title', 'label' => __('Title')], ['key' => 'description', 'label' => __('Description')], ['key' => 'active', 'label' => __('Published')], ['key' => 'user_name', 'label' => __('Creator')],  ['key' => 'participants_count', 'label' => __('Participations')]];
-    }
+	// Définir les en-têtes de la table
+	public function headers(): array
+	{
+		return [['key' => 'title', 'label' => __('Title')], ['key' => 'description', 'label' => __('Description')], ['key' => 'active', 'label' => __('Published')], ['key' => 'user_name', 'label' => __('Creator')],  ['key' => 'participants_count', 'label' => __('Participations')]];
+	}
 
-    // Supprimer un sondage
-    public function deleteSurvey(Survey $survey): void
-    {
-        $survey->delete();
-        $this->success(__('Survey deleted'));
-    }
+	// Supprimer un sondage
+	public function deleteSurvey(Survey $survey): void
+	{
+		$survey->delete();
+		$this->success(__('Survey deleted'));
+	}
 
-    // Fournir les données nécessaires à la vue
-    public function with(): array
-    {
-        return [
-            'surveys' => Survey::orderBy(...array_values($this->sortBy))
-                ->when(!Auth::user()->isAdmin(), fn(Builder $q) => $q->where('user_id', Auth::id()))
-                ->when($this->search, fn(Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
-                ->withAggregate('user', 'name')
-                ->withCount('participants')
-                ->paginate(10),
-            'headers' => $this->headers(),
-        ];
-    }
+	// Fournir les données nécessaires à la vue
+	public function with(): array
+	{
+		return [
+			'surveys' => Survey::orderBy(...array_values($this->sortBy))
+				->when(!Auth::user()->isAdmin(), fn (Builder $q) => $q->where('user_id', Auth::id()))
+				->when($this->search, fn (Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
+				->withAggregate('user', 'name')
+				->withCount('participants')
+				->paginate(10),
+			'headers' => $this->headers(),
+		];
+	}
 }; ?>
 
 <div>

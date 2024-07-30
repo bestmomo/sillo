@@ -5,34 +5,36 @@
  */
 
 use App\Models\Event;
+use App\Traits\ManageEvent;
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
-use App\Traits\ManageEvent;
 
 new #[Title('Edit Event'), Layout('components.layouts.admin')] class extends Component {
-    use Toast, ManageEvent;
+	use Toast;
+	use ManageEvent;
 
-    public Event $event;
+	public Event $event;
 
-    public function mount(Event $event): void
-    {
-        $this->event = $event;
-        $this->fill($this->event);
-        $this->colors = $this->getColors();
-    }
-   
-    // Enregistre le nouvel événement
-    public function save()
-    {
-        $data = $this->validate($this->rules);
-        if($this->checkDates()) return;
+	public function mount(Event $event): void
+	{
+		$this->event = $event;
+		$this->fill($this->event);
+		$this->colors = $this->getColors();
+	}
 
-        $this->event->update($data);
+	// Enregistre le nouvel événement
+	public function save()
+	{
+		$data = $this->validate($this->rules);
+		if ($this->checkDates()) {
+			return;
+		}
 
-        $this->success(__('Event updated with success.'), redirectTo: '/admin/events/index');
-    }
+		$this->event->update($data);
 
+		$this->success(__('Event updated with success.'), redirectTo: '/admin/events/index');
+	}
 }; ?>
 
 <div>

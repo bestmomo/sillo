@@ -14,137 +14,137 @@ use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Component {
-    use Toast;
-    use WithPagination;
+	use Toast;
+	use WithPagination;
 
-    public array $allImages = [];
-    public Collection $years;
-    public Collection $months;
-    public string $selectedYear;
-    public string $selectedMonth;
-    public int $perPage = 4;
-    public int $page = 1;
+	public array $allImages = [];
+	public Collection $years;
+	public Collection $months;
+	public string $selectedYear;
+	public string $selectedMonth;
+	public int $perPage = 4;
+	public int $page    = 1;
 
-    // Définir les en-têtes de table.
-    public function headers(): array
-    {
-        return [['key' => 'url', 'label' => ''], ['key' => 'path', 'label' => __('Path')], ['key' => 'usage', 'label' => __('Used')]];
-    }
+	// Définir les en-têtes de table.
+	public function headers(): array
+	{
+		return [['key' => 'url', 'label' => ''], ['key' => 'path', 'label' => __('Path')], ['key' => 'usage', 'label' => __('Used')]];
+	}
 
-    public function mount(): void
-    {
-        $this->years = $this->getYears();
-        $this->months = $this->getMonths($this->selectedYear);
-        $this->getImages();
-    }
+	public function mount(): void
+	{
+		$this->years  = $this->getYears();
+		$this->months = $this->getMonths($this->selectedYear);
+		$this->getImages();
+	}
 
-    public function updating($property, $value): void
-    {
-        if ('selectedYear' == $property) {
-            $this->months = $this->getMonths($value);
-        }
-    }
+	public function updating($property, $value): void
+	{
+		if ('selectedYear' == $property) {
+			$this->months = $this->getMonths($value);
+		}
+	}
 
-    public function getImages(): LengthAwarePaginator
-    {
-        $imagesPath = "public/photos/{$this->selectedYear}/{$this->selectedMonth}";
-        $allFiles = Storage::files($imagesPath);
+	public function getImages(): LengthAwarePaginator
+	{
+		$imagesPath = "public/photos/{$this->selectedYear}/{$this->selectedMonth}";
+		$allFiles   = Storage::files($imagesPath);
 
-        $this->allImages = collect($allFiles)
-            ->map(function ($file) {
-                return [
-                    'path' => $file,
-                    'url' => Storage::url($file),
-                    'usage' => $this->imageIsUsed($file),
-                ];
-            })
-            ->toArray();
+		$this->allImages = collect($allFiles)
+			->map(function ($file) {
+				return [
+					'path'  => $file,
+					'url'   => Storage::url($file),
+					'usage' => $this->imageIsUsed($file),
+				];
+			})
+			->toArray();
 
-        // Pagination logic
-        $this->page = LengthAwarePaginator::resolveCurrentPage('page');
-        $total = count($this->allImages);
-        $images = array_slice($this->allImages, ($this->page - 1) * $this->perPage, $this->perPage, true);
+		// Pagination logic
+		$this->page = LengthAwarePaginator::resolveCurrentPage('page');
+		$total      = count($this->allImages);
+		$images     = array_slice($this->allImages, ($this->page - 1) * $this->perPage, $this->perPage, true);
 
-        return new LengthAwarePaginator($images, $total, $this->perPage, $this->page, [
-            'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'pageName' => 'page',
-        ]);
-    }
+		return new LengthAwarePaginator($images, $total, $this->perPage, $this->page, [
+			'path'     => LengthAwarePaginator::resolveCurrentPath(),
+			'pageName' => 'page',
+		]);
+	}
 
-    public function deleteImage($index): void
-    {
-        // Récupérer le chemin de l'image
-        $path = $this->allImages[$index]['path'];
+	public function deleteImage($index): void
+	{
+		// Récupérer le chemin de l'image
+		$path = $this->allImages[$index]['path'];
 
-        // Supprimer l'image
-        Storage::delete($path);
+		// Supprimer l'image
+		Storage::delete($path);
 
-        $this->success(__('Image deleted with success.'));
-        $this->getImages();
-    }
+		$this->success(__('Image deleted with success.'));
+		$this->getImages();
+	}
 
-    public function with(): array
-    {
-        return [
-            'headers' => $this->headers(),
-            'images' => $this->getImages(),
-        ];
-    }
+	public function with(): array
+	{
+		return [
+			'headers' => $this->headers(),
+			'images'  => $this->getImages(),
+		];
+	}
 
-    private function getYears(): Collection
-    {
-        $basePath = 'public/photos';
-        $yearDirectories = Storage::directories($basePath);
+	private function getYears(): Collection
+	{
+		$basePath        = 'public/photos';
+		$yearDirectories = Storage::directories($basePath);
 
-        $years = collect($yearDirectories)->map(function ($yearPath) {
-            $year = basename($yearPath);
+		$years = collect($yearDirectories)->map(function ($yearPath) {
+			$year = basename($yearPath);
 
-            return ['id' => $year, 'name' => $year];
-        });
+			return ['id' => $year, 'name' => $year];
+		});
 
-        $this->selectedYear = $years->first()['id'];
+		$this->selectedYear = $years->first()['id'];
 
-        return $years;
-    }
+		return $years;
+	}
 
-    private function getMonths($year): Collection
-    {
-        $basePath = "public/photos/{$year}";
-        $monthDirectories = Storage::directories($basePath);
+	private function getMonths($year): Collection
+	{
+		$basePath         = "public/photos/{$year}";
+		$monthDirectories = Storage::directories($basePath);
 
-        $months = collect($monthDirectories)->map(function ($monthPath) {
-            $month = basename($monthPath);
+		$months = collect($monthDirectories)->map(function ($monthPath) {
+			$month = basename($monthPath);
 
-            return ['id' => $month, 'name' => $month];
-        });
+			return ['id' => $month, 'name' => $month];
+		});
 
-        $this->selectedMonth = $months->first()['id'];
+		$this->selectedMonth = $months->first()['id'];
 
-        $this->getImages();
+		$this->getImages();
 
-        return $months;
-    }
+		return $months;
+	}
 
-    private function imageIsUsed(string $file): bool
-    {
-        $fileName = basename($file);
+	private function imageIsUsed(string $file): bool
+	{
+		$fileName = basename($file);
 
-        // Check in posts
-        if (
-            Post::where('image', 'LIKE', "%{$fileName}%")
-                ->orWhere('body', 'LIKE', "%{$fileName}%")
-                ->count()
-        ) {
-            return true;
-        }
+		// Check in posts
+		if (
+			Post::where('image', 'LIKE', "%{$fileName}%")
+				->orWhere('body', 'LIKE', "%{$fileName}%")
+				->count()
+		) {
+			return true;
+		}
 
-        // Check in pages
-        if (Page::where('body', 'LIKE', "%{$fileName}%")->count()) {
-            return true;
-        }
+		// Check in pages
+		if (Page::where('body', 'LIKE', "%{$fileName}%")->count()) {
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 }; ?>
 
 <div>

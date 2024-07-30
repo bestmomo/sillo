@@ -5,48 +5,48 @@
  */
 
 use App\Models\Quiz;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 
 new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Component {
-    use Toast;
-    use WithPagination;
+	use Toast;
+	use WithPagination;
 
-    public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
-    public string $search = '';
+	public array $sortBy  = ['column' => 'title', 'direction' => 'asc'];
+	public string $search = '';
 
-    // Définir les en-têtes de la table
-    public function headers(): array
-    {
-        return [['key' => 'title', 'label' => __('Title')], ['key' => 'description', 'label' => __('Description')], ['key' => 'user_name', 'label' => __('Creator')], ['key' => 'post_title', 'label' => __('Post')], ['key' => 'participants_count', 'label' => __('Participations')]];
-    }
+	// Définir les en-têtes de la table
+	public function headers(): array
+	{
+		return [['key' => 'title', 'label' => __('Title')], ['key' => 'description', 'label' => __('Description')], ['key' => 'user_name', 'label' => __('Creator')], ['key' => 'post_title', 'label' => __('Post')], ['key' => 'participants_count', 'label' => __('Participations')]];
+	}
 
-    // Supprimer un quiz
-    public function deleteQuiz(Quiz $quiz): void
-    {
-        $quiz->delete();
-        $this->success(__('Quiz deleted'));
-    }
+	// Supprimer un quiz
+	public function deleteQuiz(Quiz $quiz): void
+	{
+		$quiz->delete();
+		$this->success(__('Quiz deleted'));
+	}
 
-    // Fournir les données nécessaires à la vue
-    public function with(): array
-    {
-        return [
-            'quizzes' => Quiz::select('id', 'title', 'description')
-                ->orderBy(...array_values($this->sortBy))
-                ->when(!Auth::user()->isAdmin(), fn(Builder $q) => $q->where('user_id', Auth::id()))
-                ->when($this->search, fn(Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
-                ->withAggregate('user', 'name')
-                ->withAggregate('post', 'title')
-                ->withCount('participants')
-                ->paginate(10),
-            'headers' => $this->headers(),
-        ];
-    }
+	// Fournir les données nécessaires à la vue
+	public function with(): array
+	{
+		return [
+			'quizzes' => Quiz::select('id', 'title', 'description')
+				->orderBy(...array_values($this->sortBy))
+				->when(!Auth::user()->isAdmin(), fn (Builder $q) => $q->where('user_id', Auth::id()))
+				->when($this->search, fn (Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
+				->withAggregate('user', 'name')
+				->withAggregate('post', 'title')
+				->withCount('participants')
+				->paginate(10),
+			'headers' => $this->headers(),
+		];
+	}
 }; ?>
 
 <div>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 return [
@@ -156,12 +156,11 @@ return [
 	|--------------------------------------------------------------------------
 	 */
 
-	 'dateConfig' => [
-		'locale' => env('APP_LOCALE'),
-		'minDate' => now(),
+	'dateConfig' => [
+		'locale'    => env('APP_LOCALE'),
+		'minDate'   => now(),
 		'altFormat' => env('APP_CALENDAR_FORMAT'),
-	 ],
-
+	],
 
 	/*
 	|--------------------------------------------------------------------------

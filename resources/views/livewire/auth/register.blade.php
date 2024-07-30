@@ -7,53 +7,52 @@ use Livewire\Volt\Component;
 
 // Définition du composant avec les attributs de titre et de mise en page
 new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Component {
+	// Définition des règles de validation pour les champs du formulaire
+	#[Rule('required|string|max:255|unique:users')]
+	public string $name = '';
 
-    // Définition des règles de validation pour les champs du formulaire
-    #[Rule('required|string|max:255|unique:users')]
-    public string $name = '';
+	#[Rule('required|string|max:255')]
+	public string $firstname = '';
 
-    #[Rule('required|string|max:255')]
-    public string $firstname = '';
+	#[Rule('required|email|unique:users')]
+	public string $email = '';
 
-    #[Rule('required|email|unique:users')]
-    public string $email = '';
+	#[Rule('required|confirmed')]
+	public string $password = '';
 
-    #[Rule('required|confirmed')]
-    public string $password = '';
+	#[Rule('required')]
+	public string $password_confirmation = '';
 
-    #[Rule('required')]
-    public string $password_confirmation = '';
+	#[Rule('sometimes|nullable')]
+	public ?string $gender = null;
 
-    #[Rule('sometimes|nullable')]
-    public ?string $gender = null;
+	// Méthode pour enregistrer un nouvel utilisateur
+	public function register()
+	{
+		// Vérification du champ honeypot
+		if ($this->gender) {
+			// Si le champ honeypot est rempli, c'est probablement un bot
+			abort(403);
+		}
 
-    // Méthode pour enregistrer un nouvel utilisateur
-    public function register()
-    {
-        // Vérification du champ honeypot
-        if ($this->gender) {
-            // Si le champ honeypot est rempli, c'est probablement un bot
-            abort(403);
-        }
-        
-        // Validation des données
-        $data = $this->validate();
+		// Validation des données
+		$data = $this->validate();
 
-        // Hashage du mot de passe
-        $data['password'] = Hash::make($data['password']);
+		// Hashage du mot de passe
+		$data['password'] = Hash::make($data['password']);
 
-        // Création de l'utilisateur
-        $user = User::create($data);
+		// Création de l'utilisateur
+		$user = User::create($data);
 
-        // Authentification de l'utilisateur
-        auth()->login($user);
+		// Authentification de l'utilisateur
+		auth()->login($user);
 
-        // Régénération de la session
-        request()->session()->regenerate();
+		// Régénération de la session
+		request()->session()->regenerate();
 
-        // Redirection vers la page d'accueil
-        return redirect('/');
-    }
+		// Redirection vers la page d'accueil
+		return redirect('/');
+	}
 }; ?>
 
 <div>

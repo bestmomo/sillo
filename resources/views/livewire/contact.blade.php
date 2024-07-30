@@ -7,43 +7,43 @@ use Mary\Traits\Toast;
 
 // Définition du composant avec les attributs de titre et de mise en page
 new #[Title('Contact')] #[Layout('components.layouts.auth')] class extends Component {
-    use Toast;
+	use Toast;
 
-    // Définition des règles de validation pour les champs du formulaire
-    #[Rule('required|string|max:255')]
-    public string $name = '';
+	// Définition des règles de validation pour les champs du formulaire
+	#[Rule('required|string|max:255')]
+	public string $name = '';
 
-    #[Rule('required|email')]
-    public string $email = '';
+	#[Rule('required|email')]
+	public string $email = '';
 
-    #[Rule('required|max:1000')]
-    public string $message = '';
+	#[Rule('required|max:1000')]
+	public string $message = '';
 
-    #[Rule('nullable|numeric|exists:users,id')]
-    public ?int $user_id = null;
+	#[Rule('nullable|numeric|exists:users,id')]
+	public ?int $user_id = null;
 
-    // Méthode de montage pour pré-remplir les champs avec les informations de l'utilisateur authentifié
-    public function mount(): void
-    {
-        if (Auth::check()) {
-            $this->name = Auth::user()->name;
-            $this->email = Auth::user()->email;
-            $this->user_id = Auth::id();
-        }
-    }
+	// Méthode de montage pour pré-remplir les champs avec les informations de l'utilisateur authentifié
+	public function mount(): void
+	{
+		if (Auth::check()) {
+			$this->name    = Auth::user()->name;
+			$this->email   = Auth::user()->email;
+			$this->user_id = Auth::id();
+		}
+	}
 
-    // Méthode pour enregistrer le formulaire de contact
-    public function save()
-    {
-        // Validation des données du formulaire
-        $data = $this->validate();
+	// Méthode pour enregistrer le formulaire de contact
+	public function save()
+	{
+		// Validation des données du formulaire
+		$data = $this->validate();
 
-        // Création d'un nouveau contact avec les données validées
-        Contact::create($data);
+		// Création d'un nouveau contact avec les données validées
+		Contact::create($data);
 
-        // Affichage d'un message de réussite avec une redirection
-        $this->success(__('Your message has been sent!'), redirectTo: '/');
-    }
+		// Affichage d'un message de réussite avec une redirection
+		$this->success(__('Your message has been sent!'), redirectTo: '/');
+	}
 }; ?>
 
 <div>
