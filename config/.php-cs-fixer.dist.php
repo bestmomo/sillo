@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 $finder = PhpCsFixer\Finder::create()
@@ -22,7 +22,7 @@ return (new PhpCsFixer\Config())
 	->setRules(
 		[
 			'header_comment' => [
-				'header'       => '(ɔ) LARAVEL.Sillo.org - 2015-' . date('Y'), // . date('Y'),
+				'header'       => '(ɔ) LARAVEL.Sillo.org - 2012-' . date('Y'), // . date('Y'),
 				'comment_type' => 'PHPDoc',
 				'location'     => 'after_declare_strict',
 			],

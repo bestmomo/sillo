@@ -11,31 +11,31 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Title('Edit Footer'), Layout('components.layouts.admin')] class extends Component {
-    use Toast;
+	use Toast;
 
-    public Footer $footer;
-    public string $label = '';
-    public string $link = '';
+	public Footer $footer;
+	public string $label = '';
+	public string $link  = '';
 
-    // Initialise le composant avec le footer donné.
-    public function mount(Footer $footer): void
-    {
-        $this->footer = $footer;
-        $this->fill($this->footer);
-    }
+	// Initialise le composant avec le footer donné.
+	public function mount(Footer $footer): void
+	{
+		$this->footer = $footer;
+		$this->fill($this->footer);
+	}
 
-    // Enregistrer les modifications apportées au footer.
-    public function save(): void
-    {
-        $data = $this->validate([
-            'label' => ['required', 'string', 'max:255', Rule::unique('footers')->ignore($this->footer->id)],
-            'link' => 'regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',
-        ]);
+	// Enregistrer les modifications apportées au footer.
+	public function save(): void
+	{
+		$data = $this->validate([
+			'label' => ['required', 'string', 'max:255', Rule::unique('footers')->ignore($this->footer->id)],
+			'link'  => 'regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',
+		]);
 
-        $this->footer->update($data);
+		$this->footer->update($data);
 
-        $this->success(__('Footer updated with success.'), redirectTo: '/admin/footers/index');
-    }
+		$this->success(__('Footer updated with success.'), redirectTo: '/admin/footers/index');
+	}
 }; ?>
 
 <div>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Models;
@@ -14,7 +14,6 @@ class Page extends Model
 	use HasFactory;
 
 	public $timestamps  = false;
-	
 	protected $fillable = [
 		'title',
 		'slug',

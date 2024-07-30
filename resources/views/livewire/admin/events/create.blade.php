@@ -5,30 +5,32 @@
  */
 
 use App\Models\Event;
+use App\Traits\ManageEvent;
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
-use App\Traits\ManageEvent;
 
 new #[Title('Create Event'), Layout('components.layouts.admin')] class extends Component {
-    use Toast, ManageEvent;
+	use Toast;
+	use ManageEvent;
 
-    public function mount(): void
-    {
-        $this->colors = $this->getColors();
-    }
-    
-    // Enregistre la nouvelle page
-    public function save()
-    {
-        $data = $this->validate($this->rules);
-        if($this->checkDates()) return;
+	public function mount(): void
+	{
+		$this->colors = $this->getColors();
+	}
 
-        Event::create($data);
+	// Enregistre la nouvelle page
+	public function save()
+	{
+		$data = $this->validate($this->rules);
+		if ($this->checkDates()) {
+			return;
+		}
 
-        $this->success(__('Event added with success.'), redirectTo: '/admin/events/index');
-    }
+		Event::create($data);
 
+		$this->success(__('Event added with success.'), redirectTo: '/admin/events/index');
+	}
 }; ?>
 
 <div>

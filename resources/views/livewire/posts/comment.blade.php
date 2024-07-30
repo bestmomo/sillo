@@ -2,108 +2,107 @@
 
 use App\Models\Comment;
 use App\Notifications\{CommentAnswerCreated, CommentCreated};
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
-new class extends Component {
-    // Propriétés du composant
-    public ?Comment $comment;
-    public ?Collection $childs;
-    public bool $showAnswerForm = false;
-    public bool $showModifyForm = false;
-    public int $depth;
-    public bool $alert = false;
+new class() extends Component {
+	// Propriétés du composant
+	public ?Comment $comment;
+	public ?Collection $childs;
+	public bool $showAnswerForm = false;
+	public bool $showModifyForm = false;
+	public int $depth;
+	public bool $alert = false;
 
-    // Attribut de validation pour le message des commentaires
-    #[Rule('required|max:1000')]
-    public string $message = '';
+	// Attribut de validation pour le message des commentaires
+	#[Rule('required|max:1000')]
+	public string $message = '';
 
-    // Initialise le composant avec les données du commentaire.
-    public function mount($comment, $depth): void
-    {
-        $this->comment = $comment;
-        $this->depth = $depth;
-        $this->message = $comment->body;
-    }
+	// Initialise le composant avec les données du commentaire.
+	public function mount($comment, $depth): void
+	{
+		$this->comment = $comment;
+		$this->depth   = $depth;
+		$this->message = $comment->body;
+	}
 
-    public function showAnswers(): void
-    {
-        $this->childs = Comment::where('parent_id', $this->comment->id)
-                ->withCount(['children' => function ($query) {
-                    $query->whereHas('user', function ($q) {
-                        $q->where('valid', true);
-                    });
-                }])
-                ->get();
+	public function showAnswers(): void
+	{
+		$this->childs = Comment::where('parent_id', $this->comment->id)
+			->withCount(['children' => function ($query) {
+				$query->whereHas('user', function ($q) {
+					$q->where('valid', true);
+				});
+			}])
+			->get();
 
-        $this->comment->children_count = 0;
-    }
+		$this->comment->children_count = 0;
+	}
 
-    // Affiche ou masque le formulaire de réponse.
-    public function toggleAnswerForm(bool $state): void
-    {
-        $this->showAnswerForm = $state;
-        $this->message = '';
-    }
+	// Affiche ou masque le formulaire de réponse.
+	public function toggleAnswerForm(bool $state): void
+	{
+		$this->showAnswerForm = $state;
+		$this->message        = '';
+	}
 
-    // Affiche ou masque le formulaire de modification.
-    public function toggleModifyForm(bool $state): void
-    {
-        $this->showModifyForm = $state;
-    }
+	// Affiche ou masque le formulaire de modification.
+	public function toggleModifyForm(bool $state): void
+	{
+		$this->showModifyForm = $state;
+	}
 
-    // Crée un nouveau commentaire en réponse à celui actuel.
-    public function createAnswer(): void
-    {
-        $data = $this->validate();
-        $data['parent_id'] = $this->comment->id;
-        $data['user_id'] = Auth::id();
-        $data['post_id'] = $this->comment->post_id;
-        $data['body'] = $this->message;
+	// Crée un nouveau commentaire en réponse à celui actuel.
+	public function createAnswer(): void
+	{
+		$data              = $this->validate();
+		$data['parent_id'] = $this->comment->id;
+		$data['user_id']   = Auth::id();
+		$data['post_id']   = $this->comment->post_id;
+		$data['body']      = $this->message;
 
-        $item = Comment::create($data);
+		$item = Comment::create($data);
 
-        $item->save();
+		$item->save();
 
-        // Notification de l'auteur de l'article
-        $item->post->user->notify(new CommentCreated($item));
+		// Notification de l'auteur de l'article
+		$item->post->user->notify(new CommentCreated($item));
 
-        // Notification de l'auteur du commentaire initial
-        $item->post->user->notify(new CommentAnswerCreated($item));
+		// Notification de l'auteur du commentaire initial
+		$item->post->user->notify(new CommentAnswerCreated($item));
 
-        // Masquage du formulaire de réponse
-        $this->toggleAnswerForm(false);
+		// Masquage du formulaire de réponse
+		$this->toggleAnswerForm(false);
 
-        // On montre les réponses
-        $this->showAnswers();
-    }
+		// On montre les réponses
+		$this->showAnswers();
+	}
 
-    // Met à jour le commentaire actuel.
-    public function updateAnswer(): void
-    {
-        // Validation des données du formulaire
-        $data = $this->validate();
+	// Met à jour le commentaire actuel.
+	public function updateAnswer(): void
+	{
+		// Validation des données du formulaire
+		$data = $this->validate();
 
-        // Mise à jour du corps du commentaire
-        $this->comment->body = $data['message'];
-        $this->comment->save();
+		// Mise à jour du corps du commentaire
+		$this->comment->body = $data['message'];
+		$this->comment->save();
 
-        // Masquage du formulaire de modification
-        $this->toggleModifyForm(false);
-    }
+		// Masquage du formulaire de modification
+		$this->toggleModifyForm(false);
+	}
 
-    // Supprime le commentaire actuel.
-    public function deleteComment(): void
-    {
-        // Suppression du commentaire
-        $this->comment->delete();
+	// Supprime le commentaire actuel.
+	public function deleteComment(): void
+	{
+		// Suppression du commentaire
+		$this->comment->delete();
 
-        // Réinitialisation des enfants et du commentaire actuel
-        $this->childs = null;
-        $this->comment = null;
-    }
+		// Réinitialisation des enfants et du commentaire actuel
+		$this->childs  = null;
+		$this->comment = null;
+	}
 }; ?>
 
 <div>

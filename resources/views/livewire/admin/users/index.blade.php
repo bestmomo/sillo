@@ -13,123 +13,123 @@ use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 new #[Title('Users'), Layout('components.layouts.admin')] class extends Component {
-    use Toast;
-    use WithPagination;
+	use Toast;
+	use WithPagination;
 
-    public string $search = '';
-    public array $sortBy = ['column' => 'id', 'direction' => 'asc'];
-    public string $role = 'all';
-    public $isStudent = false;
-    public array $rolesCount = [];
-    protected $queryString = [
-        'search' => ['except' => ''],
-    ];
+	public string $search    = '';
+	public array $sortBy     = ['column' => 'id', 'direction' => 'asc'];
+	public string $role      = 'all';
+	public $isStudent        = false;
+	public array $rolesCount = [];
+	protected $queryString   = [
+		'search' => ['except' => ''],
+	];
 
-    // Fetch all users with filters and sorting.
-    public function fetchUsers(): LengthAwarePaginator
-    {
-        $users = User::query()
-            ->when($this->search, function (Builder $query) {
-                $query->where('name', 'like', "%{$this->search}%");
-            })
-            ->when('all' !== $this->role, function (Builder $query) {
-                $query->where('role', $this->role);
-            })
-            ->when($this->isStudent, function ($query) {
-                $query->where('isStudent', true);
-            })
-            ->withCount('posts', 'comments')
-            ->orderBy(...array_values($this->sortBy))
-            ->paginate(10);
+	// Fetch all users with filters and sorting.
+	public function fetchUsers(): LengthAwarePaginator
+	{
+		$users = User::query()
+			->when($this->search, function (Builder $query) {
+				$query->where('name', 'like', "%{$this->search}%");
+			})
+			->when('all' !== $this->role, function (Builder $query) {
+				$query->where('role', $this->role);
+			})
+			->when($this->isStudent, function ($query) {
+				$query->where('isStudent', true);
+			})
+			->withCount('posts', 'comments')
+			->orderBy(...array_values($this->sortBy))
+			->paginate(10);
 
-        // Récupération des statistiques globales
-        $result = User::query()->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN isStudent = true THEN 1 ELSE 0 END) as student_count')->groupBy('role')->get();
+		// Récupération des statistiques globales
+		$result = User::query()->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN isStudent = true THEN 1 ELSE 0 END) as student_count')->groupBy('role')->get();
 
-        $roleCounts = $result->pluck('count', 'role');
-        $studentCounts = $result->pluck('student_count', 'role');
-        $nbrUsers = $result->sum('count');
-        $nbrStudents = $result->sum('student_count');
+		$roleCounts    = $result->pluck('count', 'role');
+		$studentCounts = $result->pluck('student_count', 'role');
+		$nbrUsers      = $result->sum('count');
+		$nbrStudents   = $result->sum('student_count');
 
-        // Préparation des rôles pour l'affichage
-        $rolesCount = collect([
-            'all' => __('All') . " ({$nbrUsers})",
-        ])
-            ->merge(
-                collect([
-                    'admin' => __('Administrators'),
-                    'redac' => __('Redactors'),
-                    'user' => __('Users'),
-                ])->map(function ($roleName, $roleId) use ($roleCounts, $studentCounts) {
-                    $count = $roleCounts->get($roleId, 0);
-                    $studentCount = $studentCounts->get($roleId, 0);
-                    $plur = $studentCount > 1 ? 's' : '';
-                    $with = __('with');
-                    $student = __('student');
+		// Préparation des rôles pour l'affichage
+		$rolesCount = collect([
+			'all' => __('All') . " ({$nbrUsers})",
+		])
+			->merge(
+				collect([
+					'admin' => __('Administrators'),
+					'redac' => __('Redactors'),
+					'user'  => __('Users'),
+				])->map(function ($roleName, $roleId) use ($roleCounts, $studentCounts) {
+					$count        = $roleCounts->get($roleId, 0);
+					$studentCount = $studentCounts->get($roleId, 0);
+					$plur         = $studentCount > 1 ? 's' : '';
+					$with         = __('with');
+					$student      = __('student');
 
-                    return "{$roleName} ({$count}), {$with} {$studentCount} {$student}{$plur}";
-                }),
-            )
-            ->map(function ($roleName, $roleId) {
-                return ['name' => $roleName, 'id' => $roleId];
-            })
-            ->values()
-            ->all();
+					return "{$roleName} ({$count}), {$with} {$studentCount} {$student}{$plur}";
+				}),
+			)
+			->map(function ($roleName, $roleId) {
+				return ['name' => $roleName, 'id' => $roleId];
+			})
+			->values()
+			->all();
 
-        $this->rolesCount = $rolesCount;
+		$this->rolesCount = $rolesCount;
 
-        // Ajout des statistiques à chaque utilisateur
-        $users->getCollection()->transform(function ($user) use ($roleCounts, $studentCounts) {
-            $user->userCountsByRole = $roleCounts;
-            $user->studentCountsByRole = $studentCounts;
+		// Ajout des statistiques à chaque utilisateur
+		$users->getCollection()->transform(function ($user) use ($roleCounts, $studentCounts) {
+			$user->userCountsByRole    = $roleCounts;
+			$user->studentCountsByRole = $studentCounts;
 
-            return $user;
-        });
+			return $user;
+		});
 
-        // Stockage des statistiques globales
-        $this->roleCounts = $roleCounts;
-        $this->studentCounts = $studentCounts;
-        $this->nbrUsers = $nbrUsers;
-        $this->nbrStudents = $nbrStudents;
+		// Stockage des statistiques globales
+		$this->roleCounts    = $roleCounts;
+		$this->studentCounts = $studentCounts;
+		$this->nbrUsers      = $nbrUsers;
+		$this->nbrStudents   = $nbrStudents;
 
-        $this->setPage(1);
+		$this->setPage(1);
 
-        return $users;
-    }
+		return $users;
+	}
 
-    // Supprimer un utilisateur.
-    public function deleteUser(User $user): void
-    {
-        $user->delete();
-        $this->success("{$user->name} " . __('deleted'));
-    }
+	// Supprimer un utilisateur.
+	public function deleteUser(User $user): void
+	{
+		$user->delete();
+		$this->success("{$user->name} " . __('deleted'));
+	}
 
-    // Fetch the necessary data for the view.
-    public function with(): array
-    {
-        $roles = [
-            'admin' => 'Administrator',
-            'redac' => 'Redactor',
-            'user' => 'User',
-        ];
+	// Fetch the necessary data for the view.
+	public function with(): array
+	{
+		$roles = [
+			'admin' => 'Administrator',
+			'redac' => 'Redactor',
+			'user'  => 'User',
+		];
 
-        return [
-            'users' => $this->fetchUsers(),
-            'headers' => $this->headers(),
-            'roles' => $roles,
-        ];
-    }
+		return [
+			'users'   => $this->fetchUsers(),
+			'headers' => $this->headers(),
+			'roles'   => $roles,
+		];
+	}
 
-    // Define table headers.
-    public function headers(): array
-    {
-        $headers = [['key' => 'id', 'label' => '#'], ['key' => 'name', 'label' => __('Name')], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Status')], ['key' => 'valid', 'label' => __('Valid')]];
+	// Define table headers.
+	public function headers(): array
+	{
+		$headers = [['key' => 'id', 'label' => '#'], ['key' => 'name', 'label' => __('Name')], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Status')], ['key' => 'valid', 'label' => __('Valid')]];
 
-        if ('user' !== $this->role) {
-            $headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
-        }
+		if ('user' !== $this->role) {
+			$headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
+		}
 
-        return array_merge($headers, [['key' => 'comments_count', 'label' => __('Comments')], ['key' => 'created_at', 'label' => __('Registration')]]);
-    }
+		return array_merge($headers, [['key' => 'comments_count', 'label' => __('Comments')], ['key' => 'created_at', 'label' => __('Registration')]]);
+	}
 }; ?>
 
 <div>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace Database\Seeders;
@@ -12,6 +12,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
 	use WithoutModelEvents;
+
 	/**
 	 * Seed the application's database.
 	 */

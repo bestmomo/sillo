@@ -9,39 +9,38 @@ use App\Traits\ManageSurvey;
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
-use Illuminate\Support\Collection;
 
 new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Component {
-    use Toast, ManageSurvey;
+	use Toast;
+	use ManageSurvey;
 
-    public function mount(): void
-    {
-        $this->addQuestion(2);
-    }
+	public function mount(): void
+	{
+		$this->addQuestion(2);
+	}
 
-    public function save()
-    {
-        $data = $this->validate($this->rules);
+	public function save()
+	{
+		$data = $this->validate($this->rules);
 
-        $survey = Survey::create(
-            $data + [
-                'user_id' => Auth::id(),
-            ],
-        );
+		$survey = Survey::create(
+			$data + [
+				'user_id' => Auth::id(),
+			],
+		);
 
-        foreach ($data['questions'] as $question) {
-            $surveyQuestion = $survey->questions()->create([
-                'question_text' => $question['question_text'],
-            ]);
+		foreach ($data['questions'] as $question) {
+			$surveyQuestion = $survey->questions()->create([
+				'question_text' => $question['question_text'],
+			]);
 
-            foreach ($question['answers'] as $answer) {
-                $surveyQuestion->answers()->create($answer);
-            }
-        }
+			foreach ($question['answers'] as $answer) {
+				$surveyQuestion->answers()->create($answer);
+			}
+		}
 
-        $this->success(__('Survey added with success.'), redirectTo: '/admin/surveys/index');
-    }
-
+		$this->success(__('Survey added with success.'), redirectTo: '/admin/surveys/index');
+	}
 }; ?>
 
 <div>

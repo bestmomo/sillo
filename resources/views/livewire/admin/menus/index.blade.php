@@ -12,241 +12,241 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Title('Nav Menu'), Layout('components.layouts.admin')] class extends Component {
-    use Toast;
+	use Toast;
 
-    public Collection $menus;
+	public Collection $menus;
 
-    #[Rule('required|max:255|unique:menus,label')]
-    public string $label = '';
+	#[Rule('required|max:255|unique:menus,label')]
+	public string $label = '';
 
-    #[Rule('nullable|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/')]
-    public string $link = '';
+	#[Rule('nullable|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/')]
+	public string $link = '';
 
-    public string $sublabel = '';
-    public string $sublink = '';
-    public int $subPost = 0;
-    public int $subPage = 0;
-    public int $subSerie = 0;
-    public int $subCategory = 0;
-    public int $subOption = 1;
+	public string $sublabel = '';
+	public string $sublink  = '';
+	public int $subPost     = 0;
+	public int $subPage     = 0;
+	public int $subSerie    = 0;
+	public int $subCategory = 0;
+	public int $subOption   = 1;
 
-    // Méthode appelée lors de l'initialisation du composant.
-    public function mount(): void
-    {
-        $this->getMenus();
-    }
+	// Méthode appelée lors de l'initialisation du composant.
+	public function mount(): void
+	{
+		$this->getMenus();
+	}
 
-    // Récupérer les menus avec leurs sous-menus triés par ordre.
-    public function getMenus(): void
-    {
-        $this->menus = Menu::with([
-            'submenus' => function (Builder $query) {
-                $query->orderBy('order');
-            },
-        ])
-            ->orderBy('order')
-            ->get();
-    }
+	// Récupérer les menus avec leurs sous-menus triés par ordre.
+	public function getMenus(): void
+	{
+		$this->menus = Menu::with([
+			'submenus' => function (Builder $query) {
+				$query->orderBy('order');
+			},
+		])
+			->orderBy('order')
+			->get();
+	}
 
-    // Méthode appelée lors de la mise à jour d'une propriété.
-    public function updating($property, $value): void
-    {
-        if ('' != $value) {
-            switch ($property) {
-                case 'subPost':
-                    $post = Post::find($value);
-                    if ($post) {
-                        $this->sublabel = $post->title;
-                        $this->sublink = route('posts.show', $post->slug);
-                    }
+	// Méthode appelée lors de la mise à jour d'une propriété.
+	public function updating($property, $value): void
+	{
+		if ('' != $value) {
+			switch ($property) {
+				case 'subPost':
+					$post = Post::find($value);
+					if ($post) {
+						$this->sublabel = $post->title;
+						$this->sublink  = route('posts.show', $post->slug);
+					}
 
-                    break;
-                case 'subPage':
-                    $page = Page::find($value);
-                    if ($page) {
-                        $this->sublabel = $page->title;
-                        $this->sublink = route('pages.show', $page->slug);
-                    }
+					break;
+				case 'subPage':
+					$page = Page::find($value);
+					if ($page) {
+						$this->sublabel = $page->title;
+						$this->sublink  = route('pages.show', $page->slug);
+					}
 
-                    break;
-                case 'subSerie':
-                    $serie = Serie::find($value);
-                    if ($serie) {
-                        $this->sublabel = $serie->title;
-                        $this->sublink = url('serie/' . $serie->slug);
-                    }
+					break;
+				case 'subSerie':
+					$serie = Serie::find($value);
+					if ($serie) {
+						$this->sublabel = $serie->title;
+						$this->sublink  = url('serie/' . $serie->slug);
+					}
 
-                    break;
-                case 'subCategory':
-                    $category = Category::find($value);
-                    if ($category) {
-                        $this->sublabel = $category->title;
-                        $this->sublink = url('category/' . $category->slug);
-                    }
+					break;
+				case 'subCategory':
+					$category = Category::find($value);
+					if ($category) {
+						$this->sublabel = $category->title;
+						$this->sublink  = url('category/' . $category->slug);
+					}
 
-                    break;
-                case 'subOption':
-                    $this->sublabel = '';
-                    $this->sublink = '';
-                    $this->subPost = 0;
-                    $this->subPage = 0;
-                    $this->subSerie = 0;
-                    $this->subCategory = 0;
+					break;
+				case 'subOption':
+					$this->sublabel    = '';
+					$this->sublink     = '';
+					$this->subPost     = 0;
+					$this->subPage     = 0;
+					$this->subSerie    = 0;
+					$this->subCategory = 0;
 
-                    break;
-            }
-        }
-    }
+					break;
+			}
+		}
+	}
 
-    // Monter un menu d'un rang.
-    public function up(Menu $menu): void
-    {
-        $previousMenu = Menu::where('order', '<', $menu->order)
-            ->orderBy('order', 'desc')
-            ->first();
+	// Monter un menu d'un rang.
+	public function up(Menu $menu): void
+	{
+		$previousMenu = Menu::where('order', '<', $menu->order)
+			->orderBy('order', 'desc')
+			->first();
 
-        $this->swap($menu, $previousMenu);
-    }
+		$this->swap($menu, $previousMenu);
+	}
 
-    // Monter un sous-menu d'un rang.
-    public function upSub(Submenu $submenu): void
-    {
-        $previousSubmenu = Submenu::where('menu_id', $submenu->menu_id)
-            ->where('order', '<', $submenu->order)
-            ->orderBy('order', 'desc')
-            ->first();
+	// Monter un sous-menu d'un rang.
+	public function upSub(Submenu $submenu): void
+	{
+		$previousSubmenu = Submenu::where('menu_id', $submenu->menu_id)
+			->where('order', '<', $submenu->order)
+			->orderBy('order', 'desc')
+			->first();
 
-        $this->swapSub($submenu, $previousSubmenu);
-    }
+		$this->swapSub($submenu, $previousSubmenu);
+	}
 
-    // Descendre un menu d'un rang.
-    public function down(Menu $menu): void
-    {
-        $previousMenu = Menu::where('order', '>', $menu->order)
-            ->orderBy('order', 'asc')
-            ->first();
+	// Descendre un menu d'un rang.
+	public function down(Menu $menu): void
+	{
+		$previousMenu = Menu::where('order', '>', $menu->order)
+			->orderBy('order', 'asc')
+			->first();
 
-        $this->swap($menu, $previousMenu);
-    }
+		$this->swap($menu, $previousMenu);
+	}
 
-    // Descendre un sous-menu d'un rang.
-    public function downSub(Submenu $submenu): void
-    {
-        $previousSubmenu = Submenu::where('menu_id', $submenu->menu_id)
-            ->where('order', '>', $submenu->order)
-            ->orderBy('order', 'asc')
-            ->first();
+	// Descendre un sous-menu d'un rang.
+	public function downSub(Submenu $submenu): void
+	{
+		$previousSubmenu = Submenu::where('menu_id', $submenu->menu_id)
+			->where('order', '>', $submenu->order)
+			->orderBy('order', 'asc')
+			->first();
 
-        $this->swapSub($submenu, $previousSubmenu);
-    }
+		$this->swapSub($submenu, $previousSubmenu);
+	}
 
-    // Supprimer un menu.
-    public function deleteMenu(Menu $menu): void
-    {
-        $menu->delete();
-        $this->reorderMenus();
-        $this->getMenus();
-        $this->success(__('Menu deleted with success.'));
-    }
+	// Supprimer un menu.
+	public function deleteMenu(Menu $menu): void
+	{
+		$menu->delete();
+		$this->reorderMenus();
+		$this->getMenus();
+		$this->success(__('Menu deleted with success.'));
+	}
 
-    // Supprimer un sous-menu.
-    public function deleteSubmenu(Menu $menu, Submenu $submenu): void
-    {
-        $submenu->delete();
-        $this->reorderSubmenus($menu);
-        $this->getMenus();
-        $this->success(__('Submenu deleted with success.'));
-    }
+	// Supprimer un sous-menu.
+	public function deleteSubmenu(Menu $menu, Submenu $submenu): void
+	{
+		$submenu->delete();
+		$this->reorderSubmenus($menu);
+		$this->getMenus();
+		$this->success(__('Submenu deleted with success.'));
+	}
 
-    // Enregistrer un nouveau menu.
-    public function saveMenu(): void
-    {
-        $data = $this->validate();
+	// Enregistrer un nouveau menu.
+	public function saveMenu(): void
+	{
+		$data = $this->validate();
 
-        $data['order'] = $this->menus->count() + 1;
+		$data['order'] = $this->menus->count() + 1;
 
-        Menu::create($data);
+		Menu::create($data);
 
-        $this->success(__('Menu created with success.'), redirectTo: '/admin/menus/index');
-    }
+		$this->success(__('Menu created with success.'), redirectTo: '/admin/menus/index');
+	}
 
-    // Enregistrer un nouveau sous-menu.
-    public function saveSubmenu(Menu $menu): void
-    {
-        $data = $this->validate([
-            'sublabel' => 'required|max:255',
-            'sublink' => 'required|url',
-        ]);
+	// Enregistrer un nouveau sous-menu.
+	public function saveSubmenu(Menu $menu): void
+	{
+		$data = $this->validate([
+			'sublabel' => 'required|max:255',
+			'sublink'  => 'required|url',
+		]);
 
-        $data['order'] = $menu->submenus->count() + 1;
-        $data['label'] = $this->sublabel;
-        $data['link'] = $this->sublink;
+		$data['order'] = $menu->submenus->count() + 1;
+		$data['label'] = $this->sublabel;
+		$data['link']  = $this->sublink;
 
-        $menu->submenus()->save(new Submenu($data));
+		$menu->submenus()->save(new Submenu($data));
 
-        $this->sublabel = '';
-        $this->sublink = '';
+		$this->sublabel = '';
+		$this->sublink  = '';
 
-        $this->success(__('Submenu created with success.'));
-    }
+		$this->success(__('Submenu created with success.'));
+	}
 
-    // Fournir les données nécessaires à la vue.
-    public function with(): array
-    {
-        return [
-            'pages' => Page::select('id', 'title', 'slug')->get(),
-            'posts' => Post::select('id', 'title', 'slug', 'created_at')->latest()->take(10)->get(),
-            'series' => Serie::select('id', 'title', 'slug')->get(),
-            'categories' => Category::all(),
-            'subOptions' => [['id' => 1, 'name' => __('Post')], ['id' => 2, 'name' => __('Page')], ['id' => 3, 'name' => __('Serie')], ['id' => 4, 'name' => __('Category')]],
-        ];
-    }
+	// Fournir les données nécessaires à la vue.
+	public function with(): array
+	{
+		return [
+			'pages'      => Page::select('id', 'title', 'slug')->get(),
+			'posts'      => Post::select('id', 'title', 'slug', 'created_at')->latest()->take(10)->get(),
+			'series'     => Serie::select('id', 'title', 'slug')->get(),
+			'categories' => Category::all(),
+			'subOptions' => [['id' => 1, 'name' => __('Post')], ['id' => 2, 'name' => __('Page')], ['id' => 3, 'name' => __('Serie')], ['id' => 4, 'name' => __('Category')]],
+		];
+	}
 
-    // Échanger les ordres de deux sous-menus.
-    private function swapSub(Submenu $submenu, Submenu $previousSubmenu): void
-    {
-        $tempOrder = $submenu->order;
-        $submenu->order = $previousSubmenu->order;
-        $previousSubmenu->order = $tempOrder;
+	// Échanger les ordres de deux sous-menus.
+	private function swapSub(Submenu $submenu, Submenu $previousSubmenu): void
+	{
+		$tempOrder              = $submenu->order;
+		$submenu->order         = $previousSubmenu->order;
+		$previousSubmenu->order = $tempOrder;
 
-        $submenu->save();
-        $previousSubmenu->save();
+		$submenu->save();
+		$previousSubmenu->save();
 
-        $this->getMenus();
-    }
+		$this->getMenus();
+	}
 
-    // Échanger les ordres de deux menus.
-    private function swap(Menu $menu, Menu $previousMenu): void
-    {
-        $tempOrder = $menu->order;
-        $menu->order = $previousMenu->order;
-        $previousMenu->order = $tempOrder;
+	// Échanger les ordres de deux menus.
+	private function swap(Menu $menu, Menu $previousMenu): void
+	{
+		$tempOrder           = $menu->order;
+		$menu->order         = $previousMenu->order;
+		$previousMenu->order = $tempOrder;
 
-        $menu->save();
-        $previousMenu->save();
+		$menu->save();
+		$previousMenu->save();
 
-        $this->getMenus();
-    }
+		$this->getMenus();
+	}
 
-    // Réordonner les menus après suppression.
-    private function reorderMenus(): void
-    {
-        $menus = Menu::orderBy('order')->get();
-        foreach ($menus as $index => $menu) {
-            $menu->order = $index + 1;
-            $menu->save();
-        }
-    }
+	// Réordonner les menus après suppression.
+	private function reorderMenus(): void
+	{
+		$menus = Menu::orderBy('order')->get();
+		foreach ($menus as $index => $menu) {
+			$menu->order = $index + 1;
+			$menu->save();
+		}
+	}
 
-    // Réordonner les sous-menus après suppression.
-    private function reorderSubmenus(Menu $menu): void
-    {
-        $submenus = $menu->submenus()->orderBy('order')->get();
-        foreach ($submenus as $index => $submenu) {
-            $submenu->order = $index + 1;
-            $submenu->save();
-        }
-    }
+	// Réordonner les sous-menus après suppression.
+	private function reorderSubmenus(Menu $menu): void
+	{
+		$submenus = $menu->submenus()->orderBy('order')->get();
+		foreach ($submenus as $index => $submenu) {
+			$submenu->order = $index + 1;
+			$submenu->save();
+		}
+	}
 }; ?>
 
 <div>
