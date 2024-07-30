@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Comment;
+use App\Models\{ Comment, reaction };
 use App\Notifications\{CommentAnswerCreated, CommentCreated};
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Rule;
@@ -9,11 +9,14 @@ use Livewire\Volt\Component;
 new class() extends Component {
 	// Propriétés du composant
 	public ?Comment $comment;
-	public ?Collection $childs;
+	public ?Collection $children;
 	public bool $showAnswerForm = false;
 	public bool $showModifyForm = false;
 	public int $depth;
 	public bool $alert = false;
+    public int $likesUp = 0;
+    public int $likesDown = 0;
+    public int $children_count = 0;
 
 	// Attribut de validation pour le message des commentaires
 	#[Rule('required|max:1000')]
@@ -25,11 +28,15 @@ new class() extends Component {
 		$this->comment = $comment;
 		$this->depth   = $depth;
 		$this->message = $comment->body;
+        $this->children_count = $comment->children_count;
+
+        $this->likesUp = $comment->reactions()->where('liked', true)->count();
+        $this->likesDown = $comment->reactions()->where('liked', false)->count();
 	}
 
 	public function showAnswers(): void
 	{
-		$this->childs = Comment::where('parent_id', $this->comment->id)
+		$this->children = Comment::where('parent_id', $this->comment->id)
 			->withCount(['children' => function ($query) {
 				$query->whereHas('user', function ($q) {
 					$q->where('valid', true);
@@ -103,6 +110,40 @@ new class() extends Component {
 		$this->childs  = null;
 		$this->comment = null;
 	}
+
+    public function like(bool $type): void
+    {
+        $ipAddress = request()->ip();
+
+        // Vérifiez si l'adresse IP a déjà réagi au commentaire
+        $reaction = Reaction::where('comment_id', $this->comment->id)
+                            ->where('ip_address', $ipAddress)
+                            ->first();
+
+        if ($reaction) {
+            $previousLiked = $reaction->liked;
+
+            // Mettre à jour la réaction si elle existe
+            if ($previousLiked != $type) {
+                $reaction->update(['liked' => $type]);
+
+                // Mettre à jour les compteurs
+                $this->likesUp += $type ? 1 : -1;
+                $this->likesDown += $type ? -1 : 1;
+            }
+        } else {
+            // Créer une nouvelle réaction si elle n'existe pas
+            Reaction::create([
+                'comment_id' => $this->comment->id,
+                'liked' => $type,
+                'ip_address' => $ipAddress,
+            ]);
+
+            // Mettre à jour les compteurs
+            $type ? $this->likesUp++ : $this->likesDown++;
+        }
+    }
+
 }; ?>
 
 <div>
@@ -124,7 +165,7 @@ new class() extends Component {
     <!-- Vérifie si un commentaire existe -->
     @if ($comment)
         <!-- Conteneur du commentaire avec une marge dépendant de la profondeur -->
-        <div class="flex flex-col mt-4 ml-{{ $depth * 3 }} lg:ml-{{ $depth * 3 }}">
+        <div class="flex flex-col mt-4 ml-{{ $depth * 3 }} lg:ml-{{ $depth * 3 }} border-2 border-gray-400 rounded-md p-2">
 
             <!-- Entête du commentaire -->
             <div class="flex flex-col justify-between mb-4 md:flex-row">
@@ -189,16 +230,23 @@ new class() extends Component {
                     icon="o-exclamation-triangle" class="alert-warning" />
             @endif
 
-            @if($comment->children_count > 0)
-                <x-button label="{{ __('Show the answers') }} ({{ $comment->children_count }})" wire:click="showAnswers" class="btn-outline btn-sm" spinner />
+            <!-- Affiche les boutons de réaction -->
+            <div class="flex justify-end space-x-2">
+                <x-button label="{{ $likesUp == 0 ? '0 ' : $likesUp }}" icon="s-hand-thumb-up" wire:click="like(true)" class="btn-success btn-sm" spinner />
+                <x-button label="{{ $likesDown == 0 ? '0 ' : $likesDown }}" icon="s-hand-thumb-down" wire:click="like(false)" class="btn-error btn-sm" spinner />
+            </div>
+
+            <!-- Bouton pour afficher les enfants du commentaire -->
+            @if($children_count > 0)
+                <x-button label="{{ __('Show the answers') }} ({{ $children_count }})" wire:click="showAnswers" class="mt-2 btn-outline btn-sm" spinner />
             @endif
 
         </div>
     @endif
 
     <!-- Rendu récursif des enfants du commentaire actuel -->
-    @if($childs)
-        @foreach ($childs as $child)
+    @if($children)
+        @foreach ($children as $child)
             <livewire:posts.comment :comment="$child" :depth="$depth + 1" :key="$child->id">
         @endforeach
     @endif

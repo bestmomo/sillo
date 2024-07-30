@@ -66,4 +66,10 @@ class Comment extends Model
 	{
 		return $this->parent ? $this->parent->getDepth() + 1 : 0;
 	}
+	
+    // Relation avec le modèle Reaction
+    public function reactions()
+    {
+        return $this->hasMany(Reaction::class);
+    }
 }
