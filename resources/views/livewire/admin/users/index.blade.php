@@ -171,7 +171,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
                     <x-avatar :image="Gravatar::get($user->email)">
                         <x-slot:title>
                             <span class="font-bold">
-                                {{ $user->name }} {{ $user->firstname }}
+                                {{ $user->name }} 
                             </span><br>
                             {{ $user->email }}
                         </x-slot:title>

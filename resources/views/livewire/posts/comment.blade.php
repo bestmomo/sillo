@@ -173,7 +173,7 @@ new class() extends Component {
                 <x-avatar :image="Gravatar::get($comment->user->email)" class="!w-24">
                     <!-- Titre de l'avatar -->
                     <x-slot:title class="pl-2 text-xl">
-                        {{ $comment->user->name }} {{ $comment->user->firstname }}
+                        {{ $comment->user->name }}
                     </x-slot:title>
                     <!-- Sous-titre de l'avatar avec la date du commentaire et le nombre de commentaires de l'utilisateur -->
                     <x-slot:subtitle class="flex flex-col gap-1 pl-2 mt-2 text-gray-500">

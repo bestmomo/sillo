@@ -91,7 +91,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
             <x-avatar :image="Gravatar::get($user->email)" class="!w-24">
                 <!-- Nom et prénom de l'utilisateur -->
                 <x-slot:title class="pl-2 text-xl">
-                    {{ $user->name }} {{ $user->firstname }}
+                    {{ $user->name }}
                 </x-slot:title>
                 <!-- Informations supplémentaires -->
                 <x-slot:subtitle class="flex flex-col gap-1 pl-2 mt-2 text-gray-500">

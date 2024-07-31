@@ -11,9 +11,6 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
 	#[Rule('required|string|max:255|unique:users')]
 	public string $name = '';
 
-	#[Rule('required|string|max:255')]
-	public string $firstname = '';
-
 	#[Rule('required|email|unique:users')]
 	public string $email = '';
 
@@ -63,8 +60,6 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
         <x-form wire:submit="register">
             <!-- Champ de nom -->
             <x-input label="{{ __('Name') }}" wire:model="name" icon="o-user" inline />
-            <!-- Champ de prénom -->
-            <x-input label="{{ __('Firstname') }}" wire:model="firstname" icon="o-user" inline />
             <!-- Champ d'email -->
             <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" inline />
             <!-- Champ de mot de passe -->

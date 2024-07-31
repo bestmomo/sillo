@@ -30,7 +30,6 @@ class UserFactory extends Factory
 		$gender = fake()->randomElement(['female', 'male', 'other']);
 
 		return [
-			'firstname'      => ('male' == $gender) ? fake()->firstNameMale() : fake()->firstNameFemale(),
 			'name'           => fake()->lastname(),
 			'email'          => fake()->unique()->safeEmail(),
 			'password'       => static::$password ??= Hash::make('password'),

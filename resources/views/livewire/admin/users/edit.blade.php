@@ -15,7 +15,6 @@ new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Comp
 
 	public User $user;
 	public string $name      = '';
-	public string $firstname = '';
 	public string $email     = '';
 	public string $role      = '';
 	public bool $valid       = false;
@@ -34,7 +33,6 @@ new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Comp
 	{
 		$data = $this->validate([
 			'name'      => ['required', 'string', 'max:255'],
-			'firstname' => ['required', 'string', 'max:255'],
 			'email'     => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
 			'role'      => ['required', Rule::in(['admin', 'redac', 'user'])],
 			'isStudent' => ['required', 'boolean'],
@@ -64,9 +62,8 @@ new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Comp
     </x-header>
     <x-card>
         <x-form wire:submit="save">
-            {{-- // 2fix input group for name and firstname --}}
+            {{-- // 2fix input group for name --}}
             <x-input label="{{ __('Name') }}" wire:model="name" icon="o-user" inline />
-            <x-input label="{{ __('Firstname') }}" wire:model="firstname" icon="o-user" inline />
             <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" inline />
             <br>
             <x-radio label="{{ __('User role') }}" inline label="{{ __('Select a role') }}" :options="$roles"
