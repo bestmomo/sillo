@@ -162,7 +162,7 @@ new class() extends Component {
             @forelse($posts as $post)
                 <x-card
                     class="w-full transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
-                    title="{{ $post->title }}">
+                    title="{!! $post->title !!}">
     
                     <div class="text-justify">{!! str($post->excerpt)->words(config('app.excerptSize')) !!}</div>
                     <br>
