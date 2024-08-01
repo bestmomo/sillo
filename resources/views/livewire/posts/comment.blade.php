@@ -44,7 +44,7 @@ new class() extends Component {
 			}])
 			->get();
 
-		$this->comment->children_count = 0;
+		$this->children_count = 0;
 	}
 
 	// Affiche ou masque le formulaire de réponse.

@@ -164,7 +164,7 @@ new class() extends Component {
                     class="w-full transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
                     title="{!! $post->title !!}">
     
-                    <div class="text-justify">{!! str($post->excerpt)->words(config('app.excerptSize')) !!}</div>
+                    <div class="text-justify">{!! str(strip_tags($post->excerpt))->words(config('app.excerptSize')) !!}</div>
                     <br>
                     <hr>
                     <div class="flex justify-between">
