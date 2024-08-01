@@ -22,6 +22,9 @@ new #[Title('Create Page'), Layout('components.layouts.admin')] class extends Co
 	#[Rule('required|max:255|unique:posts,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
 	public string $slug = '';
 
+	#[Rule('required')]
+	public bool $active = false;
+
 	#[Rule('required|max:70')]
 	public string $seo_title = '';
 

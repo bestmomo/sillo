@@ -27,6 +27,7 @@ class PageSeeder extends Seeder
 				'title'     => $item['title'],
 				'seo_title' => 'Page ' . $item['title'],
 				'slug'      => $item['slug'],
+				'active'    => true,
 			]);
 		}
 	}

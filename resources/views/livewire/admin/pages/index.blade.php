@@ -17,7 +17,7 @@ new #[Title('Pages'), Layout('components.layouts.admin')] class extends Componen
 	// Définir les en-têtes de la table.
 	public function headers(): array
 	{
-		return [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug']];
+		return [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug'], ['key' => 'active', 'label' => __('Published')]];
 	}
 
 	// Supprimer une page.
@@ -31,7 +31,7 @@ new #[Title('Pages'), Layout('components.layouts.admin')] class extends Componen
 	public function with(): array
 	{
 		return [
-			'pages'   => Page::select('id', 'title', 'slug')->get(),
+			'pages'   => Page::select('id', 'title', 'slug', 'active')->get(),
 			'headers' => $this->headers(),
 		];
 	}
@@ -49,6 +49,11 @@ new #[Title('Pages'), Layout('components.layouts.admin')] class extends Componen
 
     <x-card>
         <x-table striped :headers="$headers" :rows="$pages" link="/admin/pages/{slug}/edit">
+            @scope('cell_active', $page)
+                @if ($page->active)
+                    <x-icon name="o-check-circle" />
+                @endif
+            @endscope
             @scope('actions', $page)
                 <x-popover>
                     <x-slot:trigger>

@@ -18,6 +18,7 @@ class Page extends Model
 		'title',
 		'slug',
 		'body',
+		'active',
 		'seo_title',
 		'meta_description',
 		'meta_keywords',

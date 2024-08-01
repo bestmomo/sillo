@@ -18,6 +18,7 @@ new #[Title('Edit Page'), Layout('components.layouts.admin')] class extends Comp
 	public string $body             = '';
 	public string $title            = '';
 	public string $slug             = '';
+	public bool $active             = false;
 	public string $seo_title        = '';
 	public string $meta_description = '';
 	public string $meta_keywords    = '';
@@ -41,6 +42,7 @@ new #[Title('Edit Page'), Layout('components.layouts.admin')] class extends Comp
 		$data = $this->validate([
 			'title'            => 'required|string|max:255',
 			'body'             => 'required|max:65000',
+			'active'           => 'required',
 			'slug'             => ['required', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('pages')->ignore($this->page->id)],
 			'seo_title'        => 'required|max:70',
 			'meta_description' => 'required|max:160',
