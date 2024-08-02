@@ -1,13 +1,12 @@
 <?php
 
-use Livewire\Volt\Component;
 use Livewire\Attributes\{Layout, Title};
+use Livewire\Volt\Component;
 
-new 
-#[Title('Academy')] 
-#[Layout('components.layouts.academy')] 
+new
+#[Title('Academy')]
+#[Layout('components.layouts.academy')]
 class extends Component {
-    //
 }; ?>
 
 <div>

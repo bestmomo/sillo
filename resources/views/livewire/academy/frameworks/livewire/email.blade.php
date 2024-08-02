@@ -13,8 +13,8 @@ use Mary\Traits\Toast;
 new #[Title('Basics')] #[Layout('components.layouts.academy')]
 class extends Component {
 	use Toast;
-    
-    public $dev;
+
+	public $dev;
 	public $name         = '';
 	public $to           = 'Tartempion@example.com';
 	public $subject      = 'Salut !';
@@ -22,11 +22,10 @@ class extends Component {
 	public $emailSubject = '';
 	public $emailContent = '';
 	public $message      = '';
-    
 
 	public function mount()
 	{
-        $this->dev  = app()->environment('local');
+		$this->dev  = app()->environment('local');
 		$this->name = auth()->user()->name ?? 'Friend !';
 		$this->sendMail();
 	}
@@ -51,7 +50,9 @@ class extends Component {
 			$this->emailContent = $email->render();
 
 			// Envoie l'email
-			if ($this->dev) Mail::to($this->to)->send($email);
+			if ($this->dev) {
+				Mail::to($this->to)->send($email);
+			}
 
 			$this->message = 'Email sent successfully!';
 
@@ -72,7 +73,9 @@ class extends Component {
 
 	public function sendMailOnly()
 	{
-		if ($this->dev) $this->sendMail();
+		if ($this->dev) {
+			$this->sendMail();
+		}
 		$this->success('Email re-sent successfully!');
 		$this->skipRender();
 	}

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use Illuminate\Database\Migrations\Migration;
@@ -22,6 +22,7 @@ class CreatePagesTable extends Migration
 			$table->string('slug');
 			$table->string('title');
 			$table->text('body');
+			$table->boolean('active')->default(false);
 			$table->string('seo_title');
 			$table->text('meta_description');
 			$table->text('meta_keywords');

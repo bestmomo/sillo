@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Models;
@@ -27,8 +27,6 @@ class Serie extends Model
 
 	/**
 	 * Has Many relation.
-	 *
-	 * @return HasMany
 	 */
 	public function posts(): HasMany
 	{
@@ -37,8 +35,6 @@ class Serie extends Model
 
 	/**
 	 * Has Many relation.
-	 *
-	 * @return Post
 	 */
 	public function lastPost(): Post
 	{
@@ -47,8 +43,6 @@ class Serie extends Model
 
 	/**
 	 * Has One relation to Category model.
-	 *
-	 * @return BelongsTo
 	 */
 	public function category(): BelongsTo
 	{
@@ -57,8 +51,6 @@ class Serie extends Model
 
 	/**
 	 * Retrieve the associated User model for this Serie.
-	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function user(): BelongsTo
 	{

@@ -9,57 +9,56 @@ use App\Traits\ManageSurvey;
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
-use Illuminate\Support\Collection;
 
 new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Component {
-    use Toast, ManageSurvey;
+	use Toast;
+	use ManageSurvey;
 
-    public Survey $survey;
+	public Survey $survey;
 
-    public function mount(Survey $survey): void
-    {
-        if (Auth()->user()->isRedac() && $survey->user_id !== Auth()->id()) {
-            abort(403);
-        }
+	public function mount(Survey $survey): void
+	{
+		if (Auth()->user()->isRedac() && $survey->user_id !== Auth()->id()) {
+			abort(403);
+		}
 
-        $this->survey = $survey;
-        $this->survey->load('questions.answers');
-        $this->title = $survey->title;
-        $this->description = $survey->description;
-        $this->active = $survey->active;
+		$this->survey = $survey;
+		$this->survey->load('questions.answers');
+		$this->title       = $survey->title;
+		$this->description = $survey->description;
+		$this->active      = $survey->active;
 
-        foreach ($this->survey->questions as $question) {
-            $this->questions[] = [
-                'question_text' => $question->question_text,
-                'answers' => $question->answers
-                    ->map(function ($answer) {
-                        return [
-                            'answer_text' => $answer->answer_text,
-                        ];
-                    })
-                    ->toArray(),
-            ];
-        }
-    }
+		foreach ($this->survey->questions as $question) {
+			$this->questions[] = [
+				'question_text' => $question->question_text,
+				'answers'       => $question->answers
+					->map(function ($answer) {
+						return [
+							'answer_text' => $answer->answer_text,
+						];
+					})
+					->toArray(),
+			];
+		}
+	}
 
-    public function save()
-    {
-        $data = $this->validate($this->rules);
+	public function save()
+	{
+		$data = $this->validate($this->rules);
 
-        $this->survey->update($data);
+		$this->survey->update($data);
 
-        // Synchroniser les questions et les réponses
-        foreach ($data['questions'] as $qIndex => $question) {
-            $surveyQuestion = $this->survey->questions()->updateOrCreate(['id' => $this->survey->questions[$qIndex]->id ?? null], ['question_text' => $question['question_text']]);
+		// Synchroniser les questions et les réponses
+		foreach ($data['questions'] as $qIndex => $question) {
+			$surveyQuestion = $this->survey->questions()->updateOrCreate(['id' => $this->survey->questions[$qIndex]->id ?? null], ['question_text' => $question['question_text']]);
 
-            foreach ($question['answers'] as $aIndex => $answer) {
-                $surveyQuestion->answers()->updateOrCreate(['id' => $surveyQuestion->answers[$aIndex]->id ?? null], ['answer_text' => $answer['answer_text']]);
-            }
-        }
+			foreach ($question['answers'] as $aIndex => $answer) {
+				$surveyQuestion->answers()->updateOrCreate(['id' => $surveyQuestion->answers[$aIndex]->id ?? null], ['answer_text' => $answer['answer_text']]);
+			}
+		}
 
-        $this->success(__('Survey edited with success.'), redirectTo: '/admin/surveys/index');
-    }
-
+		$this->success(__('Survey edited with success.'), redirectTo: '/admin/surveys/index');
+	}
 }; ?>
 
 <div>

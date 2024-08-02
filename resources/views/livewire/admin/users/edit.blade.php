@@ -11,48 +11,46 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Component {
-    use Toast;
+	use Toast;
 
-    public User $user;
-    public string $name = '';
-    public string $firstname = '';
-    public string $email = '';
-    public string $role = '';
-    public bool $valid = false;
-    public bool $isStudent;
+	public User $user;
+	public string $name      = '';
+	public string $email     = '';
+	public string $role      = '';
+	public bool $valid       = false;
+	public bool $isStudent;
 
-    // Initialiser le composant avec un utilisateur donné.
-    public function mount(User $user): void
-    {
-        $this->user = $user;
+	// Initialiser le composant avec un utilisateur donné.
+	public function mount(User $user): void
+	{
+		$this->user = $user;
 
-        $this->fill($this->user);
-    }
+		$this->fill($this->user);
+	}
 
-    // Sauvegarder les modifications apportées à l'utilisateur.
-    public function save()
-    {
-        $data = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'firstname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
-            'role' => ['required', Rule::in(['admin', 'redac', 'user'])],
-            'isStudent' => ['required', 'boolean'],
-            'valid' => ['required', 'boolean'],
-        ]);
+	// Sauvegarder les modifications apportées à l'utilisateur.
+	public function save()
+	{
+		$data = $this->validate([
+			'name'      => ['required', 'string', 'max:255'],
+			'email'     => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
+			'role'      => ['required', Rule::in(['admin', 'redac', 'user'])],
+			'isStudent' => ['required', 'boolean'],
+			'valid'     => ['required', 'boolean'],
+		]);
 
-        $this->user->update($data);
+		$this->user->update($data);
 
-        $this->success(__('User edited with success.'), redirectTo: '/admin/users/index');
-    }
+		$this->success(__('User edited with success.'), redirectTo: '/admin/users/index');
+	}
 
-    // Fournir les données nécessaires à la vue
-    public function with(): array
-    {
-        return [
-            'roles' => [['name' => __('Administrator'), 'id' => 'admin'], ['name' => __('Redactor'), 'id' => 'redac'], ['name' => __('User'), 'id' => 'user']],
-        ];
-    }
+	// Fournir les données nécessaires à la vue
+	public function with(): array
+	{
+		return [
+			'roles' => [['name' => __('Administrator'), 'id' => 'admin'], ['name' => __('Redactor'), 'id' => 'redac'], ['name' => __('User'), 'id' => 'user']],
+		];
+	}
 }; ?>
 
 <diV>
@@ -64,9 +62,8 @@ new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Comp
     </x-header>
     <x-card>
         <x-form wire:submit="save">
-            {{-- // 2fix input group for name and firstname --}}
+            {{-- // 2fix input group for name --}}
             <x-input label="{{ __('Name') }}" wire:model="name" icon="o-user" inline />
-            <x-input label="{{ __('Firstname') }}" wire:model="firstname" icon="o-user" inline />
             <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" inline />
             <br>
             <x-radio label="{{ __('User role') }}" inline label="{{ __('Select a role') }}" :options="$roles"

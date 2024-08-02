@@ -10,59 +10,59 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends Component {
-    use Toast;
+	use Toast;
 
-    public Comment $comment;
-    public string $body = '';
-    public string $body_answer = '';
-    public int $depth = 0;
+	public Comment $comment;
+	public string $body        = '';
+	public string $body_answer = '';
+	public int $depth          = 0;
 
-    // Méthode de montage du composant
-    public function mount(Comment $comment): void
-    {
-        $this->authorizeCommentAccess($comment);
+	// Méthode de montage du composant
+	public function mount(Comment $comment): void
+	{
+		$this->authorizeCommentAccess($comment);
 
-        $this->comment = $comment;
-        $this->fill($this->comment->toArray());
-        $this->depth = $this->comment->getDepth();
-    }
+		$this->comment = $comment;
+		$this->fill($this->comment->toArray());
+		$this->depth = $this->comment->getDepth();
+	}
 
-    // Méthode pour sauvegarder les modifications du commentaire
-    public function save()
-    {
-        $data = $this->validate([
-            'body' => 'required|max:1000',
-        ]);
+	// Méthode pour sauvegarder les modifications du commentaire
+	public function save()
+	{
+		$data = $this->validate([
+			'body' => 'required|max:1000',
+		]);
 
-        $this->comment->update($data);
+		$this->comment->update($data);
 
-        $this->success(__('Comment edited with success.'), redirectTo: '/admin/comments/index');
-    }
+		$this->success(__('Comment edited with success.'), redirectTo: '/admin/comments/index');
+	}
 
-    // Méthode pour sauvegarder une réponse au commentaire
-    public function saveAnswer()
-    {
-        $data = $this->validate([
-            'body_answer' => 'required|max:1000',
-        ]);
+	// Méthode pour sauvegarder une réponse au commentaire
+	public function saveAnswer()
+	{
+		$data = $this->validate([
+			'body_answer' => 'required|max:1000',
+		]);
 
-        $data['body'] = $data['body_answer'];
-        $data['user_id'] = Auth::id();
-        $data['parent_id'] = $this->comment->id;
-        $data['post_id'] = $this->comment->post_id;
+		$data['body']      = $data['body_answer'];
+		$data['user_id']   = Auth::id();
+		$data['parent_id'] = $this->comment->id;
+		$data['post_id']   = $this->comment->post_id;
 
-        Comment::create($data);
+		Comment::create($data);
 
-        $this->success(__('Answer created with success.'), redirectTo: '/admin/comments/index');
-    }
+		$this->success(__('Answer created with success.'), redirectTo: '/admin/comments/index');
+	}
 
-    // Méthode pour autoriser l'accès au commentaire
-    private function authorizeCommentAccess(Comment $comment): void
-    {
-        if (auth()->user()->isRedac() && $comment->post->user_id !== auth()->id()) {
-            abort(403);
-        }
-    }
+	// Méthode pour autoriser l'accès au commentaire
+	private function authorizeCommentAccess(Comment $comment): void
+	{
+		if (auth()->user()->isRedac() && $comment->post->user_id !== auth()->id()) {
+			abort(403);
+		}
+	}
 }; ?>
 
 <div>

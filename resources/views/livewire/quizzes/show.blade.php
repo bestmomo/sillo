@@ -4,132 +4,130 @@ use App\Models\Quiz;
 use Livewire\Volt\Component;
 
 new class() extends Component {
-	
 	public Quiz $quiz;
-	public array $userAnswers = [];
-    public bool $quizSubmitted = false;
-    public array $results = [];
-	public string $subtitle = '';
-    public bool $myModal = false;
-    public string $chatAnswer = '';
+	public array $userAnswers  = [];
+	public bool $quizSubmitted = false;
+	public array $results      = [];
+	public string $subtitle    = '';
+	public bool $myModal       = false;
+	public string $chatAnswer  = '';
 
 	public function mount(int $id): void
 	{
-		$this->quiz = Quiz::with('questions.answers', 'post:id,title')->findOrFail($id);
+		$this->quiz     = Quiz::with('questions.answers', 'post:id,title')->findOrFail($id);
 		$this->subtitle = $this->quiz->post ? __('Post') . ' : ' . $this->quiz->post->title : '';
 
-        if (auth()->user()->participatedQuizzes()->where('quiz_id', $id)->exists()) {
-            abort(403);
-        }
+		if (auth()->user()->participatedQuizzes()->where('quiz_id', $id)->exists()) {
+			abort(403);
+		}
 	}
 
-    public function save()
-    {
-        $results = [];
-        $correctAnswersCount = 0;
-        $totalAnswersCount = 0;
+	public function save()
+	{
+		$results             = [];
+		$correctAnswersCount = 0;
+		$totalAnswersCount   = 0;
 
-        foreach ($this->quiz->questions as $question) {
-            $correctAnswers = $question->answers->where('is_correct', true)->pluck('id')->toArray();
-            $userAnswers = array_keys($this->userAnswers[$question->id] ?? []);
-            $correct = !array_diff($correctAnswers, $userAnswers) && !array_diff($userAnswers, $correctAnswers);
+		foreach ($this->quiz->questions as $question) {
+			$correctAnswers = $question->answers->where('is_correct', true)->pluck('id')->toArray();
+			$userAnswers    = array_keys($this->userAnswers[$question->id] ?? []);
+			$correct        = !array_diff($correctAnswers, $userAnswers) && !array_diff($userAnswers, $correctAnswers);
 
-            if ($correct) {
-                $correctAnswersCount++;
-            }
-            $totalAnswersCount++;
+			if ($correct) {
+				++$correctAnswersCount;
+			}
+			++$totalAnswersCount;
 
-            $results[$question->id] = [
-                'correct' => $correct,
-                'correctAnswers' => $correctAnswers,
-                'userAnswers' => $userAnswers,
-            ];
-        }
+			$results[$question->id] = [
+				'correct'        => $correct,
+				'correctAnswers' => $correctAnswers,
+				'userAnswers'    => $userAnswers,
+			];
+		}
 
-        $this->results = $results;
-        $this->quizSubmitted = true;
+		$this->results       = $results;
+		$this->quizSubmitted = true;
 
-        // Synchroniser les données pivot avec les réponses correctes et totales
-        auth()->user()->participatedQuizzes()->attach([
-            $this->quiz->id => [
-                'correct_answers' => $correctAnswersCount,
-                'total_answers' => $totalAnswersCount,
-            ]
-        ]);
-    }
+		// Synchroniser les données pivot avec les réponses correctes et totales
+		auth()->user()->participatedQuizzes()->attach([
+			$this->quiz->id => [
+				'correct_answers' => $correctAnswersCount,
+				'total_answers'   => $totalAnswersCount,
+			],
+		]);
+	}
 
-    public function explainError(int $questionId): void
-    {
-        $currentQuestionId = $questionId;
-        $question = $this->quiz->questions->find($questionId);
+	public function explainError(int $questionId): void
+	{
+		$currentQuestionId = $questionId;
+		$question          = $this->quiz->questions->find($questionId);
 
-        if ($question) {
-            $currentQuestionText = $question->question_text;
-            $wrongAnswerText = null;
-            $correctAnswerText = null;
+		if ($question) {
+			$currentQuestionText = $question->question_text;
+			$wrongAnswerText     = null;
+			$correctAnswerText   = null;
 
-            foreach ($question->answers as $answer) {
-                $isCorrect = $answer->is_correct;
-                $isChecked = isset($this->userAnswers[$questionId]) && array_key_exists($answer->id, $this->userAnswers[$questionId]);
+			foreach ($question->answers as $answer) {
+				$isCorrect = $answer->is_correct;
+				$isChecked = isset($this->userAnswers[$questionId]) && array_key_exists($answer->id, $this->userAnswers[$questionId]);
 
-                if ($isChecked && !$isCorrect) {
-                    $wrongAnswerText = $answer->answer_text;
-                } elseif (!$isChecked && $isCorrect) {
-                    $correctAnswerText = $answer->answer_text;
-                }
-            }
-        }
+				if ($isChecked && !$isCorrect) {
+					$wrongAnswerText = $answer->answer_text;
+				} elseif (!$isChecked && $isCorrect) {
+					$correctAnswerText = $answer->answer_text;
+				}
+			}
+		}
 
-        // Récupération de la clé API depuis l'environnement
+		// Récupération de la clé API depuis l'environnement
 		$token = env('GPT_API_KEY');
 
-        // Récupération du modèle GPT depuis l'environnement
-        $gptModel = env('GPT_MODEL', 'gpt-3.5-turbo'); // Utilisation par défaut si la clé n'est pas définie
+		// Récupération du modèle GPT depuis l'environnement
+		$gptModel = env('GPT_MODEL', 'gpt-3.5-turbo'); // Utilisation par défaut si la clé n'est pas définie
 
-        // Définition du prompt
-        $prompt = __("You're an expert in the Laravel framework, renowned for your ability to explain every concept clearly and patiently. Your aim is to provide detailed and understandable explanations, adapted to all skill levels.");
+		// Définition du prompt
+		$prompt = __("You're an expert in the Laravel framework, renowned for your ability to explain every concept clearly and patiently. Your aim is to provide detailed and understandable explanations, adapted to all skill levels.");
 
-        $prompt .= "\nI made a quiz and had to answer to questions: \n" . $currentQuestionText;
-        $prompt .= "\nI answered: \n" . $wrongAnswerText;
-        $prompt .= "\nCorrect answer was: \n" . $correctAnswerText;
-        $prompt .= "\nexplain my error";
+		$prompt .= "\n" . __('I made a quiz and had to answer to questions') . ": \n" . $currentQuestionText;
+		$prompt .= "\n" . __('I answered') . ": \n" . $wrongAnswerText;
+		$prompt .= "\n" . __('Correct answer was') . ": \n" . $correctAnswerText;
+		$prompt .= "\nexplain my error";
 
-        // Préparation de la requête
-        $payload = [
-            'model'    => $gptModel,
-            'messages' => [
-                [
-                    'role'    => 'user',
-                    'content' => $prompt,
-                ],
-            ],
-        ];
+		// Préparation de la requête
+		$payload = [
+			'model'    => $gptModel,
+			'messages' => [
+				[
+					'role'    => 'user',
+					'content' => $prompt,
+				],
+			],
+		];
 
-        // Envoi de la requête à l'API OpenAI
-        try {
-            $response = Http::withToken($token)
-                ->withHeaders([
-                    'Content-Type' => 'application/json',
-                ])
-                ->post('https://api.openai.com/v1/chat/completions', $payload);
+		// Envoi de la requête à l'API OpenAI
+		try {
+			$response = Http::withToken($token)
+				->withHeaders([
+					'Content-Type' => 'application/json',
+				])
+				->post('https://api.openai.com/v1/chat/completions', $payload);
 
-            // Vérification du statut de la réponse
-            if ($response->successful()) {
-                // Décodage de la réponse et récupération du contenu
-                $this->chatAnswer = json_decode($response->body())->choices[0]->message->content;
-                $this->myModal = true;
-            } else {
-                // Gestion des erreurs
-                throw new Exception(__('Error in API response: ') . $response->body());
-            }
-        } catch (Exception $e) {
-            $erreur_obj = json_decode($response->body());
-            $error_code = $erreur_obj->error->code;
-            Log::error('Failed to get answer from OpenAI: ' . $e->getMessage());
-            $this->answer = __('An error occurred while trying to retrieve the answer') . ' (' . __($error_code) . ')' . "\n";
-        }
-    }
-    
+			// Vérification du statut de la réponse
+			if ($response->successful()) {
+				// Décodage de la réponse et récupération du contenu
+				$this->chatAnswer = json_decode($response->body())->choices[0]->message->content;
+				$this->myModal    = true;
+			} else {
+				// Gestion des erreurs
+				throw new Exception(__('Error in API response: ') . $response->body());
+			}
+		} catch (Exception $e) {
+			$erreur_obj = json_decode($response->body());
+			$error_code = $erreur_obj->error->code;
+			Log::error('Failed to get answer from OpenAI: ' . $e->getMessage());
+			$this->answer = __('An error occurred while trying to retrieve the answer') . ' (' . __($error_code) . ')' . "\n";
+		}
+	}
 }; ?>
 
 <div class="flex items-center justify-center my-8">

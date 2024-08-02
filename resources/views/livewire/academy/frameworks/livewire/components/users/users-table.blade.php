@@ -31,7 +31,7 @@ include_once 'users-table.php';
         <hr>
     </div> --}}
 
-    <div class="flex w-full justify-evenly items-center gap-4 mt-4">
+    <div class="flex items-center w-full gap-4 mt-4 justify-evenly">
         <div class="relative flex-grow">
             @include('components.partials.academy.helpers.input')
         </div>
@@ -42,7 +42,7 @@ include_once 'users-table.php';
 
     @if (count($users))
     
-    <x-button x-cloak class="btn btn-sm btn-error mb-3" x-show="$wire.selected.length > 0" wire:click="deleteSelectedUsers" spinner>Supprimer <span x-html="$wire.selected"></span></x-button>
+    <x-button x-cloak class="mb-3 btn btn-sm btn-error" x-show="$wire.selected.length > 0" wire:click="deleteSelectedUsers" spinner>Supprimer <span x-html="$wire.selected"></span></x-button>
     
         {{-- You can use any `$wire.METHOD` on `@row-click` --}}
         <x-table 
@@ -86,7 +86,7 @@ include_once 'users-table.php';
                     <span
                         title="{{ trans_choice(':n is a :r not student', ['n', 'm'], ['n' => $user->name, 'r' => strtolower(__($roles[$user->role][0]))]) }}
 {{ __('Not registered with the Academy') }}">
-                        <x-icon name="o-user" class="w-7 h-7 text-gray-400" />
+                        <x-icon name="o-user" class="text-gray-400 w-7 h-7" />
                     </span>
                 @endif
             @endscope

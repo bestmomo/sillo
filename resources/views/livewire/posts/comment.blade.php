@@ -1,109 +1,155 @@
 <?php
 
-use App\Models\Comment;
+use App\Models\{ Comment, reaction };
 use App\Notifications\{CommentAnswerCreated, CommentCreated};
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
-new class extends Component {
-    // Propriétés du composant
-    public ?Comment $comment;
-    public ?Collection $childs;
-    public bool $showAnswerForm = false;
-    public bool $showModifyForm = false;
-    public int $depth;
-    public bool $alert = false;
+new class() extends Component {
+	// Propriétés du composant
+	public ?Comment $comment;
+	public ?Collection $children;
+	public bool $showAnswerForm = false;
+	public bool $showModifyForm = false;
+	public int $depth;
+	public bool $alert = false;
+    public int $likesUp = 0;
+    public int $likesDown = 0;
+    public int $children_count = 0;
 
-    // Attribut de validation pour le message des commentaires
-    #[Rule('required|max:1000')]
-    public string $message = '';
+	// Attribut de validation pour le message des commentaires
+	#[Rule('required|max:1000')]
+	public string $message = '';
 
-    // Initialise le composant avec les données du commentaire.
-    public function mount($comment, $depth): void
+	// Initialise le composant avec les données du commentaire.
+	public function mount($comment, $depth): void
+	{
+		$this->comment = $comment;
+		$this->depth   = $depth;
+		$this->message = $comment->body;
+        $this->children_count = $comment->children_count;
+
+        $this->likesUp = $comment->reactions()->where('liked', true)->count();
+        $this->likesDown = $comment->reactions()->where('liked', false)->count();
+	}
+
+	public function showAnswers(): void
+	{
+		$this->children = Comment::where('parent_id', $this->comment->id)
+			->withCount(['children' => function ($query) {
+				$query->whereHas('user', function ($q) {
+					$q->where('valid', true);
+				});
+			}])
+			->get();
+
+		$this->children_count = 0;
+	}
+
+	// Affiche ou masque le formulaire de réponse.
+	public function toggleAnswerForm(bool $state): void
+	{
+		$this->showAnswerForm = $state;
+		$this->message        = '';
+	}
+
+	// Affiche ou masque le formulaire de modification.
+	public function toggleModifyForm(bool $state): void
+	{
+		$this->showModifyForm = $state;
+	}
+
+	// Crée un nouveau commentaire en réponse à celui actuel.
+	public function createAnswer(): void
+	{
+		$data              = $this->validate();
+		$data['parent_id'] = $this->comment->id;
+		$data['user_id']   = Auth::id();
+		$data['post_id']   = $this->comment->post_id;
+		$data['body']      = $this->message;
+
+		$item = Comment::create($data);
+
+		$item->save();
+
+		// Notification de l'auteur de l'article
+		$item->post->user->notify(new CommentCreated($item));
+
+		// Notification de l'auteur du commentaire initial
+		$item->post->user->notify(new CommentAnswerCreated($item));
+
+		// Masquage du formulaire de réponse
+		$this->toggleAnswerForm(false);
+
+		// On montre les réponses
+		$this->showAnswers();
+	}
+
+	// Met à jour le commentaire actuel.
+	public function updateAnswer(): void
+	{
+		// Validation des données du formulaire
+		$data = $this->validate();
+
+		// Mise à jour du corps du commentaire
+		$this->comment->body = $data['message'];
+		$this->comment->save();
+
+		// Masquage du formulaire de modification
+		$this->toggleModifyForm(false);
+	}
+
+	// Supprime le commentaire actuel.
+	public function deleteComment(): void
+	{
+		// Suppression du commentaire
+		$this->comment->delete();
+
+		// Réinitialisation des enfants et du commentaire actuel
+		$this->childs  = null;
+		$this->comment = null;
+	}
+
+    public function like(bool $type): void
     {
-        $this->comment = $comment;
-        $this->depth = $depth;
-        $this->message = $comment->body;
+        $ipAddress = request()->ip();
+
+        // Vérifiez si l'adresse IP a déjà réagi au commentaire
+        $reaction = Reaction::where('comment_id', $this->comment->id)
+                            ->where('ip_address', $ipAddress)
+                            ->first();
+
+        if ($reaction) {
+            $previousLiked = $reaction->liked;
+
+            if ($previousLiked == $type) {
+                // Annuler la réaction si elle est la même que le type actuel
+                $reaction->delete();
+
+                // Mettre à jour les compteurs
+                $type ? $this->likesUp-- : $this->likesDown--;
+            } else {
+                // Mettre à jour la réaction si elle est différente
+                $reaction->update(['liked' => $type]);
+
+                // Mettre à jour les compteurs
+                $this->likesUp += $type ? 1 : -1;
+                $this->likesDown += $type ? -1 : 1;
+            }
+        } else {
+            // Créer une nouvelle réaction si elle n'existe pas
+            Reaction::create([
+                'comment_id' => $this->comment->id,
+                'liked' => $type,
+                'ip_address' => $ipAddress,
+            ]);
+
+            // Mettre à jour les compteurs
+            $type ? $this->likesUp++ : $this->likesDown++;
+        }
     }
 
-    public function showAnswers(): void
-    {
-        $this->childs = Comment::where('parent_id', $this->comment->id)
-                ->withCount(['children' => function ($query) {
-                    $query->whereHas('user', function ($q) {
-                        $q->where('valid', true);
-                    });
-                }])
-                ->get();
-
-        $this->comment->children_count = 0;
-    }
-
-    // Affiche ou masque le formulaire de réponse.
-    public function toggleAnswerForm(bool $state): void
-    {
-        $this->showAnswerForm = $state;
-        $this->message = '';
-    }
-
-    // Affiche ou masque le formulaire de modification.
-    public function toggleModifyForm(bool $state): void
-    {
-        $this->showModifyForm = $state;
-    }
-
-    // Crée un nouveau commentaire en réponse à celui actuel.
-    public function createAnswer(): void
-    {
-        $data = $this->validate();
-        $data['parent_id'] = $this->comment->id;
-        $data['user_id'] = Auth::id();
-        $data['post_id'] = $this->comment->post_id;
-        $data['body'] = $this->message;
-
-        $item = Comment::create($data);
-
-        $item->save();
-
-        // Notification de l'auteur de l'article
-        $item->post->user->notify(new CommentCreated($item));
-
-        // Notification de l'auteur du commentaire initial
-        $item->post->user->notify(new CommentAnswerCreated($item));
-
-        // Masquage du formulaire de réponse
-        $this->toggleAnswerForm(false);
-
-        // On montre les réponses
-        $this->showAnswers();
-    }
-
-    // Met à jour le commentaire actuel.
-    public function updateAnswer(): void
-    {
-        // Validation des données du formulaire
-        $data = $this->validate();
-
-        // Mise à jour du corps du commentaire
-        $this->comment->body = $data['message'];
-        $this->comment->save();
-
-        // Masquage du formulaire de modification
-        $this->toggleModifyForm(false);
-    }
-
-    // Supprime le commentaire actuel.
-    public function deleteComment(): void
-    {
-        // Suppression du commentaire
-        $this->comment->delete();
-
-        // Réinitialisation des enfants et du commentaire actuel
-        $this->childs = null;
-        $this->comment = null;
-    }
 }; ?>
 
 <div>
@@ -125,7 +171,8 @@ new class extends Component {
     <!-- Vérifie si un commentaire existe -->
     @if ($comment)
         <!-- Conteneur du commentaire avec une marge dépendant de la profondeur -->
-        <div class="flex flex-col mt-4 ml-{{ $depth * 3 }} lg:ml-{{ $depth * 3 }}">
+        <div class="flex flex-col mt-4 ml-{{ $depth * 3 }} lg:ml-{{ $depth * 3 }} border-2 border-gray-400 rounded-md p-2 selection:transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500" >
+            
 
             <!-- Entête du commentaire -->
             <div class="flex flex-col justify-between mb-4 md:flex-row">
@@ -133,7 +180,7 @@ new class extends Component {
                 <x-avatar :image="Gravatar::get($comment->user->email)" class="!w-24">
                     <!-- Titre de l'avatar -->
                     <x-slot:title class="pl-2 text-xl">
-                        {{ $comment->user->name }} {{ $comment->user->firstname }}
+                        {{ $comment->user->name }}
                     </x-slot:title>
                     <!-- Sous-titre de l'avatar avec la date du commentaire et le nombre de commentaires de l'utilisateur -->
                     <x-slot:subtitle class="flex flex-col gap-1 pl-2 mt-2 text-gray-500">
@@ -148,16 +195,16 @@ new class extends Component {
                         @if (Auth::user()->name == $comment->user->name)
                             <!-- Bouton pour modifier le commentaire -->
                             <x-button label="{{ __('Modify') }}" wire:click="toggleModifyForm(true)"
-                                class="btn-outline btn-warning btn-sm" />
+                                class="btn-outline btn-warning btn-sm" spinner />
                             <!-- Bouton pour supprimer le commentaire -->
                             <x-button label="{{ __('Delete') }}" wire:click="deleteComment()"
                                 wire:confirm="{{ __('Are you sure to delete this comment?') }}"
-                                class="mt-2 btn-outline btn-error btn-sm" />
+                                class="mt-2 btn-outline btn-error btn-sm" spinner />
                         @endif
                         <!-- Bouton pour répondre au commentaire -->
-                        @if ($comment->depth < config('app.commentsNestedLevel'))
+                        @if ($depth < config('app.commentsNestedLevel'))
                             <x-button label="{{ __('Answer') }}" wire:click="toggleAnswerForm(true)"
-                                class="mt-2 btn-outline btn-sm" />
+                                class="mt-2 btn-outline btn-sm" spinner />
                         @endif
                     @endauth
                 </div>
@@ -190,16 +237,23 @@ new class extends Component {
                     icon="o-exclamation-triangle" class="alert-warning" />
             @endif
 
-            @if($comment->children_count > 0)
-                <x-button label="{{ __('Show the answers') }} ({{ $comment->children_count }})" wire:click="showAnswers" class="btn-outline btn-sm" spinner />
+            <!-- Affiche les boutons de réaction -->
+            <div class="flex justify-end space-x-2">
+                <x-button label="{{ $likesUp == 0 ? '0 ' : $likesUp }}" icon="s-hand-thumb-up" wire:click="like(true)" class="btn-success btn-sm" spinner />
+                <x-button label="{{ $likesDown == 0 ? '0 ' : $likesDown }}" icon="s-hand-thumb-down" wire:click="like(false)" class="btn-error btn-sm" spinner />
+            </div>
+
+            <!-- Bouton pour afficher les enfants du commentaire -->
+            @if($children_count > 0)
+                <x-button label="{{ __('Show the answers') }} ({{ $children_count }})" wire:click="showAnswers" class="mt-2 btn-outline btn-sm" spinner />
             @endif
 
         </div>
     @endif
 
     <!-- Rendu récursif des enfants du commentaire actuel -->
-    @if($childs)
-        @foreach ($childs as $child)
+    @if($children)
+        @foreach ($children as $child)
             <livewire:posts.comment :comment="$child" :depth="$depth + 1" :key="$child->id">
         @endforeach
     @endif

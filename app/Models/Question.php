@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,26 +12,21 @@ use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
 
 class Question extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    public $timestamps = false;
+	public $timestamps  = false;
+	protected $fillable = ['question_text', 'quiz_id'];
 
-    protected $fillable = ['question_text', 'quiz_id'];
-
-    /**
-     * Retrieve the answers associated with this question.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+	/**
+	 * Retrieve the answers associated with this question.
+	 */
 	public function answers(): HasMany
 	{
 		return $this->hasMany(Answer::class);
 	}
-	
+
 	/**
 	 * Retrieve the quiz associated with this question.
-	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function quiz(): BelongsTo
 	{

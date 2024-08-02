@@ -11,6 +11,8 @@ new class() extends Component {
 	// Méthode de montage pour initialiser la page
 	public function mount(Page $page): void
 	{
+		if(!$page->active) abort(404);
+		
 		$this->page = $page;
 	}
 }; ?>

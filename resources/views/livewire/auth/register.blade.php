@@ -7,53 +7,49 @@ use Livewire\Volt\Component;
 
 // Définition du composant avec les attributs de titre et de mise en page
 new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Component {
+	// Définition des règles de validation pour les champs du formulaire
+	#[Rule('required|string|max:255|unique:users')]
+	public string $name = '';
 
-    // Définition des règles de validation pour les champs du formulaire
-    #[Rule('required|string|max:255|unique:users')]
-    public string $name = '';
+	#[Rule('required|email|unique:users')]
+	public string $email = '';
 
-    #[Rule('required|string|max:255')]
-    public string $firstname = '';
+	#[Rule('required|confirmed')]
+	public string $password = '';
 
-    #[Rule('required|email|unique:users')]
-    public string $email = '';
+	#[Rule('required')]
+	public string $password_confirmation = '';
 
-    #[Rule('required|confirmed')]
-    public string $password = '';
+	#[Rule('sometimes|nullable')]
+	public ?string $gender = null;
 
-    #[Rule('required')]
-    public string $password_confirmation = '';
+	// Méthode pour enregistrer un nouvel utilisateur
+	public function register()
+	{
+		// Vérification du champ honeypot
+		if ($this->gender) {
+			// Si le champ honeypot est rempli, c'est probablement un bot
+			abort(403);
+		}
 
-    #[Rule('sometimes|nullable')]
-    public ?string $gender = null;
+		// Validation des données
+		$data = $this->validate();
 
-    // Méthode pour enregistrer un nouvel utilisateur
-    public function register()
-    {
-        // Vérification du champ honeypot
-        if ($this->gender) {
-            // Si le champ honeypot est rempli, c'est probablement un bot
-            abort(403);
-        }
-        
-        // Validation des données
-        $data = $this->validate();
+		// Hashage du mot de passe
+		$data['password'] = Hash::make($data['password']);
 
-        // Hashage du mot de passe
-        $data['password'] = Hash::make($data['password']);
+		// Création de l'utilisateur
+		$user = User::create($data);
 
-        // Création de l'utilisateur
-        $user = User::create($data);
+		// Authentification de l'utilisateur
+		auth()->login($user);
 
-        // Authentification de l'utilisateur
-        auth()->login($user);
+		// Régénération de la session
+		request()->session()->regenerate();
 
-        // Régénération de la session
-        request()->session()->regenerate();
-
-        // Redirection vers la page d'accueil
-        return redirect('/');
-    }
+		// Redirection vers la page d'accueil
+		return redirect('/');
+	}
 }; ?>
 
 <div>
@@ -64,8 +60,6 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
         <x-form wire:submit="register">
             <!-- Champ de nom -->
             <x-input label="{{ __('Name') }}" wire:model="name" icon="o-user" inline />
-            <!-- Champ de prénom -->
-            <x-input label="{{ __('Firstname') }}" wire:model="firstname" icon="o-user" inline />
             <!-- Champ d'email -->
             <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" inline />
             <!-- Champ de mot de passe -->

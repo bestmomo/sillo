@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 if (!function_exists('passwordStrength')) {
@@ -64,7 +64,7 @@ if (!function_exists('generateRandomDateInRange')) {
 	{
 		// Convertir les dates en instances de Carbon
 		$start = Carbon\Carbon::parse($startDate);
-		$end = Carbon\Carbon::parse($endDate);
+		$end   = Carbon\Carbon::parse($endDate);
 
 		// Calculer la différence en secondes entre les deux dates
 		$difference = $end->timestamp - $start->timestamp;
@@ -73,12 +73,6 @@ if (!function_exists('generateRandomDateInRange')) {
 		$randomSeconds = rand(0, $difference);
 
 		// Ajouter les secondes aléatoires à la date de début pour obtenir la date aléatoire
-		$randomDate = $start->copy()->addSeconds($randomSeconds);
-
-		return $randomDate;
+		return $start->copy()->addSeconds($randomSeconds);
 	}
 }
-
-
-
-

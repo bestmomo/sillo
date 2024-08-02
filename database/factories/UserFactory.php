@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2015-2024
+ * (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace Database\Factories;
@@ -30,7 +30,6 @@ class UserFactory extends Factory
 		$gender = fake()->randomElement(['female', 'male', 'other']);
 
 		return [
-			'firstname'      => ('male' == $gender) ? fake()->firstNameMale() : fake()->firstNameFemale(),
 			'name'           => fake()->lastname(),
 			'email'          => fake()->unique()->safeEmail(),
 			'password'       => static::$password ??= Hash::make('password'),

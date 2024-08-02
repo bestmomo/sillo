@@ -47,7 +47,7 @@ new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Com
 @section('scripts')
     <script>
         
-        dev = <?= json_encode(app()->environment()) ?> == 'local'
+        dev = <?php echo json_encode(app()->environment()); ?> == 'local'
         
         function fileUpload() {
             return {

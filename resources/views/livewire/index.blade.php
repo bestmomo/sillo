@@ -1,117 +1,118 @@
 <?php
 
-use App\Models\{Category, Comment, Serie, User, Survey, Event};
+use App\Models\{Category, Comment, Event, Serie, Survey};
 use App\Repositories\PostRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Collection;
 
-new class extends Component {
-    use WithPagination;
+new class() extends Component {
+	use WithPagination;
 
-    // Propriétés de la classe
-    public string $param = ''; // Paramètre de recherche optionnel
-    public ?Category $category = null; // Catégorie actuelle (ou null si aucune)
-    public ?Serie $serie = null; // Série actuelle (ou null si aucune)
-    public bool $favorites = false;
-    public Collection $surveys;
+	// Propriétés de la classe
+	public string $param       = ''; // Paramètre de recherche optionnel
+	public ?Category $category = null; // Catégorie actuelle (ou null si aucune)
+	public ?Serie $serie       = null; // Série actuelle (ou null si aucune)
+	public bool $favorites     = false;
+	public Collection $surveys;
 
-    /**
-     * Méthode de montage initiale appelée lors de la création du composant.
-     *
-     * @param string $slug  Slug pour identifier une catégorie ou une série
-     * @param string $param Paramètre de recherche optionnel
-     */
-    public function mount(string $slug = '', string $param = ''): void
-    {
-        $this->param = $param;
+	/**
+	 * Méthode de montage initiale appelée lors de la création du composant.
+	 *
+	 * @param string $slug  Slug pour identifier une catégorie ou une série
+	 * @param string $param Paramètre de recherche optionnel
+	 */
+	public function mount(string $slug = '', string $param = ''): void
+	{
+		$this->param = $param;
 
-        if (request()->is('category/*')) {
-            $this->category = $this->getCategoryBySlug($slug);
-        } elseif (request()->is('serie/*')) {
-            $this->serie = $this->getSerieBySlug($slug);
-        } elseif (request()->is('favorites')) {
-            $this->favorites = true;
-        }
+		if (request()->is('category/*')) {
+			$this->category = $this->getCategoryBySlug($slug);
+		} elseif (request()->is('serie/*')) {
+			$this->serie = $this->getSerieBySlug($slug);
+		} elseif (request()->is('favorites')) {
+			$this->favorites = true;
+		}
 
-        if(auth()->check()) {
-            $this->surveys = Survey::where('active', true)->get();
-        }        
-    }
+		if (auth()->check()) {
+			$this->surveys = Survey::where('active', true)->get();
+		}
+	}
 
-    /**
-     * Récupère les posts en fonction de la catégorie, de la série ou du paramètre de recherche.
-     *
-     * @return LengthAwarePaginator Les posts paginés
-     */
-    public function getPosts(): LengthAwarePaginator
-    {
-        $postRepository = new PostRepository();
+	/**
+	 * Récupère les posts en fonction de la catégorie, de la série ou du paramètre de recherche.
+	 *
+	 * @return LengthAwarePaginator Les posts paginés
+	 */
+	public function getPosts(): LengthAwarePaginator
+	{
+		$postRepository = new PostRepository();
 
-        // Recherche les posts si un paramètre de recherche est présent
-        if (!empty($this->param)) {
-            return $postRepository->search($this->param);
-        } elseif ($this->favorites) {
-            return $postRepository->getFavoritePosts(auth()->user());
-        }
+		// Recherche les posts si un paramètre de recherche est présent
+		if (!empty($this->param)) {
+			return $postRepository->search($this->param);
+		}
+		if ($this->favorites) {
+			return $postRepository->getFavoritePosts(auth()->user());
+		}
 
-        // Récupère les posts paginés en fonction de la catégorie ou de la série
-        return $postRepository->getPostsPaginate($this->category, $this->serie);
-    }
+		// Récupère les posts paginés en fonction de la catégorie ou de la série
+		return $postRepository->getPostsPaginate($this->category, $this->serie);
+	}
 
-    /**
-     * Définit les variables passées à la vue.
-     *
-     * @return array Les variables de la vue
-     */
-    public function with(): array
-    {
-        $items = ['posts' => $this->getPosts()];
+	/**
+	 * Définit les variables passées à la vue.
+	 *
+	 * @return array Les variables de la vue
+	 */
+	public function with(): array
+	{
+		$items = ['posts' => $this->getPosts()];
 
-        if (request()->is('/')) {
-            $items['comments'] = Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get();
-            
-            // Récupérer les événements à venir
-            $upcomingEvents = Event::getUpcomingEvents();
-            
-            // Vérifier s'il y a des événements à venir et les formater en tableau
-            if ($upcomingEvents->isNotEmpty()) {
-                $items['upcoming_events'] = $upcomingEvents->map(function ($event) {
-                    return $event->formatForFrontend();
-                })->toArray(); // Convert the collection to an array
-            } else {
-                $items['upcoming_events'] = [];
-            }
-        }
+		if (request()->is('/')) {
+			$items['comments'] = Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get();
 
-        return $items;
-    }
+			// Récupérer les événements à venir
+			$upcomingEvents = Event::getUpcomingEvents();
 
-    /**
-     * Récupère une catégorie en fonction du slug.
-     *
-     * @param string $slug Slug pour identifier la catégorie
-     *
-     * @return null|Category La catégorie correspondante ou null
-     */
-    protected function getCategoryBySlug(string $slug): ?Category
-    {
-        // Vérifie si le premier segment de l'URL est 'category'
-        return 'category' === request()->segment(1) ? Category::whereSlug($slug)->firstOrFail() : null;
-    }
+			// Vérifier s'il y a des événements à venir et les formater en tableau
+			if ($upcomingEvents->isNotEmpty()) {
+				$items['upcoming_events'] = $upcomingEvents->map(function ($event) {
+					return $event->formatForFrontend();
+				})->toArray(); // Convert the collection to an array
+			} else {
+				$items['upcoming_events'] = [];
+			}
+		}
 
-    /**
-     * Récupère une série en fonction du slug.
-     *
-     * @param string $slug Slug pour identifier la série
-     *
-     * @return null|Serie La série correspondante ou null
-     */
-    protected function getSerieBySlug(string $slug): ?Serie
-    {
-        return Serie::whereSlug($slug)->firstOrFail();
-    }
+		return $items;
+	}
+
+	/**
+	 * Récupère une catégorie en fonction du slug.
+	 *
+	 * @param string $slug Slug pour identifier la catégorie
+	 *
+	 * @return null|Category La catégorie correspondante ou null
+	 */
+	protected function getCategoryBySlug(string $slug): ?Category
+	{
+		// Vérifie si le premier segment de l'URL est 'category'
+		return 'category' === request()->segment(1) ? Category::whereSlug($slug)->firstOrFail() : null;
+	}
+
+	/**
+	 * Récupère une série en fonction du slug.
+	 *
+	 * @param string $slug Slug pour identifier la série
+	 *
+	 * @return null|Serie La série correspondante ou null
+	 */
+	protected function getSerieBySlug(string $slug): ?Serie
+	{
+		return Serie::whereSlug($slug)->firstOrFail();
+	}
 };
 ?>
 
@@ -161,20 +162,22 @@ new class extends Component {
             @forelse($posts as $post)
                 <x-card
                     class="w-full transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
-                    title="{{ $post->title }}">
+                    title="{!! $post->title !!}">
     
-                    <div class="text-justify">{!! str($post->excerpt)->words(config('app.excerptSize')) !!}</div>
+                    <div class="text-justify">{!! str(strip_tags($post->excerpt))->words(config('app.excerptSize')) !!}</div>
                     <br>
                     <hr>
                     <div class="flex justify-between">
                         <p wire:click="" class="text-left cursor-pointer">{{ $post->user->name }}</p>
                         <p class="text-right"><em>{{ $post->created_at->isoFormat('LL') }}</em></p>
                     </div>
-                    <x-slot:figure>
-                        <a href="{{ url('/posts/' . $post->slug) }}">
-                            <img src="{{ asset('storage/photos/' . $post->image) }}" alt="{{ $post->title }}" />
-                        </a>
-                    </x-slot:figure>
+                    @if($post->image)
+                        <x-slot:figure>
+                            <a href="{{ url('/posts/' . $post->slug) }}">
+                                <img src="{{ asset('storage/photos/' . $post->image) }}" alt="{{ $post->title }}" />
+                            </a>
+                        </x-slot:figure>
+                    @endif
     
                     <x-slot:menu>
                         @if ($post->pinned)

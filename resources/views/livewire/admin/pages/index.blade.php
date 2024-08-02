@@ -11,30 +11,30 @@ use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 new #[Title('Pages'), Layout('components.layouts.admin')] class extends Component {
-    use Toast;
-    use WithPagination;
+	use Toast;
+	use WithPagination;
 
-    // Définir les en-têtes de la table.
-    public function headers(): array
-    {
-        return [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug']];
-    }
+	// Définir les en-têtes de la table.
+	public function headers(): array
+	{
+		return [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug'], ['key' => 'active', 'label' => __('Published')]];
+	}
 
-    // Supprimer une page.
-    public function deletePage(Page $page): void
-    {
-        $page->delete();
-        $this->success(__('Page deleted'));
-    }
+	// Supprimer une page.
+	public function deletePage(Page $page): void
+	{
+		$page->delete();
+		$this->success(__('Page deleted'));
+	}
 
-    // Fournir les données nécessaires à la vue.
-    public function with(): array
-    {
-        return [
-            'pages' => Page::select('id', 'title', 'slug')->get(),
-            'headers' => $this->headers(),
-        ];
-    }
+	// Fournir les données nécessaires à la vue.
+	public function with(): array
+	{
+		return [
+			'pages'   => Page::select('id', 'title', 'slug', 'active')->get(),
+			'headers' => $this->headers(),
+		];
+	}
 }; ?>
 
 <div>
@@ -49,6 +49,11 @@ new #[Title('Pages'), Layout('components.layouts.admin')] class extends Componen
 
     <x-card>
         <x-table striped :headers="$headers" :rows="$pages" link="/admin/pages/{slug}/edit">
+            @scope('cell_active', $page)
+                @if ($page->active)
+                    <x-icon name="o-check-circle" />
+                @endif
+            @endscope
             @scope('actions', $page)
                 <x-popover>
                     <x-slot:trigger>

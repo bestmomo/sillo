@@ -11,98 +11,98 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Title('Edit Submenu'), Layout('components.layouts.admin')] class extends Component {
-    use Toast;
+	use Toast;
 
-    public Submenu $submenu;
-    public string $label = '';
-    public string $link = '';
-    public int $subPost = 0;
-    public int $subPage = 0;
-    public int $subSerie = 0;
-    public int $subCategory = 0;
-    public int $subOption = 1;
+	public Submenu $submenu;
+	public string $label    = '';
+	public string $link     = '';
+	public int $subPost     = 0;
+	public int $subPage     = 0;
+	public int $subSerie    = 0;
+	public int $subCategory = 0;
+	public int $subOption   = 1;
 
-    // Initialise le composant avec le sous-menu donné.
-    public function mount(Submenu $submenu): void
-    {
-        $this->submenu = $submenu;
-        $this->fill($this->submenu);
-    }
+	// Initialise le composant avec le sous-menu donné.
+	public function mount(Submenu $submenu): void
+	{
+		$this->submenu = $submenu;
+		$this->fill($this->submenu);
+	}
 
-    // Met à jour le libellé et le lien en fonction de la sous-option sélectionnée.
-    public function updating($property, $value): void
-    {
-        if ('' != $value) {
-            switch ($property) {
-                case 'subPost':
-                    $post = Post::find($value);
-                    if ($post) {
-                        $this->label = $post->title;
-                        $this->link = route('posts.show', $post->slug);
-                    }
+	// Met à jour le libellé et le lien en fonction de la sous-option sélectionnée.
+	public function updating($property, $value): void
+	{
+		if ('' != $value) {
+			switch ($property) {
+				case 'subPost':
+					$post = Post::find($value);
+					if ($post) {
+						$this->label = $post->title;
+						$this->link  = route('posts.show', $post->slug);
+					}
 
-                    break;
-                case 'subPage':
-                    $page = Page::find($value);
-                    if ($page) {
-                        $this->label = $page->title;
-                        $this->link = route('pages.show', $page->slug);
-                    }
+					break;
+				case 'subPage':
+					$page = Page::find($value);
+					if ($page) {
+						$this->label = $page->title;
+						$this->link  = route('pages.show', $page->slug);
+					}
 
-                    break;
-                case 'subSerie':
-                    $serie = Serie::find($value);
-                    if ($serie) {
-                        $this->label = $serie->title;
-                        $this->link = url('serie/' . $serie->slug);
-                    }
+					break;
+				case 'subSerie':
+					$serie = Serie::find($value);
+					if ($serie) {
+						$this->label = $serie->title;
+						$this->link  = url('serie/' . $serie->slug);
+					}
 
-                    break;
-                case 'subCategory':
-                    $category = Category::find($value);
-                    if ($category) {
-                        $this->label = $category->title;
-                        $this->link = url('category/' . $category->slug);
-                    }
+					break;
+				case 'subCategory':
+					$category = Category::find($value);
+					if ($category) {
+						$this->label = $category->title;
+						$this->link  = url('category/' . $category->slug);
+					}
 
-                    break;
-                case 'subOption':
-                    $this->label = '';
-                    $this->link = '';
-                    $this->subPost = 0;
-                    $this->subPage = 0;
-                    $this->subSerie = 0;
-                    $this->subCategory = 0;
+					break;
+				case 'subOption':
+					$this->label       = '';
+					$this->link        = '';
+					$this->subPost     = 0;
+					$this->subPage     = 0;
+					$this->subSerie    = 0;
+					$this->subCategory = 0;
 
-                    break;
-            }
-        }
-    }
+					break;
+			}
+		}
+	}
 
-    // Enregistrer les modifications apportées au sous-menu.
-    public function save(): void
-    {
-        $data = $this->validate([
-            'label' => ['required', 'string', 'max:255', Rule::unique('menus')->ignore($this->submenu->id)],
-            'link' => 'required|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',
-        ]);
+	// Enregistrer les modifications apportées au sous-menu.
+	public function save(): void
+	{
+		$data = $this->validate([
+			'label' => ['required', 'string', 'max:255', Rule::unique('menus')->ignore($this->submenu->id)],
+			'link'  => 'required|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',
+		]);
 
-        $this->submenu->update($data);
+		$this->submenu->update($data);
 
-        $this->success(__('Menu updated with success.'), redirectTo: '/admin/menus/index');
-    }
+		$this->success(__('Menu updated with success.'), redirectTo: '/admin/menus/index');
+	}
 
-    // Renvoie les données nécessaires pour le rendu du composant.
-    public function with(): array
-    {
-        return [
-            'pages' => Page::select('id', 'title', 'slug')->get(),
-            'posts' => Post::select('id', 'title', 'slug', 'created_at')->latest()->take(10)->get(),
-            'series' => Serie::select('id', 'title', 'slug')->get(),
-            'categories' => Category::all(),
-            'subOptions' => [['id' => 1, 'name' => __('Post')], ['id' => 2, 'name' => __('Page')], ['id' => 3, 'name' => __('Serie')], ['id' => 4, 'name' => __('Category')]],
-        ];
-    }
+	// Renvoie les données nécessaires pour le rendu du composant.
+	public function with(): array
+	{
+		return [
+			'pages'      => Page::select('id', 'title', 'slug')->get(),
+			'posts'      => Post::select('id', 'title', 'slug', 'created_at')->latest()->take(10)->get(),
+			'series'     => Serie::select('id', 'title', 'slug')->get(),
+			'categories' => Category::all(),
+			'subOptions' => [['id' => 1, 'name' => __('Post')], ['id' => 2, 'name' => __('Page')], ['id' => 3, 'name' => __('Serie')], ['id' => 4, 'name' => __('Category')]],
+		];
+	}
 }; ?>
 
 <div>
