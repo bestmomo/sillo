@@ -171,11 +171,13 @@ new class() extends Component {
                         <p wire:click="" class="text-left cursor-pointer">{{ $post->user->name }}</p>
                         <p class="text-right"><em>{{ $post->created_at->isoFormat('LL') }}</em></p>
                     </div>
-                    <x-slot:figure>
-                        <a href="{{ url('/posts/' . $post->slug) }}">
-                            <img src="{{ asset('storage/photos/' . $post->image) }}" alt="{{ $post->title }}" />
-                        </a>
-                    </x-slot:figure>
+                    @if($post->image)
+                        <x-slot:figure>
+                            <a href="{{ url('/posts/' . $post->slug) }}">
+                                <img src="{{ asset('storage/photos/' . $post->image) }}" alt="{{ $post->title }}" />
+                            </a>
+                        </x-slot:figure>
+                    @endif
     
                     <x-slot:menu>
                         @if ($post->pinned)
