@@ -123,8 +123,14 @@ new class() extends Component {
         if ($reaction) {
             $previousLiked = $reaction->liked;
 
-            // Mettre à jour la réaction si elle existe
-            if ($previousLiked != $type) {
+            if ($previousLiked == $type) {
+                // Annuler la réaction si elle est la même que le type actuel
+                $reaction->delete();
+
+                // Mettre à jour les compteurs
+                $type ? $this->likesUp-- : $this->likesDown--;
+            } else {
+                // Mettre à jour la réaction si elle est différente
                 $reaction->update(['liked' => $type]);
 
                 // Mettre à jour les compteurs
