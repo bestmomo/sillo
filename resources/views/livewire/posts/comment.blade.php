@@ -148,6 +148,10 @@ new class() extends Component {
             // Mettre à jour les compteurs
             $type ? $this->likesUp++ : $this->likesDown++;
         }
+
+        // Simple précaution pour eviter les valeurs inférieures à 0
+        $this->likesUp = max(0, $this->likesUp);
+        $this->likesDown = max(0, $this->likesDown);
     }
 
 }; ?>
