@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\{ Comment, reaction };
+use App\Models\{ Comment, Reaction };
 use App\Notifications\{CommentAnswerCreated, CommentCreated};
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Rule;
