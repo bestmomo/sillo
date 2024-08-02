@@ -137,9 +137,9 @@ class PostRepository
 	protected function getBaseQuery(): Builder
 	{
 		$specificReqs = [
-			'mysql'  => "LEFT(body, LOCATE(' ', body, 350))",
-			'sqlite' => 'substr(body, 1, 350)',
-			'pgsql'  => 'substring(body from 1 for 350)',
+			'mysql'  => "LEFT(body, LOCATE(' ', body, 700))",
+			'sqlite' => 'substr(body, 1, 700)',
+			'pgsql'  => 'substring(body from 1 for 700)',
 		];
 
 		$usedDbSystem = env('DB_CONNECTION', 'mysql');
