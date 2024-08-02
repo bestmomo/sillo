@@ -28,7 +28,8 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 	// Définir les en-têtes de table.
 	public function headers(): array
 	{
-		return [['key' => 'url', 'label' => ''], ['key' => 'path', 'label' => __('Path')], ['key' => 'usage', 'label' => __('Used')]];
+		return [['key' => 'url', 'label' => ''], 
+		['key' => 'path', 'label' => __('Path')]];
 	}
 
 	public function mount(): void
@@ -55,7 +56,6 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 				return [
 					'path'  => $file,
 					'url'   => Storage::url($file),
-					'usage' => $this->imageIsUsed($file),
 				];
 			})
 			->toArray();
@@ -125,26 +125,6 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 		return $months;
 	}
 
-	private function imageIsUsed(string $file): bool
-	{
-		$fileName = basename($file);
-
-		// Check in posts
-		if (
-			Post::where('image', 'LIKE', "%{$fileName}%")
-				->orWhere('body', 'LIKE', "%{$fileName}%")
-				->count()
-		) {
-			return true;
-		}
-
-		// Check in pages
-		if (Page::where('body', 'LIKE', "%{$fileName}%")->count()) {
-			return true;
-		}
-
-		return false;
-	}
 }; ?>
 
 <div>
@@ -165,11 +145,6 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
         <x-table striped :headers="$headers" :rows="$images" with-pagination>
             @scope('cell_url', $image)
                 <img src="{{ $image['url'] }}" width="100" alt="">
-            @endscope
-            @scope('cell_usage', $image)
-                @if ($image['usage'])
-                    <x-icon name="o-check-circle" />
-                @endif
             @endscope
             @scope('actions', $image, $selectedYear, $selectedMonth, $perPage, $page, $loop)
                 <div class="flex gap-2">

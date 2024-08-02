@@ -247,10 +247,12 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 	{
 		$usage = [];
 
+		$name = $this->year . '/' . str_pad($this->month, 2, '0', STR_PAD_LEFT) . '/' . $this->fileName;
+		
 		// Check in posts
 		$posts = Post::select('id', 'title', 'slug')
-			->where('image', 'LIKE', "%{$this->fileName}%")
-			->orWhere('body', 'LIKE', "%{$this->fileName}%")
+			->where('image', 'LIKE', "%{$name}%")
+			->orWhere('body', 'LIKE', "%{$name}%")
 			->get();
 
 		foreach ($posts as $post) {
@@ -263,7 +265,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		}
 
 		// Check in pages
-		$pages = Page::where('body', 'LIKE', "%{$this->fileName}%")->get();
+		$pages = Page::where('body', 'LIKE', "%{$name}%")->get();
 
 		foreach ($pages as $page) {
 			$usage[] = [
