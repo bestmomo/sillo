@@ -276,9 +276,9 @@ new class() extends Component {
         </x-card>
     @endif
 
-    @isset($upcoming_events)
+    @if(!empty($upcoming_events))
         <x-card title="{{ __('Upcoming events') }}" shadow separator class="flex items-center justify-center mt-4">
             <x-calendar :events="$upcoming_events" months="3" locale="{{ env('APP_CALENDAR_LOCALE') }}" />
         </x-card>
-    @endisset
+    @endif
 </div>
