@@ -165,7 +165,8 @@ new class() extends Component {
     <!-- Vérifie si un commentaire existe -->
     @if ($comment)
         <!-- Conteneur du commentaire avec une marge dépendant de la profondeur -->
-        <div class="flex flex-col mt-4 ml-{{ $depth * 3 }} lg:ml-{{ $depth * 3 }} border-2 border-gray-400 rounded-md p-2">
+        <div class="flex flex-col mt-4 ml-{{ $depth * 3 }} lg:ml-{{ $depth * 3 }} border-2 border-gray-400 rounded-md p-2 selection:transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500" >
+            
 
             <!-- Entête du commentaire -->
             <div class="flex flex-col justify-between mb-4 md:flex-row">
