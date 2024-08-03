@@ -230,7 +230,7 @@ new class() extends Component {
                 </x-card>
             @else
                 <div class="mb-4">
-                    {!! $comment->body !!}
+                    {!! nl2br($comment->body) !!}
                 </div>
             @endif
 
