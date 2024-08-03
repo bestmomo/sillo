@@ -118,7 +118,7 @@ new class() extends Component {
     @section('keywords', $post->meta_keywords)
 
     <!-- Actions disponibles pour les utilisateurs authentifiés -->
-    <div class="flex justify-end gap-4">
+    <div id="top" class="flex justify-end gap-4">
         @auth
             <x-popover>
                 <x-slot:trigger>
@@ -168,6 +168,15 @@ new class() extends Component {
             <x-slot:content class="pop-small">
                 @lang('Show this category')
             </x-slot:content>
+        </x-popover>
+        <!-- Bouton pour défiler en bas du post -->
+        <x-popover>
+            <x-slot:trigger>
+                <a href="#bottom"><x-icon name="c-arrow-long-down" />
+            </x-slot:trigger>
+            <x-slot:content class="pop-small">
+                @lang('To bottom')
+            </x-slot:content>            
         </x-popover>
 
         <!-- Bouton pour afficher la série du post (s'il existe) -->
@@ -242,7 +251,7 @@ new class() extends Component {
     @endif
 
     <!-- Section des commentaires -->
-    <div class="relative items-center w-full py-5 mx-auto md:px-12 max-w-7xl">
+    <div id="bottom" class="relative items-center w-full py-5 mx-auto md:px-12 max-w-7xl">
         @if ($listComments)
             <!-- Afficher les commentaires -->
             <x-card title="{{ __('Comments') }}" shadow separator>
@@ -270,6 +279,18 @@ new class() extends Component {
                 @endauth
             @endif
         @endif
+    </div>
+
+    <!-- Bouton pour défiler en haut du post -->
+    <div id="bottom" class="relative flex justify-end w-full py-5 mx-auto md:px-12 max-w-7xl">
+        <x-popover>
+            <x-slot:trigger>
+                <a href="#top"><x-icon name="c-arrow-long-up" />
+            </x-slot:trigger>
+            <x-slot:content class="pop-small">
+                @lang('To up')
+            </x-slot:content>            
+        </x-popover>
     </div>
 
     <!-- Section des quizzes -->
