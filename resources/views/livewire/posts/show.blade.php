@@ -198,10 +198,12 @@ new class() extends Component {
 
     <!-- Contenu du post -->
     <div class="relative items-center w-full py-5 mx-auto prose md:px-12 max-w-7xl">
-        <div class="flex flex-col items-center mb-4">
-            <img src="{{ asset('storage/photos/' . $post->image) }}" />
-        </div>
-        <br>
+        @if($post->image)
+            <div class="flex flex-col items-center mb-4">
+                <img src="{{ asset('storage/photos/' . $post->image) }}" />
+            </div>
+            <br>
+        @endif
         <div class="text-justify">
             {!! $post->body !!}
         </div>
