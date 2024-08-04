@@ -43,7 +43,6 @@ class CommentCreated extends Notification
 		return (new MailMessage())
 			->subject(__('A comment has been created on your post'))
 			->line(__('A comment has been created on your post') . ' "' . $this->comment->post->title . '" ' . __('by') . ' ' . $this->comment->user->name . '.')
-			->line('"' . $this->comment->body . '"')
 			->lineIf(!$this->comment->user->valid, __('This comment is awaiting moderation.'))
 			->action(__('Manage this comment'), route('comments.index'));
 	}
