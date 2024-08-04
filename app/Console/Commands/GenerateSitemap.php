@@ -38,9 +38,9 @@ class GenerateSitemap extends Command
 		$sitemap->add('/');
 
 		// Static pages
-		$pages = Page::select('slug')->get();
+		$pages = Page::select('slug')->whereActive(true)->get();
 		foreach ($pages as $page) {
-			$sitemap->add("/posts/{$page->slug}");
+			$sitemap->add("/pages/{$page->slug}");
 		}
 
 		// Dynamic pages
