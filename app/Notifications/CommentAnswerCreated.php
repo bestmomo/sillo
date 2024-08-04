@@ -6,7 +6,7 @@
 
 namespace App\Notifications;
 
-use App\models\Comment;
+use App\Models\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

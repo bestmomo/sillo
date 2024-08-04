@@ -33,10 +33,11 @@
         "laravel/sail": "^1.31",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.3",
+        "nunomaduro/larastan": "^2.9",
+        "openai-php/client": "^0.10.1",
         "phpunit/phpunit": "^11.2",
         "spatie/laravel-error-solutions": "^1.0",
-        "spatie/laravel-ignition": "^2.8",
-        "openai-php/client": "^0.10.1"
+        "spatie/laravel-ignition": "^2.8"
     },
     "autoload": {
         "files": [
