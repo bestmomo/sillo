@@ -175,7 +175,7 @@ new #[Title('Nav Menu'), Layout('components.layouts.admin')] class extends Compo
 	{
 		$data = $this->validate([
 			'sublabel' => 'required|max:255',
-			'sublink'  => 'required|url',
+			'sublink'  => 'required|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',
 		]);
 
 		$data['order'] = $menu->submenus->count() + 1;

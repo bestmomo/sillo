@@ -87,7 +87,7 @@ new #[Title('Comments'), Layout('components.layouts.admin')] class extends Compo
                 {{ $comment->created_at->isoFormat('HH:mm') }}
             @endscope
             @scope('cell_body', $comment)
-                {!! $comment->body !!}
+                {!! nl2br($comment->body) !!}
             @endscope
             @scope('cell_user_name', $comment)
                 <x-avatar :image="Gravatar::get($comment->user->email)">

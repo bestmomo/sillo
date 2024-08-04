@@ -25,3 +25,7 @@
 .pop-small {
     @apply !p-1 !px-2 text-sm border-info text-center
 }
+
+html {
+    scroll-behavior: smooth;
+}

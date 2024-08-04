@@ -76,7 +76,7 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
         separator progress-indicator>
         <x-form wire:submit="getAnswer">
             <!-- Champ de message -->
-            <x-textarea wire:model="question" rows="5" placeholder="{{ __('Your question here...') }}" inline />
+            <x-textarea wire:model="question" rows="5" placeholder="{{ __('Your question here...') }}" hint="{{ __('Max 1000 chars') }}" inline />
             <!-- Boutons d'actions -->
             <x-slot:actions>
                 <x-button label="{{ __('Send') }}" type="submit" icon="o-paper-airplane" class="btn-primary"

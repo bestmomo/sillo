@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\{ Comment, reaction };
+use App\Models\{ Comment, Reaction };
 use App\Notifications\{CommentAnswerCreated, CommentCreated};
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Rule;
@@ -148,6 +148,10 @@ new class() extends Component {
             // Mettre à jour les compteurs
             $type ? $this->likesUp++ : $this->likesDown++;
         }
+
+        // Simple précaution pour eviter les valeurs inférieures à 0
+        $this->likesUp = max(0, $this->likesUp);
+        $this->likesDown = max(0, $this->likesDown);
     }
 
 }; ?>
@@ -226,7 +230,7 @@ new class() extends Component {
                 </x-card>
             @else
                 <div class="mb-4">
-                    {!! $comment->body !!}
+                    {!! nl2br($comment->body) !!}
                 </div>
             @endif
 

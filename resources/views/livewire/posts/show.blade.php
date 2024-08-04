@@ -7,108 +7,110 @@ use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
 // Création d'une nouvelle classe anonyme étendant Component
-new class() extends Component {
-	// Propriétés publiques du composant
-	public Post $post;
-	public ?Post $next;
-	public ?Post $previous;
-	public Collection $comments;
-	public bool $listComments = false;
-	public int $commentsCount;
+new class extends Component {
+    // Propriétés publiques du composant
+    public Post $post;
+    public ?Post $next;
+    public ?Post $previous;
+    public Collection $comments;
+    public bool $listComments = false;
+    public int $commentsCount;
 
-	// Attribut de validation pour le message des commentaires
-	#[Rule('required|max:1000')]
-	public string $message = '';
+    // Attribut de validation pour le message des commentaires
+    #[Rule('required|max:1000')]
+    public string $message = '';
 
-	// Initialise le composant avec le post spécifié.
-	public function mount($slug): void
-	{
-		// Instanciation d'un nouveau repository de post
-		$postRepository = new PostRepository();
+    // Initialise le composant avec le post spécifié.
+    public function mount($slug): void
+    {
+        // Instanciation d'un nouveau repository de post
+        $postRepository = new PostRepository();
 
-		// Récupération du post par le slug
-		$this->post = $postRepository->getPostBySlug($slug);
+        // Récupération du post par le slug
+        $this->post = $postRepository->getPostBySlug($slug);
 
-		// Remplissage des propriétés next et previous du post
-		$this->fill($this->post->only('next', 'previous'));
+        // Remplissage des propriétés next et previous du post
+        $this->fill($this->post->only('next', 'previous'));
 
-		// Comptage des commentaires valides du post
-		$this->commentsCount = $this->post->valid_comments_count;
+        // Comptage des commentaires valides du post
+        $this->commentsCount = $this->post->valid_comments_count;
 
-		// Initialisation d'une collection de commentaires
-		$this->comments = new Collection();
-	}
+        // Initialisation d'une collection de commentaires
+        $this->comments = new Collection();
+    }
 
-	// Méthode pour cloner un article
-	public function clonePost(int $postId): void
-	{
-		// Récupération du post original à cloner
-		$originalPost = Post::findOrFail($postId);
+    // Méthode pour cloner un article
+    public function clonePost(int $postId): void
+    {
+        // Récupération du post original à cloner
+        $originalPost = Post::findOrFail($postId);
 
-		// Clonage du post
-		$clonedPost = $originalPost->replicate();
+        // Clonage du post
+        $clonedPost = $originalPost->replicate();
 
-		// Instanciation d'un nouveau repository de post
-		$postRepository = new PostRepository();
+        // Instanciation d'un nouveau repository de post
+        $postRepository = new PostRepository();
 
-		// Génération d'un slug unique pour le post cloné
-		$clonedPost->slug = $postRepository->generateUniqueSlug($originalPost->slug);
+        // Génération d'un slug unique pour le post cloné
+        $clonedPost->slug = $postRepository->generateUniqueSlug($originalPost->slug);
 
-		// Désactivation du post cloné
-		$clonedPost->active = false;
+        // Désactivation du post cloné
+        $clonedPost->active = false;
 
-		// Enregistrement du post cloné
-		$clonedPost->save();
+        // Enregistrement du post cloné
+        $clonedPost->save();
 
-		// Redirection vers la page d'édition du post cloné
-		redirect()->route('posts.edit', $clonedPost->slug);
-	}
+        // Redirection vers la page d'édition du post cloné
+        redirect()->route('posts.edit', $clonedPost->slug);
+    }
 
-	// Méthode pour afficher les commentaires du post
-	public function showComments(): void
-	{
-		// Activation de l'affichage des commentaires
-		$this->listComments = true;
+    // Méthode pour afficher les commentaires du post
+    public function showComments(): void
+    {
+        // Activation de l'affichage des commentaires
+        $this->listComments = true;
 
-		// Récupération des commentaires valides du post avec les informations utilisateur
-		$this->comments = $this->post
-			->validComments()
-			->where('parent_id', null)
-			->withCount(['children' => function ($query) {
-				$query->whereHas('user', function ($q) {
-					$q->where('valid', true);
-				});
-			}])
-			->with([
-				'user' => function ($query) {
-					$query->select('id', 'name', 'email', 'role')->withCount('comments');
-				},
-			])
-			->latest()
-			->get();
-	}
+        // Récupération des commentaires valides du post avec les informations utilisateur
+        $this->comments = $this->post
+            ->validComments()
+            ->where('parent_id', null)
+            ->withCount([
+                'children' => function ($query) {
+                    $query->whereHas('user', function ($q) {
+                        $q->where('valid', true);
+                    });
+                },
+            ])
+            ->with([
+                'user' => function ($query) {
+                    $query->select('id', 'name', 'email', 'role')->withCount('comments');
+                },
+            ])
+            ->latest()
+            ->get();
+    }
 
-	// Méthode pour mettre l'article en favoris
-	public function favoritePost(): void
-	{
-		$user = auth()->user();
+    // Méthode pour mettre l'article en favoris
+    public function favoritePost(): void
+    {
+        $user = auth()->user();
 
-		if ($user) {
-			$user->favoritePosts()->attach($this->post->id);
-			$this->post->is_favorited = true;
-		}
-	}
+        if ($user) {
+            $user->favoritePosts()->attach($this->post->id);
+            $this->post->is_favorited = true;
+        }
+    }
 
-	// Méthode pour retirer l'article des favoris
-	public function unfavoritePost(): void
-	{
-		$user = auth()->user();
+    // Méthode pour retirer l'article des favoris
+    public function unfavoritePost(): void
+    {
+        $user = auth()->user();
 
-		if ($user) {
-			$user->favoritePosts()->detach($this->post->id);
-			$this->post->is_favorited = false;
-		}
-	}
+        if ($user) {
+            $user->favoritePosts()->detach($this->post->id);
+            $this->post->is_favorited = false;
+        }
+    }
 }; ?>
 
 <div>
@@ -118,7 +120,7 @@ new class() extends Component {
     @section('keywords', $post->meta_keywords)
 
     <!-- Actions disponibles pour les utilisateurs authentifiés -->
-    <div class="flex justify-end gap-4">
+    <div id="top" class="flex justify-end gap-4">
         @auth
             <x-popover>
                 <x-slot:trigger>
@@ -169,6 +171,15 @@ new class() extends Component {
                 @lang('Show this category')
             </x-slot:content>
         </x-popover>
+        <!-- Bouton pour défiler en bas du post -->
+        <x-popover>
+            <x-slot:trigger>
+                <a href="#bottom"><x-icon name="c-arrow-long-down" /></a>
+            </x-slot:trigger>
+            <x-slot:content class="pop-small">
+                @lang('To bottom')
+            </x-slot:content>
+        </x-popover>
 
         <!-- Bouton pour afficher la série du post (s'il existe) -->
         @if ($post->serie)
@@ -185,14 +196,17 @@ new class() extends Component {
     </div>
 
     <!-- Titre et date du post -->
-    <x-header title="{!! $post->title !!}" subtitle="{{ ucfirst($post->created_at->isoFormat('LLLL')) }} " size="text-2xl sm:text-3xl md:text-4xl" />
+    <x-header title="{!! $post->title !!}" subtitle="{{ ucfirst($post->created_at->isoFormat('LLLL')) }} "
+        size="text-2xl sm:text-3xl md:text-4xl" />
 
     <!-- Contenu du post -->
     <div class="relative items-center w-full py-5 mx-auto prose md:px-12 max-w-7xl">
-        <div class="flex flex-col items-center mb-4">
-            <img src="{{ asset('storage/photos/' . $post->image) }}" />
-        </div>
-        <br>
+        @if ($post->image)
+            <div class="flex flex-col items-center mb-4">
+                <img src="{{ asset('storage/photos/' . $post->image) }}" />
+            </div>
+            <br>
+        @endif
         <div class="text-justify">
             {!! $post->body !!}
         </div>
@@ -242,7 +256,7 @@ new class() extends Component {
     @endif
 
     <!-- Section des commentaires -->
-    <div class="relative items-center w-full py-5 mx-auto md:px-12 max-w-7xl">
+    <div id="bottom" class="relative items-center w-full py-5 mx-auto md:px-12 max-w-7xl">
         @if ($listComments)
             <!-- Afficher les commentaires -->
             <x-card title="{{ __('Comments') }}" shadow separator>
@@ -270,6 +284,18 @@ new class() extends Component {
                 @endauth
             @endif
         @endif
+    </div>
+
+    <!-- Bouton pour défiler en haut du post -->
+    <div id="bottom" class="relative flex justify-end w-full py-5 mx-auto md:px-12 max-w-7xl">
+        <x-popover>
+            <x-slot:trigger>
+                <a href="#top"><x-icon name="c-arrow-long-up" />
+            </x-slot:trigger>
+            <x-slot:content class="pop-small">
+                @lang('To up')
+            </x-slot:content>
+        </x-popover>
     </div>
 
     <!-- Section des quizzes -->
