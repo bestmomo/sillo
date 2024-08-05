@@ -6,7 +6,7 @@
 
 namespace App\Repositories;
 
-use App\Models\{Category, Post, Serie, user};
+use App\Models\{Category, Post, Serie, User};
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -100,7 +100,7 @@ class PostRepository
 	 *
 	 * @return LengthAwarePaginator The paginated list of favorite posts
 	 */
-	public function getFavoritePosts(user $user): LengthAwarePaginator
+	public function getFavoritePosts(User $user): LengthAwarePaginator
 	{
 		return $this->getBaseQuery()
 			->whereHas('favoritedByUsers', function (Builder $query) {

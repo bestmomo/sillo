@@ -62,7 +62,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 			->when($this->search, fn (Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
 			->when('date' === $this->sortBy['column'], fn (Builder $q) => $q->orderBy('created_at', $this->sortBy['direction']), fn (Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction']))
 			->latest()
-			->paginate(5);
+			->paginate(10);
 	}
 
 	// Méthode pour obtenir les catégories

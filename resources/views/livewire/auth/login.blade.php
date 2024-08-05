@@ -45,9 +45,9 @@ class extends Component {
         <!-- Formulaire de soumission -->
         <x-form wire:submit="login">
             <!-- Champ d'email -->
-            <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" inline />
+            <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" type="email" inline />
             <!-- Champ de mot de passe -->
-            <x-input label="{{ __('Password') }}" wire:model="password" type="password" icon="o-key" inline />
+            <x-input label="{{ __('Password') }}" wire:model="password" type="password" icon="o-key" type="password" inline />
             <!-- Option de souvenir de connexion -->
             <x-checkbox label="{{ __('Remember me') }}" wire:model="remember" />
 

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasMany};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -44,14 +45,6 @@ class User extends Authenticatable
 	public function comments(): HasMany
 	{
 		return $this->hasMany(Comment::class);
-	}
-
-	/**
-	 * Define a one to many relation for messages.
-	 */
-	public function messages(): HasMany
-	{
-		return $this->hasMany(Message::class);
 	}
 
 	/**
@@ -125,12 +118,12 @@ class User extends Authenticatable
 	/**
 	 * Scope a query to search for a specific value in the 'name', 'firstname', or 'email' columns.
 	 *
-	 * @param datatype $query The query builder instance
-	 * @param datatype $value The value to search for
+	 * @param Builder $query The query builder instance
+	 * @param string $value The value to search for
 	 *
 	 * @return BelongsToMany
 	 */
-	public function scopeSearch($query, $value)
+	public function scopeSearch(Builder $query, string $value)
 	{
 		$query
 			->where('name', 'like', "%{$value}%")

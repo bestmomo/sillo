@@ -19,10 +19,10 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	// Déclaration des propriétés du composant
 	public bool $inSerie = false;
 	public Collection $seriePosts;
-	public Post $seriePost;
+	public ?Post $seriePost = null;
 	public int $postId;
 	public Collection $series;
-	public Serie $serie;
+	public ?Serie $serie = null;
 	public int $category_id;
 	public int $serie_id;
 
@@ -60,8 +60,8 @@ new #[Layout('components.layouts.admin')] class extends Component {
 		$category          = Category::with('series')->first();
 		$this->category_id = $category->id;
 		$this->series      = $category->series;
-		$this->serie       = $this->series->first();
-		$this->seriePost   = $this->serie->lastPost();
+		$this->serie       = $this->series->isEmpty() ? null : $this->series->first();
+		$this->seriePost   = $this->series->isEmpty()? null : $this->serie->lastPost();
 	}
 
 	// Méthode appelée lorsqu'une propriété est mise à jour

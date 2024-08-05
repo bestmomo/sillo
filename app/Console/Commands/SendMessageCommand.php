@@ -6,7 +6,7 @@
 
 namespace App\Console\Commands;
 
-use App\Events\MessageSent;
+use App\Events\AcademyChatV1MessageEvent;
 use Illuminate\Console\Command;
 
 class SendMessageCommand extends Command
@@ -50,6 +50,6 @@ class SendMessageCommand extends Command
 
 		$this->info($name . ' : ' . $text);
 
-		MessageSent::dispatch($name, $text);
+		AcademyChatV1MessageEvent::dispatch($name, $text);
 	}
 }
