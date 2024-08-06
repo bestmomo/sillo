@@ -12,6 +12,7 @@ return [
 		'toolbar_sticky' => true,
 		'min_height'     => 1000,
 		'license_key'    => 'gpl',
+		'valid_elements' => '*[*]',
 	],
 	'config_comment' => [
 		'language'       => env('APP_TINYMCE_LOCALE', 'en_US'),
