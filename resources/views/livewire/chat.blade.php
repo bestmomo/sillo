@@ -91,12 +91,8 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
                     spinner="login" />
             </x-slot:actions>
         </x-form>
-        <br>
-        <!-- Réponse -->
-        <div class="container mx-auto">
-            <div class="prose sm:mx-8 lg:mx-16">
-                {!! nl2br(e($answer)) !!}
-            </div>
-        </div>
     </x-card>
+	<x-card title="{{ __('Your answer') }}" shadow separator progress-indicator>
+		{!! nl2br(e($answer)) !!}
+	</x-card>
 </div>
