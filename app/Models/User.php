@@ -63,6 +63,11 @@ class User extends Authenticatable
 		return $this->hasMany(Survey::class);
 	}
 
+	public function chats(): HasMany
+	{
+		return $this->hasMany(Chat::class);
+	}
+
 	/**
 	 * Retrieve the quizzes that the user has participated in.
 	 */
