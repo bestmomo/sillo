@@ -27,7 +27,7 @@ new class() extends Component {
 	{
 		$this->comment = $comment;
 		$this->depth   = $depth;
-		$this->message = $comment->body;
+		$this->message = strip_tags($comment->body);
         $this->children_count = $comment->children_count;
 
         $this->likesUp = $comment->reactions()->where('liked', true)->count();
@@ -215,6 +215,11 @@ new class() extends Component {
             </div>
 
             <!-- Affichage du formulaire de modification ou du corps du commentaire -->
+            @if(!$showModifyForm)
+                <div class="mb-4">
+                    {!! nl2br($comment->body) !!}
+                </div>
+            @endif
             @if ($showModifyForm || $showAnswerForm)
                 <x-card :title="($showModifyForm ? __('Update your comment') : __('Your answer'))" shadow="hidden" class="!p-0">
                     <x-form :wire:submit="($showModifyForm ? 'updateAnswer' : 'createAnswer')" class="mb-4">
@@ -228,10 +233,6 @@ new class() extends Component {
                         </x-slot:actions>
                     </x-form>
                 </x-card>
-            @else
-                <div class="mb-4">
-                    {!! nl2br($comment->body) !!}
-                </div>
             @endif
 
             <!-- Affichage de l'alerte si activée -->
