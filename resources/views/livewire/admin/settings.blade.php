@@ -113,7 +113,7 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
                 <x-badge value="{{ $newPost }}" class="my-2 badge-neutral" />
             </x-card>
             <x-card separator class="border-4 bg-zinc-100 border-zinc-950">
-                <x-editor wire:model="flash" label="{{ __('Flash message') }}" :config="config('tinymce.config')"
+                <x-editor wire:model="flash" label="{{ __('Flash message') }}" :config="config('tinymce.config_comment')"
                     folder="{{ 'photos/' . now()->format('Y/m') }}" />
             </x-card>
             <x-slot:actions>
