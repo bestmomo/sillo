@@ -1,7 +1,7 @@
 @if ($showForm)
     <x-card title="{{ $formTitle }}" shadow="hidden" class="!p-0">
         <x-form wire:submit="{{ $formAction }}" class="mb-4">
-            <x-textarea wire:model="message" hint="{{ __('Max 1000 chars') }}" rows="5" inline />
+            <x-textarea wire:model="message" hint="{{ __('Max 10000 chars') }}" rows="5" inline />
             <x-slot:actions>
                 @if ($formAction === 'updateComment')
                     <x-button label="{{ __('Cancel') }}" wire:click="toggleModifyForm(false)"

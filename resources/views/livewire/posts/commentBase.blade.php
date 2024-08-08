@@ -16,7 +16,7 @@ new class() extends Component {
 	public bool $alert          = false;
 
 	// Attribut de validation pour le message des commentaires
-	#[Rule('required|max:1000')]
+	#[Rule('required|max:10000')]
 	public string $message = '';
 
 	// Méthode de montage pour initialiser le postId

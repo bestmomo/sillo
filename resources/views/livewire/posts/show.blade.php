@@ -16,10 +16,6 @@ new class extends Component {
     public bool $listComments = false;
     public int $commentsCount;
 
-    // Attribut de validation pour le message des commentaires
-    #[Rule('required|max:1000')]
-    public string $message = '';
-
     // Initialise le composant avec le post spécifié.
     public function mount($slug): void
     {
