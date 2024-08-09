@@ -119,7 +119,7 @@ new class() extends Component {
 <div class="relative grid items-center w-full py-5 mx-auto md:px-12 max-w-7xl">
 
     @if (config('app.flash') !== '')
-        <x-alert class="mb-2 alert-warning" dismissible>
+        <x-alert class="mb-2 {{ config('app.alertValue') }}" dismissible>
             {!! config('app.flash') !!}
         </x-alert>
     @endif
