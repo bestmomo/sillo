@@ -22,7 +22,7 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 	public Collection $months;
 	public string $selectedYear;
 	public string $selectedMonth;
-	public int $perPage = 4;
+	public int $perPage = 10;
 	public int $page    = 1;
 
 	// Définir les en-têtes de table.
