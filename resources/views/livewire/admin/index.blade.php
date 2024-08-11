@@ -176,7 +176,7 @@ new #[Title('Dashboard')] #[Layout('components.layouts.admin')] class extends Co
                         </x-popover>
                     </x-slot:actions>
                 </x-list-item>
-                <p class="ml-16">{{ Str::words($comment->body, 20, ' ...') }}</p>
+                <p class="ml-16">{!! Str::words(nl2br($comment->body), 20, ' ...') !!}</p>
                 <br>
             @endforeach
         </x-slot:content>

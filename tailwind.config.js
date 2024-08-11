@@ -16,6 +16,9 @@ export default {
       pattern: /(!)?bg-(red|green|yellow|blue|indigo|purple|pink|orange|teal|lime|cyan|amber|fuchsia|emerald|rose|sky|violet)-200/,
     },
     'bg-red-300',
+    'alert-success',
+    'alert-info',
+    'alert-warning',
   ],
   theme: {
     extend: {

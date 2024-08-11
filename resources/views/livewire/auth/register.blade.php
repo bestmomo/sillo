@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
+use App\Notifications\UserRegistered;
 
 // Définition du composant avec les attributs de titre et de mise en page
 new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Component {
@@ -46,6 +47,13 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
 
 		// Régénération de la session
 		request()->session()->regenerate();
+
+		// Notification aux administrateurs
+		$admins = User::where('role', 'admin')->get();
+		
+		foreach ($admins as $admin) {
+			$admin->notify(new UserRegistered($user));
+		}
 
 		// Redirection vers la page d'accueil
 		return redirect('/');

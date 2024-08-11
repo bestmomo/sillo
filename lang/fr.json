@@ -567,5 +567,11 @@
     "Correct answer was": "La réponse correcte était",
     "Edit this page": "Modifier cette page",
     "To up": "Vers le haut",
-    "To bottom": "Vers le bas"
+    "To bottom": "Vers le bas",
+    "Show this comment": "Voir ce commentaire",
+    "Max 10000 chars": "Max 10000 caractères",
+    "Alert type": "Type d'alerte",
+    "A new user has been registered": "Un nouvel utilisateur a été enregisté",
+    "The name of the new user is ": "Le nom de l'utilisateur est ",
+    "The email of the new user is ": "L'email de l'utilisateur est "
 }

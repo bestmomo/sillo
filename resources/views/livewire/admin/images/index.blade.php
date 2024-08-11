@@ -22,7 +22,7 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 	public Collection $months;
 	public string $selectedYear;
 	public string $selectedMonth;
-	public int $perPage = 4;
+	public int $perPage = 10;
 	public int $page    = 1;
 
 	// Définir les en-têtes de table.
@@ -100,7 +100,7 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 			$year = basename($yearPath);
 
 			return ['id' => $year, 'name' => $year];
-		});
+		})->sortByDesc('id');
 
 		$this->selectedYear = $years->first()['id'];
 
@@ -116,7 +116,7 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 			$month = basename($monthPath);
 
 			return ['id' => $month, 'name' => $month];
-		});
+		})->sortByDesc('id');
 
 		$this->selectedMonth = $months->first()['id'];
 

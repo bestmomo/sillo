@@ -10,7 +10,17 @@ use Mary\Traits\Toast;
 new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Component {
 	use Toast;
 
-	private const SETTINGS_KEYS = ['pagination', 'excerptSize', 'title', 'subTitle', 'flash', 'newPost'];
+	private const SETTINGS_KEYS = ['pagination', 'excerptSize', 'title', 'subTitle', 'flash', 'newPost', 'alertValue'];
+
+    public array $selectAlert = [
+        ['id' => 'neutral', 'name' => 'Neutral'], 
+        ['id' => 'alert-warning', 'name' => 'Warning'], 
+        ['id' => 'alert-info', 'name' => 'Info'], 
+        ['id' => 'alert-success', 'name' => 'Success'],
+    ];
+
+    #[Rule('required')]
+    public string $alertValue = '';
 
 	#[Rule('required|max:30')]
 	public string $title;
@@ -113,7 +123,8 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
                 <x-badge value="{{ $newPost }}" class="my-2 badge-neutral" />
             </x-card>
             <x-card separator class="border-4 bg-zinc-100 border-zinc-950">
-                <x-editor wire:model="flash" label="{{ __('Flash message') }}" :config="config('tinymce.config')"
+                <x-radio label="{!! __('Alert type') !!}" :options="$selectAlert" wire:model="alertValue" wire:change="$refresh" class="mb-2" />
+                <x-editor wire:model="flash" label="{{ __('Flash message') }}" :config="config('tinymce.config_comment')"
                     folder="{{ 'photos/' . now()->format('Y/m') }}" />
             </x-card>
             <x-slot:actions>

@@ -19,7 +19,7 @@ new class() extends Component {
     public int $children_count = 0;
 
 	// Attribut de validation pour le message des commentaires
-	#[Rule('required|max:1000')]
+	#[Rule('required|max:10000')]
 	public string $message = '';
 
 	// Initialise le composant avec les données du commentaire.
@@ -27,7 +27,7 @@ new class() extends Component {
 	{
 		$this->comment = $comment;
 		$this->depth   = $depth;
-		$this->message = $comment->body;
+		$this->message = strip_tags($comment->body);
         $this->children_count = $comment->children_count;
 
         $this->likesUp = $comment->reactions()->where('liked', true)->count();
@@ -215,10 +215,15 @@ new class() extends Component {
             </div>
 
             <!-- Affichage du formulaire de modification ou du corps du commentaire -->
+            @if(!$showModifyForm)
+                <div class="mb-4">
+                    {!! nl2br($comment->body) !!}
+                </div>
+            @endif
             @if ($showModifyForm || $showAnswerForm)
                 <x-card :title="($showModifyForm ? __('Update your comment') : __('Your answer'))" shadow="hidden" class="!p-0">
                     <x-form :wire:submit="($showModifyForm ? 'updateAnswer' : 'createAnswer')" class="mb-4">
-                        <x-textarea wire:model="message" :placeholder="($showAnswerForm ? __('Your answer') . ' ...' : '')" hint="{{ __('Max 1000 chars') }}" rows="5" inline />
+                        <x-textarea wire:model="message" :placeholder="($showAnswerForm ? __('Your answer') . ' ...' : '')" hint="{{ __('Max 10000 chars') }}" rows="5" inline />
                         <x-slot:actions>
                             <!-- Bouton pour annuler -->
                             <x-button label="{{ __('Cancel') }}" :wire:click="($showModifyForm ? 'toggleModifyForm(false)' : 'toggleAnswerForm(false)')"
@@ -228,10 +233,6 @@ new class() extends Component {
                         </x-slot:actions>
                     </x-form>
                 </x-card>
-            @else
-                <div class="mb-4">
-                    {!! nl2br($comment->body) !!}
-                </div>
             @endif
 
             <!-- Affichage de l'alerte si activée -->

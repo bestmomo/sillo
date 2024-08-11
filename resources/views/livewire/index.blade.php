@@ -119,7 +119,7 @@ new class() extends Component {
 <div class="relative grid items-center w-full py-5 mx-auto md:px-12 max-w-7xl">
 
     @if (config('app.flash') !== '')
-        <x-alert class="mb-2 alert-warning" dismissible>
+        <x-alert class="mb-2 {{ config('app.alertValue') }}" dismissible>
             {!! config('app.flash') !!}
         </x-alert>
     @endif
@@ -244,7 +244,7 @@ new class() extends Component {
         {{ $posts->links() }}
     </div>
 
-    @if (request()->is('/'))
+    @if (request()->is('/') && $comments->isNotEmpty())
         <x-card title="{{ __('Recent Comments') }}" shadow separator class="mt-2">
             @foreach ($comments as $comment)
                 <x-list-item :item="$comment" no-separator no-hover>
@@ -270,7 +270,7 @@ new class() extends Component {
                         </x-popover>
                     </x-slot:actions>
                 </x-list-item>
-                <p class="ml-16">{{ Str::words($comment->body, 20, ' ...') }}</p>
+                <p class="ml-16">{!! Str::words(nl2br($comment->body), 20, ' ...') !!}</p>
                 <br>
             @endforeach
         </x-card>

@@ -52,11 +52,19 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
 
 			// Vérification du statut de la réponse
 			if ($response->successful()) {
+
 				// Décodage de la réponse et récupération du contenu
 				$answer = json_decode($response->body())->choices[0]->message->content;
 
 				// Affectez la réponse formatée à la variable Livewire
 				$this->answer = $answer;
+
+				// Sauvegarde dans la base de données
+				auth()->user()->chats()->create([
+					'answer' => $answer,
+					'question' => $data['question'],
+				]);
+
 			} else {
 				// Gestion des erreurs
 				throw new Exception(__('Error in API response: ') . $response->body());
@@ -83,12 +91,8 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
                     spinner="login" />
             </x-slot:actions>
         </x-form>
-        <br>
-        <!-- Réponse -->
-        <div class="container mx-auto">
-            <div class="prose sm:mx-8 lg:mx-16">
-                {!! nl2br(e($answer)) !!}
-            </div>
-        </div>
     </x-card>
+	<x-card title="{{ __('Your answer') }}" shadow separator progress-indicator>
+		{!! nl2br(e($answer)) !!}
+	</x-card>
 </div>

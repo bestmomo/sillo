@@ -95,3 +95,10 @@ Route::middleware('auth')->group(function () {
 			Volt::route('/comments/{comment}/edit', 'admin.comments.edit')->name('comments.edit');
 		});
 });
+
+Route::fallback(function () {
+    $path = request()->path();
+    $redirectPath = '/posts/' . $path;
+    return redirect(url($redirectPath));
+});
+
