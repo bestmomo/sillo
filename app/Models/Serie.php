@@ -36,7 +36,7 @@ class Serie extends Model
 	/**
 	 * Has Many relation.
 	 */
-	public function lastPost(): Post
+	public function lastPost(): ?Post
 	{
 		return $this->hasMany(Post::class)->latest()->select('id', 'title', 'serie_id')->first();
 	}

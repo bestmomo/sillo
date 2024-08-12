@@ -108,7 +108,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
 		if ($this->inSerie) {
 			$data += [
 				'serie_id'  => $this->serie_id,
-				'parent_id' => $this->seriePost->id,
+				'parent_id' => $this->seriePost? $this->seriePost->id : null,
 			];
 		}
 
@@ -157,7 +157,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
                             hint="{{ __('Serie is optional') }}" /><br>
                         <x-select label="{{ __('Serie name') }}" option-label="title" :options="$series"
                             wire:model="serie_id" wire:change="$refresh" /><br>
-                        <p>@lang('Previous post: ') {{ $seriePost->title }}</p>
+                        <p>@lang('Previous post: ') {{ $seriePost? $seriePost->title : __('None') }}</p>
                     </x-slot:content>
                 </x-collapse>
             @endif
