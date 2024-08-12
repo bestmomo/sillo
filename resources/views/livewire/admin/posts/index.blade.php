@@ -51,7 +51,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	public function posts(): LengthAwarePaginator
 	{
 		return Post::query()
-			->select('id', 'title', 'slug', 'category_id', 'active', 'user_id', 'created_at', 'updated_at', 'parent_id')
+			->select('id', 'title', 'slug', 'category_id', 'active', 'user_id', 'created_at', 'updated_at')
 			->when(Auth::user()->isAdmin(), fn (Builder $q) => $q->withAggregate('user', 'name'))
 			->when(!Auth::user()->isAdmin(), fn (Builder $q) => $q->where('user_id', Auth::id()))
 			->when($this->category_id, fn (Builder $q) => $q->where('category_id', $this->category_id))
@@ -199,18 +199,16 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
                                 @lang('Clone')
                             </x-slot:content>
                         </x-popover>
-						@if(!$post->parent_id)
-							<x-popover>
-								<x-slot:trigger>
-									<x-button icon="o-trash" wire:click="deletePost({{ $post->id }})"
-										wire:confirm="{{ __('Are you sure to delete this post?') }}" spinner
-										class="text-red-500 btn-ghost btn-sm" />
-								</x-slot:trigger>
-								<x-slot:content class="pop-small">
-									@lang('Delete')
-								</x-slot:content>
-							</x-popover>
-						@endif
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="o-trash" wire:click="deletePost({{ $post->id }})"
+                                    wire:confirm="{{ __('Are you sure to delete this post?') }}" spinner
+                                    class="text-red-500 btn-ghost btn-sm" />
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Delete')
+                            </x-slot:content>
+                        </x-popover>
                     </div>
                 @endscope
             </x-table>
