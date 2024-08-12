@@ -24,7 +24,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	public Collection $series;
 	public ?Serie $serie = null;
 	public int $category_id;
-	public int $serie_id;
+	public ?int $serie_id;
 
 	// Déclaration des règles de validation pour les propriétés
 	#[Rule('required|string|max:16777215')]
