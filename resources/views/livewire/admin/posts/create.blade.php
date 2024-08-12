@@ -83,8 +83,10 @@ new #[Layout('components.layouts.admin')] class extends Component {
 				$category     = Category::with('series')->find($value);
 				$this->series = $category->series;
 
-				if ($this->series->count() > 0) {
-					$this->seriePost = $this->series->first()->lastPost();
+				if ($this->series->count() > 0) {					
+					$this->serie     = $this->series->first();
+					$this->seriePost = $this->serie->lastPost();
+					$this->serie_id  = $this->serie->id;
 				} else {
 					$this->inSerie = false;
 				}
