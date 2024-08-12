@@ -59,6 +59,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 			$this->serie      = $this->serie_id ? Serie::find($this->serie_id) : $this->series->first();
 			$this->seriePosts = $this->serie->posts;
 			$this->seriePost  = $this->seriePosts->first();
+			$this->inSerie = $post->serie_id !== null;
 		}
 	}
 
