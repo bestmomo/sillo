@@ -61,6 +61,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
 		$this->category_id = $category->id;
 		$this->series      = $category->series;
 		$this->serie       = $this->series->isEmpty() ? null : $this->series->first();
+		$this->serie_id    = $this->serie? $this->serie->id : null;
 		$this->seriePost   = $this->series->isEmpty()? null : $this->serie->lastPost();
 	}
 
