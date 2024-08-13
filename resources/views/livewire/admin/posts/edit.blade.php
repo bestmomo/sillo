@@ -177,7 +177,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 							hint="{{ __('Serie is optional') }}" /><br>
 						<x-select label="{{ __('Serie name') }}" option-label="title" :options="$series"
 							wire:model="serie_id" wire:change="$refresh" /><br>
-						<p>@lang('Previous post: ') {{ $seriePost? $seriePost->title : 'None' }}</p>
+						<p>@lang('Previous post: ') {{ $seriePost? $seriePost->title : __('None') }}</p>
                     </x-slot:content>
                 </x-collapse>
             @endif
