@@ -163,10 +163,11 @@ new class() extends Component {
                         $isCorrect = in_array($answer->id, $results[$question->id]['correctAnswers'] ?? []);
                         $isChecked = in_array($answer->id, $results[$question->id]['userAnswers'] ?? []);
                         $alertClass = '';
-
                         if ($quizSubmitted) {
-                            if (($isChecked && !$isCorrect) || (!$isChecked && $isCorrect)) {
+                            if ($isChecked && !$isCorrect) {
                                 $alertClass = 'alert-warning';
+                            } else if (!$isChecked && $isCorrect) {
+                                $alertClass = 'alert-success';
                             }
                         }
                     @endphp
