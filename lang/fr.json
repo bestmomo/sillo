@@ -573,5 +573,6 @@
     "Alert type": "Type d'alerte",
     "A new user has been registered": "Un nouvel utilisateur a été enregisté",
     "The name of the new user is ": "Le nom de l'utilisateur est ",
-    "The email of the new user is ": "L'email de l'utilisateur est "
+    "The email of the new user is ": "L'email de l'utilisateur est ",
+    "None": "Aucun"
 }

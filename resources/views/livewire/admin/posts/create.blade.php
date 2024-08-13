@@ -11,20 +11,19 @@ use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
-new #[Layout('components.layouts.admin')] class extends Component {
+new #[Layout('components.layouts.admin')] 
+class extends Component {
 	// Utilisation des traits WithFileUploads et Toast
-	use WithFileUploads;
-	use Toast;
+	use WithFileUploads, Toast;
 
 	// Déclaration des propriétés du composant
 	public bool $inSerie = false;
-	public Collection $seriePosts;
 	public ?Post $seriePost = null;
 	public int $postId;
 	public Collection $series;
 	public ?Serie $serie = null;
 	public int $category_id;
-	public int $serie_id;
+	public ?int $serie_id;
 
 	// Déclaration des règles de validation pour les propriétés
 	#[Rule('required|string|max:16777215')]
@@ -61,6 +60,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
 		$this->category_id = $category->id;
 		$this->series      = $category->series;
 		$this->serie       = $this->series->isEmpty() ? null : $this->series->first();
+		$this->serie_id    = $this->serie? $this->serie->id : null;
 		$this->seriePost   = $this->series->isEmpty()? null : $this->serie->lastPost();
 	}
 
@@ -82,8 +82,10 @@ new #[Layout('components.layouts.admin')] class extends Component {
 				$category     = Category::with('series')->find($value);
 				$this->series = $category->series;
 
-				if ($this->series->count() > 0) {
-					$this->seriePost = $this->series->first()->lastPost();
+				if ($this->series->count() > 0) {					
+					$this->serie     = $this->series->first();
+					$this->seriePost = $this->serie->lastPost();
+					$this->serie_id  = $this->serie->id;
 				} else {
 					$this->inSerie = false;
 				}
@@ -108,7 +110,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
 		if ($this->inSerie) {
 			$data += [
 				'serie_id'  => $this->serie_id,
-				'parent_id' => $this->seriePost->id,
+				'parent_id' => $this->seriePost? $this->seriePost->id : null,
 			];
 		}
 
@@ -157,7 +159,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
                             hint="{{ __('Serie is optional') }}" /><br>
                         <x-select label="{{ __('Serie name') }}" option-label="title" :options="$series"
                             wire:model="serie_id" wire:change="$refresh" /><br>
-                        <p>@lang('Previous post: ') {{ $seriePost->title }}</p>
+                        <p>@lang('Previous post: ') {{ $seriePost? $seriePost->title : __('None') }}</p>
                     </x-slot:content>
                 </x-collapse>
             @endif
