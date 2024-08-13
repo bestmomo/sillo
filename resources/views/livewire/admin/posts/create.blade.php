@@ -11,14 +11,13 @@ use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
-new #[Layout('components.layouts.admin')] class extends Component {
+new #[Layout('components.layouts.admin')] 
+class extends Component {
 	// Utilisation des traits WithFileUploads et Toast
-	use WithFileUploads;
-	use Toast;
+	use WithFileUploads, Toast;
 
 	// Déclaration des propriétés du composant
 	public bool $inSerie = false;
-	public Collection $seriePosts;
 	public ?Post $seriePost = null;
 	public int $postId;
 	public Collection $series;

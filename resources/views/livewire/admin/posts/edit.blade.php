@@ -18,15 +18,14 @@ use Mary\Traits\Toast;
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
 new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Component {
 	// Utilisation des traits WithFileUploads et Toast
-	use WithFileUploads;
-	use Toast;
+	use WithFileUploads, Toast;
 
 	// Déclaration des propriétés du composant
 	public bool $inSerie = false;
-	public Collection $seriePosts;
-	public Post $seriePost;
+	public ?Post $seriePost = null;
 	public int $postId;
 	public Collection $series;
+	public ?Collection $categories;
 	public ?Serie $serie;
 	public int $category_id;
 	public ?int $serie_id;
@@ -45,22 +44,42 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	// Initialisation du composant avec les données du post
 	public function mount(Post $post): void
 	{
+		// Autorisation
 		if (Auth()->user()->isRedac() && $post->user_id !== Auth()->id()) {
 			abort(403);
 		}
 
 		$this->post = $post;
-
 		$this->fill($this->post);
-
-		$category     = Category::find($this->category_id);
+		$category = Category::with('series')->find($this->category_id);
 		$this->series = $category->series;
-		if ($this->series->count() > 0) {
-			$this->serie      = $this->serie_id ? Serie::find($this->serie_id) : $this->series->first();
-			$this->seriePosts = $this->serie->posts;
-			$this->seriePost  = $this->seriePosts->first();
-			$this->inSerie = $post->serie_id !== null;
+
+		// Pas de série
+		if ($this->series->isEmpty()) {
+			$this->categories = Category::all();
+			return;
+		} 
+		
+		// Cas d'appartenance à une série
+		if ($post->serie_id !== null) {
+			$this->inSerie = true;
+			$this->serie = Serie::find($this->serie_id);
+			if($post->parent_id) {
+				$this->seriePost = Post::find($post->parent_id);
+			}
+			// On regarde s'il a des enfants
+			if(!Post::where('parent_id', $post->id)->get()->isEmpty()) {
+				$this->series = new Collection;
+				return;
+			}
+			$this->categories = Category::all();
+			return;
 		}
+
+		$this->categories  = Category::all();
+		$this->serie       = $this->series->isnotEmpty() ? $this->series->first() : null;
+		$this->serie_id    = $this->serie? $this->serie->id : null;
+		$this->seriePost   = $this->series->isNotEmpty() ? $this->serie->lastPost() : null;
 	}
 
 	// Méthode appelée lorsqu'une propriété est mise à jour
@@ -80,7 +99,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 				$category     = Category::with('series')->find($value);
 				$this->series = $category->series;
 
-				if ($this->series->count() > 0) {
+				if ($this->series->isNotEmpty()) {
 					$this->seriePost = $this->series->first()->lastPost();
 				} else {
 					$this->inSerie = false;
@@ -115,12 +134,10 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 		}
 
 		// Série
-		if ($this->inSerie) {
-			$data += [
-				'serie_id'  => $this->serie_id,
-				'parent_id' => $this->seriePost->id,
-			];
-		}
+		$data += [
+			'serie_id'  => $this->inSerie? $this->serie_id : null,
+			'parent_id' => $this->inSerie && $this->seriePost? $this->seriePost->id : null,
+		];
 
 		$data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);
 
@@ -134,14 +151,6 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 		// Affichage d'un message de succès
 		$this->success(__('Post updated with success.'));
 	}
-
-	// Méthode pour fournir des données additionnelles au composant
-	public function with(): array
-	{
-		return [
-			'categories' => Category::all(),
-		];
-	}
 }; ?>
 
 <div>
@@ -154,19 +163,21 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 
     <x-card>
         <x-form wire:submit="save">
-            <x-select label="{{ __('Category') }}" option-label="title" :options="$categories" wire:model="category_id"
+			@if($categories)
+            	<x-select label="{{ __('Category') }}" option-label="title" :options="$categories" wire:model="category_id"
                 wire:change="$refresh" />
-            @if ($this->series->count() > 0)
+			@endif
+            @if (!$series->isEmpty())
                 <x-collapse>
                     <x-slot:heading>
                         @lang('Serie')
                     </x-slot:heading>
                     <x-slot:content>
-                        <x-checkbox label="{{ __('Post belonging to a serie') }}" wire:model="inSerie"
-                            hint="{{ __('Serie is optional') }}" /><br>
-                        <x-select label="{{ __('Serie name') }}" option-label="title" :options="$series"
-                            wire:model="serie_id" wire:change="$refresh" /><br>
-                        <p>@lang('Previous post: ') {{ $seriePost->title }}</p>
+						<x-checkbox label="{{ __('Post belonging to a serie') }}" wire:model="inSerie"
+							hint="{{ __('Serie is optional') }}" /><br>
+						<x-select label="{{ __('Serie name') }}" option-label="title" :options="$series"
+							wire:model="serie_id" wire:change="$refresh" /><br>
+						<p>@lang('Previous post: ') {{ $seriePost? $seriePost->title : 'None' }}</p>
                     </x-slot:content>
                 </x-collapse>
             @endif

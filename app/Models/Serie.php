@@ -38,7 +38,30 @@ class Serie extends Model
 	 */
 	public function lastPost(): ?Post
 	{
-		return $this->hasMany(Post::class)->latest()->select('id', 'title', 'serie_id')->first();
+		// Récupérer tous les posts pertinents en une seule requête avec les colonnes spécifiées
+		$posts = $this->hasMany(Post::class)
+					  ->select('id', 'title', 'serie_id', 'parent_id')
+					  ->get();
+	
+		// Trouver le post racine (celui dont parent_id est NULL)
+		$rootPost = $posts->firstWhere('parent_id', null);
+	
+		if (!$rootPost) {
+			return null; // Aucun post racine trouvé
+		}
+	
+		$currentPost = $rootPost;
+	
+		// Suivre la chaîne de parent_id jusqu'au dernier post
+		while (true) {
+			$nextPost = $posts->firstWhere('parent_id', $currentPost->id);
+			if (!$nextPost) {
+				break;
+			}
+			$currentPost = $nextPost;
+		}
+	
+		return $currentPost;
 	}
 
 	/**
