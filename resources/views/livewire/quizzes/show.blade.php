@@ -139,7 +139,7 @@ new class() extends Component {
 
         <x-header 
             title="{{ __('Quiz') }} : {!! $quiz->title !!}" 
-            subtitle="{{ $subtitle }}" 
+            subtitle="{!! $subtitle !!}" 
             size="text-2xl sm:text-3xl md:text-4xl" 
         />
 
