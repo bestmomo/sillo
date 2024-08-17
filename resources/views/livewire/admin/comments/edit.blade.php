@@ -43,7 +43,7 @@ new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends C
 	public function saveAnswer()
 	{
 		$data = $this->validate([
-			'body_answer' => 'required|max:1000',
+			'body_answer' => 'required|max:10000',
 		]);
 
 		$data['body']      = $data['body_answer'];
