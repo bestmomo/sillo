@@ -70,7 +70,7 @@ class PostRepository
 
 		if ($post->serie_id) {
 			$post->previous = $post->parent_id ? Post::findOrFail($post->parent_id) : null;
-			$post->next     = Post::whereParentId($post->id)->first() ?: null;
+			$post->next     = Post::where('active', true)->whereParentId($post->id)->first() ?: null;
 		}
 
 		return $post;
