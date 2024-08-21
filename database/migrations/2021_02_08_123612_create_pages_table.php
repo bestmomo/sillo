@@ -21,7 +21,7 @@ class CreatePagesTable extends Migration
 			$table->id();
 			$table->string('slug');
 			$table->string('title');
-			$table->text('body');
+			$table->mediumText('body');
 			$table->boolean('active')->default(false);
 			$table->string('seo_title');
 			$table->text('meta_description');
