@@ -392,7 +392,7 @@
     "Serie deleted with success.": "Serie supprimée avec succès.",
     "Are you sure to delete this user?": "Etes-vous sûr de vouloir supprimer cet utilisateur ?",
     "A comment has been created on your post": "Un commentaire a été ajouté à votre article",
-    "This comment is awaiting moderation.": "Ce commentaire est en attente de moderation.",
+    "This comment is awaiting moderation.": "Ce commentaire est en attente de modération.",
     "Manage this comment": "Gérer ce commentaire",
     "Are you sure to valid this comment?": "Etes-vous sûr de vouloir valider ce commentaire ?",
     "Comment validated": "Commentaire validé",
@@ -574,5 +574,7 @@
     "A new user has been registered": "Un nouvel utilisateur a été enregisté",
     "The name of the new user is ": "Le nom de l'utilisateur est ",
     "The email of the new user is ": "L'email de l'utilisateur est ",
-    "None": "Aucun"
+    "None": "Aucun",
+    "1 comment": "1 commentaire",
+    "comments": "commentaires"
 }
