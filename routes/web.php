@@ -25,7 +25,6 @@ Volt::route('/contact', 'contact')->name('contact');
 Volt::route('/category/{slug}', 'index');
 Volt::route('/serie/{slug}', 'index');
 Volt::route('/search/{param}', 'index')->name('posts.search');
-Volt::route('/favorites', 'index')->name('posts.favorites');
 
 Volt::route('/posts/{slug}', 'posts.show')->name('posts.show');
 Volt::route('/pages/{page:slug}', 'pages.show')->name('pages.show');
@@ -45,6 +44,7 @@ Route::middleware('auth')->group(function () {
 	});
 
 	Volt::route('/profile', 'auth.profile')->name('profile');
+	Volt::route('/favorites', 'index')->name('posts.favorites');
 	Volt::route('/chat', 'chat')->name('chat');
 	Volt::route('/quizzes/{id}', 'quizzes.show')->name('quizzes.show');
 	Volt::route('/surveys/doing/{id}', 'surveys.doing')->name('surveys.doing');
