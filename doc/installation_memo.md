@@ -55,4 +55,4 @@
     ],...},*
 - composer dumpautoload
 
-## Réf.: <https://laravel.sillo.org/posts/mon-cms-les-donnees>
+## Réf.: **<https://laravel.sillo.org/posts/mon-cms-les-donnees>**
