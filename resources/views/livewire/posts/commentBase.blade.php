@@ -96,7 +96,7 @@ new class() extends Component {
 
         <!-- Affiche une alerte si nécessaire -->
         @if ($alert)
-            <x-alert title="{!! __('This is your first comment') !!}" description="{!! __('It will be validated by an administrator before it appears here.') !!}" icon="o-exclamation-triangle"
+            <x-alert title="{!! __('This is your first comment') !!}" description="{!! __('It will be validated by an administrator before it appears here') !!}" icon="o-exclamation-triangle"
                 class="alert-warning" />
         @else
             <!-- Affiche les détails du commentaire -->
@@ -109,8 +109,7 @@ new class() extends Component {
                     <!-- Sous-titre de l'avatar avec la date du commentaire et le nombre de commentaires de l'utilisateur -->
                     <x-slot:subtitle class="flex flex-col gap-1 pl-2 mt-2 text-gray-500">
                         <x-icon name="o-calendar" label="{{ $comment->created_at->diffForHumans() }}" />
-                        <x-icon name="o-chat-bubble-left"
-                            label="{{ $comment->user->comments_count }} {{ __(' comments') }}" />
+                        <x-icon name="o-chat-bubble-left" wire:label="{{ $comment->user->comments_count == 0 ? '' : ($comment->user->comments_count == 1 ? __('1 comment') : $comment->user->comments_count . ' ' . __('comments')) }}" />
                     </x-slot:subtitle>
                 </x-avatar>
 

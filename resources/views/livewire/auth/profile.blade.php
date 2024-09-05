@@ -95,7 +95,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
                 </x-slot:title>
                 <!-- Informations supplémentaires -->
                 <x-slot:subtitle class="flex flex-col gap-1 pl-2 mt-2 text-gray-500">
-                    <x-icon name="o-hand-raised" label="{{ __('Your name can\'t be changed') }}" />
+                    <x-icon name="o-hand-raised" label="{!! __('Your name can\'t be changed') !!}" />
                     <a href="https://fr.gravatar.com/">
                         <x-icon name="c-user" label="{{ __('You can change your profile picture on Gravatar') }}" />
                     </a>

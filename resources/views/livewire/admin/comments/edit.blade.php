@@ -31,7 +31,7 @@ new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends C
 	public function save()
 	{
 		$data = $this->validate([
-			'body' => 'required|max:1000',
+			'body' => 'required|max:10000',
 		]);
 
 		$this->comment->update($data);
@@ -43,7 +43,7 @@ new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends C
 	public function saveAnswer()
 	{
 		$data = $this->validate([
-			'body_answer' => 'required|max:1000',
+			'body_answer' => 'required|max:10000',
 		]);
 
 		$data['body']      = $data['body_answer'];
@@ -74,7 +74,7 @@ new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends C
     </x-header>
     <x-card>
         <x-form wire:submit="save">
-            <x-textarea wire:model="body" label="{{ __('Content') }}" hint="{{ __('Max 1000 chars') }}" rows="5"
+            <x-textarea wire:model="body" label="{{ __('Content') }}" hint="{{ __('Max 10000 chars') }}" rows="5"
                 inline />
             <x-slot:actions>
                 <x-button label="{{ __('Cancel') }}" icon="o-hand-thumb-down" class="btn-outline"

@@ -37,6 +37,11 @@ new class() extends Component {
 	public function showAnswers(): void
 	{
 		$this->children = Comment::where('parent_id', $this->comment->id)
+            ->with([
+                'user' => function ($query) {
+                    $query->select('id', 'name', 'email', 'role')->withCount('comments');
+                },
+            ])
 			->withCount(['children' => function ($query) {
 				$query->whereHas('user', function ($q) {
 					$q->where('valid', true);
@@ -189,7 +194,7 @@ new class() extends Component {
                     <!-- Sous-titre de l'avatar avec la date du commentaire et le nombre de commentaires de l'utilisateur -->
                     <x-slot:subtitle class="flex flex-col gap-1 pl-2 mt-2 text-gray-500">
                         <x-icon name="o-calendar" label="{{ $comment->created_at->diffForHumans() }}" />
-                        <x-icon name="o-chat-bubble-left" label="{{ $comment->user->comments_count }} {{ __(' comments') }}" />
+                        <x-icon name="o-chat-bubble-left"  label="{{ $comment->user->comments_count == 0 ? '' : ($comment->user->comments_count == 1 ? __('1 comment') : $comment->user->comments_count . ' ' . __('comments')) }}" />
                     </x-slot:subtitle>
                 </x-avatar>
 
