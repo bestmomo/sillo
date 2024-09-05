@@ -39,13 +39,11 @@ markmap:
     - 1:n :
       - (1) : Dans MmmN
         - *use Illuminate\Database\Eloquent\Relations\BelongsTo;*
-        - *Illuminate\Database\Eloquent\Relations\BelongsTo;
-        public function Mmm1(): BelongsTo {
+        - *public function Mmm1(): BelongsTo {
         return $this->belongsTo(Mmm1::class);}*
       - (n) : Dans Mmm1
         - *use Illuminate\Database\Eloquent\Relations\HasMany;*
-        - *Illuminate\Database\Eloquent\Relations\BelongsTo;
-        public function MmmN(): HasMany {
+        - *public function MmmN(): HasMany {
         return $this->HasMany(MmmN::class);}*
 
 ## 3 / Divers <!-- markmap: fold -->
