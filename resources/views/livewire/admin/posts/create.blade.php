@@ -19,7 +19,6 @@ class extends Component {
 	// Déclaration des propriétés du composant
 	public bool $inSerie = false;
 	public ?Post $seriePost = null;
-	public int $postId;
 	public Collection $series;
 	public ?Serie $serie = null;
 	public int $category_id;
@@ -133,7 +132,7 @@ class extends Component {
 	public function with(): array
 	{
 		return [
-			'categories' => Category::all(),
+			'categories' => Category::orderBy('title')->get(),
 		];
 	}
 }; ?>
