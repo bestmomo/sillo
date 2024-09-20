@@ -157,8 +157,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
         <br>
 
         <x-card>
-            <x-table striped :headers="$headers" :rows="$posts" :sort-by="$sortBy" link="/admin/posts/{slug}/edit"
-                with-pagination>
+            <x-table striped :headers="$headers" :rows="$posts" :sort-by="$sortBy" link="/admin/posts/{slug}/edit" with-pagination>
                 @scope('header_comments_count', $header)
                     {{ $header['label'] }}
                     <x-icon name="c-chat-bubble-left" />
