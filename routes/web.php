@@ -9,10 +9,8 @@ use App\Http\Middleware\{IsAdmin, IsAdminOrRedac, IsStudent};
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-
 // Routes publiques
 Volt::route('/', 'index');
-
 
 // Volt::route('/doc', 'doc.memo')->name('doc.memo');
 
@@ -101,14 +99,12 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::fallback(function () {
-    $path = request()->path();
-    $redirectPath = '/posts/' . $path;
-    return redirect(url($redirectPath));
+	$path         = request()->path();
+	$redirectPath = '/posts/' . $path;
+
+	return redirect(url($redirectPath));
 });
 
-// 2do GC7: Effacer les 2 lignes ci-dessous dès que vérif réel ok
-// http://127.0.0.1:8000/doc/memo
-// http://laravel.sillo.org/doc/memo
 Route::get('/doc/memo', function () {
 	return view('docs.memo');
 })->name('docs.memo');
