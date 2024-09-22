@@ -96,7 +96,7 @@ class PostRepository
 	/**
 	 * Retrieves the favorite posts for a specific user.
 	 *
-	 * @param user $user The user for whom to retrieve favorite posts
+	 * @param User $user The user for whom to retrieve favorite posts
 	 *
 	 * @return LengthAwarePaginator The paginated list of favorite posts
 	 */
@@ -141,11 +141,12 @@ class PostRepository
 			'sqlite' => 'substr(body, 1, 700)',
 			'pgsql'  => 'substring(body from 1 for 700)',
 		];
-
+		
+		// 2fix use config instead of env()
 		$usedDbSystem = env('DB_CONNECTION', 'mysql');
 
 		if (!isset($specificReqs[$usedDbSystem])) {
-			throw new Exception("Base de données non supportée: {$usedDbSystem}");
+			throw new \Exception("Base de données non supportée: {$usedDbSystem}");
 		}
 
 		$adaptedReq = $specificReqs[$usedDbSystem];
