@@ -5,7 +5,7 @@ markmap:
 ---
 # Mon CMS <!-- markmap: duration: 1000 -->
 <-- Réf.: <https://laravel.sillo.org/posts/mon-cms-les-donnees> -->
-<-- VSCode: Utiliser extension markmap -->
+<-- VSCode: Utiliser extention markmap -->
 
 ## Base <!-- markmap: fold -->
 
@@ -339,9 +339,7 @@ new class extends Component {
 ```
 
 ###### sidebar.blade.php <!-- markmap: fold -->
-
     navigation/sidebar.blade.php
-
 ```php
     ...
 
@@ -526,7 +524,7 @@ class Comment extends Model
 
 ### Réf.: ***<https://laravel.sillo.org/posts/mon-cms-les-commentaires-2-2>***
 
-## Le Profil <!-- markmap: fold -->
+## Le profil <!-- markmap: fold -->
 
 ### Composant <!-- markmap: fold -->
 
@@ -543,12 +541,472 @@ php artisan make:volt auth/profile --class
 
 ### Faire la route de ce composant <!-- markmap: fold -->
 
-- (Pensez que c'est que pour les "authorisés"
-→ Middleware('auth')) et comme il y aura d'autre route pour "eux", en faire un group()
+- (Pensez que c'est que pour les "autorisés"
+→ **Middleware('auth')**) et comme il y aura d'autre route pour "eux", en faire un **group()**
 
 ### Enfin, ajouter les liens dans les vues adhoc <!-- markmap: fold -->
 
-- Pour les petits écrans, dans **navigation.navbar**
-- Pour les plus grands, dans **navigation.sidebar**
+- Pour les grands écrans, dans **navigation.navbar**
+- Pour les plus petits, dans **navigation.sidebar**
 
 ### Réf.: ***<https://laravel.sillo.org/posts/mon-cms-le-profil>***
+
+## Les favoris <!-- markmap: fold -->
+
+### Fonctionnalité des Favoris <!-- markmap: fold -->
+
+#### php artisan make:migration create_favorites_table
+
+#### Relation n:n (User & Post) <!-- markmap: fold -->
+
+    Comme convention de nommage de la table pivot pas respectée (Devrait être posts_users mais est favorites), on doit préciser ce nom dans les relations BelongsToMany
+
+#### getPostBySlug: Vérifie en plus si l'user a mis le post en favori
+
+#### Dans show.post, on affiche l'icône étoile pour favori ou pas (Le bloc PHP gère favoritePost() et unfavoritePost())
+
+#### Dans index, affichage de l'icône étoile si post favori
+
+#### Ajout de getFavoritePosts() dans PostRepository
+
+#### Dans la navigation.navbar, code pour afficher l'icône des favoris (Déjà sélectionné par l'utilisateur en cours)
+
+#### Enfin, pour afficher cette page <!-- markmap: fold -->
+
+- Ajout de la route dans **routes/web.php**
+- Ajout du bouton dans **navigation/navbar**
+- Dans le composant index:
+  - On défini une nouvelle propriété $favorites
+  - mount() : On gère le cas où la requête est "/favorites" (On met la propriété favorites à true)
+  - getPosts() : Si la propriété favorites est à true, on appelle getFavoritePosts(auth()->user()) 
+  -Pour le HTML, on adapte le titre de la page
+- On renseigne fr.json pour ce titre
+
+### Boutons pour Aller en bas et en haut <!-- markmap: fold -->
+
+- Règle CSS
+- HTML des boutons
+
+### Réf.: ***<https://laravel.sillo.org/posts/mon-cms-les-favoris>***
+
+## L'administration <!-- markmap: fold -->
+
+### Gestion des rôles <!-- markmap: fold -->
+
+#### User : Admin ou Redac <!-- markmap: fold -->
+
+##### Model User
+
+```php
+public function isAdmin(): bool
+{
+    return 'admin' === $this->role;
+}
+
+public function isRedac(): bool
+{
+    return 'redac' === $this->role;
+}
+```
+
+#### Middlewares <!-- markmap: fold -->
+
+##### **admin**
+
+```php
+php artisan make:middleware IsAdmin
+```
+
+##### Code
+
+```php
+    public function handle(Request $request, Closure $next): Response
+    {
+        if (!auth()->user()->isAdmin()) {
+            abort(403);
+        }
+        
+        return $next($request);
+  }
+```
+
+##### **adminOrRedac**
+
+```php
+php artisan make:middleware IsAdminOrRedac
+```
+
+##### Code
+
+```php
+public function handle(Request $request, Closure $next): Response
+{
+    if (!auth()->user()->isAdmin() && !auth()->user()->isRedac()) {
+        abort(403);
+    }
+    
+    return $next($request);
+}
+```
+
+### Tableau de Bord <!-- markmap: fold -->
+
+#### SideBar <!-- markmap: fold -->
+
+```php
+php artisan make:volt admin/sidebar --class
+```
+
+```php
+<?php
+
+use Illuminate\Support\Facades\{Auth, Session};
+use Livewire\Volt\Component;
+
+new class() extends Component {
+  public function logout(): void {
+    Auth::guard('web')->logout();
+    
+    Session::invalidate();
+    Session::regenerateToken();
+    
+    $this->redirect('/');
+  }
+}; ?>
+
+<div>
+    <x-menu activate-by-route>
+        <x-menu-separator />
+        <x-list-item :item="Auth::user()" value="name" sub-value="email" no-separator no-hover class="-mx-2 !-my-2 rounded">
+            <x-slot:actions>
+                <x-button icon="o-power" wire:click="logout" class="btn-circle btn-ghost btn-xs"
+                    tooltip-left="{{ __('Logout') }}" no-wire-navigate />
+            </x-slot:actions>
+        </x-list-item>
+        <x-menu-separator />
+        <x-menu-item title="{{ __('Dashboard') }}" icon="s-building-office-2" link="{{ route('admin') }}" />        
+        <x-menu-item icon="m-arrow-right-end-on-rectangle" title="{{ __('Go on site') }}" link="/" />
+        <x-menu-item>
+            <x-theme-toggle />
+        </x-menu-item>
+    </x-menu>
+</div>
+```
+
+#### Layout <!-- markmap: fold -->
+
+##### views/layouts/admin.blade.php
+
+##### Code Layout
+
+```php
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ isset($title) ? $title . ' | ' . config('app.name') : config('app.name') }}</title>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
+
+    {{-- MAIN --}}
+    <x-main full-width>
+
+        {{-- SIDEBAR --}}
+        <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100">
+            <livewire:admin.sidebar />
+        </x-slot:sidebar>
+
+        <x-slot:content>
+            <!-- Drawer toggle for "main-drawer" -->
+            <label for="main-drawer" class="mr-3 lg:hidden">
+                <x-icon name="o-bars-3" class="cursor-pointer" />
+            </label>
+            {{ $slot }}
+        </x-slot:content>
+
+    </x-main>
+
+    {{--  TOAST area --}}
+    <x-toast />
+
+</body>
+
+</html>
+```
+
+#### Composant <!-- markmap: fold -->
+
+##### CLI <!-- markmap: fold -->
+
+```php
+php artisan make:volt admin/index --class
+```
+
+##### Code <!-- markmap: fold -->
+
+```php
+<?php
+
+use App\Models\{Comment, Page, Post, User};
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\{Layout, Title};
+use Livewire\Volt\Component;
+use Mary\Traits\Toast;
+
+new #[Title('Dashboard')] #[Layout('components.layouts.admin')] class extends Component {
+	use Toast;
+
+	public array $headersPosts;
+	public bool $openGlance = true;
+
+	public function mount(): void
+	{
+		$this->headersPosts = [['key' => 'date', 'label' => __('Date')], ['key' => 'title', 'label' => __('Title')]];
+	}
+
+	public function deleteComment(Comment $comment): void
+	{
+		$comment->delete();
+
+		$this->warning('Comment deleted', __('Good bye!'), position: 'toast-bottom');
+	}
+
+	public function with(): array
+	{
+		$user    = Auth::user();
+		$isRedac = $user->isRedac();
+		$userId  = $user->id;
+
+		return [
+			'pages'          => Page::select('id', 'title', 'slug')->get(),
+			'posts'          => Post::select('id', 'title', 'slug', 'user_id', 'created_at', 'updated_at')->when($isRedac, fn (Builder $q) => $q->where('user_id', $userId))->latest()->get(),
+			'commentsNumber' => Comment::when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))->count(),
+			'comments'       => Comment::with('user', 'post:id,title,slug')->when($isRedac, fn (Builder $q) => $q->whereRelation('post', 'user_id', $userId))->latest()->take(5)->get(),
+			'users'          => User::count(),
+		];
+	}
+}; ?>
+
+<div>
+    <x-collapse wire:model="openGlance" class="shadow-md">
+        <x-slot:heading>
+            @lang('In a glance')
+        </x-slot:heading>
+        <x-slot:content class="flex flex-wrap gap-4">
+
+            <a href="#" class="flex-grow">
+                <x-stat title="{{ __('Posts') }}" description="" value="{{ $posts->count() }}" icon="s-document-text"
+                    class="shadow-hover" />
+            </a>
+
+            @if (Auth::user()->isAdmin())
+                <a href="#" class="flex-grow">
+                    <x-stat title="{{ __('Pages') }}" value="{{ $pages->count() }}" icon="s-document"
+                        class="shadow-hover" />
+                </a>
+                <a href="#" class="flex-grow">
+                    <x-stat title="{{ __('Users') }}" value="{{ $users }}" icon="s-user"
+                        class="shadow-hover" />
+                </a>
+            @endif
+            <a href="#" class="flex-grow">
+                <x-stat title="{{ __('Comments') }}" value="{{ $commentsNumber }}" icon="c-chat-bubble-left"
+                    class="shadow-hover" />
+            </a>
+        </x-slot:content>
+    </x-collapse>
+
+    <br>
+
+    @foreach ($comments as $comment)
+        @if (!$comment->user->valid)
+            <x-alert title="{!! __('Comment to valid from ') . $comment->user->name !!}" description="{!! $comment->body !!}" icon="c-chat-bubble-left"
+                class="shadow-md alert-warning">
+                <x-slot:actions>
+                    <x-button link="#" label="{!! __('Show the comments') !!}" />
+                </x-slot:actions>
+            </x-alert>
+            <br>
+        @endif
+    @endforeach
+
+    <x-collapse class="shadow-md">
+        <x-slot:heading>
+            @lang('Recent posts')
+        </x-slot:heading>
+        <x-slot:content>
+            <x-table :headers="$headersPosts" :rows="$posts->take(5)" striped>
+                @scope('cell_date', $post)
+                    @lang('Created') {{ $post->created_at->diffForHumans() }}
+                    @if ($post->updated_at != $post->created_at)
+                        <br>
+                        @lang('Updated') {{ $post->updated_at->diffForHumans() }}
+                    @endif
+                @endscope
+                @scope('actions', $post)
+                    <x-popover>
+                        <x-slot:trigger>
+                            <x-button icon="s-document-text" link="{{ route('posts.show', $post->slug) }}" spinner class="btn-ghost btn-sm" />                            
+                        </x-slot:trigger>
+                        <x-slot:content class="pop-small">
+                            @lang('Show post')
+                        </x-slot:content>
+                    </x-popover>
+                @endscope
+            </x-table>
+        </x-slot:content>
+    </x-collapse>
+
+    <br>
+
+    <x-collapse class="shadow-md">
+        <x-slot:heading>
+            @lang('Recent Comments')
+        </x-slot:heading>
+        <x-slot:content>
+            @foreach ($comments as $comment)
+                <x-list-item :item="$comment" no-separator no-hover>
+                    <x-slot:avatar>
+                        <x-avatar :image="Gravatar::get($comment->user->email)">
+                            <x-slot:title>
+                                {{ $comment->user->name }}
+                            </x-slot:title>
+                        </x-avatar>
+                    </x-slot:avatar>
+                    <x-slot:value>
+                        @lang ('in post:') {{ $comment->post->title }}
+                    </x-slot:value>
+                    <x-slot:actions>
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="c-eye" link="#" spinner class="btn-ghost btn-sm" />                         
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Edit or answer')
+                            </x-slot:content>
+                        </x-popover>
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="s-document-text" link="{{ route('posts.show', $comment->post->slug) }}" spinner class="btn-ghost btn-sm" />                       
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Show post')
+                            </x-slot:content>
+                        </x-popover>
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="o-trash" wire:click="deleteComment({{ $comment->id }})"
+                                    wire:confirm="{{ __('Are you sure to delete this comment?') }}" 
+                                    spinner class="text-red-500 btn-ghost btn-sm" />                   
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Delete')
+                            </x-slot:content>
+                        </x-popover>
+                    </x-slot:actions>
+                </x-list-item>
+                <p class="ml-16">{!! Str::words(nl2br($comment->body), 20, ' ...') !!}</p>
+                <br>
+            @endforeach
+        </x-slot:content>
+    </x-collapse>
+</div>
+```
+
+
+
+#### Route <!-- markmap: fold -->
+
+```php
+use App\Http\Middleware\IsAdminOrRedac;
+
+...
+
+Route::middleware('auth')->group(function () {
+	...
+	Route::middleware(IsAdminOrRedac::class)->prefix('admin')->group(function () {
+		Volt::route('/dashboard', 'admin.index')->name('admin');
+	});
+});
+```
+
+#### Traductions <!-- markmap: fold -->
+
+```php
+"In a glance": "En un coup d'oeil",
+"Recent posts": "Articles récents",
+"Users": "Utilisateurs",
+"Dashboard": "Tableau de bord",
+"Recent Comments": "Commentaires récents",
+"Show post": "Afficher l'article",
+"in post:": "dans l'article :",
+"Go on site": "Aller sur le site",
+"Edit or answer": "Modifier ou repondre",
+"Posts": "Articles"
+```
+
+#### Lien dans le menu <!-- markmap: fold -->
+
+##### Logique (model User) <!-- markmap: fold -->
+
+```php
+public function isAdminOrRedac(): bool
+{
+    return 'admin' === $this->role || 'redac' === $this->role;
+}
+```
+
+##### Lien dans Menu <!-- markmap: fold -->
+
+###### Lien dans navigation.navbar
+
+```php
+<x-slot:actions>
+    <span class="hidden lg:block">
+        @if ($user = auth()->user())
+            <x-dropdown>
+                ...User name
+                @if ($user->isAdminOrRedac())
+                    <x-menu-item title="{{ __('Administration') }}" link="{{ route('admin') }}" />
+                @endif
+                <x-menu-separator />
+                ... Profile
+                <x-menu-separator />
+                ... Logout
+            </x-dropdown>
+        @else
+```
+
+###### Lien dans navigation.sidebar
+
+ 
+```php
+              ... Logout
+            </x-list-item>
+            @if ($user->isAdminOrRedac())
+                <x-menu-item title="{{ __('Administration') }}" icon="s-building-office-2" link="{{ route('admin') }}" />
+            @endif
+```
+
+#### Redac & Admin: Redirection lors du login <!-- markmap: fold -->
+
+    Composant auth.login :
+```php
+public function login() {
+    ...
+
+        if (auth()->user()->isAdmin()) {
+            return redirect()->intended('/admin/dashboard');
+        }
+        ... return
+    
+```
+
+### Réf.: ***<https://laravel.sillo.org/posts/mon-cms-ladministration>***
