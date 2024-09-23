@@ -31,7 +31,6 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	public ?int $serie_id;
 	public Post $post;
 	public string $body                  = '';
-	public string $excerpt               = '';
 	public string $title                 = '';
 	public string $slug                  = '';
 	public bool $active                  = false;
@@ -125,9 +124,8 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 			'meta_keywords'    => 'required|regex:/^[A-Za-z0-9-éèàù]{1,50}?(,[A-Za-z0-9-éèàù]{1,50})*$/',
 		]);
 
-		// Sauvegarde de l'image si elle a été modifiée et suppression de l'ancienne
+		// Sauvegarde de l'image si elle a été modifiée
 		if ($this->photo) {
-			Storage::disk('public')->delete('photos/' . $this->post->image);
 			$date          = now()->format('Y/m'); // Détermination année et mois de publication genre 2024/06
 			$path          = $date . '/' . basename($this->photo->store('photos/' . $date, 'public'));
 			$data['image'] = $path;
