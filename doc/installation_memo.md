@@ -2126,14 +2126,14 @@ class extends Component {
 "Edit a category": "Modifier une catégorie",
 ```
 
-#### Lien dans tableau des catégories  <!-- markmap: fold -->
+#### Lien dans tableau des catégories <!-- markmap: fold -->
 
 ```php
 // admin/categories/index
 <x-table striped :headers="$headers" :rows="$categories" :sort-by="$sortBy" link="/admin/categories/{id}/edit" with-pagination>
 ```
 
-##### Route pour la modification de catégorie <!-- markmap: fold -->
+#### Route pour la modification de catégorie <!-- markmap: fold -->
 
 ```php
 Route::middleware(IsAdmin::class)->group(function () {
@@ -2142,7 +2142,7 @@ Route::middleware(IsAdmin::class)->group(function () {
 });
 ```
 
-### Réf.: ***<https://laravel.sillo.org/posts/mon-cms-modifier-un-article>***
+### Réf.: ***<https://laravel.sillo.org/posts/mon-cms-les-categories>***
 
 ## Les pages <!-- markmap: fold -->
 
