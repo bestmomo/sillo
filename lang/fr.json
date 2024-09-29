@@ -577,5 +577,7 @@
     "None": "Aucun",
     "1 comment": "1 commentaire",
     "comments": "commentaires",
-    "Delete account": "Supprimer le compte"
+    "Delete account": "Supprimer le compte",
+    "Comment edited with success.": "Commentaire mis à jour avec succès.",
+    "Answer created with success.": "Reponse ajoutée avec succès."
 }
