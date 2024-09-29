@@ -100,7 +100,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 	public function deleteUser(User $user): void
 	{
 		$user->delete();
-		$this->success("{$user->name} " . __('deleted'));
+		$this->success($user->name . ' ' . __('deleted'));
 	}
 
 	// Fetch the necessary data for the view.
