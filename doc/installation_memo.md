@@ -2484,3 +2484,358 @@ class extends Component {
 ```
 
 ### Réf.: ***<https://laravel.sillo.org/posts/mon-cms-les-pages>***
+
+## Les comptes <!-- markmap: fold -->
+
+### Composant Comptes <!-- markmap: fold -->
+
+#### CLI Comptes
+
+```php
+php artisan make:volt admin/users/edit --class
+```
+
+#### Route Comptes
+
+```php
+// Groupe middleware IsAdminOrRedac > IsAdmin
+Volt::route('/users/{user}/edit', 'admin.users.edit')->name('users.edit');
+```
+
+#### Lien Comptes
+
+```php
+// admin.sidebar
+@if (Auth::user()->isAdmin())
+    ...
+    <x-menu-item icon="s-user" title="{{ __('Accounts') }}" link="{{ route('users.index') }}" />
+@endif
+```
+
+#### Code Comptes <!-- markmap: fold -->
+
+```php
+<?php
+
+use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Livewire\Attributes\{Layout, Title};
+use Livewire\Volt\Component;
+use Livewire\WithPagination;
+use Mary\Traits\Toast;
+
+new #[Title('Users'), Layout('components.layouts.admin')] class extends Component {
+    use Toast;
+    use WithPagination;
+    
+    public string $search = '';
+    public array $sortBy  = ['column' => 'name', 'direction' => 'asc'];
+    public string $role   = 'all';
+    public array $roles   = [];
+    
+    public function deleteUser(User $user): void {
+        $user->delete();
+        $this->success($user->name . ' ' . __('deleted'));
+    }
+    
+    // Définir les en-têtes de table.
+    public function headers(): array {
+        $headers = [
+            ['key' => 'name',  'label' => __('Name')],
+            ['key' => 'email', 'label' => 'E-mail'],
+            ['key' => 'role',  'label' => __('Role')],
+            ['key' => 'valid', 'label' => __('Valid')],
+        ];
+        
+        if ('user' !== $this->role) {
+            $headers = array_merge($headers, [
+                ['key' => 'posts_count', 'label' => __('Posts')],
+            ]);
+        }
+        
+        return array_merge($headers, [
+            ['key' => 'comments_count', 'label' => __('Comments')],
+            ['key' => 'created_at',     'label' => __('Registration')],
+      ]);
+    }
+    
+    public function users(): LengthAwarePaginator {
+        $query = User::query()
+            ->when($this->search, fn ($q) => $q
+                ->where('name', 'like', "%{$this->search}%")
+                ->orWhere('email', 'like', "%{$this->search}%"))
+            ->when('all' !== $this->role, fn ($q) => $q
+                ->where('role', $this->role))
+            ->withCount('posts', 'comments')
+            ->orderBy(...array_values($this->sortBy));
+        
+        $users = $query->paginate(10);
+        
+        $userCountsByRole = User::selectRaw('role, count(*) as total')
+            ->groupBy('role')
+            ->pluck('total', 'role');
+        
+        $totalUsers = $userCountsByRole->sum();
+        
+        $this->roles = collect([
+            'all'   => __('All') . " ({$totalUsers})",
+            'admin' => __('Administrators'),
+            'redac' => __('Redactors'),
+            'user'  => __('Users'),
+        ])
+        ->map(function ($roleName, $roleId) use ($userCountsByRole) {
+            $count = $userCountsByRole->get($roleId, 0);
+        
+            return [
+                'name' => 'all' === $roleId ? $roleName : "{$roleName} ({$count})",
+                'id'   => $roleId,
+            ];
+        })
+        ->values()
+        ->all();
+    
+        return $users;
+    }
+  
+        public function with(): array {
+            return [
+                'users'   => $this->users(),
+                'headers' => $this->headers(),
+        ];
+    }
+}; ?>
+
+<div>
+    <x-header separator progress-indicator>
+        <x-slot:title>
+            <a href="/admin/dashboard" title="{{ __('Back to Dashboard') }}">
+                {{ __('Users') }}
+            </a>
+        </x-slot:title>
+        <x-slot:middle class="!justify-end">
+            <x-input placeholder="{{ __('Search') }}..." wire:model.live.debounce="search" clearable
+                icon="o-magnifying-glass" />
+        </x-slot:middle>
+    </x-header>
+
+
+    <x-radio inline :options="$roles" wire:model="role" wire:change="$refresh" />
+    <br>
+
+    <x-card>
+
+        @if (count($users))
+
+            <x-table striped :headers="$headers" :rows="$users" :sort-by="$sortBy" link="/admin/users/{id}/edit"
+                with-pagination>
+                @scope('cell_name', $user)
+                    <x-avatar :image="Gravatar::get($user->email)">
+                        <x-slot:title>
+                            {{ $user->name }}
+                        </x-slot:title>
+                    </x-avatar>
+                @endscope
+                @scope('cell_valid', $user)
+                    @if ($user->valid)
+                        <x-icon name="o-check-circle" />
+                    @endif
+                @endscope
+                @scope('cell_role', $user)
+                    @if ($user->role === 'admin')
+                        <x-badge value="{{ __('Administrator') }}" class="badge-error" />
+                    @elseif($user->role === 'redac')
+                        <x-badge value="{{ __('Redactor') }}" class="badge-warning" />
+                    @elseif($user->role === 'user')
+                        {{ __('User') }}
+                    @endif
+                @endscope
+                @scope('cell_posts_count', $user)
+                    @if ($user->posts_count > 0)
+                        <x-badge value="{{ $user->posts_count }}" class="badge-primary" />
+                    @endif
+                @endscope
+                @scope('cell_comments_count', $user)
+                    @if ($user->comments_count > 0)
+                        <x-badge value="{{ $user->comments_count }}" class="badge-success" />
+                    @endif
+                @endscope
+                @scope('cell_created_at', $user)
+                    {{ $user->created_at->isoFormat('LL') }}
+                @endscope
+                @scope('actions', $user)
+                    <div class="flex">
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="o-envelope" link="mailto:{{ $user->email }}" no-wire-navigate spinner
+                                    class="text-blue-500 btn-ghost btn-sm" />
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Send an email')
+                            </x-slot:content>
+                        </x-popover>
+                        <x-popover>
+                            <x-slot:trigger>
+                                <x-button icon="o-trash" wire:click="deleteUser({{ $user->id }})"
+                                    wire:confirm="{{ __('Are you sure to delete this user?') }}"
+                                    confirm-text="Are you sure?" spinner class="text-red-500 btn-ghost btn-sm" />
+                            </x-slot:trigger>
+                            <x-slot:content class="pop-small">
+                                @lang('Delete')
+                            </x-slot:content>
+                        </x-popover>
+                    </div>
+                @endscope
+            </x-table>
+        @else
+            <p>@lang('No users with these criteria').</p>
+        @endif
+
+    </x-card>
+</div>
+```
+
+
+
+#### Traduction Comptes
+
+```php
+"Accounts": "Comptes",
+"No users with these criteria": "Aucun utilisateur avec ces critères",
+"All": "Tous",
+"Administrators": "Administrateurs",
+"Redactors": "Rédacteurs",
+"Administrator": "Administrateur",
+"Redactor": "Rédacteur",
+"Role": "Rôle",
+"Valid": "Valide",
+"Valid user": "Utilisateur validé",
+"Send an email": "Envoyer un email",
+"Are you sure to delete this user?": "Êtes-vous sûr de vouloir supprimer cet utilisateur ?",
+"Registration": "Inscription"
+```
+
+### Composant Modification Comptes <!-- markmap: fold -->
+
+#### CLI Modification Comptes
+
+```php
+php artisan make:volt admin/users/edit --class
+```
+
+#### Route Modification Comptes
+
+```php
+// Groupe middleware IsAdminOrRedac > IsAdmin
+Volt::route('/users/{user}/edit', 'admin.users.edit')->name('users.edit');
+```
+
+#### Lien Modification Comptes
+
+```php
+// Déjà fait dans affichage de la liste (Composant Comptes) :
+// (<x-table striped :headers="$headers" :rows="$users" :sort-by="$sortBy" link="/admin/users/{id}/edit" with-pagination>)
+```
+
+#### Code Modification Comptes <!-- markmap: fold -->
+
+```php
+<?php
+
+/**
+ * (ɔ) Mon CMS - 2024-2024
+ */
+
+use App\Models\User;
+use Illuminate\Validation\Rule;
+use Livewire\Attributes\{Layout, Title};
+use Livewire\Volt\Component;
+use Mary\Traits\Toast;
+
+new #[Title('Edit User'), Layout('components.layouts.admin')]
+class extends Component {
+    use Toast;
+    
+    public User $user;
+    public string $name  = '';
+    public string $email = '';
+    public string $role  = '';
+    public bool $valid   = false;
+    public bool $isStudent;
+    
+    public function mount(User $user): void {
+        $this->user = $user;
+        $this->fill($this->user);
+    }
+    
+    public function save() {
+        $data = $this->validate([
+            'name'  => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
+            'role'  => ['required', Rule::in(['admin', 'redac', 'user'])],
+            'valid' => ['required', 'boolean'],
+        ]);
+    
+        $this->user->update($data);
+        
+        $this->success(__('User edited with success.'), redirectTo: '/admin/users/index');
+    }
+    
+    public function with(): array {
+        return [
+            'roles' => [
+                ['name' => __('Administrator'), 'id' => 'admin'],
+                ['name' => __('Redactor'), 'id' => 'redac'],
+                ['name' => __('User'), 'id' => 'user'],
+            ],
+        ];
+    }
+}; ?>
+
+<div>
+  <x-header title="{{ __('Edit an account') }}" separator progress-indicator>
+    <x-slot:actions>
+      <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"
+        link="{{ route('admin') }}" />
+    </x-slot:actions>
+  </x-header>
+  <x-card>
+    <x-form wire:submit="save">
+      <x-input label="{{ __('Name') }}" wire:model="name" icon="o-user" inline />
+      <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" inline />
+      <br>
+      <x-radio label="{{ __('User role') }}" inline label="{{ __('Select a role') }}" :options="$roles"
+        wire:model="role" />
+      <br>
+      <x-toggle label="{{ __('Valid user') }}" inline wire:model="valid" />
+      <x-slot:actions>
+        <div class="text-right">
+          <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+        </div>
+      </x-slot:actions>
+    </x-form>
+  </x-card>
+</div>
+
+```
+
+#### Traduction Modification Comptes
+
+```php
+"Edit an account": "Modifier un compte",
+"Select a role": "Sélectionnez un rôle",
+"User edited with success.": "Utilisateur mis à jour avec succès."
+```
+
+### Lien Utilisateurs dans tableau de bord <!-- markmap: fold -->
+
+```php
+// admin/index.blade.php
+@if (Auth::user()->isAdmin())
+    ...
+    <a href="{{ route('users.index') }}" class="flex-grow">
+        <x-stat title="{{ __('Users') }}" value="{{ $users }}" icon="s-user" class="shadow-hover" />
+    </a>
+@endif
+```
+
+### Réf.: ***<https://laravel.sillo.org/posts/mon-cms-les-comptes#bottom>***
