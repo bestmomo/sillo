@@ -7,19 +7,20 @@
 use App\Models\{Category, Menu, Page, Post, Serie, Submenu};
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Livewire\Attributes\{Layout, Rule, Title};
+use Livewire\Attributes\{Layout, Validate, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Nav Menu'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Nav Menu'), Layout('components.layouts.admin')] 
+class extends Component {
 	use Toast;
 
 	public Collection $menus;
 
-	#[Rule('required|max:255|unique:menus,label')]
+	#[Validate('required|max:255|unique:menus,label')]
 	public string $label = '';
 
-	#[Rule('nullable|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/')]
+	#[Validate('nullable|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/')]
 	public string $link = '';
 
 	public string $sublabel = '';
@@ -48,123 +49,141 @@ new #[Title('Nav Menu'), Layout('components.layouts.admin')] class extends Compo
 			->get();
 	}
 
-	// Méthode appelée lors de la mise à jour d'une propriété.
+	// Met à jour le libellé et le lien en fonction de la sous-option sélectionnée.
 	public function updating($property, $value): void
 	{
-		if ('' != $value) {
-			switch ($property) {
-				case 'subPost':
-					$post = Post::find($value);
-					if ($post) {
-						$this->sublabel = $post->title;
-						$this->sublink  = route('posts.show', $post->slug);
-					}
+		if ($value === '') {
+			return;
+		}
 
-					break;
-				case 'subPage':
-					$page = Page::find($value);
-					if ($page) {
-						$this->sublabel = $page->title;
-						$this->sublink  = route('pages.show', $page->slug);
-					}
+		$modelMap = [
+			'subPost' => ['model' => Post::class, 'route' => 'posts.show'],
+			'subPage' => ['model' => Page::class, 'route' => 'pages.show'],
+			'subSerie' => ['model' => Serie::class, 'route' => 'serie'],
+			'subCategory' => ['model' => Category::class, 'route' => 'category'],
+		];
 
-					break;
-				case 'subSerie':
-					$serie = Serie::find($value);
-					if ($serie) {
-						$this->sublabel = $serie->title;
-						$this->sublink  = url('serie/' . $serie->slug);
-					}
-
-					break;
-				case 'subCategory':
-					$category = Category::find($value);
-					if ($category) {
-						$this->sublabel = $category->title;
-						$this->sublink  = url('category/' . $category->slug);
-					}
-
-					break;
-				case 'subOption':
-					$this->sublabel    = '';
-					$this->sublink     = '';
-					$this->subPost     = 0;
-					$this->subPage     = 0;
-					$this->subSerie    = 0;
-					$this->subCategory = 0;
-
-					break;
-			}
+		if (array_key_exists($property, $modelMap)) {
+			$this->updateSubProperties($modelMap[$property], $value);
+		} elseif ($property === 'subOption') {
+			$this->resetSubProperties();
+		}
+	}
+	
+	private function updateSubProperties($modelInfo, $value): void
+	{
+		$model = $modelInfo['model']::find($value);
+		if ($model) {
+			$this->sublabel = $model->title;
+			$this->sublink = $modelInfo['route'] === 'posts.show' || $modelInfo['route'] === 'pages.show'
+				? route($modelInfo['route'], $model->slug)
+				: url($modelInfo['route'] . '/' . $model->slug);
 		}
 	}
 
-	// Monter un menu d'un rang.
-	public function up(Menu $menu): void
+	private function resetSubProperties(): void
 	{
-		$previousMenu = Menu::where('order', '<', $menu->order)
-			->orderBy('order', 'desc')
-			->first();
+		$this->sublabel = '';
+		$this->sublink = '';
+		$this->subPost = 0;
+		$this->subPage = 0;
+		$this->subSerie = 0;
+		$this->subCategory = 0;
+	}	
 
-		$this->swap($menu, $previousMenu);
-	}
+	// Méthode générique pour déplacer un élément (menu ou sous-menu)
+	private function move($item, $direction, $isSubmenu = false): void
+    {
+        $operator = $direction === 'up' ? '<' : '>';
+        $orderDirection = $direction === 'up' ? 'desc' : 'asc';
+        
+        $query = $isSubmenu 
+            ? Submenu::where('menu_id', $item->menu_id)
+            : Menu::query();
 
-	// Monter un sous-menu d'un rang.
-	public function upSub(Submenu $submenu): void
-	{
-		$previousSubmenu = Submenu::where('menu_id', $submenu->menu_id)
-			->where('order', '<', $submenu->order)
-			->orderBy('order', 'desc')
-			->first();
+        $adjacentItem = $query->where('order', $operator, $item->order)
+            ->orderBy('order', $orderDirection)
+            ->first();
 
-		$this->swapSub($submenu, $previousSubmenu);
-	}
+        if ($adjacentItem) {
+            $this->swap($item, $adjacentItem);
+        }
+    }
 
-	// Descendre un menu d'un rang.
-	public function down(Menu $menu): void
-	{
-		$previousMenu = Menu::where('order', '>', $menu->order)
-			->orderBy('order', 'asc')
-			->first();
+    public function up(Menu $menu): void
+    {
+        $this->move($menu, 'up');
+    }
 
-		$this->swap($menu, $previousMenu);
-	}
+    public function upSub(Submenu $submenu): void
+    {
+        $this->move($submenu, 'up', true);
+    }
 
-	// Descendre un sous-menu d'un rang.
-	public function downSub(Submenu $submenu): void
-	{
-		$previousSubmenu = Submenu::where('menu_id', $submenu->menu_id)
-			->where('order', '>', $submenu->order)
-			->orderBy('order', 'asc')
-			->first();
+    public function down(Menu $menu): void
+    {
+        $this->move($menu, 'down');
+    }
 
-		$this->swapSub($submenu, $previousSubmenu);
-	}
+    public function downSub(Submenu $submenu): void
+    {
+        $this->move($submenu, 'down', true);
+    }
 
-	// Supprimer un menu.
-	public function deleteMenu(Menu $menu): void
-	{
-		$menu->delete();
-		$this->reorderMenus();
-		$this->getMenus();
-		$this->success(__('Menu deleted with success.'));
-	}
+    private function swap($item1, $item2): void
+    {
+        $tempOrder = $item1->order;
+        $item1->order = $item2->order;
+        $item2->order = $tempOrder;
 
-	// Supprimer un sous-menu.
-	public function deleteSubmenu(Menu $menu, Submenu $submenu): void
-	{
-		$submenu->delete();
-		$this->reorderSubmenus($menu);
-		$this->getMenus();
-		$this->success(__('Submenu deleted with success.'));
-	}
+        $item1->save();
+        $item2->save();
+
+        $this->getMenus();
+    }
+
+	// Méthode générique pour supprimer un élément (menu ou sous-menu)
+    private function deleteItem($item, $parent = null): void
+    {
+        $isSubmenu = $parent !== null;
+        
+        //$item->delete();
+        
+        if ($isSubmenu) {
+            $this->reorderItems($parent->submenus());
+        } else {
+            $this->reorderItems(Menu::query());
+        }
+        
+        $this->getMenus();
+        $this->success(__($isSubmenu ? 'Submenu' : 'Menu') . __(' deleted with success.'));
+    }
+
+    public function deleteMenu(Menu $menu): void
+    {
+        $this->deleteItem($menu);
+    }
+
+    public function deleteSubmenu(Menu $menu, Submenu $submenu): void
+    {
+        $this->deleteItem($submenu, $menu);
+    }
+
+    // Méthode générique pour réordonner les éléments
+    private function reorderItems($query): void
+    {
+        $items = $query->orderBy('order')->get();
+        foreach ($items as $index => $item) {
+            $item->order = $index + 1;
+            $item->save();
+        }
+    }	
 
 	// Enregistrer un nouveau menu.
 	public function saveMenu(): void
 	{
 		$data = $this->validate();
-
 		$data['order'] = $this->menus->count() + 1;
-
 		Menu::create($data);
 
 		$this->success(__('Menu created with success.'), redirectTo: '/admin/menus/index');
@@ -202,51 +221,6 @@ new #[Title('Nav Menu'), Layout('components.layouts.admin')] class extends Compo
 		];
 	}
 
-	// Échanger les ordres de deux sous-menus.
-	private function swapSub(Submenu $submenu, Submenu $previousSubmenu): void
-	{
-		$tempOrder              = $submenu->order;
-		$submenu->order         = $previousSubmenu->order;
-		$previousSubmenu->order = $tempOrder;
-
-		$submenu->save();
-		$previousSubmenu->save();
-
-		$this->getMenus();
-	}
-
-	// Échanger les ordres de deux menus.
-	private function swap(Menu $menu, Menu $previousMenu): void
-	{
-		$tempOrder           = $menu->order;
-		$menu->order         = $previousMenu->order;
-		$previousMenu->order = $tempOrder;
-
-		$menu->save();
-		$previousMenu->save();
-
-		$this->getMenus();
-	}
-
-	// Réordonner les menus après suppression.
-	private function reorderMenus(): void
-	{
-		$menus = Menu::orderBy('order')->get();
-		foreach ($menus as $index => $menu) {
-			$menu->order = $index + 1;
-			$menu->save();
-		}
-	}
-
-	// Réordonner les sous-menus après suppression.
-	private function reorderSubmenus(Menu $menu): void
-	{
-		$submenus = $menu->submenus()->orderBy('order')->get();
-		foreach ($submenus as $index => $submenu) {
-			$submenu->order = $index + 1;
-			$submenu->save();
-		}
-	}
 }; ?>
 
 <div>
@@ -327,21 +301,44 @@ new #[Title('Nav Menu'), Layout('components.layouts.admin')] class extends Compo
                             </x-slot:sub-value>
                             <x-slot:actions>
                                 @if ($submenu->order > 1)
-                                    <x-button icon="s-chevron-up" wire:click="upSub({{ $submenu->id }})"
-                                        tooltip-left="{{ __('Up') }}" spinner />
+									<x-popover>
+										<x-slot:trigger>
+											<x-button icon="s-chevron-up" wire:click="upSub({{ $submenu->id }})" spinner />
+										</x-slot:trigger>
+										<x-slot:content class="pop-small">
+											@lang('Up')
+										</x-slot:content>
+									</x-popover>
                                 @endif
                                 @if ($submenu->order < $menu->submenus->count())
-                                    <x-button icon="s-chevron-down" wire:click="downSub({{ $submenu->id }})"
-                                        tooltip-left="{{ __('Down') }}" spinner />
+									<x-popover>
+										<x-slot:trigger>
+											<x-button icon="s-chevron-down" wire:click="downSub({{ $submenu->id }})" spinner />
+										</x-slot:trigger>
+										<x-slot:content class="pop-small">
+											@lang('Down')
+										</x-slot:content>
+									</x-popover>
                                 @endif
-                                <x-button icon="c-arrow-path-rounded-square"
-                                    link="{{ route('submenus.edit', $submenu->id) }}"
-                                    tooltip-left="{{ __('Edit') }}" class="text-blue-500 btn-ghost btn-sm"
-                                    spinner />
-                                <x-button icon="o-trash"
-                                    wire:click="deleteSubmenu({{ $menu->id }}, {{ $submenu->id }})"
-                                    wire:confirm="{{ __('Are you sure to delete this submenu?') }}"
-                                    tooltip-left="{{ __('Delete') }}" spinner class="text-red-500 btn-ghost btn-sm" />
+								<x-popover>
+									<x-slot:trigger>
+										<x-button icon="c-arrow-path-rounded-square" link="{{ route('submenus.edit', $submenu->id) }}"
+											class="text-blue-500 btn-ghost btn-sm" spinner />
+									</x-slot:trigger>
+									<x-slot:content class="pop-small">
+										@lang('Edit')
+									</x-slot:content>
+								</x-popover>
+								<x-popover>
+									<x-slot:trigger>
+										<x-button icon="o-trash" wire:click="deleteSubmenu({{ $menu->id }}, {{ $submenu->id }})"
+											wire:confirm="{{ __('Are you sure to delete this menu?') }}" spinner
+											class="text-red-500 btn-ghost btn-sm" />
+									</x-slot:trigger>
+									<x-slot:content class="pop-small">
+										@lang('Delete')
+									</x-slot:content>
+								</x-popover>                               
                             </x-slot:actions>
                         </x-list-item>
                     @endforeach

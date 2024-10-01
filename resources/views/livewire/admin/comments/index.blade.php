@@ -50,12 +50,10 @@ new #[Title('Comments'), Layout('components.layouts.admin')] class extends Compo
 			->when($this->search, fn (Builder $q) => $q->where('body', 'like', "%{$this->search}%"))
 			->when('post_title' === $this->sortBy['column'], fn (Builder $q) => $q->join('posts', 'comments.post_id', '=', 'posts.id')->orderBy('posts.title', $this->sortBy['direction']), fn (Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction']))
 			->when(Auth::user()->isRedac(), fn (Builder $q) => $q->whereRelation('post', 'user_id', Auth::id()))
-			->with([
-				'user',
-				'post' => function ($query) {
-					$query->select('id', 'title', 'slug');
-				},
-			])
+            ->with([
+                'user:id,name,email,valid',
+                'post:id,title,slug,user_id',
+            ])
 			->withAggregate('user', 'name')
 			->paginate(10);
 	}

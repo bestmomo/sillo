@@ -11,46 +11,46 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Component {
-	use Toast;
+    use Toast;
 
-	public User $user;
-	public string $name      = '';
-	public string $email     = '';
-	public string $role      = '';
-	public bool $valid       = false;
-	public bool $isStudent;
+    public User $user;
+    public string $name = '';
+    public string $email = '';
+    public string $role = '';
+    public bool $valid = false;
+    public bool $isStudent;
 
-	// Initialiser le composant avec un utilisateur donné.
-	public function mount(User $user): void
-	{
-		$this->user = $user;
+    // Initialiser le composant avec un utilisateur donné.
+    public function mount(User $user): void
+    {
+        $this->user = $user;
 
-		$this->fill($this->user);
-	}
+        $this->fill($this->user);
+    }
 
-	// Sauvegarder les modifications apportées à l'utilisateur.
-	public function save()
-	{
-		$data = $this->validate([
-			'name'      => ['required', 'string', 'max:255'],
-			'email'     => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
-			'role'      => ['required', Rule::in(['admin', 'redac', 'user'])],
-			'isStudent' => ['required', 'boolean'],
-			'valid'     => ['required', 'boolean'],
-		]);
+    // Sauvegarder les modifications apportées à l'utilisateur.
+    public function save()
+    {
+        $data = $this->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
+            'role' => ['required', Rule::in(['admin', 'redac', 'user'])],
+            'isStudent' => ['required', 'boolean'],
+            'valid' => ['required', 'boolean'],
+        ]);
 
-		$this->user->update($data);
+        $this->user->update($data);
 
-		$this->success(__('User edited with success.'), redirectTo: '/admin/users/index');
-	}
+        $this->success(__('User edited with success.'), redirectTo: '/admin/users/index');
+    }
 
-	// Fournir les données nécessaires à la vue
-	public function with(): array
-	{
-		return [
-			'roles' => [['name' => __('Administrator'), 'id' => 'admin'], ['name' => __('Redactor'), 'id' => 'redac'], ['name' => __('User'), 'id' => 'user']],
-		];
-	}
+    // Fournir les données nécessaires à la vue
+    public function with(): array
+    {
+        return [
+            'roles' => [['name' => __('Administrator'), 'id' => 'admin'], ['name' => __('Redactor'), 'id' => 'redac'], ['name' => __('User'), 'id' => 'user']],
+        ];
+    }
 }; ?>
 
 <diV>
@@ -72,13 +72,13 @@ new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Comp
             <div class="flex justify-around">
                 <x-toggle label="{{ __('Student') }}" inline wire:model="isStudent" />
                 <x-toggle label="{{ __('Valid user') }}" inline wire:model="valid" />
-                <x-slot:actions>
             </div>
-            <div class="text-right">
-                <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
-                    class="btn-primary" />
-                </x-slot:actions>
-            </div>
+            <x-slot:actions>
+                <div class="text-right">
+                    <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save" type="submit"
+                        class="btn-primary" />
+                </div>
+            </x-slot:actions>
         </x-form>
-    </x-card>
+    </x-card>P
 </diV>
