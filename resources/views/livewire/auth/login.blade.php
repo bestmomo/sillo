@@ -1,6 +1,6 @@
 <?php
 
-use Livewire\Attributes\{Layout, Rule, Title};
+use Livewire\Attributes\{Layout, Validate, Title};
 use Livewire\Volt\Component;
 
 // Définition du composant avec les attributs de titre et de mise en page
@@ -9,11 +9,14 @@ new
 #[Layout('components.layouts.auth')]
 class extends Component {
 	// Déclaration des règles de validation des champs
-	#[Rule('required|email')]
+	#[Validate('required|email')]
 	public string $email = '';
 
-	#[Rule('required')]
+	#[Validate('required')]
 	public string $password = '';
+
+    #[Validate('boolean')]
+    public bool $remember = false;
 
 	// Méthode pour gérer la connexion de l'utilisateur
 	public function login()
