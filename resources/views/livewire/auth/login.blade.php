@@ -22,7 +22,6 @@ class extends Component {
     #[Validate('boolean')]
     public bool $remember = false;
 
-	// Méthode pour gérer la connexion de l'utilisateur
 	public function login()
 	{
         $this->validate();
@@ -96,6 +95,3 @@ class extends Component {
         </x-form>
     </x-card>
 </div>
-
-
-
