@@ -4,16 +4,17 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
-use App\Models\{Category, Menu, Page, Post, Serie, Submenu};
+use App\Models\{Menu, Submenu};
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\{Layout, Validate, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
+use App\Traits\ManageMenus;
 
 new #[Title('Nav Menu'), Layout('components.layouts.admin')] 
 class extends Component {
-	use Toast;
+	use Toast, ManageMenus;
 
 	public Collection $menus;
 
@@ -35,9 +36,10 @@ class extends Component {
 	public function mount(): void
 	{
 		$this->getMenus();
+        $this->search();
 	}
 
-	// Récupérer les menus avec leurs sous-menus triés par ordre.
+    // Récupérer les menus avec leurs sous-menus triés par ordre.
 	public function getMenus(): void
 	{
 		$this->menus = Menu::with([
@@ -48,48 +50,6 @@ class extends Component {
 			->orderBy('order')
 			->get();
 	}
-
-	// Met à jour le libellé et le lien en fonction de la sous-option sélectionnée.
-	public function updating($property, $value): void
-	{
-		if ($value === '') {
-			return;
-		}
-
-		$modelMap = [
-			'subPost' => ['model' => Post::class, 'route' => 'posts.show'],
-			'subPage' => ['model' => Page::class, 'route' => 'pages.show'],
-			'subSerie' => ['model' => Serie::class, 'route' => 'serie'],
-			'subCategory' => ['model' => Category::class, 'route' => 'category'],
-		];
-
-		if (array_key_exists($property, $modelMap)) {
-			$this->updateSubProperties($modelMap[$property], $value);
-		} elseif ($property === 'subOption') {
-			$this->resetSubProperties();
-		}
-	}
-	
-	private function updateSubProperties($modelInfo, $value): void
-	{
-		$model = $modelInfo['model']::find($value);
-		if ($model) {
-			$this->sublabel = $model->title;
-			$this->sublink = $modelInfo['route'] === 'posts.show' || $modelInfo['route'] === 'pages.show'
-				? route($modelInfo['route'], $model->slug)
-				: url($modelInfo['route'] . '/' . $model->slug);
-		}
-	}
-
-	private function resetSubProperties(): void
-	{
-		$this->sublabel = '';
-		$this->sublink = '';
-		$this->subPost = 0;
-		$this->subPage = 0;
-		$this->subSerie = 0;
-		$this->subCategory = 0;
-	}	
 
 	// Méthode générique pour déplacer un élément (menu ou sous-menu)
 	private function move($item, $direction, $isSubmenu = false): void
@@ -147,7 +107,7 @@ class extends Component {
     {
         $isSubmenu = $parent !== null;
         
-        //$item->delete();
+        $item->delete();
         
         if ($isSubmenu) {
             $this->reorderItems($parent->submenus());
@@ -193,7 +153,7 @@ class extends Component {
 	public function saveSubmenu(Menu $menu): void
 	{
 		$data = $this->validate([
-			'sublabel' => 'required|max:255',
+			'sublabel' => ['required', 'string', 'max:255'],
 			'sublink'  => 'required|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',
 		]);
 
@@ -207,18 +167,6 @@ class extends Component {
 		$this->sublink  = '';
 
 		$this->success(__('Submenu created with success.'));
-	}
-
-	// Fournir les données nécessaires à la vue.
-	public function with(): array
-	{
-		return [
-			'pages'      => Page::select('id', 'title', 'slug')->get(),
-			'posts'      => Post::select('id', 'title', 'slug', 'created_at')->latest()->take(10)->get(),
-			'series'     => Serie::select('id', 'title', 'slug')->get(),
-			'categories' => Category::all(),
-			'subOptions' => [['id' => 1, 'name' => __('Post')], ['id' => 2, 'name' => __('Page')], ['id' => 3, 'name' => __('Serie')], ['id' => 4, 'name' => __('Category')]],
-		];
 	}
 
 }; ?>
@@ -346,35 +294,9 @@ class extends Component {
                     <br>
 
                     <x-card class="" title="{{ __('Create a new submenu') }}">
-
-                        <x-form wire:submit="saveSubmenu({{ $menu->id }})">
-                            <x-radio :options="$subOptions" wire:model="subOption" wire:change="$refresh" />
-                            @if ($subOption == 1)
-                                <x-select label="{{ __('Post') }}" option-label="title" :options="$posts"
-                                    placeholder="{{ __('Select a post') }}" wire:model="subPost"
-                                    wire:change="$refresh" />
-                            @elseif($subOption == 2)
-                                <x-select label="{{ __('Page') }}" option-label="title" :options="$pages"
-                                    placeholder="{{ __('Select a page') }}" wire:model="subPage"
-                                    wire:change="$refresh" />
-                            @elseif($subOption == 3)
-                                <x-select label="{{ __('Serie') }}" option-label="title" :options="$series"
-                                    placeholder="{{ __('Select a serie') }}" wire:model="subSerie"
-                                    wire:change="$refresh" />
-                            @elseif($subOption == 4)
-                                <x-select label="{{ __('Category') }}" option-label="title" :options="$categories"
-                                    placeholder="{{ __('Select a category') }}" wire:model="subCategory"
-                                    wire:change="$refresh" />
-                            @endif
-                            <x-input label="{{ __('Title') }}" wire:model="sublabel" />
-                            <x-input type="text" wire:model="sublink" label="{{ __('Link') }}" />
-                            <x-slot:actions>
-                                <x-button label="{{ __('Save') }}" icon="o-paper-airplane" spinner="save"
-                                    type="submit" class="btn-primary" />
-                            </x-slot:actions>
-                        </x-form>
-
+                        @include('livewire.admin.menus.submenu-form')
                     </x-card>
+
                 </x-slot:content>
             </x-collapse>
         @endforeach
