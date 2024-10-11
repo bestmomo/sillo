@@ -34,7 +34,7 @@ class extends Component {
             return redirect()->intended('/admin/dashboard');
         }
 
-        $this->redirectIntended(default: route('/', absolute: false), navigate: true);
+        $this->redirectIntended(default: url('/'), navigate: true);
 	}
 
     public function authenticate(): void
