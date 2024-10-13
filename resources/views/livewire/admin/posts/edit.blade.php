@@ -139,6 +139,10 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 
 		$data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);
 
+		if (!$this->post->active && $data['active']) {
+			$data['created_at'] = now();
+		}
+
 		// Mise à jour du post
 		$this->post->update(
 			$data + [

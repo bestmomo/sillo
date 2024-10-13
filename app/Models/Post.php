@@ -21,7 +21,7 @@ class Post extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title', 'slug', 'body', 'active', 'image', 'user_id', 'serie_id', 'serie_number', 'category_id', 'seo_title', 'meta_description', 'meta_keywords', 'pinned', 'parent_id'];
+	protected $fillable = ['title', 'slug', 'body', 'active', 'image', 'user_id', 'serie_id', 'serie_number', 'category_id', 'seo_title', 'meta_description', 'meta_keywords', 'pinned', 'parent_id', 'created_at'];
 
 	/**
 	 * Get user of the Post.
