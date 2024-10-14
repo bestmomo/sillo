@@ -44,14 +44,14 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 			$headers = array_merge($headers, [['key' => 'user_name', 'label' => __('Author')]]);
 		}
 
-		return array_merge($headers, [['key' => 'category_title', 'label' => __('Category')], ['key' => 'serie_title', 'label' => __('Serie')], ['key' => 'comments_count', 'label' => __('')], ['key' => 'active', 'label' => __('Published')], ['key' => 'date', 'label' => __('Date')]]);
+		return array_merge($headers, [['key' => 'category_title', 'label' => __('Category')], ['key' => 'serie_title', 'label' => __('Serie')], ['key' => 'comments_count', 'label' => __('')], ['key' => 'active', 'label' => __('Published')], ['key' => 'pinned', 'label' => __('Pinned')], ['key' => 'date', 'label' => __('Date')]]);
 	}
 
 	// Méthode pour obtenir les posts avec pagination
 	public function posts(): LengthAwarePaginator
 	{
 		return Post::query()
-			->select('id', 'title', 'slug', 'category_id', 'active', 'user_id', 'created_at', 'updated_at')
+			->select('id', 'title', 'slug', 'category_id', 'active', 'pinned', 'user_id', 'created_at', 'updated_at')
 			->when(Auth::user()->isAdmin(), fn (Builder $q) => $q->withAggregate('user', 'name'))
 			->when(!Auth::user()->isAdmin(), fn (Builder $q) => $q->where('user_id', Auth::id()))
 			->when($this->category_id, fn (Builder $q) => $q->where('category_id', $this->category_id))
@@ -179,6 +179,11 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
                         <x-icon name="o-check-circle" />
                     @endif
                 @endscope
+				@scope('cell_pinned', $post)
+					@if ($post->pinned)
+						<x-icon name="o-check-circle" />
+					@endif
+				@endscope
                 @scope('cell_date', $post)
                     @lang('Created') {{ $post->created_at->diffForHumans() }}
                     @if ($post->updated_at != $post->created_at)

@@ -144,7 +144,7 @@ new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Co
                     </x-popover>
                     <x-popover>
                         <x-slot:trigger>
-                            <x-button icon="o-trash" wire:click="deleteMenu({{ $footer->id }})"
+                            <x-button icon="o-trash" wire:click="deleteFooter({{ $footer->id }})"
                                 wire:confirm="{{ __('Are you sure to delete this footer?') }}" spinner
                                 class="text-red-500 btn-ghost btn-sm" />
                         </x-slot:trigger>

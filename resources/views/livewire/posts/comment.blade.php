@@ -78,11 +78,17 @@ new class() extends Component {
 
 		$item->save();
 
-		// Notification de l'auteur de l'article
-		$item->post->user->notify(new CommentCreated($item));
+		// Notification de l'auteur de l'article si ce n'est pas lui répond
+        if ($item->post->user_id != Auth::id()) {
+            $item->post->user->notify(new CommentCreated($item));
+        }
 
-		// Notification de l'auteur du commentaire initial
-		$item->post->user->notify(new CommentAnswerCreated($item));
+		// Notification de l'auteur du commentaire initial si ce n'est pas l'auteur de l'article
+        // ni l'auteur du commentaire initial
+        $author = $this->comment->user;
+        if ($author->id != $item->post->user_id && $author->id != Auth::id()) {
+            $author->notify(new CommentAnswerCreated($item));
+        }
 
 		// Masquage du formulaire de réponse
 		$this->toggleAnswerForm(false);

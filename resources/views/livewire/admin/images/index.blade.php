@@ -4,7 +4,6 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
-use App\Models\{Page, Post};
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +24,6 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 	public int $perPage = 10;
 	public int $page    = 1;
 
-	// Définir les en-têtes de table.
 	public function headers(): array
 	{
 		return [['key' => 'url', 'label' => ''], 
@@ -60,7 +58,6 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 			})
 			->toArray();
 
-		// Pagination logic
 		$this->page = LengthAwarePaginator::resolveCurrentPage('page');
 		$total      = count($this->allImages);
 		$images     = array_slice($this->allImages, ($this->page - 1) * $this->perPage, $this->perPage, true);
@@ -73,10 +70,7 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 
 	public function deleteImage($index): void
 	{
-		// Récupérer le chemin de l'image
 		$path = $this->allImages[$index]['path'];
-
-		// Supprimer l'image
 		Storage::delete($path);
 
 		$this->success(__('Image deleted with success.'));
@@ -91,39 +85,34 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 		];
 	}
 
-	private function getYears(): Collection
-	{
-		$basePath        = 'public/photos';
-		$yearDirectories = Storage::directories($basePath);
+    private function getYears(): Collection
+    {
+        return $this->getDirectories('public/photos', function ($years) {
+            $this->selectedYear = $years->first()['id'] ?? null;
+            return $years;
+        });
+    }
 
-		$years = collect($yearDirectories)->map(function ($yearPath) {
-			$year = basename($yearPath);
+    private function getMonths($year): Collection
+    {
+        return $this->getDirectories("public/photos/{$year}", function ($months) {
+            $this->selectedMonth = $months->first()['id'] ?? null;
+            $this->getImages();
+            return $months;
+        });
+    }
 
-			return ['id' => $year, 'name' => $year];
-		})->sortByDesc('id');
+    private function getDirectories(string $basePath, Closure $callback): Collection
+    {
+        $directories = Storage::directories($basePath);
 
-		$this->selectedYear = $years->first()['id'];
+        $items = collect($directories)->map(function ($path) {
+            $name = basename($path);
+            return ['id' => $name, 'name' => $name];
+        })->sortByDesc('id');
 
-		return $years;
-	}
-
-	private function getMonths($year): Collection
-	{
-		$basePath         = "public/photos/{$year}";
-		$monthDirectories = Storage::directories($basePath);
-
-		$months = collect($monthDirectories)->map(function ($monthPath) {
-			$month = basename($monthPath);
-
-			return ['id' => $month, 'name' => $month];
-		})->sortByDesc('id');
-
-		$this->selectedMonth = $months->first()['id'];
-
-		$this->getImages();
-
-		return $months;
-	}
+        return $callback($items);
+    }
 
 }; ?>
 

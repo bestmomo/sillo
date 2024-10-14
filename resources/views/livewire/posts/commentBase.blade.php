@@ -51,8 +51,10 @@ new class() extends Component {
 			'user',
 		]);
 
-		// Notification de l'auteur de l'article
-		$this->comment->post->user->notify(new CommentCreated($this->comment));
+		// Notification de l'auteur de l'article si ce n'est pas lui qui écrit
+		if ($this->comment->post->user_id != Auth::id()) {
+            $this->comment->post->user->notify(new CommentCreated($this->comment));
+        }
 
 		// Réinitialisation du message du formulaire
 		$this->message = $data['message'];
