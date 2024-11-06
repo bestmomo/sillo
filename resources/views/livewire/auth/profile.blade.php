@@ -41,12 +41,14 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
 		// Validation des données
 		$data = $this->validate([
 			'email'     => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
-			'password'  => 'confirmed',
+			'password'  => 'nullable|confirmed|min:8',
 			'isStudent' => 'boolean',
 		]);
 
 		// Hashage du mot de passe
-		if (!empty($data['password'])) {
+		if (empty($data['password'])) {
+			unset($data['password']);
+		} else {
 			$data['password'] = Hash::make($data['password']);
 		}
 
