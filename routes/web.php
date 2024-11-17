@@ -105,6 +105,6 @@ Route::fallback(function () {
 	return redirect(url($redirectPath));
 });
 
-Route::get('/doc/memo', function () {
-	return view('docs.memo');
-})->name('docs.memo');
+Route::get('/doc/laravel', function () {
+	return view('docs.laravel');
+})->name('docs.laravel');
