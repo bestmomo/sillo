@@ -303,12 +303,12 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
   ```
 
 * À noter: ∃ un fichier ./**.env_exemple**...En effet, lors du dépôt **Git** d'un projet, le ./**.env** est souvent,
- pour ne pas dire toujours, ignoré des **push**es... Donc, en cas de clone par un tier, ce fichier sert
+ pour ne pas dire toujours, ignoré des ***push***es... Donc, en cas de clone par un tier, ce fichier sert
  de matrice pour l'aider à recréer son ./**.env**
 
 ### Exécuter votre script <!-- markmap: fold -->
 
-#### Start & & || Restart des serveurs
+#### Start ( & / || ) Restart des serveurs
 
 * **PHP** dans une première console (**CLI**):
 
@@ -322,7 +322,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     npm run dev
   ```
 
-#### Ouvrir votre navigateur sur [http://127.0.0.1:8000](http://127.0.0.1:8000)
+#### Ouvrir votre navigateur sur : <a href="http://127.0.0.1:8000" title="Votre App en local" target = "_blank">http://127.0.0.1:8000</a>
 
 ### Outil recommandé (La Debugbar) <!-- markmap: fold -->
 
@@ -333,7 +333,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     composer require barryvdh/laravel-debugbar --dev
   ```
 
-* *Restart* ([Re]démarrer) les serveurs
+* *[Re]start servers* ([Re]démarrer les serveurs)
 
 ### Package des langues <!-- markmap: fold -->
 
@@ -356,7 +356,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
 
 ### Les données <!-- markmap: fold -->
 
-#### Tables users <!-- markmap: fold -->
+#### Tables *users* <!-- markmap: fold -->
 
 ##### database/migrations/**0001_01_01_000000_create_users_table.php** <!-- markmap: fold -->
 
@@ -438,15 +438,15 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     }
   ```
 
-#### Tables categories <!-- markmap: fold -->
+#### Tables *categories* <!-- markmap: fold -->
 
-##### Model & migration des categories <!-- markmap: fold -->
+##### Model & migration des *categories* <!-- markmap: fold -->
 
 ```bash
   php artisan make:model Category --migration
 ```
 
-##### Migrations des categories <!-- markmap: fold -->
+##### Migrations des *categories* <!-- markmap: fold -->
 
   ```php
     public function up(): void {
@@ -470,7 +470,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     }
   ```
 
-#### Tables posts (Articles) <!-- markmap: fold -->
+#### Tables *posts* (Articles) <!-- markmap: fold -->
 
 ##### Création model & migration des articles <!-- markmap: fold -->
 
@@ -590,9 +590,9 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
   php artisan migrate
   ```
 
-##### **<a href="https://laravel.sillo.org/storage/photos/2024/08/XIVfqMqmJ7OUNl9kwGWNk5duv0U0nweTIz2nbI1E.png" title="Voir les détails" target="_blank">Voir diagramme UML des 3 tables</a>**
+* **<a href="https://laravel.sillo.org/storage/photos/2024/08/XIVfqMqmJ7OUNl9kwGWNk5duv0U0nweTIz2nbI1E.png" title="Voir les détails" target="_blank">Voir diagramme UML des 3 tables</a>**
 
-#### Population de users <!-- markmap: fold -->
+#### Population des *users* <!-- markmap: fold -->
 
 ##### Création du seeder User
 
@@ -654,7 +654,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     }
   ```
 
-#### Population de categories <!-- markmap: fold -->
+#### Population des *categories* <!-- markmap: fold -->
 
 ##### Création du seeder Category
 
@@ -677,7 +677,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
   }
   ```
 
-#### Population de posts <!-- markmap: fold -->
+#### Population des *posts* <!-- markmap: fold -->
 
 ##### Créer app/**helpers.php** <!-- markmap: fold -->
 
@@ -771,7 +771,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     }
   ```
 
-#### Activation des seeders <!-- markmap: fold -->
+#### Activation des *seeders* <!-- markmap: fold -->
 
 * database/seeders/**DatabaseSeeder.php** :
 
@@ -926,7 +926,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
 
 ## - L'authentification <!-- markmap: fold -->
 
-### Installer MaryUI (Avec Volt et npm) <!-- markmap: fold -->
+### Installer **MaryUI** (Avec **Volt** et **npm**) <!-- markmap: fold -->
 
 #### Revoir ci-avant : ' Généralités / Technos / MaryUI ' pour l'installation
 
@@ -942,7 +942,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     npm run dev
   ```
 
-##### **[URL du rendu](http://127.0.0.1:8000)**
+##### **<a href="http://127.0.0.1:8000" title="Votre App en local" target="_blank">URL du rendu</a>**
 
 ### Layout pour l'authentification <!-- markmap: fold -->
 
@@ -974,7 +974,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
   </html>
   ```
 
-### Composants VOLT pour authentification <!-- markmap: fold -->
+### Composants **VOLT** pour l'authentification <!-- markmap: fold -->
 
 #### Composant Register <!-- markmap: fold -->
 
@@ -1063,7 +1063,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     </div>
   ```
 
-##### Traduction pour formulaire Register <!-- markmap: fold -->
+##### Traductions pour formulaire Register <!-- markmap: fold -->
 
 * ./lang/**fr.json** :
 
@@ -1080,10 +1080,14 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
 
 ##### Particularité : Pot de miel <!-- markmap: fold -->
 
-* À noter: ∃ un champs caché (gender) pour identifier les robots...
+* À noter : ∃ un champs caché (gender) pour identifier les robots...
+* '*On n'arrête pas l'progrès'* !' (*Lol* !) : Un 'robot' extralucide, car
+ce champs est logiquement invisible..., va dire de quel sexe il est !!! ;-)
 * Voir dans le code du composant : **if ($this->gender) abort(403);**
+(*Bon, même si on n'est pas encore à la pire ère de *Terminator*,
+on l'envoie quand même immédiatement bouler* ! :-) → *Error* **403 !**
 
-##### **[Rendu Register](http://127.0.0.1:8000/register)** (Tester la validation des champs)
+##### **<a href="http://127.0.0.1:8000/register" title="Tester la validation des champs" target="_blank">Rendu Register</a>**
 
 #### Composant Login <!-- markmap: fold -->
 
@@ -1192,14 +1196,14 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     </div>
   ```
 
-##### Traduction pour formulaire Login <!-- markmap: fold -->
+##### Traductions pour formulaire Login <!-- markmap: fold -->
 
   ```json
 "Forgot your password?": "Mot de passe oublié ?",
 "Remember me": "Se rappeler de moi"
   ```
 
-##### **[Rendu Login](http://127.0.0.1:8000/login)** (Tester la validation des champs)
+##### **<a href="http://127.0.0.1:8000/login" title="Tester la validation des champs" target="_blank">Rendu Login</a>**
 
 #### Oubli et reset du mot de passe
 
@@ -1307,7 +1311,7 @@ php artisan   make:volt auth/forgot-password --class
   "Email Password Reset Link": "Envoi du lien de renouvellement"
   ```
 
-###### **[Rendu forgot-password](http://127.0.0.1:8000/forgot-password)** (Tester la validation du champs - *Ne pas soumettre le Formulaire*)
+###### **<a href="http://127.0.0.1:8000/forgot-password" title="Tester la validation du champs - Ne pas soumettre le Formulaire" target="_blank">Rendu forgot-password</a>**
 
 ##### Gestion du reset du mot de passe <!-- markmap: fold -->
 
