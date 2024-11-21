@@ -28,5 +28,5 @@ $compteur++;
 file_put_contents($fichier_compteur, $compteur);
 
 echo "<div class='discretDansLeCoinEnHautADroite'><b>" . number_format($compteur, 0, ',', ' ') . '</b> <i>ouvertures (Depuis le 21/11/2024)</i></div>';
+
 include_once 'moncms.html';
-?>
