@@ -15,7 +15,7 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
 	#[Rule('required|email|unique:users')]
 	public string $email = '';
 
-	#[Rule('required|confirmed')]
+	#[Rule('required|confirmed|min:8')]
 	public string $password = '';
 
 	#[Rule('required')]

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 $finder = PhpCsFixer\Finder::create()
@@ -22,13 +22,13 @@ return (new PhpCsFixer\Config())
 	->setRules(
 		[
 			'header_comment' => [
-				'header'       => '(ɔ) LARAVEL.Sillo.org - 2012-' . date('Y'), // . date('Y'),
+				'header'       => ' (ɔ) LARAVEL.Sillo.org - 2012-' . date('Y'), // . date('Y'),
 				'comment_type' => 'PHPDoc',
 				'location'     => 'after_declare_strict',
 			],
+			// '@PSR12'                                 => true,
+			// '@Symfony'                               => true,
 			'@PHP81Migration'                        => true,
-			'@PSR12'                                 => true,
-			'@Symfony'                               => true,
 			'align_multiline_comment'                => ['comment_type' => 'all_multiline'],
 			'array_syntax'                           => ['syntax' => 'short'],
 			'explicit_string_variable'               => true,
@@ -58,9 +58,11 @@ return (new PhpCsFixer\Config())
 			'native_function_casing'                 => true,
 			'object_operator_without_whitespace'     => true,
 			'braces'                                 => [
-				'allow_single_line_closure'                   => true,
-				'position_after_control_structures'           => 'same',
-				'position_after_functions_and_oop_constructs' => 'same',
+				'allow_single_line_anonymous_class_with_empty_body' => true,
+				'allow_single_line_closure'                         => true,
+				'position_after_functions_and_oop_constructs'       => 'same',
+				'position_after_control_structures'                 => 'same',
+				'position_after_anonymous_constructs'               => 'same',
 			],
 			'no_extra_blank_lines' => [
 				'tokens' => [

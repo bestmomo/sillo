@@ -167,6 +167,6 @@ return [
 	| Version
 	|--------------------------------------------------------------------------
 	 */
-	// 2do Api request taht get the last tag of the projet from Github
+	// 2do Api request that get the last tag of the projet from Github
 	'version' => '0.1.0',
 ];
