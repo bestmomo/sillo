@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Markmap</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+#mindmap {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markmap-toolbar@0.17.2/dist/style.css">
+</head>
+<body>
+<svg id="mindmap"></svg>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script><script src="https://cdn.jsdelivr.net/npm/markmap-view@0.17.2/dist/browser/index.js"></script><script src="https://cdn.jsdelivr.net/npm/markmap-toolbar@0.17.2/dist/index.js"></script><script>(r => {
+                setTimeout(r);
+              })(() => {
+  const {
+    markmap,
+    mm
+  } = window;
+  const {
+    el
+  } = markmap.Toolbar.create(mm);
+  el.setAttribute('style', 'position:absolute;bottom:20px;right:20px');
+  document.body.append(el);
+})</script><script>((getMarkmap, getOptions, root2, jsonOptions) => {
+              const markmap = getMarkmap();
+              window.mm = markmap.Markmap.create(
+                "svg#mindmap",
+                (getOptions || markmap.deriveOptions)(jsonOptions),
+                root2
+              );
+            })(() => window.markmap,null,{"content":"LaDOC","children":[{"content":"//2do Git → Lien sur Markmap Git","children":[{"content":"Voir extension MarkMap (VSCode)","children":[],"payload":{"lines":"4,5"}},{"content":"Mode opératoire pour upgrade une Markmap via le dépôt Git","children":[],"payload":{"lines":"6,7"}}],"payload":{"lines":"2,3"}},{"content":"//2do Langages","children":[{"content":"//2do HTML → Lien sur Markmap spécifique","children":[],"payload":{"lines":"10,11"}},{"content":"//2do CSS → Lien sur Markmap spécifique","children":[],"payload":{"lines":"12,13"}},{"content":"//2do JS → Lien sur Markmap spécifique","children":[],"payload":{"lines":"14,15"}},{"content":"//2do PHP → Lien sur Markmap spécifique","children":[],"payload":{"lines":"16,17"}},{"content":"//2do MySQL et SqLite → Lien sur Markmap spécifique","children":[],"payload":{"lines":"18,19"}},{"content":"//2do Python → Lien sur Markmap spécifique","children":[{"content":"//2do Bases Python → Lien sur Markmap spécifique","children":[],"payload":{"lines":"22,23"}},{"content":"//2do Django → Lien sur Markmap spécifique","children":[],"payload":{"lines":"24,25"}}],"payload":{"lines":"20,21"}}],"payload":{"lines":"8,9","fold":1}},{"content":"FrameWorks &lt;!-- markmap: fold --&gt;","children":[{"content":"<a href=\"https://laravel.com/docs\" title=\"Site Officiel\" target=\"_blank\">Laravel</a>","children":[{"content":"<a href=\"https://laravel.sillo.org/doc/memo\" title=\"Suivre le tutoriel\" target=\"_blank\">Tuto MonCMS</a>","children":[],"payload":{"lines":"30,31"}}],"payload":{"lines":"28,29"}}],"payload":{"lines":"26,27"}},{"content":"Outils &lt;!-- markmap: fold --&gt;","children":[{"content":"//2do Visual Studio Code (VSC)   → Lien sur Markmap spécifique &lt;!-- markmap: fold --&gt;","children":[{"content":"//2do Extensions majeures","children":[{"content":"//2do GitGraph","children":[],"payload":{"lines":"38,39"}},{"content":"//2do MarlMap","children":[],"payload":{"lines":"40,41"}},{"content":"//2do ToDo","children":[],"payload":{"lines":"42,43"}},{"content":"//2do Better Comments (+settings)","children":[],"payload":{"lines":"44,45"}},{"content":"//2do PHP_CS_FIXER (Avec params)","children":[],"payload":{"lines":"46,47"}}],"payload":{"lines":"36,37"}}],"payload":{"lines":"34,35"}},{"content":"Site utiles &lt;!-- markmap: fold --&gt;","children":[{"content":"Généralistes &lt;!-- markmap: fold --&gt;","children":[{"content":"IA","children":[{"content":"//2do Chat GPT","children":[],"payload":{"lines":"54,55"}},{"content":"//2do Claude","children":[],"payload":{"lines":"56,57"}},{"content":"//2do Perplexity","children":[],"payload":{"lines":"58,59"}},{"content":"//2do Bolt.new","children":[],"payload":{"lines":"60,61"}}],"payload":{"lines":"52,53"}}],"payload":{"lines":"50,51"}},{"content":"Multi langage","children":[{"content":"Graphisme / Maquettage","children":[{"content":"<a href=\"https://www.canva.com/\" title=\"Site Officiel\" target=\"_blank\">Canva</a>","children":[],"payload":{"lines":"66,67"}},{"content":"<a href=\"https://www.figma.com/\" title=\"Site Officiel\" target=\"_blank\">Figma</a>","children":[],"payload":{"lines":"68,69"}}],"payload":{"lines":"64,65"}},{"content":"Regex","children":[{"content":"//2do Lien regex resolver","children":[],"payload":{"lines":"72,73"}}],"payload":{"lines":"70,71"}}],"payload":{"lines":"62,63"}}],"payload":{"lines":"48,49"}}],"payload":{"lines":"32,33"}}],"payload":{"lines":"0,1","fold":1}},{"duration":2100,"initialExpandLevel":3})</script>
+</body>
+</html>

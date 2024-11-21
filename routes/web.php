@@ -105,6 +105,20 @@ Route::fallback(function () {
 	return redirect(url($redirectPath));
 });
 
+//2see : Develop a component for all topics in 'LaDOC', and group the related routes
+// À faire : Développer un composant pour toutes les thématiques de 'LaDOC', et regrouper les routes correspondantes
+Route::get('/doc/laravel', function () {
+	return view('docs.laravel');
+})->name('docs.laravel');
+
+Route::get('/doc/ladoc', function () {
+	return view('docs.ladoc');
+})->name('docs.ladoc');
+
+//2do by BestMomo : Please change the link for memo in https://laravel.sillo.org/pages/laravel-11
+// ' 'Ne ratez pas le superbe diagramme dynamique de Lionel ici.' )
+// https://laravel.sillo.org/doc/memo → https://laravel.sillo.org/doc/laravel
+// And remove this duplicate route ( = all this bloc ;-) !
 Route::get('/doc/memo', function () {
-	return view('docs.memo');
+	return view('docs.laravel');
 })->name('docs.memo');
