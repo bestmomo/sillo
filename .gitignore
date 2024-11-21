@@ -20,3 +20,7 @@ yarn-error.log
 /.idea
 /.vscode
 .php-cs-fixer.cache
+package-lock.json
+/storage/app/purifier/HTML/*.*
+composer.phar
+composer.lock
