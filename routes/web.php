@@ -108,3 +108,7 @@ Route::fallback(function () {
 Route::get('/doc/laravel', function () {
 	return view('docs.laravel');
 })->name('docs.laravel');
+
+Route::get('/doc/ladoc', function () {
+	return view('docs.ladoc');
+})->name('docs.ladoc');

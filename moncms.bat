@@ -4,6 +4,8 @@
 @REM call start.bat
 
 cd ../moncms
-echo Passe sur moncms
+echo.
+echo Passe sur MonCMS
+echo.
 
 call start.bat
