@@ -115,10 +115,3 @@ Route::get('/doc/ladoc', function () {
 	return view('docs.ladoc');
 })->name('docs.ladoc');
 
-//2do by BestMomo : Please change the link for memo in https://laravel.sillo.org/pages/laravel-11
-// ' 'Ne ratez pas le superbe diagramme dynamique de Lionel ici.' )
-// https://laravel.sillo.org/doc/memo → https://laravel.sillo.org/doc/laravel
-// And remove this duplicate route ( = all this bloc ;-) !
-Route::get('/doc/memo', function () {
-	return view('docs.laravel');
-})->name('docs.memo');
