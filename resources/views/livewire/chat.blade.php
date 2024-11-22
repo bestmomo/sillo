@@ -14,8 +14,7 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
 
 	public string $answer = '';
 
-	public function getAnswer()
-	{
+	public function getAnswer() {
 		// Validation des données du formulaire
 		$data = $this->validate();
 
@@ -52,7 +51,6 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
 
 			// Vérification du statut de la réponse
 			if ($response->successful()) {
-
 				// Décodage de la réponse et récupération du contenu
 				$answer = json_decode($response->body())->choices[0]->message->content;
 
@@ -61,10 +59,9 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
 
 				// Sauvegarde dans la base de données
 				auth()->user()->chats()->create([
-					'answer' => $answer,
+					'answer'   => $answer,
 					'question' => $data['question'],
 				]);
-
 			} else {
 				// Gestion des erreurs
 				throw new Exception(__('Error in API response: ') . $response->body());

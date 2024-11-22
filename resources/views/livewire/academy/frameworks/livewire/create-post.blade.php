@@ -19,8 +19,7 @@ new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends C
 	#[Rule('required', as: 'content (textarea)')]
 	public $content = '';
 
-	public function save()
-	{
+	public function save() {
 		try {
 			$this->validate();
 			PostAcademy::create([

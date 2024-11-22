@@ -17,20 +17,17 @@ new #[Title('Dashboard')] #[Layout('components.layouts.admin')] class extends Co
 	public array $headersPosts;
 	public bool $openGlance = true;
 
-	public function mount(): void
-	{
+	public function mount(): void {
 		$this->headersPosts = [['key' => 'date', 'label' => __('Date')], ['key' => 'title', 'label' => __('Title')]];
 	}
 
-	public function deleteComment(Comment $comment): void
-	{
+	public function deleteComment(Comment $comment): void {
 		$comment->delete();
 
 		$this->warning('Comment deleted', __('Good bye!'), position: 'toast-bottom');
 	}
 
-	public function with(): array
-	{
+	public function with(): array {
 		$user    = Auth::user();
 		$isRedac = $user->isRedac();
 		$userId  = $user->id;

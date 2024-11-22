@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Events\AcademyChatV1MessageEvent;
@@ -15,8 +15,7 @@ new class() extends Component {
 	public $message;
 	public $conversation = [];
 
-	public function mount()
-	{
+	public function mount() {
 		Debugbar::addMessage('Récupération de la conversation');
 		$messages = AcademyChatV1Message::all();
 
@@ -28,8 +27,7 @@ new class() extends Component {
 		}
 	}
 
-	public function submitMessage()
-	{
+	public function submitMessage() {
 		Debugbar::addMessage('Envoi du dernier thread: ' . $this->message);
 
 		// Dispatch the event
@@ -40,8 +38,7 @@ new class() extends Component {
 	}
 
 	#[On('echo:chat-v1-channel,AcademyChatV1MessageEvent')]
-	public function listenForMessage($data): void
-	{
+	public function listenForMessage($data): void {
 		Debugbar::addMessage('Méthode listenForMessage chat V1 appelée');
 		Debugbar::addMessage($data);
 

@@ -12,8 +12,7 @@ class extends Component {
 	public string $email = '';
 
 	// Méthode pour envoyer le lien de réinitialisation du mot de passe
-	public function sendPasswordResetLink(): void
-	{
+	public function sendPasswordResetLink(): void {
 		// Validation de l'email
 		$this->validate([
 			'email' => ['required', 'string', 'email'],

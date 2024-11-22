@@ -22,15 +22,13 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	public string $slug = '';
 
 	// Définir l'ID de la catégorie par défaut lors du montage du composant.
-	public function mount(): void
-	{
+	public function mount(): void {
 		$category          = Category::first();
 		$this->category_id = $category->id;
 	}
 
 	// Définir les en-têtes de table.
-	public function headers(): array
-	{
+	public function headers(): array {
 		$headers = [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug'], ['key' => 'category_title', 'label' => __('Category')]];
 
 		if (Auth::user()->isAdmin()) {
@@ -41,24 +39,21 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	}
 
 	// Mettre à jour le slug lorsque le titre change.
-	public function updating($property, $value)
-	{
+	public function updating($property, $value) {
 		if ('title' == $property) {
 			$this->slug = Str::slug($value, '-');
 		}
 	}
 
 	// Supprimer une série.
-	public function delete(Serie $serie): void
-	{
+	public function delete(Serie $serie): void {
 		$serie->delete();
 
 		$this->warning(__('Serie deleted with success.'));
 	}
 
 	// Enregistrer une nouvelle série.
-	public function save(): void
-	{
+	public function save(): void {
 		$data = $this->validate();
 
 		Serie::create(
@@ -72,8 +67,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	}
 
 	// Fournir les données nécessaires à la vue.
-	public function with(): array
-	{
+	public function with(): array {
 		return [
 			'categories' => Category::all(),
 			'series'     => Serie::withAggregate('category', 'title')

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use Illuminate\Database\Migrations\Migration;
@@ -12,8 +12,7 @@ return new class() extends Migration {
 	/**
 	 * Run the migrations.
 	 */
-	public function up(): void
-	{
+	public function up(): void {
 		Schema::create('events', function (Blueprint $table) {
 			$table->id();
 			$table->string('label');
@@ -27,8 +26,7 @@ return new class() extends Migration {
 	/**
 	 * Reverse the migrations.
 	 */
-	public function down(): void
-	{
+	public function down(): void {
 		Schema::dropIfExists('events');
 	}
 };

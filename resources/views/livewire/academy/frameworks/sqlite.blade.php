@@ -11,8 +11,7 @@ new class() extends Component {
 	public $total;
 	public $data = 'Explicabo dolore repudiandae aut repellat. Iste eum accusantium sed quidem consectetur iste. Adipisci beatae itaque dolorem magnam laudantium. Ad sit et debitis. Ad quibusdam qui voluptas. Quae voluptates autem aspernatur temporibus vitae consequatur. Et nisi natus eligendi consequuntur est sunt.';
 
-	public function mount()
-	{
+	public function mount() {
 		$paginator = $this->getBaseQuery()->paginate(6);
 		$posts     = $paginator->getCollection();
 		foreach ($posts as $post) {
@@ -32,8 +31,7 @@ new class() extends Component {
 		//                        {{ str($post->excerpt)->wordss(30) }}
 	}
 
-	protected function getBaseQuery(): Builder
-	{
+	protected function getBaseQuery(): Builder {
 		$specificReqs = [
 			'mysql'  => "LEFT(body, LOCATE(' ', body, 300))",
 			'sqlite' => 'substr(body, 1, 300)',

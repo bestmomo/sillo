@@ -8,15 +8,13 @@ new class() extends Component {
 	public array $results = [];
 	public array $charts  = [];
 
-	public function mount(int $id): void
-	{
+	public function mount(int $id): void {
 		$this->survey = Survey::with(['questions.answers', 'participants'])->findOrFail($id);
 
 		$this->loadResults();
 	}
 
-	private function loadResults(): void
-	{
+	private function loadResults(): void {
 		// Initialiser les résultats avec les questions
 		$questions = $this->survey->questions->mapWithKeys(function ($question) {
 			return [$question->id => [

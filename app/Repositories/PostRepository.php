@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Repositories;
@@ -10,8 +10,7 @@ use App\Models\{Category, Post, Serie, User};
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class PostRepository
-{
+class PostRepository {
 	/**
 	 * Retrieves paginated posts based on the provided category and serie.
 	 *
@@ -20,8 +19,7 @@ class PostRepository
 	 *
 	 * @return LengthAwarePaginator the paginated posts
 	 */
-	public function getPostsPaginate(?Category $category, ?Serie $serie): LengthAwarePaginator
-	{
+	public function getPostsPaginate(?Category $category, ?Serie $serie): LengthAwarePaginator {
 		$query = $this->getBaseQuery()->orderBy('pinned', 'desc')->latest();
 
 		if ($category) {
@@ -46,8 +44,7 @@ class PostRepository
 	 * @return Post the post with its associated user, category, serie, quiz,
 	 *              valid comments count, and favorite status
 	 */
-	public function getPostBySlug(string $slug): Post
-	{
+	public function getPostBySlug(string $slug): Post {
 		$userId = auth()->id();
 
 		$post = Post::with([
@@ -83,8 +80,7 @@ class PostRepository
 	 *
 	 * @return LengthAwarePaginator the paginated list of posts that match the search term
 	 */
-	public function search(string $search): LengthAwarePaginator
-	{
+	public function search(string $search): LengthAwarePaginator {
 		return $this->getBaseQuery()
 			->latest()
 			->where(function ($query) use ($search) {
@@ -100,8 +96,7 @@ class PostRepository
 	 *
 	 * @return LengthAwarePaginator The paginated list of favorite posts
 	 */
-	public function getFavoritePosts(User $user): LengthAwarePaginator
-	{
+	public function getFavoritePosts(User $user): LengthAwarePaginator {
 		return $this->getBaseQuery()
 			->whereHas('favoritedByUsers', function (Builder $query) {
 				$query->where('user_id', auth()->id());
@@ -117,8 +112,7 @@ class PostRepository
 	 *
 	 * @return string the generated unique slug
 	 */
-	public function generateUniqueSlug(string $slug): string
-	{
+	public function generateUniqueSlug(string $slug): string {
 		$newSlug = $slug;
 		$counter = 1;
 		while (Post::where('slug', $newSlug)->exists()) {
@@ -134,14 +128,13 @@ class PostRepository
 	 *
 	 * @return Builder The base query for articles
 	 */
-	protected function getBaseQuery(): Builder
-	{
+	protected function getBaseQuery(): Builder {
 		$specificReqs = [
 			'mysql'  => "LEFT(body, LOCATE(' ', body, 700))",
 			'sqlite' => 'substr(body, 1, 700)',
 			'pgsql'  => 'substring(body from 1 for 700)',
 		];
-		
+
 		// 2fix use config instead of env()
 		$usedDbSystem = env('DB_CONNECTION', 'mysql');
 

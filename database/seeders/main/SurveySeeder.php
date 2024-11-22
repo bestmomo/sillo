@@ -1,22 +1,20 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use App\Models\{Survey, SurveyAnswer, SurveyQuestion};
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class SurveySeeder extends Seeder
-{
+class SurveySeeder extends Seeder {
 	use WithoutModelEvents;
 
-	public function run()
-	{
+	public function run() {
 		// Données des sondages
 		$surveys = [
 			[

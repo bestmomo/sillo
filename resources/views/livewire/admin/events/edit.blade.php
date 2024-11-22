@@ -16,16 +16,14 @@ new #[Title('Edit Event'), Layout('components.layouts.admin')] class extends Com
 
 	public Event $event;
 
-	public function mount(Event $event): void
-	{
+	public function mount(Event $event): void {
 		$this->event = $event;
 		$this->fill($this->event);
 		$this->colors = $this->getColors();
 	}
 
 	// Enregistre le nouvel événement
-	public function save()
-	{
+	public function save() {
 		$data = $this->validate($this->rules);
 		if ($this->checkDates()) {
 			return;

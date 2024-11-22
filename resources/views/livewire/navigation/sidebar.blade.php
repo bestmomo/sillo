@@ -11,16 +11,14 @@ new class() extends Component {
 	/**
 	 * Initialise le composant avec les menus donnés.
 	 */
-	public function mount(Collection $menus): void
-	{
+	public function mount(Collection $menus): void {
 		$this->menus = $menus;
 	}
 
 	/**
 	 * Déconnecte l'utilisateur actuellement authentifié.
 	 */
-	public function logout(): void
-	{
+	public function logout(): void {
 		Auth::guard('web')->logout();
 
 		Session::invalidate();

@@ -21,14 +21,12 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
 	public ?int $post_id       = null;
 	public Collection $postsSearchable;
 
-	public function mount(): void
-	{
+	public function mount(): void {
 		$this->addQuestion(2);
 		$this->search();
 	}
 
-	public function save()
-	{
+	public function save() {
 		$data = $this->validate($this->rules);
 
 		$quiz = Quiz::create(

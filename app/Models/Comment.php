@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Models;
@@ -12,8 +12,7 @@ use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
 use Illuminate\Notifications\Notifiable;
 use Mews\Purifier\Casts\CleanHtmlInput;
 
-class Comment extends Model
-{
+class Comment extends Model {
 	use HasFactory;
 	use Notifiable;
 
@@ -36,40 +35,34 @@ class Comment extends Model
 	/**
 	 * One to Many relation.
 	 */
-	public function user(): BelongsTo
-	{
+	public function user(): BelongsTo {
 		return $this->belongsTo(User::class);
 	}
 
 	/**
 	 * One to Many relation.
 	 */
-	public function post(): BelongsTo
-	{
+	public function post(): BelongsTo {
 		return $this->belongsTo(Post::class);
 	}
 
 	// La relation pour obtenir le parent d'un commentaire
-	public function parent(): BelongsTo
-	{
+	public function parent(): BelongsTo {
 		return $this->belongsTo(Comment::class, 'parent_id');
 	}
 
 	// La relation pour obtenir les enfants d'un commentaire
-	public function children(): HasMany
-	{
+	public function children(): HasMany {
 		return $this->hasMany(Comment::class, 'parent_id');
 	}
 
 	// Une fonction récursive pour calculer la profondeur
-	public function getDepth(): int
-	{
+	public function getDepth(): int {
 		return $this->parent ? $this->parent->getDepth() + 1 : 0;
 	}
-	
-    // Relation avec le modèle Reaction
-    public function reactions()
-    {
-        return $this->hasMany(Reaction::class);
-    }
+
+	// Relation avec le modèle Reaction
+	public function reactions() {
+		return $this->hasMany(Reaction::class);
+	}
 }

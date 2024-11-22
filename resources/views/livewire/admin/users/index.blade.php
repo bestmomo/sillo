@@ -26,8 +26,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 	];
 
 	// Fetch all users with filters and sorting.
-	public function fetchUsers(): LengthAwarePaginator
-	{
+	public function fetchUsers(): LengthAwarePaginator {
 		$users = User::query()
 			->when($this->search, function (Builder $query) {
 				$query->where('name', 'like', "%{$this->search}%");
@@ -97,15 +96,13 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 	}
 
 	// Supprimer un utilisateur.
-	public function deleteUser(User $user): void
-	{
+	public function deleteUser(User $user): void {
 		$user->delete();
 		$this->success($user->name . ' ' . __('deleted'));
 	}
 
 	// Fetch the necessary data for the view.
-	public function with(): array
-	{
+	public function with(): array {
 		$roles = [
 			'admin' => 'Administrator',
 			'redac' => 'Redactor',
@@ -120,8 +117,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 	}
 
 	// Define table headers.
-	public function headers(): array
-	{
+	public function headers(): array {
 		$headers = [['key' => 'id', 'label' => '#'], ['key' => 'name', 'label' => __('Name')], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Status')], ['key' => 'valid', 'label' => __('Valid')]];
 
 		if ('user' !== $this->role) {

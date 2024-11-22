@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use Livewire\Volt\Component;
@@ -11,14 +11,12 @@ new class() extends Component {
 	public $choice;
 	public $component;
 
-	public function setChoice($btn)
-	{
+	public function setChoice($btn) {
 		$this->choice    = $btn;
 		$this->component = $this->getComponentName($btn);
 	}
 
-	public function getComponentName($choice): ?string
-	{
+	public function getComponentName($choice): ?string {
 		$index = array_search($choice, $this->btns);
 
 		if (false !== $index) {

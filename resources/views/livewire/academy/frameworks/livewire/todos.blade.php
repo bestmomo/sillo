@@ -11,20 +11,17 @@ new #[Layout('components.layouts.academy')] #[Title('Todos')] class extends Comp
 
 	public $todos = [];
 
-	public function mount()
-	{
+	public function mount() {
 		// dd('ok');
 		$this->todos = ['Take out trash', 'Do dishes'];
 	}
 
-	public function updatedTodo($value)
-	{
+	public function updatedTodo($value) {
 		// dd($property, $value);
 		$this->todo = ucfirst($value);
 	}
 
-	public function add()
-	{
+	public function add() {
 		$this->validate();
 		$this->todos[] = $this->todo;
 		$this->reset('todo');

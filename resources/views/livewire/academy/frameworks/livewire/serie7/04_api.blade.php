@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-
 use function Livewire\Volt\{mount, state};
 
 // state(['count' => fn() => User::count()]);

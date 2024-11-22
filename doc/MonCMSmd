@@ -8930,7 +8930,7 @@ selon le même principe, isoler dans d'autres dossiers, des seeders qui seront p
 
 ##### Modus operandi <!-- markmap: fold -->
 
-* 1 ) &nbsp; Créer un dossier **database/seeders/main**
+* 1 ) &nbsp; Créer un dossier **database/seeders/Main**
 
 * 2 ) &nbsp; Y copier dedans tous les seeders nécessaires à la base de l'app à ce stade, soit :
     CategorySeeder, CommentSeeder, ContactSeeder, FooterSeeder, MenusSeeder, PageSeeder, PostSeeder, SettingSeeder et UserSeeder

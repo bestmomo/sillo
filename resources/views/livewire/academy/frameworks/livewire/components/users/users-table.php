@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Models\AcademyUser;
@@ -32,8 +32,7 @@ new class() extends Component {
 		'sortBy' => ['except' => ['column' => 'id', 'direction' => 'asc']],
 	];
 
-	public function mount()
-	{
+	public function mount() {
 		// Debugbar::disable();
 		$this->headers = [
 			['key' => 'id', 					 'label' => '#'],
@@ -56,8 +55,7 @@ new class() extends Component {
 		$this->updatedPage();
 	}
 
-	public function deleteSelectedUsers()
-	{
+	public function deleteSelectedUsers() {
 		sleep(3);
 		sort($this->selected);
 		// dump('Devrait effacer: ' . json_encode($this->selected, JSON_PRETTY_PRINT));
@@ -73,8 +71,7 @@ new class() extends Component {
 	// 	return 'livewire.pagination';
 	// }
 
-	public function updatedSearch($resetPage = true)
-	{
+	public function updatedSearch($resetPage = true) {
 		if (class_exists('Barryvdh\Debugbar\Facade')) {
 			Debugbar::addMessage("New search: {$this->search}");
 		}
@@ -88,8 +85,7 @@ new class() extends Component {
 		}
 	}
 
-	public function updatedSortBy($value = 'id', $key = 'asc')
-	{
+	public function updatedSortBy($value = 'id', $key = 'asc') {
 		// dump($this->sortBy['column']);
 		// Debugbar::warning($this->sortBy['direction']);
 
@@ -114,8 +110,7 @@ new class() extends Component {
 		}
 	}
 
-	public function updatedPage()
-	{
+	public function updatedPage() {
 		$currentPage = $this->getPage();
 
 		if (class_exists('Barryvdh\Debugbar\Facade')) {
@@ -126,8 +121,7 @@ new class() extends Component {
 		}
 	}
 
-	public function setOrderField(string $name)
-	{
+	public function setOrderField(string $name) {
 		if ($name === $this->orderField) {
 			$this->orderDirection = 'asc' === $this->orderDirection ? 'desc' : 'asc';
 		} else {
@@ -136,8 +130,7 @@ new class() extends Component {
 		}
 	}
 
-	public function with()
-	{
+	public function with() {
 		$users = AcademyUser::search($this->search)
 			->orderBy(...array_values($this->sortBy))
 			->paginate(4);

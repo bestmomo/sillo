@@ -1,21 +1,19 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MenusSeeder extends Seeder
-{
+class MenusSeeder extends Seeder {
 	use WithoutModelEvents;
 
-	public function run()
-	{
+	public function run() {
 		// Données des menus
 		$menus = [
 			['label' => 'Catégorie 1', 'link' => null, 'order' => 3],

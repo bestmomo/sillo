@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Events;
@@ -12,8 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AcademyChatV1MessageEvent implements ShouldBroadcastNow
-{
+class AcademyChatV1MessageEvent implements ShouldBroadcastNow {
 	use Dispatchable;
 	use InteractsWithSockets;
 	use SerializesModels;
@@ -26,9 +25,10 @@ class AcademyChatV1MessageEvent implements ShouldBroadcastNow
 
 	/**
 	 * Create a new event instance.
+	 * @param mixed $user_id
+	 * @param mixed $message
 	 */
-	public function __construct($user_id, $message)
-	{
+	public function __construct($user_id, $message) {
 		$newMessage          = new AcademyChatV1Message();
 		$newMessage->user_id = $user_id;
 		$newMessage->message = $message;
@@ -43,8 +43,7 @@ class AcademyChatV1MessageEvent implements ShouldBroadcastNow
 	 *
 	 * @return array<int, \Illuminate\Broadcasting\Channel>
 	 */
-	public function broadcastOn(): array
-	{
+	public function broadcastOn(): array {
 		return [
 			new Channel('chat-v1-channel'),
 		];

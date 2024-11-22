@@ -8,13 +8,13 @@ $finder = PhpCsFixer\Finder::create()
 	->in(__DIR__)
 	->exclude('vendor')
 	->exclude('storage')
-	->exclude('bootstrap/cache')
-	->notName('*.blade.php')
-	->notName('index.php')
-	->notName('server.php');
+	->exclude('bootstrap/cache');
+// ->notName('*.blade.php')
+// ->notName('index.php')
+// ->notName('server.php');
 
 // Direct call: vendor/bin/php-cs-fixer fix app/ --config=config\.php-cs-fixer.dist.php
-// Pour fix tout le projet: vendor/bin/php-cs-fixer fix ./ --config=config\.php-cs-fixer.dist.php
+// Pour fix tout le projet: php vendor/bin/php-cs-fixer fix ./ --config=config\.php-cs-fixer.dist.php
 
 return (new PhpCsFixer\Config())
 	// https:// github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/doc/list.rst
@@ -26,8 +26,6 @@ return (new PhpCsFixer\Config())
 				'comment_type' => 'PHPDoc',
 				'location'     => 'after_declare_strict',
 			],
-			// '@PSR12'                                 => true,
-			// '@Symfony'                               => true,
 			'@PHP81Migration'                        => true,
 			'align_multiline_comment'                => ['comment_type' => 'all_multiline'],
 			'array_syntax'                           => ['syntax' => 'short'],
@@ -35,7 +33,7 @@ return (new PhpCsFixer\Config())
 			'array_indentation'                      => true,
 			'indentation_type'                       => true,
 			'no_blank_lines_after_class_opening'     => true,
-			'no_blank_lines_after_phpdoc'            => true,
+			'no_blank_lines_after_phpdoc'            => true,	
 			'blank_line_after_opening_tag'           => true,
 			'blank_line_before_statement'            => true,
 			'single_blank_line_before_namespace'     => false,
@@ -66,9 +64,9 @@ return (new PhpCsFixer\Config())
 			],
 			'no_extra_blank_lines' => [
 				'tokens' => [
+					'extra',
 					'use',
 					'break',
-					'extra',
 					'throw',
 					'return',
 					'continue',
@@ -140,6 +138,7 @@ return (new PhpCsFixer\Config())
 			'trim_array_spaces'                             => true,
 			'yoda_style'                                    => true,
 			'single_blank_line_at_eof'                      => true,
+			'blank_line_after_namespace'                    => true,
 
 			// 'no_mixed_echo_print'                    => ['use' => 'echo'],
 			// 'no_empty_phpdoc'                        => true,

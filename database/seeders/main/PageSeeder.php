@@ -1,21 +1,19 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use App\Models\Page;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class PageSeeder extends Seeder
-{
+class PageSeeder extends Seeder {
 	use WithoutModelEvents;
 
-	public function run()
-	{
+	public function run() {
 		// Données des pages
 		$items = [
 			['slug' => 'terms', 'title' => 'Terms'],

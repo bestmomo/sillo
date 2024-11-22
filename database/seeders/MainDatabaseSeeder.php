@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace Database\Seeders;
@@ -9,15 +9,13 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class MainDatabaseSeeder extends Seeder
-{
+class MainDatabaseSeeder extends Seeder {
 	use WithoutModelEvents;
 
 	/**
 	 * Seed the main application's database.
 	 */
-	public function run()
-	{
+	public function run() {
 		$namespace = 'Database\\Seeders\\Main\\';
 		$items     = ['User', 'Category', 'Serie', 'Post', 'Comment', 'Menus', 'Contact', 'Page', 'Footer', 'Setting', 'Event', 'Survey', 'Quiz'];
 

@@ -20,21 +20,18 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
 	public string $search = '';
 
 	// Définir les en-têtes de la table
-	public function headers(): array
-	{
+	public function headers(): array {
 		return [['key' => 'title', 'label' => __('Title')], ['key' => 'description', 'label' => __('Description')], ['key' => 'active', 'label' => __('Published')], ['key' => 'user_name', 'label' => __('Creator')],  ['key' => 'participants_count', 'label' => __('Participations')]];
 	}
 
 	// Supprimer un sondage
-	public function deleteSurvey(Survey $survey): void
-	{
+	public function deleteSurvey(Survey $survey): void {
 		$survey->delete();
 		$this->success(__('Survey deleted'));
 	}
 
 	// Fournir les données nécessaires à la vue
-	public function with(): array
-	{
+	public function with(): array {
 		return [
 			'surveys' => Survey::orderBy(...array_values($this->sortBy))
 				->when(!Auth::user()->isAdmin(), fn (Builder $q) => $q->where('user_id', Auth::id()))

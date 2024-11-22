@@ -1,21 +1,19 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use App\Models\Comment;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CommentSeeder extends Seeder
-{
+class CommentSeeder extends Seeder {
 	use WithoutModelEvents;
 
-	public function run()
-	{
+	public function run() {
 		$nbrPosts = PostSeeder::$nbrPosts;
 		$nbrUsers = UserSeeder::$nbrUsers;
 		foreach (range(1, $nbrPosts - 1) as $i) {
@@ -40,8 +38,7 @@ class CommentSeeder extends Seeder
 		$this->createComment(4, 1, $comment->id);
 	}
 
-	protected function createComment($post_id, $user_id, $id = null)
-	{
+	protected function createComment($post_id, $user_id, $id = null) {
 		return Comment::factory()->create([
 			'post_id' => $post_id,
 			'user_id' => $user_id,

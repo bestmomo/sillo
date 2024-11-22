@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace Tests\Feature;
@@ -14,13 +14,11 @@ use Tests\TestCase;
  *
  * @coversNothing
  */
-class ExampleTest extends TestCase
-{
+class ExampleTest extends TestCase {
 	/**
 	 * A basic test example.
 	 */
-	public function testTheApplicationReturnsASuccessfulResponse(): void
-	{
+	public function testTheApplicationReturnsASuccessfulResponse(): void {
 		$response = $this->get('/');
 
 		$response->assertStatus(200);

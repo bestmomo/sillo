@@ -5,10 +5,10 @@
  */
 
 use App\Models\Submenu;
+use App\Traits\ManageMenus;
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
-use App\Traits\ManageMenus;
 
 new #[Title('Edit Submenu'), Layout('components.layouts.admin')] 
 class extends Component {
@@ -24,17 +24,15 @@ class extends Component {
 	public int $subOption   = 1;
 
 	// Initialise le composant avec le sous-menu donné.
-	public function mount(Submenu $submenu): void
-	{
-		$this->submenu = $submenu;
+	public function mount(Submenu $submenu): void {
+		$this->submenu  = $submenu;
 		$this->sublabel = $submenu->label;
 		$this->sublink  = $submenu->link;
 		$this->search();
 	}
 
 	// Enregistrer les modifications apportées au sous-menu.
-	public function saveSubmenu($menu = null): void
-	{
+	public function saveSubmenu($menu = null): void {
 		$data = $this->validate([
 			'sublabel' => ['required', 'string', 'max:255'],
 			'sublink'  => 'required|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',
@@ -47,7 +45,6 @@ class extends Component {
 
 		$this->success(__('Menu updated with success.'), redirectTo: '/admin/menus/index');
 	}
-
 }; ?>
 
 <div>

@@ -11,8 +11,7 @@ new class() extends Component {
 	public array $userAnswers = [];
 	public array $results     = [];
 
-	public function mount(int $id): void
-	{
+	public function mount(int $id): void {
 		$this->survey = Survey::with('questions.answers')->findOrFail($id);
 
 		if (auth()->user()->participatedSurveys()->where('survey_id', $id)->exists()) {
@@ -20,8 +19,7 @@ new class() extends Component {
 		}
 	}
 
-	public function save()
-	{
+	public function save() {
 		$this->validate([
 			'userAnswers'   => 'required|array',
 			'userAnswers.*' => 'required|integer|exists:answers,id',

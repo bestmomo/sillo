@@ -19,16 +19,14 @@ class extends Component {
 	public string $password_confirmation = '';
 
 	// Méthode pour initialiser le composant avec le jeton et l'email
-	public function mount(string $token): void
-	{
+	public function mount(string $token): void {
 		$this->token = $token;
 
 		$this->email = request()->input('email');
 	}
 
 	// Méthode pour réinitialiser le mot de passe
-	public function resetPassword(): void
-	{
+	public function resetPassword(): void {
 		// Validation des données du formulaire
 		$this->validate([
 			'token'    => ['required'],

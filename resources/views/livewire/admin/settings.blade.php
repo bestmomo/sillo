@@ -12,15 +12,15 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
 
 	private const SETTINGS_KEYS = ['pagination', 'excerptSize', 'title', 'subTitle', 'flash', 'newPost', 'alertValue'];
 
-    public array $selectAlert = [
-        ['id' => 'neutral', 'name' => 'Neutral'], 
-        ['id' => 'alert-warning', 'name' => 'Warning'], 
-        ['id' => 'alert-info', 'name' => 'Info'], 
-        ['id' => 'alert-success', 'name' => 'Success'],
-    ];
+	public array $selectAlert = [
+		['id' => 'neutral', 'name' => 'Neutral'], 
+		['id' => 'alert-warning', 'name' => 'Warning'], 
+		['id' => 'alert-info', 'name' => 'Info'], 
+		['id' => 'alert-success', 'name' => 'Success'],
+	];
 
-    #[Rule('required')]
-    public string $alertValue = '';
+	#[Rule('required')]
+	public string $alertValue = '';
 
 	#[Rule('required|max:30')]
 	public string $title;
@@ -43,8 +43,7 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
 	public bool $maintenance = false;
 	public Collection $settings;
 
-	public function mount(): void
-	{
+	public function mount(): void {
 		$this->settings = Setting::all();
 
 		$this->maintenance = App::isDownForMaintenance();
@@ -54,8 +53,7 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
 		}
 	}
 
-	public function updatedMaintenance(): void
-	{
+	public function updatedMaintenance(): void {
 		if ($this->maintenance) {
 			Artisan::call('down', ['--secret' => env('APP_MAINTENANCE_SECRET')]);
 		} else {
@@ -63,8 +61,7 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
 		}
 	}
 
-	public function save()
-	{
+	public function save() {
 		$data = $this->validate();
 
 		DB::transaction(function () use ($data) {

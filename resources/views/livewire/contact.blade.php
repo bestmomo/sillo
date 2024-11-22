@@ -23,8 +23,7 @@ new #[Title('Contact')] #[Layout('components.layouts.auth')] class extends Compo
 	public ?int $user_id = null;
 
 	// Méthode de montage pour pré-remplir les champs avec les informations de l'utilisateur authentifié
-	public function mount(): void
-	{
+	public function mount(): void {
 		if (Auth::check()) {
 			$this->name    = Auth::user()->name;
 			$this->email   = Auth::user()->email;
@@ -33,8 +32,7 @@ new #[Title('Contact')] #[Layout('components.layouts.auth')] class extends Compo
 	}
 
 	// Méthode pour enregistrer le formulaire de contact
-	public function save()
-	{
+	public function save() {
 		// Validation des données du formulaire
 		$data = $this->validate();
 

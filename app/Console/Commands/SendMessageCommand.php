@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Console\Commands;
@@ -9,8 +9,7 @@ namespace App\Console\Commands;
 use App\Events\AcademyChatV1MessageEvent;
 use Illuminate\Console\Command;
 
-class SendMessageCommand extends Command
-{
+class SendMessageCommand extends Command {
 	/**
 	 * The name and signature of the console command.
 	 *
@@ -32,8 +31,7 @@ class SendMessageCommand extends Command
 	/**
 	 * Execute the console command.
 	 */
-	public function handle()
-	{
+	public function handle() {
 		// $name = $this->ask('What is your name?');
 		// while (empty($name)) {
 		// 	$this->error('Name is required.');

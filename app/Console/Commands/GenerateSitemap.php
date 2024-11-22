@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Console\Commands;
@@ -10,8 +10,7 @@ use App\Models\{Page, Post};
 use Illuminate\Console\Command;
 use Spatie\Sitemap\Sitemap;
 
-class GenerateSitemap extends Command
-{
+class GenerateSitemap extends Command {
 	/**
 	 * The name and signature of the console command.
 	 *
@@ -29,8 +28,7 @@ class GenerateSitemap extends Command
 	/**
 	 * Execute the console command.
 	 */
-	public function handle()
-	{
+	public function handle() {
 		// Manually create sitemap
 		$sitemap = Sitemap::create();
 

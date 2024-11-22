@@ -43,8 +43,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 	public int $clipH = 0;
 
 	// Méthode de montage du composant
-	public function mount($year, $month, $id): void
-	{
+	public function mount($year, $month, $id): void {
 		$this->year  = $year;
 		$this->month = $month;
 		$this->id    = $id;
@@ -54,8 +53,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->getImageInfos();
 	}
 
-	public function saveImageToTemp($viewToast): void
-	{
+	public function saveImageToTemp($viewToast): void {
 		$tempDir        = Storage::path('public/temp');
 		$this->tempPath = $tempDir . '/' . $this->fileName;
 
@@ -76,8 +74,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->image = Storage::url('public/temp/' . $this->fileName);
 	}
 
-	public function restoreImage($cancel): void
-	{
+	public function restoreImage($cancel): void {
 		if (File::exists($this->imagePath)) {
 			File::copy($this->imagePath, $this->tempPath);
 			$this->refreshImageUrl();
@@ -95,8 +92,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		}
 	}
 
-	public function updated($property, $value)
-	{
+	public function updated($property, $value) {
 		if ('group' === $property) {
 			return;
 		}
@@ -183,8 +179,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->refreshImageUrl();
 	}
 
-	public function invert(): void
-	{
+	public function invert(): void {
 		$manager = new ImageManager(new Driver());
 		$image   = $manager->read($this->tempPath);
 		$image->invert();
@@ -194,8 +189,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->refreshImageUrl();
 	}
 
-	public function getImage($year, $month, $id): void
-	{
+	public function getImage($year, $month, $id): void {
 		$imagesPath         = "public/photos/{$year}/{$month}";
 		$allFiles           = Storage::files($imagesPath);
 		$image              = $allFiles[$id];
@@ -206,8 +200,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->refreshImageUrl();
 	}
 
-	public function keepVersion(): void
-	{
+	public function keepVersion(): void {
 		if (File::exists($this->tempPath)) {
 			File::copy($this->tempPath, $this->imagePath);
 		}
@@ -215,8 +208,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->exit();
 	}
 
-	public function exit(): void
-	{
+	public function exit(): void {
 		if (File::exists($this->tempPath)) {
 			File::delete($this->tempPath);
 		}
@@ -224,8 +216,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		redirect()->route('images.index');
 	}
 
-	public function applyChanges(): void
-	{
+	public function applyChanges(): void {
 		if (File::exists($this->tempPath)) {
 			File::copy($this->tempPath, $this->imagePath);
 		}
@@ -235,20 +226,18 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->success(__('Image changes applied successfully'));
 	}
 
-	private function getImageInfos(): void
-	{
+	private function getImageInfos(): void {
 		$manager      = new ImageManager(new Driver());
 		$image        = $manager->read($this->tempPath);
 		$this->width  = $image->width();
 		$this->height = $image->height();
 	}
 
-	private function findUsage(): array
-	{
+	private function findUsage(): array {
 		$usage = [];
 
 		$name = $this->year . '/' . str_pad($this->month, 2, '0', STR_PAD_LEFT) . '/' . $this->fileName;
-		
+
 		// Check in posts
 		$posts = Post::select('id', 'title', 'slug')
 			->where('image', 'LIKE', "%{$name}%")
@@ -278,8 +267,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		return $usage;
 	}
 
-	private function refreshImageUrl(): void
-	{
+	private function refreshImageUrl(): void {
 		$this->image = Storage::url('public/temp/' . $this->fileName) . '?' . now()->timestamp;
 	}
 }; ?>

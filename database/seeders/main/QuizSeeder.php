@@ -1,21 +1,19 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use App\Models\{Answer, Question, Quiz};
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class QuizSeeder extends Seeder
-{
+class QuizSeeder extends Seeder {
 	use WithoutModelEvents;
 
-	public function run()
-	{
+	public function run() {
 		// Données des quiz
 		$quizzes = [
 			[

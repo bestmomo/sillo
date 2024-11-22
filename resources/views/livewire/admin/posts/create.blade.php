@@ -17,7 +17,7 @@ class extends Component {
 	use WithFileUploads, Toast;
 
 	// Déclaration des propriétés du composant
-	public bool $inSerie = false;
+	public bool $inSerie    = false;
 	public ?Post $seriePost = null;
 	public Collection $series;
 	public ?Serie $serie = null;
@@ -53,19 +53,17 @@ class extends Component {
 	public ?TemporaryUploadedFile $photo = null;
 
 	// Initialisation du composant avec les données par défaut
-	public function mount(): void
-	{
+	public function mount(): void {
 		$category          = Category::with('series')->first();
 		$this->category_id = $category->id;
 		$this->series      = $category->series;
 		$this->serie       = $this->series->isEmpty() ? null : $this->series->first();
-		$this->serie_id    = $this->serie? $this->serie->id : null;
-		$this->seriePost   = $this->series->isEmpty()? null : $this->serie->lastPost();
+		$this->serie_id    = $this->serie ? $this->serie->id : null;
+		$this->seriePost   = $this->series->isEmpty() ? null : $this->serie->lastPost();
 	}
 
 	// Méthode appelée lorsqu'une propriété est mise à jour
-	public function updating($property, $value)
-	{
+	public function updating($property, $value) {
 		switch ($property) {
 			case 'title':
 				$this->slug      = Str::slug($value);
@@ -81,7 +79,7 @@ class extends Component {
 				$category     = Category::with('series')->find($value);
 				$this->series = $category->series;
 
-				if ($this->series->count() > 0) {					
+				if ($this->series->count() > 0) {
 					$this->serie     = $this->series->first();
 					$this->seriePost = $this->serie->lastPost();
 					$this->serie_id  = $this->serie->id;
@@ -94,8 +92,7 @@ class extends Component {
 	}
 
 	// Méthode pour sauvegarder l'article'
-	public function save()
-	{
+	public function save() {
 		// Validation des données
 		$data = $this->validate();
 
@@ -109,7 +106,7 @@ class extends Component {
 		if ($this->inSerie) {
 			$data += [
 				'serie_id'  => $this->serie_id,
-				'parent_id' => $this->seriePost? $this->seriePost->id : null,
+				'parent_id' => $this->seriePost ? $this->seriePost->id : null,
 			];
 		}
 
@@ -129,8 +126,7 @@ class extends Component {
 	}
 
 	// Méthode pour fournir des données additionnelles au composant
-	public function with(): array
-	{
+	public function with(): array {
 		return [
 			'categories' => Category::orderBy('title')->get(),
 		];

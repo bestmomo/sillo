@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Http\Controllers\ImageController;
@@ -114,4 +114,3 @@ Route::get('/doc/laravel', function () {
 Route::get('/doc/ladoc', function () {
 	return view('docs.ladoc');
 })->name('docs.ladoc');
-

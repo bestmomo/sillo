@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace Database\Factories;
@@ -13,8 +13,7 @@ use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class AcademyUserFactory extends Factory
-{
+class AcademyUserFactory extends Factory {
 	/**
 	 * The current password being used by the factory.
 	 */
@@ -23,10 +22,10 @@ class AcademyUserFactory extends Factory
 	/**
 	 * Define the model's default state.
 	 *
+	 * @param mixed $idPrev
 	 * @return array<string, mixed>
 	 */
-	public function definition($idPrev = 1): array
-	{
+	public function definition($idPrev = 1): array {
 		// 2fix email: prenom.nom@example.com (Devant être unique)
 
 		static $parrId = 1;
@@ -64,8 +63,7 @@ class AcademyUserFactory extends Factory
 	/**
 	 * Indicate that the model's email address should be unverified.
 	 */
-	public function unverified(): static
-	{
+	public function unverified(): static {
 		return $this->state(fn (array $attributes) => [
 			'email_verified_at' => null,
 		]);

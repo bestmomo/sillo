@@ -16,8 +16,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	public int $category_id;
 
 	// Initialise le composant avec une série donnée.
-	public function mount(Serie $serie): void
-	{
+	public function mount(Serie $serie): void {
 		if (Auth()->user()->isRedac() && $serie->user_id !== Auth()->id()) {
 			abort(403);
 		}
@@ -28,16 +27,14 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	}
 
 	// Met à jour le slug lorsque le titre change.
-	public function updating($property, $value)
-	{
+	public function updating($property, $value) {
 		if ('title' == $property) {
 			$this->slug = Str::slug($value);
 		}
 	}
 
 	// Sauvegarde les modifications apportées à la série.
-	public function save(): void
-	{
+	public function save(): void {
 		$data = $this->validate([
 			'title'       => 'required|string|max:255',
 			'category_id' => 'required|integer|exists:categories,id',
@@ -50,8 +47,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	}
 
 	// Fournit les données nécessaires à la vue.
-	public function with(): array
-	{
+	public function with(): array {
 		return [
 			'categories' => Category::all(),
 		];

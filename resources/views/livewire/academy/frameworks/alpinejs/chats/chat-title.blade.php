@@ -6,8 +6,7 @@ new class() extends Component {
 	public $btn = '';
 	public $links;
 
-	public function mount()
-	{
+	public function mount() {
 		$links = [
 			'V1' => [
 				'url'      => 'https://www.youtube.com/watch?v=huLSxcxFRl4&list=PLr0BjDocnuI1JdTA9aIj5LIM6wcYpvnbq&index=9',
@@ -25,13 +24,11 @@ new class() extends Component {
 		}
 	}
 
-	public function getUrlProperty()
-	{
+	public function getUrlProperty() {
 		return isset($this->links->{$this->btn}) ? $this->links->{$this->btn}->url : '#';
 	}
 
-	public function getDurationProperty()
-	{
+	public function getDurationProperty() {
 		return isset($this->links->{$this->btn}) ? $this->links->{$this->btn}->duration : '';
 	}
 }; ?>

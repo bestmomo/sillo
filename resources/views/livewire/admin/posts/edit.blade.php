@@ -6,7 +6,6 @@
 
 use App\Models\{Category, Post, Serie};
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 use illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\{Layout, Title};
@@ -21,7 +20,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	use WithFileUploads, Toast;
 
 	// Déclaration des propriétés du composant
-	public bool $inSerie = false;
+	public bool $inSerie    = false;
 	public ?Post $seriePost = null;
 	public int $postId;
 	public Collection $series;
@@ -41,8 +40,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	public ?TemporaryUploadedFile $photo = null;
 
 	// Initialisation du composant avec les données du post
-	public function mount(Post $post): void
-	{
+	public function mount(Post $post): void {
 		// Autorisation
 		if (Auth()->user()->isRedac() && $post->user_id !== Auth()->id()) {
 			abort(403);
@@ -50,40 +48,42 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 
 		$this->post = $post;
 		$this->fill($this->post);
-		$category = Category::with('series')->find($this->category_id);
+		$category     = Category::with('series')->find($this->category_id);
 		$this->series = $category->series;
 
 		// Pas de série
 		if ($this->series->isEmpty()) {
 			$this->categories = Category::all();
+
 			return;
 		} 
-		
+
 		// Cas d'appartenance à une série
-		if ($post->serie_id !== null) {
+		if (null !== $post->serie_id) {
 			$this->inSerie = true;
-			$this->serie = Serie::find($this->serie_id);
-			if($post->parent_id) {
+			$this->serie   = Serie::find($this->serie_id);
+			if ($post->parent_id) {
 				$this->seriePost = Post::find($post->parent_id);
 			}
 			// On regarde s'il a des enfants
-			if(!Post::where('parent_id', $post->id)->get()->isEmpty()) {
+			if (!Post::where('parent_id', $post->id)->get()->isEmpty()) {
 				$this->series = new Collection;
+
 				return;
 			}
 			$this->categories = Category::all();
+
 			return;
 		}
 
-		$this->categories  = Category::all();
-		$this->serie       = $this->series->isnotEmpty() ? $this->series->first() : null;
-		$this->serie_id    = $this->serie? $this->serie->id : null;
-		$this->seriePost   = $this->series->isNotEmpty() ? $this->serie->lastPost() : null;
+		$this->categories = Category::all();
+		$this->serie      = $this->series->isnotEmpty() ? $this->series->first() : null;
+		$this->serie_id   = $this->serie ? $this->serie->id : null;
+		$this->seriePost  = $this->series->isNotEmpty() ? $this->serie->lastPost() : null;
 	}
 
 	// Méthode appelée lorsqu'une propriété est mise à jour
-	public function updating($property, $value)
-	{
+	public function updating($property, $value) {
 		switch ($property) {
 			case 'title':
 				$this->slug = Str::slug($value);
@@ -109,8 +109,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	}
 
 	// Méthode pour sauvegarder le post
-	public function save()
-	{
+	public function save() {
 		$data = $this->validate([
 			'title'            => 'required|string|max:255',
 			'body'             => 'required|string|max:16777215',
@@ -133,8 +132,8 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 
 		// Série
 		$data += [
-			'serie_id'  => $this->inSerie? $this->serie_id : null,
-			'parent_id' => $this->inSerie && $this->seriePost? $this->seriePost->id : null,
+			'serie_id'  => $this->inSerie ? $this->serie_id : null,
+			'parent_id' => $this->inSerie && $this->seriePost ? $this->seriePost->id : null,
 		];
 
 		$data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);

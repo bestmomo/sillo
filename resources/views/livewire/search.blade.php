@@ -13,8 +13,7 @@ new class() extends Component {
 	 *
 	 * @return Illuminate\Http\RedirectResponse
 	 */
-	public function save()
-	{
+	public function save() {
 		$data = $this->validate();
 
 		return redirect('/search/' . $data['search']);

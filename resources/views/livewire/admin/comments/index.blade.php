@@ -21,16 +21,14 @@ new #[Title('Comments'), Layout('components.layouts.admin')] class extends Compo
 	public $role          = 'all';
 
 	// Méthode pour supprimer un commentaire
-	public function deleteComment(Comment $comment): void
-	{
+	public function deleteComment(Comment $comment): void {
 		$comment->delete();
 
 		$this->success(__('Comment deleted'));
 	}
 
 	// Méthode pour valider un commentaire
-	public function validComment(Comment $comment): void
-	{
+	public function validComment(Comment $comment): void {
 		$comment->user->valid = true;
 		$comment->user->save();
 
@@ -38,29 +36,26 @@ new #[Title('Comments'), Layout('components.layouts.admin')] class extends Compo
 	}
 
 	// Méthode pour obtenir les en-têtes des colonnes
-	public function headers(): array
-	{
+	public function headers(): array {
 		return [['key' => 'user_name', 'label' => __('Author')], ['key' => 'body', 'label' => __('Comment'), 'sortable' => false], ['key' => 'post_title', 'label' => __('Post')], ['key' => 'created_at', 'label' => __('Sent on')]];
 	}
 
 	// Méthode pour obtenir la liste des commentaires avec pagination
-	public function comments(): LengthAwarePaginator
-	{
+	public function comments(): LengthAwarePaginator {
 		return Comment::query()
 			->when($this->search, fn (Builder $q) => $q->where('body', 'like', "%{$this->search}%"))
 			->when('post_title' === $this->sortBy['column'], fn (Builder $q) => $q->join('posts', 'comments.post_id', '=', 'posts.id')->orderBy('posts.title', $this->sortBy['direction']), fn (Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction']))
 			->when(Auth::user()->isRedac(), fn (Builder $q) => $q->whereRelation('post', 'user_id', Auth::id()))
-            ->with([
-                'user:id,name,email,valid',
-                'post:id,title,slug,user_id',
-            ])
+			->with([
+				'user:id,name,email,valid',
+				'post:id,title,slug,user_id',
+			])
 			->withAggregate('user', 'name')
 			->paginate(10);
 	}
 
 	// Méthode pour fournir des données additionnelles au composant
-	public function with(): array
-	{
+	public function with(): array {
 		return [
 			'headers'  => $this->headers(),
 			'comments' => $this->comments(),

@@ -1,12 +1,11 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 if (!function_exists('passwordStrength')) {
-	function passwordStrength($password)
-	{
+	function passwordStrength($password) {
 		// Initialiser le score de sécurité
 		$score = 0;
 
@@ -41,8 +40,7 @@ if (!function_exists('passwordStrength')) {
 
 // Méthode pour rendre les lien des images relatifs
 if (!function_exists('replaceAbsoluteUrlsWithRelative')) {
-	function replaceAbsoluteUrlsWithRelative(string $content)
-	{
+	function replaceAbsoluteUrlsWithRelative(string $content) {
 		$baseUrl = url('/');
 
 		// Assure que le baseUrl se termine par un slash
@@ -60,8 +58,7 @@ if (!function_exists('replaceAbsoluteUrlsWithRelative')) {
 
 // Génère une date aléatoire entre deux dates au format '2020-01-01' en entrée
 if (!function_exists('generateRandomDateInRange')) {
-	function generateRandomDateInRange($startDate, $endDate)
-	{
+	function generateRandomDateInRange($startDate, $endDate) {
 		// Convertir les dates en instances de Carbon
 		$start = Carbon\Carbon::parse($startDate);
 		$end   = Carbon\Carbon::parse($endDate);

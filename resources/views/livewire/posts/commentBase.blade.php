@@ -20,14 +20,12 @@ new class() extends Component {
 	public string $message = '';
 
 	// Méthode de montage pour initialiser le postId
-	public function mount($postId): void
-	{
+	public function mount($postId): void {
 		$this->postId = $postId;
 	}
 
 	// Méthode pour créer un nouveau commentaire
-	public function createComment(): void
-	{
+	public function createComment(): void {
 		// Validation des données du formulaire
 		$data = $this->validate();
 
@@ -53,16 +51,15 @@ new class() extends Component {
 
 		// Notification de l'auteur de l'article si ce n'est pas lui qui écrit
 		if ($this->comment->post->user_id != Auth::id()) {
-            $this->comment->post->user->notify(new CommentCreated($this->comment));
-        }
+			$this->comment->post->user->notify(new CommentCreated($this->comment));
+		}
 
 		// Réinitialisation du message du formulaire
 		$this->message = $data['message'];
 	}
 
 	// Méthode pour mettre à jour un commentaire
-	public function updateComment(): void
-	{
+	public function updateComment(): void {
 		// Validation des données du formulaire
 		$data = $this->validate();
 
@@ -75,14 +72,12 @@ new class() extends Component {
 	}
 
 	// Méthode pour afficher ou masquer le formulaire de modification
-	public function toggleModifyForm(bool $state): void
-	{
+	public function toggleModifyForm(bool $state): void {
 		$this->showModifyForm = $state;
 	}
 
 	// Méthode pour supprimer un commentaire
-	public function deleteComment(): void
-	{
+	public function deleteComment(): void {
 		// Suppression du commentaire
 		$this->comment->delete();
 

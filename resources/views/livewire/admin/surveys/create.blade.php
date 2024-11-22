@@ -14,13 +14,11 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
 	use Toast;
 	use ManageSurvey;
 
-	public function mount(): void
-	{
+	public function mount(): void {
 		$this->addQuestion(2);
 	}
 
-	public function save()
-	{
+	public function save() {
 		$data = $this->validate($this->rules);
 
 		$survey = Survey::create(

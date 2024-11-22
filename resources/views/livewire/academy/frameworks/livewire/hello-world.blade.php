@@ -5,8 +5,7 @@ use Livewire\Volt\Component;
 new class() extends Component {
 	public $name = '';
 
-	public function mount()
-	{
+	public function mount() {
 		$this->name = 'GC7';
 	}
 }; ?>

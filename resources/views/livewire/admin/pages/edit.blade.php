@@ -24,21 +24,18 @@ new #[Title('Edit Page'), Layout('components.layouts.admin')] class extends Comp
 	public string $meta_keywords    = '';
 
 	// Initialise le composant avec la page donnée.
-	public function mount(Page $page): void
-	{
+	public function mount(Page $page): void {
 		$this->page = $page;
 		$this->fill($this->page);
 	}
 
 	// Méthode appelée avant la mise à jour de la propriété $title
-	public function updatedTitle($value): void
-	{
+	public function updatedTitle($value): void {
 		$this->generateSlug($value);
 	}
 
 	// Enregistre les modifications de la page
-	public function save()
-	{
+	public function save() {
 		$data = $this->validate([
 			'title'            => 'required|string|max:255',
 			'body'             => 'required|max:65000',
@@ -55,8 +52,7 @@ new #[Title('Edit Page'), Layout('components.layouts.admin')] class extends Comp
 	}
 
 	// Méthode pour générer le slug à partir du titre
-	private function generateSlug(string $title): void
-	{
+	private function generateSlug(string $title): void {
 		$this->slug = Str::of($title)->slug('-');
 	}
 }; ?>

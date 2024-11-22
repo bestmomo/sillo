@@ -18,8 +18,7 @@ new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends C
 	public int $depth          = 0;
 
 	// Méthode de montage du composant
-	public function mount(Comment $comment): void
-	{
+	public function mount(Comment $comment): void {
 		$this->authorizeCommentAccess($comment);
 
 		$this->comment = $comment;
@@ -28,8 +27,7 @@ new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends C
 	}
 
 	// Méthode pour sauvegarder les modifications du commentaire
-	public function save()
-	{
+	public function save() {
 		$data = $this->validate([
 			'body' => 'required|max:10000',
 		]);
@@ -40,8 +38,7 @@ new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends C
 	}
 
 	// Méthode pour sauvegarder une réponse au commentaire
-	public function saveAnswer()
-	{
+	public function saveAnswer() {
 		$data = $this->validate([
 			'body_answer' => 'required|max:10000',
 		]);
@@ -57,8 +54,7 @@ new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends C
 	}
 
 	// Méthode pour autoriser l'accès au commentaire
-	private function authorizeCommentAccess(Comment $comment): void
-	{
+	private function authorizeCommentAccess(Comment $comment): void {
 		if (auth()->user()->isRedac() && $comment->post->user_id !== auth()->id()) {
 			abort(403);
 		}

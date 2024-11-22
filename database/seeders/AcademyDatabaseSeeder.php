@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace Database\Seeders;
@@ -9,8 +9,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AcademyDatabaseSeeder extends Seeder
-{
+class AcademyDatabaseSeeder extends Seeder {
 	use WithoutModelEvents;
 
 	// Remise à 0 de l'auto-increment
@@ -20,8 +19,7 @@ class AcademyDatabaseSeeder extends Seeder
 	/**
 	 * Seed the academy application's database.
 	 */
-	public function run()
-	{
+	public function run() {
 		$namespace = 'Database\\Seeders\\Academy\\';
 		$items     = ['User', 'Post'];
 

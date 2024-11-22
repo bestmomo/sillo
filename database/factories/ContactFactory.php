@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace Database\Factories;
@@ -9,8 +9,7 @@ namespace Database\Factories;
 use App\Models\Contact;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ContactFactory extends Factory
-{
+class ContactFactory extends Factory {
 	/**
 	 * The name of the factory's corresponding model.
 	 *
@@ -23,8 +22,7 @@ class ContactFactory extends Factory
 	 *
 	 * @return array
 	 */
-	public function definition()
-	{
+	public function definition() {
 		return [
 			'name'    => fake()->name,
 			'email'   => fake()->unique()->safeEmail,

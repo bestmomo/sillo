@@ -1,10 +1,10 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use App\Models\Post;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -12,14 +12,12 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class PostSeeder extends Seeder
-{
+class PostSeeder extends Seeder {
 	use WithoutModelEvents;
 
 	public static $nbrPosts;
 
-	public function run()
-	{
+	public function run() {
 		$nbrCategories = CategorySeeder::$nbrCategories;
 
 		$this->createPost(1, 1, 1);
@@ -35,8 +33,7 @@ class PostSeeder extends Seeder
 		self::$nbrPosts = DB::table('posts')->count();
 	}
 
-	protected function createPost($id, $category_id, $serie_id = null, $parent_id = null)
-	{
+	protected function createPost($id, $category_id, $serie_id = null, $parent_id = null) {
 		$months = ['03', '03', '03', '04', '04', '06', '06', '06', '06'];
 
 		$date = generateRandomDateInRange('2022-01-01', '2024-07-01');

@@ -24,28 +24,24 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	public string $slug = '';
 
 	// Méthode pour obtenir les en-têtes des colonnes
-	public function headers(): array
-	{
+	public function headers(): array {
 		return [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug']];
 	}
 
 	// Méthode appelée avant la mise à jour de la propriété $title
-	public function updatedTitle($value): void
-	{
+	public function updatedTitle($value): void {
 		$this->generateSlug($value);
 	}
 
 	// Méthode pour supprimer une catégorie
-	public function delete(Category $category): void
-	{
+	public function delete(Category $category): void {
 		$category->delete();
 
 		$this->success(__('Category deleted with success.'));
 	}
 
 	// Méthode pour sauvegarder une catégorie
-	public function save(): void
-	{
+	public function save(): void {
 		$data = $this->validate();
 
 		Category::create($data);
@@ -54,8 +50,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	}
 
 	// Méthode pour fournir des données additionnelles au composant
-	public function with(): array
-	{
+	public function with(): array {
 		return [
 			'categories' => Category::orderBy(...array_values($this->sortBy))->paginate(10),
 			'headers'    => $this->headers(),
@@ -63,8 +58,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	}
 
 	// Méthode pour générer le slug à partir du titre
-	private function generateSlug(string $title): void
-	{
+	private function generateSlug(string $title): void {
 		$this->slug = Str::of($title)->slug('-');
 	}
 }; ?>

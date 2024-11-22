@@ -23,8 +23,7 @@ new class() extends Component {
 	 * @param string $slug  Slug pour identifier une catégorie ou une série
 	 * @param string $param Paramètre de recherche optionnel
 	 */
-	public function mount(string $slug = '', string $param = ''): void
-	{
+	public function mount(string $slug = '', string $param = ''): void {
 		$this->param = $param;
 
 		if (request()->is('category/*')) {
@@ -45,8 +44,7 @@ new class() extends Component {
 	 *
 	 * @return LengthAwarePaginator Les posts paginés
 	 */
-	public function getPosts(): LengthAwarePaginator
-	{
+	public function getPosts(): LengthAwarePaginator {
 		$postRepository = new PostRepository();
 
 		// Recherche les posts si un paramètre de recherche est présent
@@ -66,8 +64,7 @@ new class() extends Component {
 	 *
 	 * @return array Les variables de la vue
 	 */
-	public function with(): array
-	{
+	public function with(): array {
 		$items = ['posts' => $this->getPosts()];
 
 		if (request()->is('/')) {
@@ -96,8 +93,7 @@ new class() extends Component {
 	 *
 	 * @return null|Category La catégorie correspondante ou null
 	 */
-	protected function getCategoryBySlug(string $slug): ?Category
-	{
+	protected function getCategoryBySlug(string $slug): ?Category {
 		// Vérifie si le premier segment de l'URL est 'category'
 		return 'category' === request()->segment(1) ? Category::whereSlug($slug)->firstOrFail() : null;
 	}
@@ -109,8 +105,7 @@ new class() extends Component {
 	 *
 	 * @return null|Serie La série correspondante ou null
 	 */
-	protected function getSerieBySlug(string $slug): ?Serie
-	{
+	protected function getSerieBySlug(string $slug): ?Serie {
 		return Serie::whereSlug($slug)->firstOrFail();
 	}
 };

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Models;
@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Relations\{BelongsToMany};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class AcademyUser extends Authenticatable
-{
+class AcademyUser extends Authenticatable {
 	use HasFactory;
 	use Notifiable;
 
@@ -38,8 +37,7 @@ class AcademyUser extends Authenticatable
 	 *
 	 * @return BelongsToMany
 	 */
-	public function scopeSearch($query, $value)
-	{
+	public function scopeSearch($query, $value) {
 		$query
 			->where('name', 'like', "%{$value}%")
 			->orWhere('firstname', 'like', "%{$value}%")

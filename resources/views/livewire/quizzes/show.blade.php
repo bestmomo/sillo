@@ -12,8 +12,7 @@ new class() extends Component {
 	public bool $myModal       = false;
 	public string $chatAnswer  = '';
 
-	public function mount(int $id): void
-	{
+	public function mount(int $id): void {
 		$this->quiz     = Quiz::with('questions.answers', 'post:id,title')->findOrFail($id);
 		$this->subtitle = $this->quiz->post ? __('Post') . ' : ' . $this->quiz->post->title : '';
 
@@ -22,8 +21,7 @@ new class() extends Component {
 		}
 	}
 
-	public function save()
-	{
+	public function save() {
 		$results             = [];
 		$correctAnswersCount = 0;
 		$totalAnswersCount   = 0;
@@ -57,8 +55,7 @@ new class() extends Component {
 		]);
 	}
 
-	public function explainError(int $questionId): void
-	{
+	public function explainError(int $questionId): void {
 		$currentQuestionId = $questionId;
 		$question          = $this->quiz->questions->find($questionId);
 

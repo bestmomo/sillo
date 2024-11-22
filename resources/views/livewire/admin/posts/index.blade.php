@@ -29,15 +29,13 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	public $serie_id    = 0;
 
 	// Initialisation du composant avec les données par défaut
-	public function mount(): void
-	{
+	public function mount(): void {
 		$this->categories = $this->getCategories();
 		$this->series     = new Collection();
 	}
 
 	// Méthode pour obtenir les en-têtes des colonnes
-	public function headers(): array
-	{
+	public function headers(): array {
 		$headers = [['key' => 'title', 'label' => __('Title')]];
 
 		if (Auth::user()->isAdmin()) {
@@ -48,8 +46,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	}
 
 	// Méthode pour obtenir les posts avec pagination
-	public function posts(): LengthAwarePaginator
-	{
+	public function posts(): LengthAwarePaginator {
 		return Post::query()
 			->select('id', 'title', 'slug', 'category_id', 'active', 'pinned', 'user_id', 'created_at', 'updated_at')
 			->when(Auth::user()->isAdmin(), fn (Builder $q) => $q->withAggregate('user', 'name'))
@@ -66,8 +63,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	}
 
 	// Méthode pour obtenir les catégories
-	public function getCategories(): Collection
-	{
+	public function getCategories(): Collection {
 		if (Auth::user()->isAdmin()) {
 			return Category::all();
 		}
@@ -76,14 +72,12 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	}
 
 	// Méthode pour obtenir les séries d'une catégorie donnée
-	public function getSeries(int $category_id): Collection
-	{
+	public function getSeries(int $category_id): Collection {
 		return Serie::whereHas('posts', fn (Builder $q) => $q->where('category_id', $category_id)->when(Auth::user()->isRedac(), fn (Builder $q) => $q->where('user_id', Auth::id())))->get();
 	}
 
 	// Méthode appelée avant la mise à jour d'une propriété
-	public function updating($property, $value): void
-	{
+	public function updating($property, $value): void {
 		if ('serie_id' == $property) {
 			$this->serie_id = $value;
 		}
@@ -95,8 +89,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	}
 
 	// Méthode pour supprimer un article
-	public function deletePost(int $postId): void
-	{
+	public function deletePost(int $postId): void {
 		$post = Post::findOrFail($postId);
 		// Storage::disk('public')->delete('photos/' . $post->image); // Décommenter pour supprimer l'image associée
 		$post->delete();
@@ -104,8 +97,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	}
 
 	// Méthode pour cloner un article
-	public function clonePost(int $postId): void
-	{
+	public function clonePost(int $postId): void {
 		$originalPost       = Post::findOrFail($postId);
 		$clonedPost         = $originalPost->replicate();
 		$postRepository     = new PostRepository();
@@ -117,8 +109,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	}
 
 	// Méthode pour fournir des données additionnelles au composant
-	public function with(): array
-	{
+	public function with(): array {
 		return [
 			'posts'   => $this->posts(),
 			'headers' => $this->headers(),

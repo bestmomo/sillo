@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Models\PostAcademy;
@@ -22,8 +22,7 @@ class extends Component {
 	#[Rule('required', as: 'content (textarea)')]
 	public $content = '';
 
-	public function save()
-	{
+	public function save() {
 		$this->validate();
 		PostAcademy::create([
 			'title'   => $this->title,

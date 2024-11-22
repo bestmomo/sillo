@@ -20,21 +20,18 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
 	public string $search = '';
 
 	// Définir les en-têtes de la table
-	public function headers(): array
-	{
+	public function headers(): array {
 		return [['key' => 'title', 'label' => __('Title')], ['key' => 'description', 'label' => __('Description')], ['key' => 'user_name', 'label' => __('Creator')], ['key' => 'post_title', 'label' => __('Post')], ['key' => 'participants_count', 'label' => __('Participations')]];
 	}
 
 	// Supprimer un quiz
-	public function deleteQuiz(Quiz $quiz): void
-	{
+	public function deleteQuiz(Quiz $quiz): void {
 		$quiz->delete();
 		$this->success(__('Quiz deleted'));
 	}
 
 	// Fournir les données nécessaires à la vue
-	public function with(): array
-	{
+	public function with(): array {
 		return [
 			'quizzes' => Quiz::select('id', 'title', 'description')
 				->orderBy(...array_values($this->sortBy))

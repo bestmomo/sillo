@@ -22,8 +22,7 @@ new #[Title('Edit Quiz'), Layout('components.layouts.admin')] class extends Comp
 	public ?int $post_id       = null;
 	public Collection $postsSearchable;
 
-	public function mount(Quiz $quiz): void
-	{
+	public function mount(Quiz $quiz): void {
 		if (Auth()->user()->isRedac() && $quiz->user_id !== Auth()->id()) {
 			abort(403);
 		}
@@ -51,8 +50,7 @@ new #[Title('Edit Quiz'), Layout('components.layouts.admin')] class extends Comp
 		$this->search();
 	}
 
-	public function save()
-	{
+	public function save() {
 		$data = $this->validate($this->rules);
 
 		$this->quiz->update($data);

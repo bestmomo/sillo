@@ -16,8 +16,7 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
 
 	public Survey $survey;
 
-	public function mount(Survey $survey): void
-	{
+	public function mount(Survey $survey): void {
 		if (Auth()->user()->isRedac() && $survey->user_id !== Auth()->id()) {
 			abort(403);
 		}
@@ -42,8 +41,7 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
 		}
 	}
 
-	public function save()
-	{
+	public function save() {
 		$data = $this->validate($this->rules);
 
 		$this->survey->update($data);

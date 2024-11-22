@@ -7,8 +7,7 @@ new class() extends Component {
 	/**
 	 * Retourne les données nécessaires à la vue.
 	 */
-	public function with(): array
-	{
+	public function with(): array {
 		return [
 			'footers' => Footer::orderBy('order')->get(),
 		];

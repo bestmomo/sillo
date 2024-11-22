@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Models;
@@ -10,8 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Menu extends Model
-{
+class Menu extends Model {
 	use HasFactory;
 
 	public $timestamps = false;
@@ -30,8 +29,7 @@ class Menu extends Model
 	/**
 	 * One to Many relation.
 	 */
-	public function submenus(): HasMany
-	{
+	public function submenus(): HasMany {
 		return $this->hasMany(Submenu::class);
 	}
 }

@@ -14,14 +14,12 @@ new #[Title('Create Event'), Layout('components.layouts.admin')] class extends C
 	use Toast;
 	use ManageEvent;
 
-	public function mount(): void
-	{
+	public function mount(): void {
 		$this->colors = $this->getColors();
 	}
 
 	// Enregistre la nouvelle page
-	public function save()
-	{
+	public function save() {
 		$data = $this->validate($this->rules);
 		if ($this->checkDates()) {
 			return;

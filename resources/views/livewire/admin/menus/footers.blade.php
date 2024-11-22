@@ -22,20 +22,17 @@ new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Co
 	public string $link = '';
 
 	// Méthode appelée lors de l'initialisation du composant.
-	public function mount(): void
-	{
+	public function mount(): void {
 		$this->getFooters();
 	}
 
 	// Récupérer les footers triés par ordre.
-	public function getFooters(): void
-	{
+	public function getFooters(): void {
 		$this->footers = Footer::orderBy('order')->get();
 	}
 
 	// Monter un footer d'un rang.
-	public function up(Footer $footer): void
-	{
+	public function up(Footer $footer): void {
 		$previousFooter = Footer::where('order', '<', $footer->order)
 			->orderBy('order', 'desc')
 			->first();
@@ -44,8 +41,7 @@ new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Co
 	}
 
 	// Descendre un footer d'un rang.
-	public function down(Footer $footer): void
-	{
+	public function down(Footer $footer): void {
 		$previousFooter = Footer::where('order', '>', $footer->order)
 			->orderBy('order', 'asc')
 			->first();
@@ -54,8 +50,7 @@ new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Co
 	}
 
 	// Supprimer un footer.
-	public function deleteFooter(Footer $footer): void
-	{
+	public function deleteFooter(Footer $footer): void {
 		$footer->delete();
 		$this->reorderFooters();
 		$this->getFooters();
@@ -63,8 +58,7 @@ new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Co
 	}
 
 	// Enregistrer un nouveau footer.
-	public function saveFooter(): void
-	{
+	public function saveFooter(): void {
 		$data          = $this->validate();
 		$data['order'] = $this->footers->count() + 1;
 		$newFooter     = Footer::create($data);
@@ -73,8 +67,7 @@ new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Co
 	}
 
 	// Échanger les ordres de deux footers.
-	private function swap(Footer $footer, Footer $previousFooter): void
-	{
+	private function swap(Footer $footer, Footer $previousFooter): void {
 		$tempOrder             = $footer->order;
 		$footer->order         = $previousFooter->order;
 		$previousFooter->order = $tempOrder;
@@ -85,8 +78,7 @@ new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Co
 	}
 
 	// Réordonner les footers après suppression.
-	private function reorderFooters(): void
-	{
+	private function reorderFooters(): void {
 		$footers = Footer::orderBy('order')->get();
 		foreach ($footers as $index => $footer) {
 			$footer->order = $index + 1;

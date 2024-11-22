@@ -21,8 +21,7 @@ new class() extends Component {
 	public $sortColumn    = 'id';
 	public $sortDirection = 'ASC';
 
-	public function mount($loadMore = true, $offset = 0)
-	{
+	public function mount($loadMore = true, $offset = 0) {
 		$this->name = 'GC7';
 		if (0 == $offset) {
 			$this->dispatch('update-subtitle', newSubtitle: $this->subtitle);
@@ -33,8 +32,7 @@ new class() extends Component {
 		$this->offset   = $offset;
 	}
 
-	public function doSort($column)
-	{
+	public function doSort($column) {
 		$this->sortColumn = $column;
 		if ($this->sortColumn === $column) {
 			$this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
@@ -45,13 +43,11 @@ new class() extends Component {
 		$this->sortDirection = 'ASC';
 	}
 
-	public function updatingSearch()
-	{
+	public function updatingSearch() {
 		$this->resetPage();
 	}
 
-	public function with(): array
-	{
+	public function with(): array {
 		if ($this->loadMore) {
 			$this->users = User::offset($this->offset)
 				->orderBy($this->sortColumn, $this->sortDirection)

@@ -1,10 +1,10 @@
 <?php
 
 use App\Models\User;
+use App\Notifications\UserRegistered;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
-use App\Notifications\UserRegistered;
 
 // Définition du composant avec les attributs de titre et de mise en page
 new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Component {
@@ -25,8 +25,7 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
 	public ?string $gender = null;
 
 	// Méthode pour enregistrer un nouvel utilisateur
-	public function register()
-	{
+	public function register() {
 		// Vérification du champ honeypot
 		if ($this->gender) {
 			// Si le champ honeypot est rempli, c'est probablement un bot
@@ -50,7 +49,7 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
 
 		// Notification aux administrateurs
 		$admins = User::where('role', 'admin')->get();
-		
+
 		foreach ($admins as $admin) {
 			$admin->notify(new UserRegistered($user));
 		}

@@ -23,20 +23,17 @@ class extends Component {
 	public $emailContent = '';
 	public $message      = '';
 
-	public function mount()
-	{
+	public function mount() {
 		$this->dev  = app()->environment('local');
 		$this->name = auth()->user()->name ?? 'Friend !';
 		$this->sendMail();
 	}
 
-	public function refresh()
-	{
+	public function refresh() {
 		$this->success('Livewire block refreshed');
 	}
 
-	public function sendMail()
-	{
+	public function sendMail() {
 		try {
 			$email = new MyEmail(
 				$this->subject,
@@ -71,8 +68,7 @@ class extends Component {
 		}
 	}
 
-	public function sendMailOnly()
-	{
+	public function sendMailOnly() {
 		if ($this->dev) {
 			$this->sendMail();
 		}

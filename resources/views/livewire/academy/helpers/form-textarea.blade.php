@@ -18,14 +18,12 @@ new class() extends Component {
 	#[Rule('required|max:1000')]
 	public string $message = '';
 
-	public function mount($postId)
-	{
+	public function mount($postId) {
 		$this->postId = $postId;
 	}
 
 	// Méthode pour créer un nouveau commentaire
-	public function createComment(): void
-	{
+	public function createComment(): void {
 		// Validation des données du formulaire
 		$data = $this->validate();
 
@@ -56,8 +54,7 @@ new class() extends Component {
 	}
 
 	// Méthode pour mettre à jour un commentaire
-	public function updateComment(): void
-	{
+	public function updateComment(): void {
 		// Validation des données du formulaire
 		$data = $this->validate();
 

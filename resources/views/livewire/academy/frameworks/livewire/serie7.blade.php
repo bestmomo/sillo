@@ -9,8 +9,7 @@ new #[Title('Serie7')] #[Layout('components.layouts.academy')] class extends Com
 	public $subtitle     = 'Chargement...';
 	protected $listeners = ['update-subtitle' => 'updateSubtitle'];
 
-	public function updateSubtitle($newSubtitle)
-	{
+	public function updateSubtitle($newSubtitle) {
 		$this->subtitle = $newSubtitle;
 		logger('Subtitle updated to: ' . $newSubtitle);
 	}

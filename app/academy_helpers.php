@@ -1,14 +1,13 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use Livewire\Volt\Volt;
 
 if (!function_exists('getAcademyFrameworksLinks')) {
-	function getAcademyFrameworksLinks()
-	{
+	function getAcademyFrameworksLinks() {
 		return [
 			'livewire' => ['basics', 'blog', 'create-post', 'new-form', 'email', 'todos', 'counter', 'serie7', 'users'],
 			'alpinejs' => ['basics', 'test', 'pets', 'accordion', 'ga', 'characters', 'drag-drop', 'chats', 'kanboard', 'divers'],
@@ -17,8 +16,7 @@ if (!function_exists('getAcademyFrameworksLinks')) {
 }
 
 if (!function_exists('getAcademyFrameworksRoutes')) {
-	function getAcademyFrameworksRoutes()
-	{
+	function getAcademyFrameworksRoutes() {
 		$frameworksLinks = getAcademyFrameworksLinks();
 
 		foreach ($frameworksLinks as $framework => $links) {
