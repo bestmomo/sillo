@@ -33,7 +33,7 @@ markmap:
 
 ### <a href="https://laravel.com/docs" title="Site Officiel" target = "_blank">Laravel</a>
 
-#### <a href="https://laravel.sillo.org/doc/memo" title="Suivre le tutoriel" target = "_blank">Tuto MonCMS</a>
+#### <a href="https://laravel.sillo.org/doc/laravel" title="Suivre le tutoriel" target = "_blank">Tuto MonCMS</a>
 
 ## Outils \<!-- markmap: fold -->
 

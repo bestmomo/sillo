@@ -9,7 +9,8 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
-new #[Layout('components.layouts.admin')] class extends Component {
+new #[Layout('components.layouts.admin')] class extends Component
+{
 	// Utilisation du trait Toast pour les notifications
 	use Toast;
 

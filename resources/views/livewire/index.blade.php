@@ -7,7 +7,8 @@ use Illuminate\Support\Collection;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new class() extends Component {
+new class() extends Component
+{
 	use WithPagination;
 
 	// Propriétés de la classe
@@ -27,15 +28,21 @@ new class() extends Component {
 	{
 		$this->param = $param;
 
-		if (request()->is('category/*')) {
+		if (request()->is('category/*'))
+		{
 			$this->category = $this->getCategoryBySlug($slug);
-		} elseif (request()->is('serie/*')) {
+		}
+		elseif (request()->is('serie/*'))
+		{
 			$this->serie = $this->getSerieBySlug($slug);
-		} elseif (request()->is('favorites')) {
+		}
+		elseif (request()->is('favorites'))
+		{
 			$this->favorites = true;
 		}
 
-		if (auth()->check()) {
+		if (auth()->check())
+		{
 			$this->surveys = Survey::where('active', true)->get();
 		}
 	}
@@ -50,10 +57,12 @@ new class() extends Component {
 		$postRepository = new PostRepository();
 
 		// Recherche les posts si un paramètre de recherche est présent
-		if (!empty($this->param)) {
+		if (!empty($this->param))
+		{
 			return $postRepository->search($this->param);
 		}
-		if ($this->favorites) {
+		if ($this->favorites)
+		{
 			return $postRepository->getFavoritePosts(auth()->user());
 		}
 
@@ -70,18 +79,23 @@ new class() extends Component {
 	{
 		$items = ['posts' => $this->getPosts()];
 
-		if (request()->is('/')) {
+		if (request()->is('/'))
+		{
 			$items['comments'] = Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get();
 
 			// Récupérer les événements à venir
 			$upcomingEvents = Event::getUpcomingEvents();
 
 			// Vérifier s'il y a des événements à venir et les formater en tableau
-			if ($upcomingEvents->isNotEmpty()) {
-				$items['upcoming_events'] = $upcomingEvents->map(function ($event) {
+			if ($upcomingEvents->isNotEmpty())
+			{
+				$items['upcoming_events'] = $upcomingEvents->map(function ($event)
+				{
 					return $event->formatForFrontend();
 				})->toArray(); // Convert the collection to an array
-			} else {
+			}
+			else
+			{
 				$items['upcoming_events'] = [];
 			}
 		}

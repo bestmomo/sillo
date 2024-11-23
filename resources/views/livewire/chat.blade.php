@@ -6,7 +6,8 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 // Définition du composant avec les attributs de titre et de mise en page
-new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component {
+new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
+{
 	use Toast;
 
 	#[Rule('required|max:1000')]
@@ -43,7 +44,8 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
 		];
 
 		// Envoi de la requête à l'API OpenAI
-		try {
+		try
+		{
 			$response = Http::withToken($token)
 				->withHeaders([
 					'Content-Type' => 'application/json',
@@ -51,8 +53,8 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
 				->post('https://api.openai.com/v1/chat/completions', $payload);
 
 			// Vérification du statut de la réponse
-			if ($response->successful()) {
-
+			if ($response->successful())
+			{
 				// Décodage de la réponse et récupération du contenu
 				$answer = json_decode($response->body())->choices[0]->message->content;
 
@@ -61,15 +63,18 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
 
 				// Sauvegarde dans la base de données
 				auth()->user()->chats()->create([
-					'answer' => $answer,
+					'answer'   => $answer,
 					'question' => $data['question'],
 				]);
-
-			} else {
+			}
+			else
+			{
 				// Gestion des erreurs
 				throw new Exception(__('Error in API response: ') . $response->body());
 			}
-		} catch (Exception $e) {
+		}
+		catch (Exception $e)
+		{
 			$erreur_obj = json_decode($response->body());
 			$error_code = $erreur_obj->error->code;
 			Log::error('Failed to get answer from OpenAI: ' . $e->getMessage());

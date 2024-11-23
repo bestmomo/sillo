@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Console\Commands;
@@ -39,13 +39,15 @@ class GenerateSitemap extends Command
 
 		// Static pages
 		$pages = Page::select('slug')->whereActive(true)->get();
-		foreach ($pages as $page) {
+		foreach ($pages as $page)
+		{
 			$sitemap->add("/pages/{$page->slug}");
 		}
 
 		// Dynamic pages
 		$posts = Post::select('slug')->whereActive(true)->get();
-		foreach ($posts as $post) {
+		foreach ($posts as $post)
+		{
 			$sitemap->add("/posts/{$post->slug}");
 		}
 

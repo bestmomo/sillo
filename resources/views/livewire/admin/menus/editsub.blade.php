@@ -5,13 +5,14 @@
  */
 
 use App\Models\Submenu;
+use App\Traits\ManageMenus;
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
-use App\Traits\ManageMenus;
 
 new #[Title('Edit Submenu'), Layout('components.layouts.admin')] 
-class extends Component {
+class extends Component
+{
 	use Toast, ManageMenus;
 
 	public Submenu $submenu;
@@ -26,7 +27,7 @@ class extends Component {
 	// Initialise le composant avec le sous-menu donné.
 	public function mount(Submenu $submenu): void
 	{
-		$this->submenu = $submenu;
+		$this->submenu  = $submenu;
 		$this->sublabel = $submenu->label;
 		$this->sublink  = $submenu->link;
 		$this->search();
@@ -47,7 +48,6 @@ class extends Component {
 
 		$this->success(__('Menu updated with success.'), redirectTo: '/admin/menus/index');
 	}
-
 }; ?>
 
 <div>

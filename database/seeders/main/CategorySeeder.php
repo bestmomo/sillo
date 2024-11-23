@@ -1,10 +1,10 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -22,7 +22,8 @@ class CategorySeeder extends Seeder
 		$data               = [];
 		$numberOfCategories = 3; // Utiliser une constante pour le nombre de catégories
 
-		for ($i = 1; $i <= $numberOfCategories; ++$i) {
+		for ($i = 1; $i <= $numberOfCategories; ++$i)
+		{
 			$category = "Category {$i}";
 			$data[]   = [
 				'title' => $category,

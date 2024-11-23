@@ -383,14 +383,14 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     protected static ?string $password;
   
     public function definition(): array {
-    [$name, $email] = $this->uniqueUsersEmail();
-        return [
-            'name'           => $name,
-            'email'          => $email,
-            'password'       => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
-            'valid'          => true,
-        ];
+      [$name, $email] = $this->uniqueUserNameAndEmail();
+      return [
+        'name'           => $name,
+        'email'          => $email,
+        'password'       => static::$password ??= Hash::make('password'),
+        'remember_token' => Str::random(10),
+        'valid'          => true,
+      ];
     }
     
     /**
@@ -402,7 +402,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
         ]);
     }
     
-    public function uniqueUsersEmail() {
+    public function uniqueUserNameAndEmail() {
       static $names;
   
       $name = fake('fr_FR')->lastname();
@@ -484,8 +484,16 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     public function up(): void {
       Schema::create('posts', function (Blueprint $table) {
       $table->id();
-      $table->timestamps();
       $table->string('title');
+      $table->foreignId('user_id')
+        ->constrained()
+        ->onDelete('cascade')
+        ->onUpdate('cascade');
+      $table->foreignId('category_id')
+        ->constrained()
+        ->onDelete('cascade')
+        ->onUpdate('cascade');
+      });
       $table->string('slug')->unique();
       $table->mediumText('body');
       $table->boolean('active')->default(false);
@@ -494,17 +502,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
       $table->text('meta_description');
       $table->text('meta_keywords');
       $table->boolean('pinned')->default(false);
-  
-      $table->foreignId('user_id')
-        ->constrained()
-        ->onDelete('cascade')
-        ->onUpdate('cascade');
-  
-      $table->foreignId('category_id')
-        ->constrained()
-        ->onDelete('cascade')
-        ->onUpdate('cascade');
-      });
+      $table->timestamps();
     }
   ```
 
@@ -8932,7 +8930,7 @@ selon le même principe, isoler dans d'autres dossiers, des seeders qui seront p
 
 ##### Modus operandi <!-- markmap: fold -->
 
-* 1 ) &nbsp; Créer un dossier **database/seeders/main**
+* 1 ) &nbsp; Créer un dossier **database/seeders/Main**
 
 * 2 ) &nbsp; Y copier dedans tous les seeders nécessaires à la base de l'app à ce stade, soit :
     CategorySeeder, CommentSeeder, ContactSeeder, FooterSeeder, MenusSeeder, PageSeeder, PostSeeder, SettingSeeder et UserSeeder
@@ -10071,7 +10069,7 @@ Les serveurs locaux y étant lancés, votre navigateur affichera le site...: **S
 
 #### <a href="https://laravel.sillo.org/doc/ladoc" title="LaDoc" target="_blank">**LaDoc**</a>
 
-* Cette MindMap est un premier jet...
+* Cette présente MindMap est un premier jet...
 Mais si vous en voyez l'intérêt, et surtout l'utilité,
 nous pouvons élargir ensemble cette approche à d'autres thématiques...
 * → Contribuez *ad libitum* !

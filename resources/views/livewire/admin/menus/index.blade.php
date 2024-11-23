@@ -5,15 +5,16 @@
  */
 
 use App\Models\{Menu, Submenu};
+use App\Traits\ManageMenus;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Livewire\Attributes\{Layout, Validate, Title};
+use Livewire\Attributes\{Layout, Title, Validate};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
-use App\Traits\ManageMenus;
 
 new #[Title('Nav Menu'), Layout('components.layouts.admin')] 
-class extends Component {
+class extends Component
+{
 	use Toast, ManageMenus;
 
 	public Collection $menus;
@@ -36,14 +37,15 @@ class extends Component {
 	public function mount(): void
 	{
 		$this->getMenus();
-        $this->search();
+		$this->search();
 	}
 
-    // Récupérer les menus avec leurs sous-menus triés par ordre.
+	// Récupérer les menus avec leurs sous-menus triés par ordre.
 	public function getMenus(): void
 	{
 		$this->menus = Menu::with([
-			'submenus' => function (Builder $query) {
+			'submenus' => function (Builder $query)
+			{
 				$query->orderBy('order');
 			},
 		])
@@ -51,98 +53,40 @@ class extends Component {
 			->get();
 	}
 
-	// Méthode générique pour déplacer un élément (menu ou sous-menu)
-	private function move($item, $direction, $isSubmenu = false): void
-    {
-        $operator = $direction === 'up' ? '<' : '>';
-        $orderDirection = $direction === 'up' ? 'desc' : 'asc';
-        
-        $query = $isSubmenu 
-            ? Submenu::where('menu_id', $item->menu_id)
-            : Menu::query();
+	public function up(Menu $menu): void
+	{
+		$this->move($menu, 'up');
+	}
 
-        $adjacentItem = $query->where('order', $operator, $item->order)
-            ->orderBy('order', $orderDirection)
-            ->first();
+	public function upSub(Submenu $submenu): void
+	{
+		$this->move($submenu, 'up', true);
+	}
 
-        if ($adjacentItem) {
-            $this->swap($item, $adjacentItem);
-        }
-    }
+	public function down(Menu $menu): void
+	{
+		$this->move($menu, 'down');
+	}
 
-    public function up(Menu $menu): void
-    {
-        $this->move($menu, 'up');
-    }
+	public function downSub(Submenu $submenu): void
+	{
+		$this->move($submenu, 'down', true);
+	}
 
-    public function upSub(Submenu $submenu): void
-    {
-        $this->move($submenu, 'up', true);
-    }
+	public function deleteMenu(Menu $menu): void
+	{
+		$this->deleteItem($menu);
+	}
 
-    public function down(Menu $menu): void
-    {
-        $this->move($menu, 'down');
-    }
-
-    public function downSub(Submenu $submenu): void
-    {
-        $this->move($submenu, 'down', true);
-    }
-
-    private function swap($item1, $item2): void
-    {
-        $tempOrder = $item1->order;
-        $item1->order = $item2->order;
-        $item2->order = $tempOrder;
-
-        $item1->save();
-        $item2->save();
-
-        $this->getMenus();
-    }
-
-	// Méthode générique pour supprimer un élément (menu ou sous-menu)
-    private function deleteItem($item, $parent = null): void
-    {
-        $isSubmenu = $parent !== null;
-        
-        $item->delete();
-        
-        if ($isSubmenu) {
-            $this->reorderItems($parent->submenus());
-        } else {
-            $this->reorderItems(Menu::query());
-        }
-        
-        $this->getMenus();
-        $this->success(__($isSubmenu ? 'Submenu' : 'Menu') . __(' deleted with success.'));
-    }
-
-    public function deleteMenu(Menu $menu): void
-    {
-        $this->deleteItem($menu);
-    }
-
-    public function deleteSubmenu(Menu $menu, Submenu $submenu): void
-    {
-        $this->deleteItem($submenu, $menu);
-    }
-
-    // Méthode générique pour réordonner les éléments
-    private function reorderItems($query): void
-    {
-        $items = $query->orderBy('order')->get();
-        foreach ($items as $index => $item) {
-            $item->order = $index + 1;
-            $item->save();
-        }
-    }	
+	public function deleteSubmenu(Menu $menu, Submenu $submenu): void
+	{
+		$this->deleteItem($submenu, $menu);
+	}	
 
 	// Enregistrer un nouveau menu.
 	public function saveMenu(): void
 	{
-		$data = $this->validate();
+		$data          = $this->validate();
 		$data['order'] = $this->menus->count() + 1;
 		Menu::create($data);
 
@@ -169,6 +113,68 @@ class extends Component {
 		$this->success(__('Submenu created with success.'));
 	}
 
+	// Méthode générique pour déplacer un élément (menu ou sous-menu)
+	private function move($item, $direction, $isSubmenu = false): void
+	{
+		$operator       = 'up' === $direction ? '<' : '>';
+		$orderDirection = 'up' === $direction ? 'desc' : 'asc';
+
+		$query = $isSubmenu 
+			? Submenu::where('menu_id', $item->menu_id)
+			: Menu::query();
+
+		$adjacentItem = $query->where('order', $operator, $item->order)
+			->orderBy('order', $orderDirection)
+			->first();
+
+		if ($adjacentItem)
+		{
+			$this->swap($item, $adjacentItem);
+		}
+	}
+
+	private function swap($item1, $item2): void
+	{
+		$tempOrder    = $item1->order;
+		$item1->order = $item2->order;
+		$item2->order = $tempOrder;
+
+		$item1->save();
+		$item2->save();
+
+		$this->getMenus();
+	}
+
+	// Méthode générique pour supprimer un élément (menu ou sous-menu)
+	private function deleteItem($item, $parent = null): void
+	{
+		$isSubmenu = null !== $parent;
+
+		$item->delete();
+
+		if ($isSubmenu)
+		{
+			$this->reorderItems($parent->submenus());
+		}
+		else
+		{
+			$this->reorderItems(Menu::query());
+		}
+
+		$this->getMenus();
+		$this->success(__($isSubmenu ? 'Submenu' : 'Menu') . __(' deleted with success.'));
+	}
+
+	// Méthode générique pour réordonner les éléments
+	private function reorderItems($query): void
+	{
+		$items = $query->orderBy('order')->get();
+		foreach ($items as $index => $item)
+		{
+			$item->order = $index + 1;
+			$item->save();
+		}
+	}
 }; ?>
 
 <div>

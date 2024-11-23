@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Models\AcademyUser;
@@ -10,7 +10,8 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new class() extends Component {
+new class() extends Component
+{
 	// Source: https://www.youtube.com/watch?v=zPNdejemUtg
 
 	use WithPagination;
@@ -75,15 +76,18 @@ new class() extends Component {
 
 	public function updatedSearch($resetPage = true)
 	{
-		if (class_exists('Barryvdh\Debugbar\Facade')) {
+		if (class_exists('Barryvdh\Debugbar\Facade'))
+		{
 			Debugbar::addMessage("New search: {$this->search}");
 		}
-		if ($resetPage) {
+		if ($resetPage)
+		{
 			$this->resetPage();
 			unset($this->queryStringOutput['page']);
 		}
 		$this->queryStringOutput['search'] = $this->search;
-		if ('' == $this->search) {
+		if ('' == $this->search)
+		{
 			unset($this->queryStringOutput['search']);
 		}
 	}
@@ -94,18 +98,25 @@ new class() extends Component {
 		// Debugbar::warning($this->sortBy['direction']);
 
 		// To avoid displaying the new sort information twice
-		if ('column' === $key || 'direction' === $key) {
-			if (class_exists('Barryvdh\Debugbar\Facade')) {
+		if ('column' === $key || 'direction' === $key)
+		{
+			if (class_exists('Barryvdh\Debugbar\Facade'))
+			{
 				Debugbar::addMessage("New sort: By {$this->sortBy['column']}, {$this->sortBy['direction']}");
 			}
 			$this->queryStringOutput['sortBy']['column']    = $this->sortBy['column'];
 			$this->queryStringOutput['sortBy']['direction'] = $this->sortBy['direction'];
-		} else {
+		}
+		else
+		{
 			$this->dispatch('console-log', ['message' => [$this->sortBy['column'], $this->sortBy['direction']]]);
 
-			if ('id' == $this->sortBy['column'] && 'asc' == $this->sortBy['direction']) {
+			if ('id' == $this->sortBy['column'] && 'asc' == $this->sortBy['direction'])
+			{
 				unset($this->queryStringOutput['sortBy']);
-			} else {
+			}
+			else
+			{
 				$this->queryStringOutput['sortBy'] = [
 					$this->sortBy['column'],
 					$this->sortBy['direction'],
@@ -118,19 +129,24 @@ new class() extends Component {
 	{
 		$currentPage = $this->getPage();
 
-		if (class_exists('Barryvdh\Debugbar\Facade')) {
+		if (class_exists('Barryvdh\Debugbar\Facade'))
+		{
 			Debugbar::addMessage("New page: {$currentPage}");
 		}
-		if ($currentPage > 1) {
+		if ($currentPage > 1)
+		{
 			$this->queryStringOutput['page'] = $this->getPage();
 		}
 	}
 
 	public function setOrderField(string $name)
 	{
-		if ($name === $this->orderField) {
+		if ($name === $this->orderField)
+		{
 			$this->orderDirection = 'asc' === $this->orderDirection ? 'desc' : 'asc';
-		} else {
+		}
+		else
+		{
 			$this->orderField = $name;
 			$this->reset('orderDirection');
 		}

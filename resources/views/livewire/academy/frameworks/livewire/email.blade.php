@@ -11,7 +11,8 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Title('Basics')] #[Layout('components.layouts.academy')]
-class extends Component {
+class extends Component
+{
 	use Toast;
 
 	public $dev;
@@ -37,7 +38,8 @@ class extends Component {
 
 	public function sendMail()
 	{
-		try {
+		try
+		{
 			$email = new MyEmail(
 				$this->subject,
 				$this->content,
@@ -50,7 +52,8 @@ class extends Component {
 			$this->emailContent = $email->render();
 
 			// Envoie l'email
-			if ($this->dev) {
+			if ($this->dev)
+			{
 				Mail::to($this->to)->send($email);
 			}
 
@@ -59,10 +62,13 @@ class extends Component {
 			$this->success('Refresh and email re-sent successfully!');
 
 			// $this->reset(['destinataire', 'sujet', 'contenu']);
-		} catch (Exception $e) {
+		}
+		catch (Exception $e)
+		{
 			$possibleCase = '';
 
-			if (false !== strpos($e, 'Unable to connect to localhost:1025')) {
+			if (false !== strpos($e, 'Unable to connect to localhost:1025'))
+			{
 				$possibleCase = '<div class="mt-2 text-yellow-500 italic text-center font-bold">Are you sure MailHog is running ?</div>';
 			}
 
@@ -73,7 +79,8 @@ class extends Component {
 
 	public function sendMailOnly()
 	{
-		if ($this->dev) {
+		if ($this->dev)
+		{
 			$this->sendMail();
 		}
 		$this->success('Email re-sent successfully!');

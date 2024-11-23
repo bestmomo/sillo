@@ -7,20 +7,21 @@ use Livewire\Attributes\{Layout, Rule};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Component {
+new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	private const SETTINGS_KEYS = ['pagination', 'excerptSize', 'title', 'subTitle', 'flash', 'newPost', 'alertValue'];
 
-    public array $selectAlert = [
-        ['id' => 'neutral', 'name' => 'Neutral'], 
-        ['id' => 'alert-warning', 'name' => 'Warning'], 
-        ['id' => 'alert-info', 'name' => 'Info'], 
-        ['id' => 'alert-success', 'name' => 'Success'],
-    ];
+	public array $selectAlert = [
+		['id' => 'neutral', 'name' => 'Neutral'], 
+		['id' => 'alert-warning', 'name' => 'Warning'], 
+		['id' => 'alert-info', 'name' => 'Info'], 
+		['id' => 'alert-success', 'name' => 'Success'],
+	];
 
-    #[Rule('required')]
-    public string $alertValue = '';
+	#[Rule('required')]
+	public string $alertValue = '';
 
 	#[Rule('required|max:30')]
 	public string $title;
@@ -49,16 +50,20 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
 
 		$this->maintenance = App::isDownForMaintenance();
 
-		foreach (self::SETTINGS_KEYS as $key) {
+		foreach (self::SETTINGS_KEYS as $key)
+		{
 			$this->{$key} = $this->settings->where('key', $key)->first()->value ?? null;
 		}
 	}
 
 	public function updatedMaintenance(): void
 	{
-		if ($this->maintenance) {
+		if ($this->maintenance)
+		{
 			Artisan::call('down', ['--secret' => env('APP_MAINTENANCE_SECRET')]);
-		} else {
+		}
+		else
+		{
 			Artisan::call('up');
 		}
 	}
@@ -67,10 +72,13 @@ new #[Title('Settings')] #[Layout('components.layouts.admin')] class extends Com
 	{
 		$data = $this->validate();
 
-		DB::transaction(function () use ($data) {
-			foreach (self::SETTINGS_KEYS as $key) {
+		DB::transaction(function () use ($data)
+		{
+			foreach (self::SETTINGS_KEYS as $key)
+			{
 				$setting = $this->settings->where('key', $key)->first();
-				if ($setting) {
+				if ($setting)
+				{
 					$setting->value = $data[$key];
 					$setting->save();
 				}

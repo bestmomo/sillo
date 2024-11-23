@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Events\AcademyChatV2MessageSentEvent;
@@ -9,7 +9,8 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	/**
 	 * @var string[]
 	 */

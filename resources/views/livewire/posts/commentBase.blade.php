@@ -7,7 +7,8 @@ use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
 // Création d'une nouvelle classe anonyme étendant Component
-new class() extends Component {
+new class() extends Component
+{
 	// Propriétés du composant
 	public int $postId;
 	public ?Comment $comment    = null;
@@ -32,7 +33,8 @@ new class() extends Component {
 		$data = $this->validate();
 
 		// Vérification de la validité de l'utilisateur
-		if (!Auth::user()->valid) {
+		if (!Auth::user()->valid)
+		{
 			$this->alert = true;
 		}
 
@@ -45,16 +47,18 @@ new class() extends Component {
 
 		// Chargement des relations pour le commentaire créé
 		$this->comment->load([
-			'post' => function (Builder $query) {
+			'post' => function (Builder $query)
+			{
 				$query->with('user')->select('id', 'title', 'user_id');
 			},
 			'user',
 		]);
 
 		// Notification de l'auteur de l'article si ce n'est pas lui qui écrit
-		if ($this->comment->post->user_id != Auth::id()) {
-            $this->comment->post->user->notify(new CommentCreated($this->comment));
-        }
+		if ($this->comment->post->user_id != Auth::id())
+		{
+			$this->comment->post->user->notify(new CommentCreated($this->comment));
+		}
 
 		// Réinitialisation du message du formulaire
 		$this->message = $data['message'];

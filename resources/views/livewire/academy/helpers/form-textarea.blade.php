@@ -6,7 +6,8 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	public $id;
 	public $action;
 	public $title;
@@ -30,7 +31,8 @@ new class() extends Component {
 		$data = $this->validate();
 
 		// Vérification de la validité de l'utilisateur
-		if (!Auth::user()->valid) {
+		if (!Auth::user()->valid)
+		{
 			$this->alert = true;
 		}
 
@@ -42,7 +44,8 @@ new class() extends Component {
 		]);
 		// Chargement des relations pour le commentaire créé
 		$this->comment->load([
-			'post' => function (Builder $query) {
+			'post' => function (Builder $query)
+			{
 				$query->with('user')->select('id', 'title', 'user_id');
 			},
 			'user',

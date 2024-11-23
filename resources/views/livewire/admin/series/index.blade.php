@@ -8,7 +8,8 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Layout('components.layouts.admin')] class extends Component {
+new #[Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use WithPagination;
 
@@ -33,7 +34,8 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	{
 		$headers = [['key' => 'title', 'label' => __('Title')], ['key' => 'slug', 'label' => 'Slug'], ['key' => 'category_title', 'label' => __('Category')]];
 
-		if (Auth::user()->isAdmin()) {
+		if (Auth::user()->isAdmin())
+		{
 			$headers[] = ['key' => 'user_name', 'label' => __('Author')];
 		}
 
@@ -43,7 +45,8 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	// Mettre à jour le slug lorsque le titre change.
 	public function updating($property, $value)
 	{
-		if ('title' == $property) {
+		if ('title' == $property)
+		{
 			$this->slug = Str::slug($value, '-');
 		}
 	}

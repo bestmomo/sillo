@@ -9,7 +9,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	public Comment $comment;
@@ -59,7 +60,8 @@ new #[Title('Edit Comment'), Layout('components.layouts.admin')] class extends C
 	// Méthode pour autoriser l'accès au commentaire
 	private function authorizeCommentAccess(Comment $comment): void
 	{
-		if (auth()->user()->isRedac() && $comment->post->user_id !== auth()->id()) {
+		if (auth()->user()->isRedac() && $comment->post->user_id !== auth()->id())
+		{
 			abort(403);
 		}
 	}

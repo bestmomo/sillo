@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9bcef6e4a62b9960af5ed9eeaa33081d",
+    "content-hash": "32046a73eea16e436baad86e5455f0a4",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -242,16 +242,16 @@
         },
         {
             "name": "blade-ui-kit/blade-ui-kit",
-            "version": "0.6.2",
+            "version": "0.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blade-ui-kit/blade-ui-kit.git",
-                "reference": "0369d4ce2433dff605b80c70726c9d231902e122"
+                "reference": "e6e8429956537a78b7ded3fff3d00eb382c6507c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blade-ui-kit/blade-ui-kit/zipball/0369d4ce2433dff605b80c70726c9d231902e122",
-                "reference": "0369d4ce2433dff605b80c70726c9d231902e122",
+                "url": "https://api.github.com/repos/blade-ui-kit/blade-ui-kit/zipball/e6e8429956537a78b7ded3fff3d00eb382c6507c",
+                "reference": "e6e8429956537a78b7ded3fff3d00eb382c6507c",
                 "shasum": ""
             },
             "require": {
@@ -269,7 +269,7 @@
                 "lorisleiva/cron-translator": "^0.1.1|^0.4",
                 "orchestra/testbench": "^8.0|^9.0",
                 "orchestra/testbench-dusk": "^8.0|^9.0",
-                "pestphp/pest": "^2.34",
+                "pestphp/pest": "^2.34|^3.0",
                 "phpunit/phpunit": "^10.5|^11.0"
             },
             "suggest": {
@@ -316,7 +316,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-05T08:11:10+00:00"
+            "time": "2024-11-22T13:41:40+00:00"
         },
         {
             "name": "brick/math",

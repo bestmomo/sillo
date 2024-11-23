@@ -11,7 +11,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Edit Quiz'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Edit Quiz'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use ManageQuiz;
 
@@ -24,7 +25,8 @@ new #[Title('Edit Quiz'), Layout('components.layouts.admin')] class extends Comp
 
 	public function mount(Quiz $quiz): void
 	{
-		if (Auth()->user()->isRedac() && $quiz->user_id !== Auth()->id()) {
+		if (Auth()->user()->isRedac() && $quiz->user_id !== Auth()->id())
+		{
 			abort(403);
 		}
 
@@ -34,11 +36,13 @@ new #[Title('Edit Quiz'), Layout('components.layouts.admin')] class extends Comp
 		$this->title       = $quiz->title;
 		$this->description = $quiz->description;
 
-		foreach ($this->quiz->questions as $question) {
+		foreach ($this->quiz->questions as $question)
+		{
 			$this->questions[] = [
 				'question_text' => $question->question_text,
 				'answers'       => $question->answers
-					->map(function ($answer) {
+					->map(function ($answer)
+					{
 						return [
 							'answer_text' => $answer->answer_text,
 							'is_correct'  => (bool) $answer->is_correct,
@@ -58,10 +62,12 @@ new #[Title('Edit Quiz'), Layout('components.layouts.admin')] class extends Comp
 		$this->quiz->update($data);
 
 		// Synchroniser les questions et les réponses
-		foreach ($data['questions'] as $qIndex => $question) {
+		foreach ($data['questions'] as $qIndex => $question)
+		{
 			$quizQuestion = $this->quiz->questions()->updateOrCreate(['id' => $this->quiz->questions[$qIndex]->id ?? null], ['question_text' => $question['question_text']]);
 
-			foreach ($question['answers'] as $aIndex => $answer) {
+			foreach ($question['answers'] as $aIndex => $answer)
+			{
 				$quizQuestion->answers()->updateOrCreate(['id' => $quizQuestion->answers[$aIndex]->id ?? null], ['answer_text' => $answer['answer_text'], 'is_correct' => $answer['is_correct']]);
 			}
 		}

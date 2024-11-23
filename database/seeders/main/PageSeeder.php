@@ -1,10 +1,10 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use App\Models\Page;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -22,7 +22,8 @@ class PageSeeder extends Seeder
 			['slug' => 'privacy-policy', 'title' => 'Privacy Policy'],
 		];
 
-		foreach ($items as $item) {
+		foreach ($items as $item)
+		{
 			Page::factory()->create([
 				'title'     => $item['title'],
 				'seo_title' => 'Page ' . $item['title'],

@@ -10,7 +10,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Edit Footer'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Edit Footer'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	public Footer $footer;

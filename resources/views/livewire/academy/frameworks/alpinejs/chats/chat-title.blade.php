@@ -2,7 +2,8 @@
 
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	public $btn = '';
 	public $links;
 
@@ -20,7 +21,8 @@ new class() extends Component {
 		];
 
 		$this->links = new stdClass();
-		foreach ($links as $version => $link) {
+		foreach ($links as $version => $link)
+		{
 			$this->links->{$version} = (object) $link;
 		}
 	}

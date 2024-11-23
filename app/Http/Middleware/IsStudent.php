@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Http\Middleware;
@@ -18,7 +18,8 @@ class IsStudent
 	 */
 	public function handle(Request $request, \Closure $next): Response
 	{
-		if (!auth()->user()->isStudent) {
+		if (!auth()->user()->isStudent)
+		{
 			abort(403);
 		}
 

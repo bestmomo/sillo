@@ -13,7 +13,8 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use WithPagination;
 
@@ -44,10 +45,14 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
 			->paginate(10);
 
 		// Formater les événements pour inclure la date ou la plage de dates
-		$events->getCollection()->transform(function ($event) {
-			if (is_null($event->end_date)) {
+		$events->getCollection()->transform(function ($event)
+		{
+			if (is_null($event->end_date))
+			{
 				$event->formatted_date = Carbon::parse($event->start_date)->isoFormat('LL');
-			} else {
+			}
+			else
+			{
 				$event->formatted_date = Carbon::parse($event->start_date)->isoFormat('LL') . ' - ' . Carbon::parse($event->end_date)->isoFormat('LL');
 			}
 

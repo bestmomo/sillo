@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Models\PostAcademy;
@@ -12,7 +12,8 @@ use Mary\Traits\Toast;
 new
 #[Title('New Form')]
 #[Layout('components.layouts.academy')]
-class extends Component {
+class extends Component
+{
 	use Toast;
 
 	#[Rule('required', message: 'Yo, add a title!')]

@@ -1,37 +1,43 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-if (!function_exists('passwordStrength')) {
+if (!function_exists('passwordStrength'))
+{
 	function passwordStrength($password)
 	{
 		// Initialiser le score de sécurité
 		$score = 0;
 
 		// Vérifier la longueur du mot de passe
-		if (strlen($password) >= 8) {
+		if (strlen($password) >= 8)
+		{
 			++$score;
 		}
 
 		// Vérifier la présence de lettres majuscules
-		if (preg_match('/[A-Z]/', $password)) {
+		if (preg_match('/[A-Z]/', $password))
+		{
 			++$score;
 		}
 
 		// Vérifier la présence de lettres minuscules
-		if (preg_match('/[a-z]/', $password)) {
+		if (preg_match('/[a-z]/', $password))
+		{
 			++$score;
 		}
 
 		// Vérifier la présence de chiffres
-		if (preg_match('/[0-9]/', $password)) {
+		if (preg_match('/[0-9]/', $password))
+		{
 			++$score;
 		}
 
 		// Vérifier la présence de caractères spéciaux
-		if (preg_match('/\W/', $password)) {
+		if (preg_match('/\W/', $password))
+		{
 			++$score;
 		}
 
@@ -40,13 +46,15 @@ if (!function_exists('passwordStrength')) {
 }
 
 // Méthode pour rendre les lien des images relatifs
-if (!function_exists('replaceAbsoluteUrlsWithRelative')) {
+if (!function_exists('replaceAbsoluteUrlsWithRelative'))
+{
 	function replaceAbsoluteUrlsWithRelative(string $content)
 	{
 		$baseUrl = url('/');
 
 		// Assure que le baseUrl se termine par un slash
-		if ('/' !== substr($baseUrl, -1)) {
+		if ('/' !== substr($baseUrl, -1))
+		{
 			$baseUrl .= '/';
 		}
 
@@ -59,7 +67,8 @@ if (!function_exists('replaceAbsoluteUrlsWithRelative')) {
 }
 
 // Génère une date aléatoire entre deux dates au format '2020-01-01' en entrée
-if (!function_exists('generateRandomDateInRange')) {
+if (!function_exists('generateRandomDateInRange'))
+{
 	function generateRandomDateInRange($startDate, $endDate)
 	{
 		// Convertir les dates en instances de Carbon

@@ -11,7 +11,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Dashboard')] #[Layout('components.layouts.admin')] class extends Component {
+new #[Title('Dashboard')] #[Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	public array $headersPosts;

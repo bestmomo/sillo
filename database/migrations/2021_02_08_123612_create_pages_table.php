@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use Illuminate\Database\Migrations\Migration;
@@ -17,7 +17,8 @@ class CreatePagesTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('pages', function (Blueprint $table) {
+		Schema::create('pages', function (Blueprint $table)
+		{
 			$table->id();
 			$table->string('slug');
 			$table->string('title');

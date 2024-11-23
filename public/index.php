@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use Illuminate\Http\Request;
@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 define('LARAVEL_START', microtime(true));
 
 // Determine if the application is in maintenance mode...
-if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php')) {
+if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php'))
+{
 	require $maintenance;
 }
 

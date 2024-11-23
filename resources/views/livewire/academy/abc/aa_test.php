@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Models\AcademyUser;
@@ -11,7 +11,8 @@ use Livewire\Volt\Component;
 new
 #[Title('Test')]
 #[Layout('components.layouts.academy')]
-class() extends Component {
+class() extends Component
+{
 	public $roleCounts = [];
 	public $studentCounts;
 	public $studentsCount;

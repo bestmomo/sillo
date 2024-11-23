@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Http\Middleware;
@@ -18,7 +18,8 @@ class IsAdmin
 	 */
 	public function handle(Request $request, \Closure $next): Response
 	{
-		if (!auth()->user()->isAdmin()) {
+		if (!auth()->user()->isAdmin())
+		{
 			abort(403);
 		}
 

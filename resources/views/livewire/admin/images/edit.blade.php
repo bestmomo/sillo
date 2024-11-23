@@ -12,7 +12,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	public int $year;
@@ -60,16 +61,19 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->tempPath = $tempDir . '/' . $this->fileName;
 
 		// Vérification que le répertoire temporaire existe, sinon on le crée
-		if (!File::exists($tempDir)) {
+		if (!File::exists($tempDir))
+		{
 			File::makeDirectory($tempDir, 0o755, true);
 		}
 
 		// Copier l'image dans le répertoire temporaire
-		if (File::exists($this->imagePath)) {
+		if (File::exists($this->imagePath))
+		{
 			File::copy($this->imagePath, $this->tempPath);
 		}
 
-		if ($viewToast) {
+		if ($viewToast)
+		{
 			$this->success(__('Changes validated'));
 		}
 
@@ -78,7 +82,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 
 	public function restoreImage($cancel): void
 	{
-		if (File::exists($this->imagePath)) {
+		if (File::exists($this->imagePath))
+		{
 			File::copy($this->imagePath, $this->tempPath);
 			$this->refreshImageUrl();
 			$this->clipW = 0;
@@ -89,7 +94,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 
 		$this->changed = false;
 
-		if ($cancel) {
+		if ($cancel)
+		{
 			$this->info(__('No modification has been made'));
 			$this->exit();
 		}
@@ -97,14 +103,16 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 
 	public function updated($property, $value)
 	{
-		if ('group' === $property) {
+		if ('group' === $property)
+		{
 			return;
 		}
 
 		$manager = new ImageManager(new Driver());
 		$image   = $manager->read($this->tempPath);
 
-		switch ($property) {
+		switch ($property)
+		{
 			case 'imageScale':
 				$image->scale(height: $this->height * $value);
 				$this->width      = $image->width();
@@ -208,7 +216,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 
 	public function keepVersion(): void
 	{
-		if (File::exists($this->tempPath)) {
+		if (File::exists($this->tempPath))
+		{
 			File::copy($this->tempPath, $this->imagePath);
 		}
 		$this->success(__('Image changes applied successfully'));
@@ -217,7 +226,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 
 	public function exit(): void
 	{
-		if (File::exists($this->tempPath)) {
+		if (File::exists($this->tempPath))
+		{
 			File::delete($this->tempPath);
 		}
 
@@ -226,7 +236,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 
 	public function applyChanges(): void
 	{
-		if (File::exists($this->tempPath)) {
+		if (File::exists($this->tempPath))
+		{
 			File::copy($this->tempPath, $this->imagePath);
 		}
 
@@ -248,14 +259,15 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$usage = [];
 
 		$name = $this->year . '/' . str_pad($this->month, 2, '0', STR_PAD_LEFT) . '/' . $this->fileName;
-		
+
 		// Check in posts
 		$posts = Post::select('id', 'title', 'slug')
 			->where('image', 'LIKE', "%{$name}%")
 			->orWhere('body', 'LIKE', "%{$name}%")
 			->get();
 
-		foreach ($posts as $post) {
+		foreach ($posts as $post)
+		{
 			$usage[] = [
 				'type'  => 'post',
 				'id'    => $post->id,
@@ -267,7 +279,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		// Check in pages
 		$pages = Page::where('body', 'LIKE', "%{$name}%")->get();
 
-		foreach ($pages as $page) {
+		foreach ($pages as $page)
+		{
 			$usage[] = [
 				'type'  => 'page',
 				'id'    => $page->id,

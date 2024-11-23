@@ -12,12 +12,13 @@ use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
 new #[Layout('components.layouts.admin')] 
-class extends Component {
+class extends Component
+{
 	// Utilisation des traits WithFileUploads et Toast
 	use WithFileUploads, Toast;
 
 	// Déclaration des propriétés du composant
-	public bool $inSerie = false;
+	public bool $inSerie    = false;
 	public ?Post $seriePost = null;
 	public Collection $series;
 	public ?Serie $serie = null;
@@ -59,14 +60,15 @@ class extends Component {
 		$this->category_id = $category->id;
 		$this->series      = $category->series;
 		$this->serie       = $this->series->isEmpty() ? null : $this->series->first();
-		$this->serie_id    = $this->serie? $this->serie->id : null;
-		$this->seriePost   = $this->series->isEmpty()? null : $this->serie->lastPost();
+		$this->serie_id    = $this->serie ? $this->serie->id : null;
+		$this->seriePost   = $this->series->isEmpty() ? null : $this->serie->lastPost();
 	}
 
 	// Méthode appelée lorsqu'une propriété est mise à jour
 	public function updating($property, $value)
 	{
-		switch ($property) {
+		switch ($property)
+		{
 			case 'title':
 				$this->slug      = Str::slug($value);
 				$this->seo_title = $value;
@@ -81,11 +83,14 @@ class extends Component {
 				$category     = Category::with('series')->find($value);
 				$this->series = $category->series;
 
-				if ($this->series->count() > 0) {					
+				if ($this->series->count() > 0)
+				{
 					$this->serie     = $this->series->first();
 					$this->seriePost = $this->serie->lastPost();
 					$this->serie_id  = $this->serie->id;
-				} else {
+				}
+				else
+				{
 					$this->inSerie = false;
 				}
 
@@ -106,10 +111,11 @@ class extends Component {
 		$path = $date . '/' . basename($this->photo->store('photos/' . $date, 'public'));
 
 		// Vérification si l'article est dans une série
-		if ($this->inSerie) {
+		if ($this->inSerie)
+		{
 			$data += [
 				'serie_id'  => $this->serie_id,
-				'parent_id' => $this->seriePost? $this->seriePost->id : null,
+				'parent_id' => $this->seriePost ? $this->seriePost->id : null,
 			];
 		}
 

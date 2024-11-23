@@ -3,7 +3,8 @@
 use App\Models\Survey;
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	public Survey $survey;
 	public array $results = [];
 	public array $charts  = [];
@@ -18,7 +19,8 @@ new class() extends Component {
 	private function loadResults(): void
 	{
 		// Initialiser les résultats avec les questions
-		$questions = $this->survey->questions->mapWithKeys(function ($question) {
+		$questions = $this->survey->questions->mapWithKeys(function ($question)
+		{
 			return [$question->id => [
 				'text'         => $question->question_text,
 				'answers'      => array_fill(0, $question->answers->count(), 0),
@@ -27,12 +29,15 @@ new class() extends Component {
 		})->toArray();
 
 		// Parcourir tous les participants et leurs réponses
-		foreach ($this->survey->participants as $participant) {
+		foreach ($this->survey->participants as $participant)
+		{
 			$answers = str_split($participant->pivot->answers);
 
-			foreach ($answers as $questionIndex => $answer) {
+			foreach ($answers as $questionIndex => $answer)
+			{
 				$questionId = $this->survey->questions[$questionIndex]->id;
-				if (isset($questions[$questionId])) {
+				if (isset($questions[$questionId]))
+				{
 					++$questions[$questionId]['answers'][$answer - 1];
 				}
 			}
@@ -40,7 +45,8 @@ new class() extends Component {
 
 		// Préparer les données pour Chart.js
 		$chartData = [];
-		foreach ($questions as $question) {
+		foreach ($questions as $question)
+		{
 			$chartData[] = [
 				'type' => 'bar',
 				'data' => [

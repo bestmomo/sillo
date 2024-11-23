@@ -1,12 +1,13 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use Livewire\Volt\Volt;
 
-if (!function_exists('getAcademyFrameworksLinks')) {
+if (!function_exists('getAcademyFrameworksLinks'))
+{
 	function getAcademyFrameworksLinks()
 	{
 		return [
@@ -16,14 +17,18 @@ if (!function_exists('getAcademyFrameworksLinks')) {
 	}
 }
 
-if (!function_exists('getAcademyFrameworksRoutes')) {
+if (!function_exists('getAcademyFrameworksRoutes'))
+{
 	function getAcademyFrameworksRoutes()
 	{
 		$frameworksLinks = getAcademyFrameworksLinks();
 
-		foreach ($frameworksLinks as $framework => $links) {
-			foreach ($links as $link) {
-				if ('chats' !== $link) {
+		foreach ($frameworksLinks as $framework => $links)
+		{
+			foreach ($links as $link)
+			{
+				if ('chats' !== $link)
+				{
 					Volt::route("/{$framework}/{$link}", "academy.frameworks.{$framework}.{$link}")->name("{$framework}.{$link}");
 				}
 			}
