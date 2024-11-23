@@ -10,10 +10,12 @@ use App\Models\Event;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class EventSeeder extends Seeder {
+class EventSeeder extends Seeder
+{
 	use WithoutModelEvents;
 
-	public function run() {
+	public function run()
+	{
 		$events = [
 			[
 				'label'       => 'Version',
@@ -38,7 +40,8 @@ class EventSeeder extends Seeder {
 			],
 		];
 
-		foreach ($events as $eventData) {
+		foreach ($events as $eventData)
+		{
 			Event::create($eventData);
 		}
 	}

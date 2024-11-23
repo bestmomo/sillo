@@ -8,7 +8,8 @@ namespace App\Traits;
 
 use Carbon\Carbon;
 
-trait ManageEvent {
+trait ManageEvent
+{
 	public string $label       = '';
 	public string $description = '';
 	public string $color       = 'red';
@@ -28,13 +29,15 @@ trait ManageEvent {
 	 *
 	 * @return bool returns true if the end date is valid, false otherwise
 	 */
-	public function checkDates(): bool {
+	public function checkDates(): bool
+	{
 		// Convert dates to Carbon instances for better date handling
 		$start_date = Carbon::parse($this->start_date);
 		$end_date   = Carbon::parse($this->end_date);
 
 		// Check if end_date is at least one day after start_date
-		if ($this->end_date && !$end_date->isAfter($start_date)) {
+		if ($this->end_date && !$end_date->isAfter($start_date))
+		{
 			$this->error(__('End date must be after start date.'));
 
 			return true;
@@ -48,11 +51,13 @@ trait ManageEvent {
 	 *
 	 * @return array an array of color objects with their corresponding IDs and names
 	 */
-	public function getColors(): array {
+	public function getColors(): array
+	{
 		$colors = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'];
 
 		$colorArray = [];
-		foreach ($colors as $color) {
+		foreach ($colors as $color)
+		{
 			$colorArray[] = ['id' => $color, 'name' => ucfirst($color)];
 		}
 

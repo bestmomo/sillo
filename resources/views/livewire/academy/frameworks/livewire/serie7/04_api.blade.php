@@ -7,7 +7,8 @@ use function Livewire\Volt\{mount, state};
 state(['count' => 0]);
 $inc = fn () => $this->count++;
 
-mount(function () {
+mount(function ()
+{
 	$this->count = User::count();
 	sleep(3);
 	$this->dispatch('update-subtitle', newSubtitle: 'New API Cpnt');

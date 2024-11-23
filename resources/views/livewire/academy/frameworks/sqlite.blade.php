@@ -4,17 +4,20 @@ use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	public $posts;
 	public $page;
 	public $perPage;
 	public $total;
 	public $data = 'Explicabo dolore repudiandae aut repellat. Iste eum accusantium sed quidem consectetur iste. Adipisci beatae itaque dolorem magnam laudantium. Ad sit et debitis. Ad quibusdam qui voluptas. Quae voluptates autem aspernatur temporibus vitae consequatur. Et nisi natus eligendi consequuntur est sunt.';
 
-	public function mount() {
+	public function mount()
+	{
 		$paginator = $this->getBaseQuery()->paginate(6);
 		$posts     = $paginator->getCollection();
-		foreach ($posts as $post) {
+		foreach ($posts as $post)
+		{
 			// $post->excerpt = preg_replace("/\r|\n/", " ", $post->excerpt);
 			$post->excerpt = rtrim($post->excerpt, '-;,!?….\n\r\t');
 			$post->excerpt = preg_replace('/\s+\S+$/', '', $post->excerpt);
@@ -31,7 +34,8 @@ new class() extends Component {
 		//                        {{ str($post->excerpt)->wordss(30) }}
 	}
 
-	protected function getBaseQuery(): Builder {
+	protected function getBaseQuery(): Builder
+	{
 		$specificReqs = [
 			'mysql'  => "LEFT(body, LOCATE(' ', body, 300))",
 			'sqlite' => 'substr(body, 1, 300)',

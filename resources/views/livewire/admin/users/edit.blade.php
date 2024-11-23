@@ -10,7 +10,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	public User $user;
@@ -21,14 +22,16 @@ new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Comp
 	public bool $isStudent;
 
 	// Initialiser le composant avec un utilisateur donné.
-	public function mount(User $user): void {
+	public function mount(User $user): void
+	{
 		$this->user = $user;
 
 		$this->fill($this->user);
 	}
 
 	// Sauvegarder les modifications apportées à l'utilisateur.
-	public function save() {
+	public function save()
+	{
 		$data = $this->validate([
 			'name'      => ['required', 'string', 'max:255'],
 			'email'     => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
@@ -43,7 +46,8 @@ new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Comp
 	}
 
 	// Fournir les données nécessaires à la vue
-	public function with(): array {
+	public function with(): array
+	{
 		return [
 			'roles' => [['name' => __('Administrator'), 'id' => 'admin'], ['name' => __('Redactor'), 'id' => 'redac'], ['name' => __('User'), 'id' => 'user']],
 		];

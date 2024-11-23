@@ -11,16 +11,19 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class CategorySeeder extends Seeder {
+class CategorySeeder extends Seeder
+{
 	use WithoutModelEvents;
 
 	public static $nbrCategories;
 
-	public function run() {
+	public function run()
+	{
 		$data               = [];
 		$numberOfCategories = 3; // Utiliser une constante pour le nombre de catégories
 
-		for ($i = 1; $i <= $numberOfCategories; ++$i) {
+		for ($i = 1; $i <= $numberOfCategories; ++$i)
+		{
 			$category = "Category {$i}";
 			$data[]   = [
 				'title' => $category,

@@ -10,10 +10,12 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MenusSeeder extends Seeder {
+class MenusSeeder extends Seeder
+{
 	use WithoutModelEvents;
 
-	public function run() {
+	public function run()
+	{
 		// Données des menus
 		$menus = [
 			['label' => 'Catégorie 1', 'link' => null, 'order' => 3],

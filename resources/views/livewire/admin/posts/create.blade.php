@@ -12,7 +12,8 @@ use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
 new #[Layout('components.layouts.admin')] 
-class extends Component {
+class extends Component
+{
 	// Utilisation des traits WithFileUploads et Toast
 	use WithFileUploads, Toast;
 
@@ -53,7 +54,8 @@ class extends Component {
 	public ?TemporaryUploadedFile $photo = null;
 
 	// Initialisation du composant avec les données par défaut
-	public function mount(): void {
+	public function mount(): void
+	{
 		$category          = Category::with('series')->first();
 		$this->category_id = $category->id;
 		$this->series      = $category->series;
@@ -63,8 +65,10 @@ class extends Component {
 	}
 
 	// Méthode appelée lorsqu'une propriété est mise à jour
-	public function updating($property, $value) {
-		switch ($property) {
+	public function updating($property, $value)
+	{
+		switch ($property)
+		{
 			case 'title':
 				$this->slug      = Str::slug($value);
 				$this->seo_title = $value;
@@ -79,11 +83,14 @@ class extends Component {
 				$category     = Category::with('series')->find($value);
 				$this->series = $category->series;
 
-				if ($this->series->count() > 0) {
+				if ($this->series->count() > 0)
+				{
 					$this->serie     = $this->series->first();
 					$this->seriePost = $this->serie->lastPost();
 					$this->serie_id  = $this->serie->id;
-				} else {
+				}
+				else
+				{
 					$this->inSerie = false;
 				}
 
@@ -92,7 +99,8 @@ class extends Component {
 	}
 
 	// Méthode pour sauvegarder l'article'
-	public function save() {
+	public function save()
+	{
 		// Validation des données
 		$data = $this->validate();
 
@@ -103,7 +111,8 @@ class extends Component {
 		$path = $date . '/' . basename($this->photo->store('photos/' . $date, 'public'));
 
 		// Vérification si l'article est dans une série
-		if ($this->inSerie) {
+		if ($this->inSerie)
+		{
 			$data += [
 				'serie_id'  => $this->serie_id,
 				'parent_id' => $this->seriePost ? $this->seriePost->id : null,
@@ -126,7 +135,8 @@ class extends Component {
 	}
 
 	// Méthode pour fournir des données additionnelles au composant
-	public function with(): array {
+	public function with(): array
+	{
 		return [
 			'categories' => Category::orderBy('title')->get(),
 		];

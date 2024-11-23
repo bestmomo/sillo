@@ -9,7 +9,8 @@ use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends Component {
+new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends Component
+{
 	use Toast;
 
 	#[Rule('required', message: 'Yo, add a title!')]
@@ -19,8 +20,10 @@ new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends C
 	#[Rule('required', as: 'content (textarea)')]
 	public $content = '';
 
-	public function save() {
-		try {
+	public function save()
+	{
+		try
+		{
 			$this->validate();
 			PostAcademy::create([
 				'title'   => $this->title,
@@ -28,7 +31,9 @@ new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends C
 			]);
 			$this->success('Post added !');
 			$this->redirect('/framework/livewire/blog');
-		} catch (Exception $e) {
+		}
+		catch (Exception $e)
+		{
 			// Vous pouvez enregistrer l'erreur dans le journal Laravel avec Log::error
 			Log::error($e->getMessage());
 			// Ou vous pouvez définir un message d'erreur à afficher dans votre composant

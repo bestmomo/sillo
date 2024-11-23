@@ -10,7 +10,8 @@ use App\Models\{Category, Post, Serie, User};
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class PostRepository {
+class PostRepository
+{
 	/**
 	 * Retrieves paginated posts based on the provided category and serie.
 	 *
@@ -19,14 +20,17 @@ class PostRepository {
 	 *
 	 * @return LengthAwarePaginator the paginated posts
 	 */
-	public function getPostsPaginate(?Category $category, ?Serie $serie): LengthAwarePaginator {
+	public function getPostsPaginate(?Category $category, ?Serie $serie): LengthAwarePaginator
+	{
 		$query = $this->getBaseQuery()->orderBy('pinned', 'desc')->latest();
 
-		if ($category) {
+		if ($category)
+		{
 			$query->whereBelongsTo($category);
 		}
 
-		if ($serie) {
+		if ($serie)
+		{
 			$query->whereBelongsTo($serie)->oldest();
 		}
 
@@ -44,7 +48,8 @@ class PostRepository {
 	 * @return Post the post with its associated user, category, serie, quiz,
 	 *              valid comments count, and favorite status
 	 */
-	public function getPostBySlug(string $slug): Post {
+	public function getPostBySlug(string $slug): Post
+	{
 		$userId = auth()->id();
 
 		$post = Post::with([
@@ -52,20 +57,23 @@ class PostRepository {
 			'category',
 			'serie',
 			'quiz:id,post_id',
-			'quiz.participants' => function ($query) use ($userId) {
+			'quiz.participants' => function ($query) use ($userId)
+			{
 				$query->where('user_id', $userId);
 			},
 		])
 			->withCount('validComments')
 			->withExists([
-				'favoritedByUsers as is_favorited' => function ($query) use ($userId) {
+				'favoritedByUsers as is_favorited' => function ($query) use ($userId)
+				{
 					$query->where('user_id', $userId);
 				},
 			])
 			->whereSlug($slug)
 			->firstOrFail();
 
-		if ($post->serie_id) {
+		if ($post->serie_id)
+		{
 			$post->previous = $post->parent_id ? Post::findOrFail($post->parent_id) : null;
 			$post->next     = Post::where('active', true)->whereParentId($post->id)->first() ?: null;
 		}
@@ -80,10 +88,12 @@ class PostRepository {
 	 *
 	 * @return LengthAwarePaginator the paginated list of posts that match the search term
 	 */
-	public function search(string $search): LengthAwarePaginator {
+	public function search(string $search): LengthAwarePaginator
+	{
 		return $this->getBaseQuery()
 			->latest()
-			->where(function ($query) use ($search) {
+			->where(function ($query) use ($search)
+			{
 				$query->where('body', 'like', "%{$search}%")->orWhere('title', 'like', "%{$search}%");
 			})
 			->paginate(config('app.pagination'));
@@ -96,9 +106,11 @@ class PostRepository {
 	 *
 	 * @return LengthAwarePaginator The paginated list of favorite posts
 	 */
-	public function getFavoritePosts(User $user): LengthAwarePaginator {
+	public function getFavoritePosts(User $user): LengthAwarePaginator
+	{
 		return $this->getBaseQuery()
-			->whereHas('favoritedByUsers', function (Builder $query) {
+			->whereHas('favoritedByUsers', function (Builder $query)
+			{
 				$query->where('user_id', auth()->id());
 			})
 			->latest()
@@ -112,10 +124,12 @@ class PostRepository {
 	 *
 	 * @return string the generated unique slug
 	 */
-	public function generateUniqueSlug(string $slug): string {
+	public function generateUniqueSlug(string $slug): string
+	{
 		$newSlug = $slug;
 		$counter = 1;
-		while (Post::where('slug', $newSlug)->exists()) {
+		while (Post::where('slug', $newSlug)->exists())
+		{
 			$newSlug = $slug . '-' . $counter;
 			++$counter;
 		}
@@ -128,7 +142,8 @@ class PostRepository {
 	 *
 	 * @return Builder The base query for articles
 	 */
-	protected function getBaseQuery(): Builder {
+	protected function getBaseQuery(): Builder
+	{
 		$specificReqs = [
 			'mysql'  => "LEFT(body, LOCATE(' ', body, 700))",
 			'sqlite' => 'substr(body, 1, 700)',
@@ -138,7 +153,8 @@ class PostRepository {
 		// 2fix use config instead of env()
 		$usedDbSystem = env('DB_CONNECTION', 'mysql');
 
-		if (!isset($specificReqs[$usedDbSystem])) {
+		if (!isset($specificReqs[$usedDbSystem]))
+		{
 			throw new \Exception("Base de données non supportée: {$usedDbSystem}");
 		}
 
@@ -151,7 +167,8 @@ class PostRepository {
                     ELSE {$adaptedReq}
                 END AS excerpt",
 			)
-			->when($userId = auth()->id(), function ($query, $userId) {
+			->when($userId = auth()->id(), function ($query, $userId)
+			{
 				$query->selectRaw('(SELECT 1 FROM favorites WHERE favorites.post_id = posts.id AND favorites.user_id = ?) AS is_favorited', [$userId]);
 			})
 			->with('user:id,name', 'category', 'serie')

@@ -12,7 +12,8 @@ use Mary\Traits\Toast;
 new
 #[Title('New Form')]
 #[Layout('components.layouts.academy')]
-class extends Component {
+class extends Component
+{
 	use Toast;
 
 	#[Rule('required', message: 'Yo, add a title!')]
@@ -22,7 +23,8 @@ class extends Component {
 	#[Rule('required', as: 'content (textarea)')]
 	public $content = '';
 
-	public function save() {
+	public function save()
+	{
 		$this->validate();
 		PostAcademy::create([
 			'title'   => $this->title,

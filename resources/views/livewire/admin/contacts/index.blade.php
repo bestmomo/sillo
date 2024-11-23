@@ -10,23 +10,27 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Title('Contacts')] #[Layout('components.layouts.admin')] class extends Component {
+new #[Title('Contacts')] #[Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use WithPagination;
 
 	// Définition des en-têtes des colonnes
-	public function headers(): array {
+	public function headers(): array
+	{
 		return [['key' => 'name', 'label' => __('Name')], ['key' => 'email', 'label' => __('Email')], ['key' => 'message', 'label' => __('Message')], ['key' => 'created_at', 'label' => __('Sent on')]];
 	}
 
 	// Méthode pour supprimer un contact
-	public function deleteContact(Contact $contact): void {
+	public function deleteContact(Contact $contact): void
+	{
 		$contact->delete();
 		$this->success(__('Contact deleted'));
 	}
 
 	// Méthode pour la mise à jour du statut traité/non traité
-	public function toggleContact(Contact $contact, bool $status): void {
+	public function toggleContact(Contact $contact, bool $status): void
+	{
 		$contact->handled = $status;
 		$contact->save();
 		$message = $status ? __('Contact marked as handled') : __('Contact marked as unhandled');
@@ -34,7 +38,8 @@ new #[Title('Contacts')] #[Layout('components.layouts.admin')] class extends Com
 	}
 
 	// Méthode pour récupérer les données nécessaires à la vue
-	public function with(): array {
+	public function with(): array
+	{
 		return [
 			'headers'        => $this->headers(),
 			'contacts'       => Contact::latest()->paginate(10),

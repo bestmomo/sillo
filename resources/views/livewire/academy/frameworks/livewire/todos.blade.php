@@ -3,7 +3,8 @@ use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Layout('components.layouts.academy')] #[Title('Todos')] class extends Component {
+new #[Layout('components.layouts.academy')] #[Title('Todos')] class extends Component
+{
 	use Toast;
 
 	#[Rule('required|min:3')]
@@ -11,17 +12,20 @@ new #[Layout('components.layouts.academy')] #[Title('Todos')] class extends Comp
 
 	public $todos = [];
 
-	public function mount() {
+	public function mount()
+	{
 		// dd('ok');
 		$this->todos = ['Take out trash', 'Do dishes'];
 	}
 
-	public function updatedTodo($value) {
+	public function updatedTodo($value)
+	{
 		// dd($property, $value);
 		$this->todo = ucfirst($value);
 	}
 
-	public function add() {
+	public function add()
+	{
 		$this->validate();
 		$this->todos[] = $this->todo;
 		$this->reset('todo');

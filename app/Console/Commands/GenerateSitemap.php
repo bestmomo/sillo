@@ -10,7 +10,8 @@ use App\Models\{Page, Post};
 use Illuminate\Console\Command;
 use Spatie\Sitemap\Sitemap;
 
-class GenerateSitemap extends Command {
+class GenerateSitemap extends Command
+{
 	/**
 	 * The name and signature of the console command.
 	 *
@@ -28,7 +29,8 @@ class GenerateSitemap extends Command {
 	/**
 	 * Execute the console command.
 	 */
-	public function handle() {
+	public function handle()
+	{
 		// Manually create sitemap
 		$sitemap = Sitemap::create();
 
@@ -37,13 +39,15 @@ class GenerateSitemap extends Command {
 
 		// Static pages
 		$pages = Page::select('slug')->whereActive(true)->get();
-		foreach ($pages as $page) {
+		foreach ($pages as $page)
+		{
 			$sitemap->add("/pages/{$page->slug}");
 		}
 
 		// Dynamic pages
 		$posts = Post::select('slug')->whereActive(true)->get();
-		foreach ($posts as $post) {
+		foreach ($posts as $post)
+		{
 			$sitemap->add("/posts/{$post->slug}");
 		}
 

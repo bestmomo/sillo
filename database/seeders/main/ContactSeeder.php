@@ -10,10 +10,12 @@ use App\Models\Contact;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ContactSeeder extends Seeder {
+class ContactSeeder extends Seeder
+{
 	use WithoutModelEvents;
 
-	public function run() {
+	public function run()
+	{
 		Contact::factory()->count(5)->create();
 	}
 }

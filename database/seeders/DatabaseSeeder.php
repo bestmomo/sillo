@@ -9,13 +9,15 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder {
+class DatabaseSeeder extends Seeder
+{
 	use WithoutModelEvents;
 
 	/**
 	 * Seed the application's database.
 	 */
-	public function run() {
+	public function run()
+	{
 		$this->call([
 			MainDatabaseSeeder::class,
 			AcademyDatabaseSeeder::class,

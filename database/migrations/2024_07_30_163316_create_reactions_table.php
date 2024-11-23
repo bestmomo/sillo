@@ -8,14 +8,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReactionsTable extends Migration {
+class CreateReactionsTable extends Migration
+{
 	/**
 	 * Run the migrations.
 	 *
 	 * @return void
 	 */
-	public function up() {
-		Schema::create('reactions', function (Blueprint $table) {
+	public function up()
+	{
+		Schema::create('reactions', function (Blueprint $table)
+		{
 			$table->id();
 			$table->foreignId('comment_id')->constrained()->onDelete('cascade');
 			$table->boolean('liked');
@@ -29,7 +32,8 @@ class CreateReactionsTable extends Migration {
 	 *
 	 * @return void
 	 */
-	public function down() {
+	public function down()
+	{
 		Schema::dropIfExists('reactions');
 	}
 }

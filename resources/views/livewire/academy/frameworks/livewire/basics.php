@@ -10,5 +10,6 @@ use Livewire\Volt\Component;
 new
 #[Title('Basics')]
 #[Layout('components.layouts.academy')]
-class extends Component {
+class extends Component
+{
 };

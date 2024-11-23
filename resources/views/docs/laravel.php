@@ -20,7 +20,8 @@ body {
 <?php
 Barryvdh\Debugbar\Facades\Debugbar::disable();
 $fichier_compteur = 'docs/mindmaps/moncms_views.txt';
-if (!file_exists($fichier_compteur)) {
+if (!file_exists($fichier_compteur))
+{
 	file_put_contents($fichier_compteur, '0');
 }
 $compteur = (int) file_get_contents($fichier_compteur);

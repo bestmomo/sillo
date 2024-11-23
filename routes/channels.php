@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel(
 	'chat-v2-private-channel',
-	function () {
+	function ()
+	{
 		return true;
 	}
 );

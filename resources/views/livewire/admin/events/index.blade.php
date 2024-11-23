@@ -13,14 +13,16 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use WithPagination;
 
 	public string $search = '';
 
 	// Définir les en-têtes de la table
-	public function headers(): array {
+	public function headers(): array
+	{
 		return [
 			['key' => 'label', 'label' => __('Title')],
 			['key' => 'description', 'label' => __('Description')],
@@ -30,21 +32,27 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
 	}
 
 	// Supprimer un événement
-	public function deleteEvent(Event $event): void {
+	public function deleteEvent(Event $event): void
+	{
 		$event->delete();
 		$this->success(__('Event deleted'));
 	}
 
-	public function getEvents(): LengthAwarePaginator {
+	public function getEvents(): LengthAwarePaginator
+	{
 		$events = Event::orderBy('start_date', 'asc')
 			->when($this->search, fn (Builder $q) => $q->where('label', 'like', "%{$this->search}%"))
 			->paginate(10);
 
 		// Formater les événements pour inclure la date ou la plage de dates
-		$events->getCollection()->transform(function ($event) {
-			if (is_null($event->end_date)) {
+		$events->getCollection()->transform(function ($event)
+		{
+			if (is_null($event->end_date))
+			{
 				$event->formatted_date = Carbon::parse($event->start_date)->isoFormat('LL');
-			} else {
+			}
+			else
+			{
 				$event->formatted_date = Carbon::parse($event->start_date)->isoFormat('LL') . ' - ' . Carbon::parse($event->end_date)->isoFormat('LL');
 			}
 
@@ -55,7 +63,8 @@ new #[Title('Quizzes'), Layout('components.layouts.admin')] class extends Compon
 	}
 
 	// Fournir les données nécessaires à la vue
-	public function with(): array {
+	public function with(): array
+	{
 		return [
 			'events'  => $this->getEvents(),
 			'headers' => $this->headers(),

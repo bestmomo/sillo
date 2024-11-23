@@ -10,7 +10,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Edit Footer'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Edit Footer'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	public Footer $footer;
@@ -18,13 +19,15 @@ new #[Title('Edit Footer'), Layout('components.layouts.admin')] class extends Co
 	public string $link  = '';
 
 	// Initialise le composant avec le footer donné.
-	public function mount(Footer $footer): void {
+	public function mount(Footer $footer): void
+	{
 		$this->footer = $footer;
 		$this->fill($this->footer);
 	}
 
 	// Enregistrer les modifications apportées au footer.
-	public function save(): void {
+	public function save(): void
+	{
 		$data = $this->validate([
 			'label' => ['required', 'string', 'max:255', Rule::unique('footers')->ignore($this->footer->id)],
 			'link'  => 'regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',

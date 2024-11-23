@@ -7,7 +7,8 @@ use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
 // Création d'une nouvelle classe anonyme étendant Component
-new class() extends Component {
+new class() extends Component
+{
 	// Propriétés du composant
 	public int $postId;
 	public ?Comment $comment    = null;
@@ -20,17 +21,20 @@ new class() extends Component {
 	public string $message = '';
 
 	// Méthode de montage pour initialiser le postId
-	public function mount($postId): void {
+	public function mount($postId): void
+	{
 		$this->postId = $postId;
 	}
 
 	// Méthode pour créer un nouveau commentaire
-	public function createComment(): void {
+	public function createComment(): void
+	{
 		// Validation des données du formulaire
 		$data = $this->validate();
 
 		// Vérification de la validité de l'utilisateur
-		if (!Auth::user()->valid) {
+		if (!Auth::user()->valid)
+		{
 			$this->alert = true;
 		}
 
@@ -43,14 +47,16 @@ new class() extends Component {
 
 		// Chargement des relations pour le commentaire créé
 		$this->comment->load([
-			'post' => function (Builder $query) {
+			'post' => function (Builder $query)
+			{
 				$query->with('user')->select('id', 'title', 'user_id');
 			},
 			'user',
 		]);
 
 		// Notification de l'auteur de l'article si ce n'est pas lui qui écrit
-		if ($this->comment->post->user_id != Auth::id()) {
+		if ($this->comment->post->user_id != Auth::id())
+		{
 			$this->comment->post->user->notify(new CommentCreated($this->comment));
 		}
 
@@ -59,7 +65,8 @@ new class() extends Component {
 	}
 
 	// Méthode pour mettre à jour un commentaire
-	public function updateComment(): void {
+	public function updateComment(): void
+	{
 		// Validation des données du formulaire
 		$data = $this->validate();
 
@@ -72,12 +79,14 @@ new class() extends Component {
 	}
 
 	// Méthode pour afficher ou masquer le formulaire de modification
-	public function toggleModifyForm(bool $state): void {
+	public function toggleModifyForm(bool $state): void
+	{
 		$this->showModifyForm = $state;
 	}
 
 	// Méthode pour supprimer un commentaire
-	public function deleteComment(): void {
+	public function deleteComment(): void
+	{
 		// Suppression du commentaire
 		$this->comment->delete();
 

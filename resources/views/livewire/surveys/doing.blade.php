@@ -4,22 +4,26 @@ use App\Models\Survey;
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new class() extends Component {
+new class() extends Component
+{
 	use Toast;
 
 	public Survey $survey;
 	public array $userAnswers = [];
 	public array $results     = [];
 
-	public function mount(int $id): void {
+	public function mount(int $id): void
+	{
 		$this->survey = Survey::with('questions.answers')->findOrFail($id);
 
-		if (auth()->user()->participatedSurveys()->where('survey_id', $id)->exists()) {
+		if (auth()->user()->participatedSurveys()->where('survey_id', $id)->exists())
+		{
 			abort(403);
 		}
 	}
 
-	public function save() {
+	public function save()
+	{
 		$this->validate([
 			'userAnswers'   => 'required|array',
 			'userAnswers.*' => 'required|integer|exists:answers,id',

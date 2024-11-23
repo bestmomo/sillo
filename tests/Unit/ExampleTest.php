@@ -13,11 +13,13 @@ use PHPUnit\Framework\TestCase;
  *
  * @coversNothing
  */
-class ExampleTest extends TestCase {
+class ExampleTest extends TestCase
+{
 	/**
 	 * A basic test example.
 	 */
-	public function testThatTrueIsTrue(): void {
+	public function testThatTrueIsTrue(): void
+	{
 		$this->assertTrue(true);
 	}
 }

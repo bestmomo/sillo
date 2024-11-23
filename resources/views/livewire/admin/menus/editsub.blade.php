@@ -11,7 +11,8 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Title('Edit Submenu'), Layout('components.layouts.admin')] 
-class extends Component {
+class extends Component
+{
 	use Toast, ManageMenus;
 
 	public Submenu $submenu;
@@ -24,7 +25,8 @@ class extends Component {
 	public int $subOption   = 1;
 
 	// Initialise le composant avec le sous-menu donné.
-	public function mount(Submenu $submenu): void {
+	public function mount(Submenu $submenu): void
+	{
 		$this->submenu  = $submenu;
 		$this->sublabel = $submenu->label;
 		$this->sublink  = $submenu->link;
@@ -32,7 +34,8 @@ class extends Component {
 	}
 
 	// Enregistrer les modifications apportées au sous-menu.
-	public function saveSubmenu($menu = null): void {
+	public function saveSubmenu($menu = null): void
+	{
 		$data = $this->validate([
 			'sublabel' => ['required', 'string', 'max:255'],
 			'sublink'  => 'required|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',

@@ -6,20 +6,23 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Component {
+new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Component
+{
 	use WithPagination;
 	use Toast;
 
 	protected $listeners = ['refreshPosts'];
 
-	public function delete(AcademyPost $post) {
+	public function delete(AcademyPost $post)
+	{
 		$postId = $post->id;
 		$post->delete();
 		$this->info("Post # {$postId} deleted !");
 		$this->dispatch('refreshPosts');
 	}
 
-	public function render(): mixed {
+	public function render(): mixed
+	{
 		// 2do cf. possibilité de ne pas utiliser le render (sert pour delete())
 		return view('livewire.academy.frameworks.livewire.blog', [
 			'posts' => AcademyPost::orderBy('id', 'desc')->paginate(10),

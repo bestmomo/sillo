@@ -9,7 +9,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AcademyPost extends Model {
+class AcademyPost extends Model
+{
 	use HasFactory;
 
 	protected $table    = 'academy_posts';

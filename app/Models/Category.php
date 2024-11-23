@@ -9,7 +9,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Category extends Model {
+class Category extends Model
+{
 	public $timestamps = false;
 
 	/**
@@ -25,14 +26,16 @@ class Category extends Model {
 	/**
 	 * Has Many relation.
 	 */
-	public function posts(): HasMany {
+	public function posts(): HasMany
+	{
 		return $this->hasMany(Post::class);
 	}
 
 	/**
 	 * Has Many relation.
 	 */
-	public function series(): HasMany {
+	public function series(): HasMany
+	{
 		return $this->hasMany(Serie::class);
 	}
 }

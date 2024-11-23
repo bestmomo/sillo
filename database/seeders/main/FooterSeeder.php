@@ -10,10 +10,12 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class FooterSeeder extends Seeder {
+class FooterSeeder extends Seeder
+{
 	use WithoutModelEvents;
 
-	public function run() {
+	public function run()
+	{
 		// Données des éléments du pied de page
 		$footers = [
 			['label' => 'Accueil', 'order' => 1, 'link' => '/'],

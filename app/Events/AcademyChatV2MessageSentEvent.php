@@ -12,7 +12,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AcademyChatV2MessageSentEvent implements ShouldBroadcast, ShouldQueue {
+class AcademyChatV2MessageSentEvent implements ShouldBroadcast, ShouldQueue
+{
 	use Dispatchable;
 	use InteractsWithSockets;
 	use SerializesModels;
@@ -31,7 +32,8 @@ class AcademyChatV2MessageSentEvent implements ShouldBroadcast, ShouldQueue {
 	 *
 	 * @return array<int, \Illuminate\Broadcasting\Channel;
 	 */
-	public function broadcastOn(): PrivateChannel {
+	public function broadcastOn(): PrivateChannel
+	{
 		return new PrivateChannel('chat-v2-private-channel');
 	}
 }

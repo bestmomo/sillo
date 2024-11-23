@@ -10,7 +10,8 @@ use Livewire\Volt\Component;
 new
 #[Title('Login')]
 #[Layout('components.layouts.auth')]
-class extends Component {
+class extends Component
+{
 	#[Validate('required|string|email')]
 	public string $email = '';
 
@@ -20,24 +21,28 @@ class extends Component {
 	#[Validate('boolean')]
 	public bool $remember = false;
 
-	public function login() {
+	public function login()
+	{
 		$this->validate();
 
 		$this->authenticate();
 
 		Session::regenerate();
 
-		if (auth()->user()->isAdmin()) {
+		if (auth()->user()->isAdmin())
+		{
 			return redirect()->intended('/admin/dashboard');
 		}
 
 		$this->redirectIntended(default: url('/'), navigate: true);
 	}
 
-	public function authenticate(): void {
+	public function authenticate(): void
+	{
 		$this->ensureIsNotRateLimited();
 
-		if (!Auth::attempt($this->only(['email', 'password']), $this->remember)) {
+		if (!Auth::attempt($this->only(['email', 'password']), $this->remember))
+		{
 			RateLimiter::hit($this->throttleKey());
 
 			throw ValidationException::withMessages([
@@ -48,8 +53,10 @@ class extends Component {
 		RateLimiter::clear($this->throttleKey());
 	}
 
-	protected function ensureIsNotRateLimited(): void {
-		if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+	protected function ensureIsNotRateLimited(): void
+	{
+		if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5))
+		{
 			return;
 		}
 
@@ -65,7 +72,8 @@ class extends Component {
 		]);
 	}
 
-	protected function throttleKey(): string {
+	protected function throttleKey(): string
+	{
 		return Str::transliterate(Str::lower($this->email) . '|' . request()->ip());
 	}
 }; ?>

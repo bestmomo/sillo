@@ -9,7 +9,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model {
+class Event extends Model
+{
 	public $timestamps  = false;
 	protected $fillable = [
 		'label',
@@ -24,9 +25,11 @@ class Event extends Model {
 	 *
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
-	public static function getUpcomingEvents() {
+	public static function getUpcomingEvents()
+	{
 		return self::where('start_date', '>=', Carbon::now())
-			->orWhere(function ($query) {
+			->orWhere(function ($query)
+			{
 				$query->where('end_date', '>=', Carbon::now())
 					->whereNotNull('end_date');
 			})
@@ -39,16 +42,20 @@ class Event extends Model {
 	 *
 	 * @return array
 	 */
-	public function formatForFrontend() {
+	public function formatForFrontend()
+	{
 		$formattedEvent = [
 			'label'       => $this->label,
 			'description' => $this->description,
 			'css'         => '!bg-' . $this->color . '-200',
 		];
 
-		if (is_null($this->end_date)) {
+		if (is_null($this->end_date))
+		{
 			$formattedEvent['date'] = $this->start_date;
-		} else {
+		}
+		else
+		{
 			$formattedEvent['range'] = [
 				$this->start_date,
 				$this->end_date,
@@ -65,7 +72,8 @@ class Event extends Model {
 	 *
 	 * @return void
 	 */
-	public function setEndDateAttribute($value) {
+	public function setEndDateAttribute($value)
+	{
 		$this->attributes['end_date'] = $value ?: null;
 	}
 }

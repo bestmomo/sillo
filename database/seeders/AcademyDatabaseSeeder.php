@@ -9,7 +9,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AcademyDatabaseSeeder extends Seeder {
+class AcademyDatabaseSeeder extends Seeder
+{
 	use WithoutModelEvents;
 
 	// Remise à 0 de l'auto-increment
@@ -19,11 +20,13 @@ class AcademyDatabaseSeeder extends Seeder {
 	/**
 	 * Seed the academy application's database.
 	 */
-	public function run() {
+	public function run()
+	{
 		$namespace = 'Database\\Seeders\\Academy\\';
 		$items     = ['User', 'Post'];
 
-		foreach ($items as $item) {
+		foreach ($items as $item)
+		{
 			$seederClass = "{$namespace}Academy{$item}Seeder";
 			$this->call($seederClass);
 		}

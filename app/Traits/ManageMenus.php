@@ -9,11 +9,13 @@ namespace App\Traits;
 use App\Models\{Category, Page, Post, Serie};
 use Illuminate\Support\Collection;
 
-trait ManageMenus {
+trait ManageMenus
+{
 	public ?int $post_id = null;
 	public Collection $postsSearchable;
 
-	public function search(string $value = ''): void {
+	public function search(string $value = ''): void
+	{
 		$selectedOption = Post::select('id', 'title')->where('id', $this->post_id)->get();
 
 		$this->postsSearchable = Post::query()
@@ -25,12 +27,15 @@ trait ManageMenus {
 			->merge($selectedOption);
 	}  
 
-	public function changeSelection($value): void {
+	public function changeSelection($value): void
+	{
 		$this->updateSubProperties(['model' => Post::class, 'route' => 'posts.show'], $value);
 	}
 
-	public function updating($property, $value): void {
-		if ('' === $value) {
+	public function updating($property, $value): void
+	{
+		if ('' === $value)
+		{
 			return;
 		}
 
@@ -40,15 +45,19 @@ trait ManageMenus {
 			'subCategory' => ['model' => Category::class, 'route' => 'category'],
 		];
 
-		if (array_key_exists($property, $modelMap)) {
+		if (array_key_exists($property, $modelMap))
+		{
 			$this->updateSubProperties($modelMap[$property], $value);
-		} elseif ('subOption' === $property) {
+		}
+		elseif ('subOption' === $property)
+		{
 			$this->resetSubProperties();
 			$this->search();
 		}
 	}
 
-	public function with(): array {
+	public function with(): array
+	{
 		return [
 			'pages'      => Page::select('id', 'title', 'slug')->get(),
 			'series'     => Serie::select('id', 'title', 'slug')->get(),
@@ -57,22 +66,25 @@ trait ManageMenus {
 		];
 	}
 
-	private function updateSubProperties($modelInfo, $value): void {
+	private function updateSubProperties($modelInfo, $value): void
+	{
 		$model = $modelInfo['model']::find($value);
-		if ($model) {
+		if ($model)
+		{
 			$this->sublabel = $model->title;
 			$this->sublink  = 'posts.show' === $modelInfo['route'] || 'pages.show' === $modelInfo['route']
 				? route($modelInfo['route'], $model->slug)
 				: url($modelInfo['route'] . '/' . $model->slug);
-			}
-			}
+		}
+	}
 
-			private function resetSubProperties(): void {
-				$this->sublabel    = '';
-				$this->sublink     = '';
-				$this->subPost     = 0;
-				$this->subPage     = 0;
-				$this->subSerie    = 0;
-				$this->subCategory = 0;
-			}
+	private function resetSubProperties(): void
+	{
+		$this->sublabel    = '';
+		$this->sublink     = '';
+		$this->subPost     = 0;
+		$this->subPage     = 0;
+		$this->subSerie    = 0;
+		$this->subCategory = 0;
+	}
 }

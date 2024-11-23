@@ -7,7 +7,8 @@ use Illuminate\Support\Collection;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new class() extends Component {
+new class() extends Component
+{
 	use WithPagination;
 
 	// Propriétés de la classe
@@ -23,18 +24,25 @@ new class() extends Component {
 	 * @param string $slug  Slug pour identifier une catégorie ou une série
 	 * @param string $param Paramètre de recherche optionnel
 	 */
-	public function mount(string $slug = '', string $param = ''): void {
+	public function mount(string $slug = '', string $param = ''): void
+	{
 		$this->param = $param;
 
-		if (request()->is('category/*')) {
+		if (request()->is('category/*'))
+		{
 			$this->category = $this->getCategoryBySlug($slug);
-		} elseif (request()->is('serie/*')) {
+		}
+		elseif (request()->is('serie/*'))
+		{
 			$this->serie = $this->getSerieBySlug($slug);
-		} elseif (request()->is('favorites')) {
+		}
+		elseif (request()->is('favorites'))
+		{
 			$this->favorites = true;
 		}
 
-		if (auth()->check()) {
+		if (auth()->check())
+		{
 			$this->surveys = Survey::where('active', true)->get();
 		}
 	}
@@ -44,14 +52,17 @@ new class() extends Component {
 	 *
 	 * @return LengthAwarePaginator Les posts paginés
 	 */
-	public function getPosts(): LengthAwarePaginator {
+	public function getPosts(): LengthAwarePaginator
+	{
 		$postRepository = new PostRepository();
 
 		// Recherche les posts si un paramètre de recherche est présent
-		if (!empty($this->param)) {
+		if (!empty($this->param))
+		{
 			return $postRepository->search($this->param);
 		}
-		if ($this->favorites) {
+		if ($this->favorites)
+		{
 			return $postRepository->getFavoritePosts(auth()->user());
 		}
 
@@ -64,21 +75,27 @@ new class() extends Component {
 	 *
 	 * @return array Les variables de la vue
 	 */
-	public function with(): array {
+	public function with(): array
+	{
 		$items = ['posts' => $this->getPosts()];
 
-		if (request()->is('/')) {
+		if (request()->is('/'))
+		{
 			$items['comments'] = Comment::with('user', 'post:id,title,slug')->latest()->take(5)->get();
 
 			// Récupérer les événements à venir
 			$upcomingEvents = Event::getUpcomingEvents();
 
 			// Vérifier s'il y a des événements à venir et les formater en tableau
-			if ($upcomingEvents->isNotEmpty()) {
-				$items['upcoming_events'] = $upcomingEvents->map(function ($event) {
+			if ($upcomingEvents->isNotEmpty())
+			{
+				$items['upcoming_events'] = $upcomingEvents->map(function ($event)
+				{
 					return $event->formatForFrontend();
 				})->toArray(); // Convert the collection to an array
-			} else {
+			}
+			else
+			{
 				$items['upcoming_events'] = [];
 			}
 		}
@@ -93,7 +110,8 @@ new class() extends Component {
 	 *
 	 * @return null|Category La catégorie correspondante ou null
 	 */
-	protected function getCategoryBySlug(string $slug): ?Category {
+	protected function getCategoryBySlug(string $slug): ?Category
+	{
 		// Vérifie si le premier segment de l'URL est 'category'
 		return 'category' === request()->segment(1) ? Category::whereSlug($slug)->firstOrFail() : null;
 	}
@@ -105,7 +123,8 @@ new class() extends Component {
 	 *
 	 * @return null|Serie La série correspondante ou null
 	 */
-	protected function getSerieBySlug(string $slug): ?Serie {
+	protected function getSerieBySlug(string $slug): ?Serie
+	{
 		return Serie::whereSlug($slug)->firstOrFail();
 	}
 };

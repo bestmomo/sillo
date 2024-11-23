@@ -6,15 +6,18 @@
 
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	public $btns;
 	public $choice;
 
-	public function setChoice($btn) {
+	public function setChoice($btn)
+	{
 		$this->choice = $btn;
 	}
 
-	public function getComponentName($choice): string {
+	public function getComponentName($choice): string
+	{
 		return strtolower($this->choice);
 	}
 }; ?>

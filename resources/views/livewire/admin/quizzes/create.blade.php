@@ -11,7 +11,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use ManageQuiz;
 
@@ -21,12 +22,14 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
 	public ?int $post_id       = null;
 	public Collection $postsSearchable;
 
-	public function mount(): void {
+	public function mount(): void
+	{
 		$this->addQuestion(2);
 		$this->search();
 	}
 
-	public function save() {
+	public function save()
+	{
 		$data = $this->validate($this->rules);
 
 		$quiz = Quiz::create(
@@ -35,12 +38,14 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
 			],
 		);
 
-		foreach ($data['questions'] as $question) {
+		foreach ($data['questions'] as $question)
+		{
 			$quizQuestion = $quiz->questions()->create([
 				'question_text' => $question['question_text'],
 			]);
 
-			foreach ($question['answers'] as $answer) {
+			foreach ($question['answers'] as $answer)
+			{
 				$quizQuestion->answers()->create($answer);
 			}
 		}

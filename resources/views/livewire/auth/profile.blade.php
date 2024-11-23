@@ -13,7 +13,8 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 // Définition du composant avec les attributs de titre et de mise en page
-new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Component {
+new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Component
+{
 	use Toast;
 
 	// Déclaration des propriétés
@@ -24,7 +25,8 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
 	public bool $isStudent               = false;
 
 	// Méthode pour initialiser le composant
-	public function mount(): void {
+	public function mount(): void
+	{
 		// Récupération de l'utilisateur authentifié
 		$this->user = Auth::user();
 		// Remplissage des données de l'utilisateur dans le formulaire
@@ -35,7 +37,8 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
 	}
 
 	// Méthode pour sauvegarder les modifications du profil
-	public function save(): void {
+	public function save(): void
+	{
 		// Validation des données
 		$data = $this->validate([
 			'email'     => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
@@ -44,9 +47,12 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
 		]);
 
 		// Hashage du mot de passe
-		if (empty($data['password'])) {
+		if (empty($data['password']))
+		{
 			unset($data['password']);
-		} else {
+		}
+		else
+		{
 			$data['password'] = Hash::make($data['password']);
 		}
 
@@ -58,7 +64,8 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
 	}
 
 	// Méthode pour supprimer le compte utilisateur
-	public function deleteAccount(): void {
+	public function deleteAccount(): void
+	{
 		// Suppression du compte utilisateur
 		$this->user->delete();
 		// Affichage d'un message de succès
@@ -66,7 +73,8 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
 	}
 
 	// Méthode pour générer un mot de passe sécurisé
-	public function generatePassword($length = 16): void {
+	public function generatePassword($length = 16): void
+	{
 		// Génération d'un mot de passe aléatoire
 		$this->password              = Str::random($length);
 		$this->password_confirmation = $this->password;

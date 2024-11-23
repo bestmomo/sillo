@@ -14,7 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
 		channels: __DIR__ . '/../routes/channels.php',
 		health: '/up',
 	)
-	->withMiddleware(function (Middleware $middleware) {
+	->withMiddleware(function (Middleware $middleware)
+	{
 	})
-	->withExceptions(function (Exceptions $exceptions) {
+	->withExceptions(function (Exceptions $exceptions)
+	{
 	})->create();

@@ -12,12 +12,15 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\{Facades, ServiceProvider};
 use Illuminate\View\View;
 
-class AppServiceProvider extends ServiceProvider {
+class AppServiceProvider extends ServiceProvider
+{
 	/**
 	 * Register any application services.
 	 */
-	public function register(): void {
-		$this->app->singleton(AcademyFrameworksLinksService::class, function () {
+	public function register(): void
+	{
+		$this->app->singleton(AcademyFrameworksLinksService::class, function ()
+		{
 			return new AcademyFrameworksLinksService();
 		});
 	}
@@ -25,20 +28,25 @@ class AppServiceProvider extends ServiceProvider {
 	/**
 	 * Bootstrap any application services.
 	 */
-	public function boot(): void {
-		Facades\View::composer(['components.layouts.app'], function (View $view) {
+	public function boot(): void
+	{
+		Facades\View::composer(['components.layouts.app'], function (View $view)
+		{
 			$view->with(
 				'menus',
-				Menu::with(['submenus' => function ($query) {
+				Menu::with(['submenus' => function ($query)
+				{
 					$query->orderBy('order');
 				}])->orderBy('order')->get()
 			);
 		});
 
 		// Vérifiez si la table 'settings' existe
-		if (!$this->app->runningInConsole() && Schema::hasTable('settings')) {
+		if (!$this->app->runningInConsole() && Schema::hasTable('settings'))
+		{
 			$settings = Setting::all();
-			foreach ($settings as $setting) {
+			foreach ($settings as $setting)
+			{
 				config(['app.' . $setting->key => $setting->value]);
 			}
 		}

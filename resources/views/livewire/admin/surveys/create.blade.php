@@ -10,15 +10,18 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use ManageSurvey;
 
-	public function mount(): void {
+	public function mount(): void
+	{
 		$this->addQuestion(2);
 	}
 
-	public function save() {
+	public function save()
+	{
 		$data = $this->validate($this->rules);
 
 		$survey = Survey::create(
@@ -27,12 +30,14 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
 			],
 		);
 
-		foreach ($data['questions'] as $question) {
+		foreach ($data['questions'] as $question)
+		{
 			$surveyQuestion = $survey->questions()->create([
 				'question_text' => $question['question_text'],
 			]);
 
-			foreach ($question['answers'] as $answer) {
+			foreach ($question['answers'] as $answer)
+			{
 				$surveyQuestion->answers()->create($answer);
 			}
 		}

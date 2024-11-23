@@ -6,7 +6,8 @@ use Illuminate\Support\Collection;
 use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	// Propriétés du composant
 	public ?Comment $comment;
 	public ?Collection $children;
@@ -23,7 +24,8 @@ new class() extends Component {
 	public string $message = '';
 
 	// Initialise le composant avec les données du commentaire.
-	public function mount($comment, $depth): void {
+	public function mount($comment, $depth): void
+	{
 		$this->comment        = $comment;
 		$this->depth          = $depth;
 		$this->message        = strip_tags($comment->body);
@@ -33,15 +35,19 @@ new class() extends Component {
 		$this->likesDown = $comment->reactions()->where('liked', false)->count();
 	}
 
-	public function showAnswers(): void {
+	public function showAnswers(): void
+	{
 		$this->children = Comment::where('parent_id', $this->comment->id)
 			->with([
-				'user' => function ($query) {
+				'user' => function ($query)
+				{
 					$query->select('id', 'name', 'email', 'role')->withCount('comments');
 				},
 			])
-			->withCount(['children' => function ($query) {
-				$query->whereHas('user', function ($q) {
+			->withCount(['children' => function ($query)
+			{
+				$query->whereHas('user', function ($q)
+				{
 					$q->where('valid', true);
 				});
 			}])
@@ -51,18 +57,21 @@ new class() extends Component {
 	}
 
 	// Affiche ou masque le formulaire de réponse.
-	public function toggleAnswerForm(bool $state): void {
+	public function toggleAnswerForm(bool $state): void
+	{
 		$this->showAnswerForm = $state;
 		$this->message        = '';
 	}
 
 	// Affiche ou masque le formulaire de modification.
-	public function toggleModifyForm(bool $state): void {
+	public function toggleModifyForm(bool $state): void
+	{
 		$this->showModifyForm = $state;
 	}
 
 	// Crée un nouveau commentaire en réponse à celui actuel.
-	public function createAnswer(): void {
+	public function createAnswer(): void
+	{
 		$data              = $this->validate();
 		$data['parent_id'] = $this->comment->id;
 		$data['user_id']   = Auth::id();
@@ -74,14 +83,16 @@ new class() extends Component {
 		$item->save();
 
 		// Notification de l'auteur de l'article si ce n'est pas lui répond
-		if ($item->post->user_id != Auth::id()) {
+		if ($item->post->user_id != Auth::id())
+		{
 			$item->post->user->notify(new CommentCreated($item));
 		}
 
 		// Notification de l'auteur du commentaire initial si ce n'est pas l'auteur de l'article
 		// ni l'auteur du commentaire initial
 		$author = $this->comment->user;
-		if ($author->id != $item->post->user_id && $author->id != Auth::id()) {
+		if ($author->id != $item->post->user_id && $author->id != Auth::id())
+		{
 			$author->notify(new CommentAnswerCreated($item));
 		}
 
@@ -93,7 +104,8 @@ new class() extends Component {
 	}
 
 	// Met à jour le commentaire actuel.
-	public function updateAnswer(): void {
+	public function updateAnswer(): void
+	{
 		// Validation des données du formulaire
 		$data = $this->validate();
 
@@ -106,7 +118,8 @@ new class() extends Component {
 	}
 
 	// Supprime le commentaire actuel.
-	public function deleteComment(): void {
+	public function deleteComment(): void
+	{
 		// Suppression du commentaire
 		$this->comment->delete();
 
@@ -115,7 +128,8 @@ new class() extends Component {
 		$this->comment = null;
 	}
 
-	public function like(bool $type): void {
+	public function like(bool $type): void
+	{
 		$ipAddress = request()->ip();
 
 		// Vérifiez si l'adresse IP a déjà réagi au commentaire
@@ -123,16 +137,20 @@ new class() extends Component {
 			->where('ip_address', $ipAddress)
 			->first();
 
-		if ($reaction) {
+		if ($reaction)
+		{
 			$previousLiked = $reaction->liked;
 
-			if ($previousLiked == $type) {
+			if ($previousLiked == $type)
+			{
 				// Annuler la réaction si elle est la même que le type actuel
 				$reaction->delete();
 
 				// Mettre à jour les compteurs
 				$type ? $this->likesUp-- : $this->likesDown--;
-			} else {
+			}
+			else
+			{
 				// Mettre à jour la réaction si elle est différente
 				$reaction->update(['liked' => $type]);
 
@@ -140,7 +158,9 @@ new class() extends Component {
 				$this->likesUp += $type ? 1 : -1;
 				$this->likesDown += $type ? -1 : 1;
 			}
-		} else {
+		}
+		else
+		{
 			// Créer une nouvelle réaction si elle n'existe pas
 			Reaction::create([
 				'comment_id' => $this->comment->id,

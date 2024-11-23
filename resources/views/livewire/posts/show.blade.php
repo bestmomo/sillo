@@ -6,7 +6,8 @@ use Illuminate\Support\Collection;
 use Livewire\Volt\Component;
 
 // Création d'une nouvelle classe anonyme étendant Component
-new class extends Component {
+new class() extends Component
+{
 	// Propriétés publiques du composant
 	public Post $post;
 	public ?Post $next;
@@ -16,7 +17,8 @@ new class extends Component {
 	public int $commentsCount;
 
 	// Initialise le composant avec le post spécifié.
-	public function mount($slug): void {
+	public function mount($slug): void
+	{
 		// Instanciation d'un nouveau repository de post
 		$postRepository = new PostRepository();
 
@@ -34,7 +36,8 @@ new class extends Component {
 	}
 
 	// Méthode pour cloner un article
-	public function clonePost(int $postId): void {
+	public function clonePost(int $postId): void
+	{
 		// Récupération du post original à cloner
 		$originalPost = Post::findOrFail($postId);
 
@@ -58,7 +61,8 @@ new class extends Component {
 	}
 
 	// Méthode pour afficher les commentaires du post
-	public function showComments(): void {
+	public function showComments(): void
+	{
 		// Activation de l'affichage des commentaires
 		$this->listComments = true;
 
@@ -67,14 +71,17 @@ new class extends Component {
 			->validComments()
 			->where('parent_id', null)
 			->withCount([
-				'children' => function ($query) {
-					$query->whereHas('user', function ($q) {
+				'children' => function ($query)
+				{
+					$query->whereHas('user', function ($q)
+					{
 						$q->where('valid', true);
 					});
 				},
 			])
 			->with([
-				'user' => function ($query) {
+				'user' => function ($query)
+				{
 					$query->select('id', 'name', 'email', 'role')->withCount('comments');
 				},
 			])
@@ -83,20 +90,24 @@ new class extends Component {
 	}
 
 	// Méthode pour mettre l'article en favoris
-	public function favoritePost(): void {
+	public function favoritePost(): void
+	{
 		$user = auth()->user();
 
-		if ($user) {
+		if ($user)
+		{
 			$user->favoritePosts()->attach($this->post->id);
 			$this->post->is_favorited = true;
 		}
 	}
 
 	// Méthode pour retirer l'article des favoris
-	public function unfavoritePost(): void {
+	public function unfavoritePost(): void
+	{
 		$user = auth()->user();
 
-		if ($user) {
+		if ($user)
+		{
 			$user->favoritePosts()->detach($this->post->id);
 			$this->post->is_favorited = false;
 		}

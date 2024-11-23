@@ -11,10 +11,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AcademyUserSeeder extends Seeder {
+class AcademyUserSeeder extends Seeder
+{
 	use WithoutModelEvents;
 
-	public function run() {
+	public function run()
+	{
 		$start = Carbon::now()->subYears(2);  // Il y a 2 ans
 		$end   = Carbon::now()->subYear();    // Il y a 1 an
 		AcademyUser::factory()->count(777)->create([

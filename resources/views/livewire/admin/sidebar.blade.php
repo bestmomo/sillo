@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\{Auth, Session};
 use Livewire\Volt\Component;
 
-new class() extends Component {
-	public function logout(): void {
+new class() extends Component
+{
+	public function logout(): void
+	{
 		Auth::guard('web')->logout();
 
 		Session::invalidate();

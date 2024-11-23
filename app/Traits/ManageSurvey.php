@@ -8,7 +8,8 @@ namespace App\Traits;
 
 use App\Models\Survey;
 
-trait ManageSurvey {
+trait ManageSurvey
+{
 	public string $title       = '';
 	public string $description = '';
 	public bool $active        = false;
@@ -26,8 +27,10 @@ trait ManageSurvey {
 	 *
 	 * @param int $number The number of questions to add. Default is 1.
 	 */
-	public function addQuestion(int $number = 1): void {
-		while ($number--) {
+	public function addQuestion(int $number = 1): void
+	{
+		while ($number--)
+		{
 			$this->questions[] = [
 				'question_text' => '',
 				'answers'       => [
@@ -44,7 +47,8 @@ trait ManageSurvey {
 	 *
 	 * @param int $index the index of the question to be removed
 	 */
-	public function removeQuestion($index): void {
+	public function removeQuestion($index): void
+	{
 		unset($this->questions[$index]);
 		$this->questions = array_values($this->questions);
 	}
@@ -54,7 +58,8 @@ trait ManageSurvey {
 	 *
 	 * @param int $index the index of the question to add the answer to
 	 */
-	public function addAnswer($index): void {
+	public function addAnswer($index): void
+	{
 		$this->questions[$index]['answers'][] = ['answer_text' => ''];
 	}
 
@@ -64,7 +69,8 @@ trait ManageSurvey {
 	 * @param int $qIndex the index of the question
 	 * @param int $aIndex the index of the answer in the question
 	 */
-	public function removeAnswer($qIndex, $aIndex): void {
+	public function removeAnswer($qIndex, $aIndex): void
+	{
 		unset($this->questions[$qIndex]['answers'][$aIndex]);
 		$this->questions[$qIndex]['answers'] = array_values($this->questions[$qIndex]['answers']);
 	}
@@ -74,7 +80,8 @@ trait ManageSurvey {
 	 *
 	 * @return array custom error messages for specific validation rules
 	 */
-	protected function messages(): array {
+	protected function messages(): array
+	{
 		return [
 			'questions.*.question_text.required'         => __('The question text is required.'),
 			'questions.*.answers.*.answer_text.required' => __('The answer text is required.'),

@@ -3,7 +3,8 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Title('Characters')] #[Layout('components.layouts.academy')] class extends Component {
+new #[Title('Characters')] #[Layout('components.layouts.academy')] class extends Component
+{
 }; ?>
 
 <div>

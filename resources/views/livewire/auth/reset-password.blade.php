@@ -10,7 +10,8 @@ use Livewire\Volt\Component;
 // Définition du composant avec l'attribut de mise en page
 new
 #[Layout('components.layouts.auth')]
-class extends Component {
+class extends Component
+{
 	#[Locked]
 	public string $token = '';
 
@@ -19,14 +20,16 @@ class extends Component {
 	public string $password_confirmation = '';
 
 	// Méthode pour initialiser le composant avec le jeton et l'email
-	public function mount(string $token): void {
+	public function mount(string $token): void
+	{
 		$this->token = $token;
 
 		$this->email = request()->input('email');
 	}
 
 	// Méthode pour réinitialiser le mot de passe
-	public function resetPassword(): void {
+	public function resetPassword(): void
+	{
 		// Validation des données du formulaire
 		$this->validate([
 			'token'    => ['required'],
@@ -37,7 +40,8 @@ class extends Component {
 		// Réinitialisation du mot de passe
 		$status = Password::reset(
 			$this->only('email', 'password', 'password_confirmation', 'token'),
-			function ($user) {
+			function ($user)
+			{
 				$user->forceFill([
 					'password'       => Hash::make($this->password),
 					'remember_token' => Str::random(60),
@@ -48,7 +52,8 @@ class extends Component {
 		);
 
 		// Gestion du statut de la réinitialisation du mot de passe
-		if (Password::PASSWORD_RESET != $status) {
+		if (Password::PASSWORD_RESET != $status)
+		{
 			$this->addError('email', __($status));
 
 			return;

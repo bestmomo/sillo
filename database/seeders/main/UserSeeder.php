@@ -11,12 +11,14 @@ use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder {
+class UserSeeder extends Seeder
+{
 	use WithoutModelEvents;
 
 	public static $nbrUsers;
 
-	public function run() {
+	public function run()
+	{
 		// Données des utilisateurs
 		$users = [
 			[
@@ -44,7 +46,8 @@ class UserSeeder extends Seeder {
 		];
 
 		// Créer les utilisateurs spécifiques
-		foreach ($users as $userData) {
+		foreach ($users as $userData)
+		{
 			User::factory()->create($userData);
 		}
 
@@ -61,7 +64,8 @@ class UserSeeder extends Seeder {
 
 		// Mettre à jour un utilisateur spécifique
 		$unValidUser = User::find(4);
-		if ($unValidUser) {
+		if ($unValidUser)
+		{
 			$unValidUser->isStudent = true;
 			$unValidUser->valid     = false;
 			$unValidUser->save();

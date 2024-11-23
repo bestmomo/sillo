@@ -9,7 +9,8 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
-new #[Layout('components.layouts.admin')] class extends Component {
+new #[Layout('components.layouts.admin')] class extends Component
+{
 	// Utilisation du trait Toast pour les notifications
 	use Toast;
 
@@ -19,18 +20,21 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	public string $slug  = '';
 
 	// Méthode mount appelée lors de l'initialisation du composant
-	public function mount(Category $category): void {
+	public function mount(Category $category): void
+	{
 		$this->category = $category;
 		$this->fill($this->category->toArray());
 	}
 
 	// Méthode appelée avant la mise à jour de la propriété $title
-	public function updatedTitle($value): void {
+	public function updatedTitle($value): void
+	{
 		$this->generateSlug($value);
 	}
 
 	// Méthode pour sauvegarder les modifications de la catégorie
-	public function save(): void {
+	public function save(): void
+	{
 		$data = $this->validate($this->rules());
 
 		$this->category->update($data);
@@ -39,7 +43,8 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	}
 
 	// Règles de validation pour les données
-	protected function rules(): array {
+	protected function rules(): array
+	{
 		return [
 			'title' => 'required|string|max:255',
 			'slug'  => ['required', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('categories')->ignore($this->category->id)],
@@ -47,7 +52,8 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	}
 
 	// Méthode pour générer le slug à partir du titre
-	private function generateSlug(string $title): void {
+	private function generateSlug(string $title): void
+	{
 		$this->slug = Str::of($title)->slug('-');
 	}
 }; ?>

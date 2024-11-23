@@ -8,7 +8,8 @@ namespace App\Traits;
 
 use App\Models\Post;
 
-trait ManageQuiz {
+trait ManageQuiz
+{
 	public string $title       = '';
 	public string $description = '';
 	public array $questions    = [];
@@ -26,7 +27,8 @@ trait ManageQuiz {
 	 *
 	 * @param string $value the value to search for within post titles
 	 */
-	public function search(string $value = ''): void {
+	public function search(string $value = ''): void
+	{
 		$selectedOption = Post::select('id', 'title')->where('id', $this->post_id)->get();
 
 		$this->postsSearchable = Post::query()
@@ -45,8 +47,10 @@ trait ManageQuiz {
 	 *
 	 * @param int $number The number of questions to add. Default is 1.
 	 */
-	public function addQuestion(int $number = 1): void {
-		while ($number--) {
+	public function addQuestion(int $number = 1): void
+	{
+		while ($number--)
+		{
 			$this->questions[] = [
 				'question_text' => '',
 				'answers'       => [
@@ -63,7 +67,8 @@ trait ManageQuiz {
 	 *
 	 * @param int $index the index of the question to be removed
 	 */
-	public function removeQuestion($index): void {
+	public function removeQuestion($index): void
+	{
 		unset($this->questions[$index]);
 		$this->questions = array_values($this->questions);
 	}
@@ -73,7 +78,8 @@ trait ManageQuiz {
 	 *
 	 * @param int $index the index of the question to add the answer to
 	 */
-	public function addAnswer($index): void {
+	public function addAnswer($index): void
+	{
 		$this->questions[$index]['answers'][] = ['answer_text' => '', 'is_correct' => false];
 	}
 
@@ -83,7 +89,8 @@ trait ManageQuiz {
 	 * @param int $qIndex the index of the question
 	 * @param int $aIndex the index of the answer in the question
 	 */
-	public function removeAnswer($qIndex, $aIndex): void {
+	public function removeAnswer($qIndex, $aIndex): void
+	{
 		unset($this->questions[$qIndex]['answers'][$aIndex]);
 		$this->questions[$qIndex]['answers'] = array_values($this->questions[$qIndex]['answers']);
 	}
@@ -93,7 +100,8 @@ trait ManageQuiz {
 	 *
 	 * @return array custom error messages for specific validation rules
 	 */
-	protected function messages(): array {
+	protected function messages(): array
+	{
 		return [
 			'questions.*.question_text.required'         => __('The question text is required.'),
 			'questions.*.answers.*.answer_text.required' => __('The answer text is required.'),

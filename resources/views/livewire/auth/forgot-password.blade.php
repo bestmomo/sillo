@@ -7,12 +7,14 @@ use Livewire\Volt\Component;
 // Définition du composant avec l'attribut de mise en page
 new
 #[Layout('components.layouts.auth')]
-class extends Component {
+class extends Component
+{
 	// Déclaration de la propriété pour stocker l'email
 	public string $email = '';
 
 	// Méthode pour envoyer le lien de réinitialisation du mot de passe
-	public function sendPasswordResetLink(): void {
+	public function sendPasswordResetLink(): void
+	{
 		// Validation de l'email
 		$this->validate([
 			'email' => ['required', 'string', 'email'],
@@ -24,7 +26,8 @@ class extends Component {
 		);
 
 		// Vérification du statut de l'envoi du lien
-		if (Password::RESET_LINK_SENT != $status) {
+		if (Password::RESET_LINK_SENT != $status)
+		{
 			// En cas d'erreur, ajout de l'erreur à la propriété des erreurs
 			$this->addError('email', __($status));
 

@@ -11,21 +11,25 @@ use Livewire\Volt\Component;
 new
 #[Title('Test')]
 #[Layout('components.layouts.academy')]
-class() extends Component {
+class() extends Component
+{
 	public $roleCounts = [];
 	public $studentCounts;
 	public $studentsCount;
 	public $usersCount;
 
-	public function mount() {
+	public function mount()
+	{
 		$this->usersStat();
 	}
 
-	public function with(): mixed {
+	public function with(): mixed
+	{
 		return [];
 	}
 
-	protected function usersStat() {
+	protected function usersStat()
+	{
 		$result = AcademyUser::query()
 			->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN academyAccess = true THEN 1 ELSE 0 END) as academy_users')
 			->groupBy('role')

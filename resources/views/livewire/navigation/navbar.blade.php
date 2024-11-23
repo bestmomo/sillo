@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\{Auth, Session};
 use Illuminate\Support\{Collection};
 use Livewire\Volt\Component;
-new class extends Component {
+new class() extends Component
+{
 	// Property to hold the collection of menus
 	public Collection $menus;
 
@@ -12,7 +13,8 @@ new class extends Component {
 	 *
 	 * @param Collection $menus - The collection of menus to be assigned to the property
 	 */
-	public function mount(Collection $menus): void {
+	public function mount(Collection $menus): void
+	{
 		// Assign the provided menus collection to the property
 		$this->menus = $menus;
 	}
@@ -20,7 +22,8 @@ new class extends Component {
 	/**
 	 * Method to handle the user logout process.
 	 */
-	public function logout(): void {
+	public function logout(): void
+	{
 		// Log out the user using the web guard
 		Auth::guard('web')->logout();
 

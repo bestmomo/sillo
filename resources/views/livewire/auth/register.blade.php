@@ -7,7 +7,8 @@ use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 
 // Définition du composant avec les attributs de titre et de mise en page
-new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Component {
+new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Component
+{
 	// Définition des règles de validation pour les champs du formulaire
 	#[Rule('required|string|max:255|unique:users')]
 	public string $name = '';
@@ -25,9 +26,11 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
 	public ?string $gender = null;
 
 	// Méthode pour enregistrer un nouvel utilisateur
-	public function register() {
+	public function register()
+	{
 		// Vérification du champ honeypot
-		if ($this->gender) {
+		if ($this->gender)
+		{
 			// Si le champ honeypot est rempli, c'est probablement un bot
 			abort(403);
 		}
@@ -50,7 +53,8 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
 		// Notification aux administrateurs
 		$admins = User::where('role', 'admin')->get();
 
-		foreach ($admins as $admin) {
+		foreach ($admins as $admin)
+		{
 			$admin->notify(new UserRegistered($user));
 		}
 

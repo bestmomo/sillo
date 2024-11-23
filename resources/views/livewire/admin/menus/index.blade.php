@@ -13,7 +13,8 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new #[Title('Nav Menu'), Layout('components.layouts.admin')] 
-class extends Component {
+class extends Component
+{
 	use Toast, ManageMenus;
 
 	public Collection $menus;
@@ -33,15 +34,18 @@ class extends Component {
 	public int $subOption   = 1;
 
 	// Méthode appelée lors de l'initialisation du composant.
-	public function mount(): void {
+	public function mount(): void
+	{
 		$this->getMenus();
 		$this->search();
 	}
 
 	// Récupérer les menus avec leurs sous-menus triés par ordre.
-	public function getMenus(): void {
+	public function getMenus(): void
+	{
 		$this->menus = Menu::with([
-			'submenus' => function (Builder $query) {
+			'submenus' => function (Builder $query)
+			{
 				$query->orderBy('order');
 			},
 		])
@@ -49,32 +53,39 @@ class extends Component {
 			->get();
 	}
 
-	public function up(Menu $menu): void {
+	public function up(Menu $menu): void
+	{
 		$this->move($menu, 'up');
 	}
 
-	public function upSub(Submenu $submenu): void {
+	public function upSub(Submenu $submenu): void
+	{
 		$this->move($submenu, 'up', true);
 	}
 
-	public function down(Menu $menu): void {
+	public function down(Menu $menu): void
+	{
 		$this->move($menu, 'down');
 	}
 
-	public function downSub(Submenu $submenu): void {
+	public function downSub(Submenu $submenu): void
+	{
 		$this->move($submenu, 'down', true);
 	}
 
-	public function deleteMenu(Menu $menu): void {
+	public function deleteMenu(Menu $menu): void
+	{
 		$this->deleteItem($menu);
 	}
 
-	public function deleteSubmenu(Menu $menu, Submenu $submenu): void {
+	public function deleteSubmenu(Menu $menu, Submenu $submenu): void
+	{
 		$this->deleteItem($submenu, $menu);
 	}	
 
 	// Enregistrer un nouveau menu.
-	public function saveMenu(): void {
+	public function saveMenu(): void
+	{
 		$data          = $this->validate();
 		$data['order'] = $this->menus->count() + 1;
 		Menu::create($data);
@@ -83,7 +94,8 @@ class extends Component {
 	}
 
 	// Enregistrer un nouveau sous-menu.
-	public function saveSubmenu(Menu $menu): void {
+	public function saveSubmenu(Menu $menu): void
+	{
 		$data = $this->validate([
 			'sublabel' => ['required', 'string', 'max:255'],
 			'sublink'  => 'required|regex:/\/([a-z0-9_-]\/*)*[a-z0-9_-]*/',
@@ -102,7 +114,8 @@ class extends Component {
 	}
 
 	// Méthode générique pour déplacer un élément (menu ou sous-menu)
-	private function move($item, $direction, $isSubmenu = false): void {
+	private function move($item, $direction, $isSubmenu = false): void
+	{
 		$operator       = 'up' === $direction ? '<' : '>';
 		$orderDirection = 'up' === $direction ? 'desc' : 'asc';
 
@@ -114,12 +127,14 @@ class extends Component {
 			->orderBy('order', $orderDirection)
 			->first();
 
-		if ($adjacentItem) {
+		if ($adjacentItem)
+		{
 			$this->swap($item, $adjacentItem);
 		}
 	}
 
-	private function swap($item1, $item2): void {
+	private function swap($item1, $item2): void
+	{
 		$tempOrder    = $item1->order;
 		$item1->order = $item2->order;
 		$item2->order = $tempOrder;
@@ -131,14 +146,18 @@ class extends Component {
 	}
 
 	// Méthode générique pour supprimer un élément (menu ou sous-menu)
-	private function deleteItem($item, $parent = null): void {
+	private function deleteItem($item, $parent = null): void
+	{
 		$isSubmenu = null !== $parent;
 
 		$item->delete();
 
-		if ($isSubmenu) {
+		if ($isSubmenu)
+		{
 			$this->reorderItems($parent->submenus());
-		} else {
+		}
+		else
+		{
 			$this->reorderItems(Menu::query());
 		}
 
@@ -147,9 +166,11 @@ class extends Component {
 	}
 
 	// Méthode générique pour réordonner les éléments
-	private function reorderItems($query): void {
+	private function reorderItems($query): void
+	{
 		$items = $query->orderBy('order')->get();
-		foreach ($items as $index => $item) {
+		foreach ($items as $index => $item)
+		{
 			$item->order = $index + 1;
 			$item->save();
 		}

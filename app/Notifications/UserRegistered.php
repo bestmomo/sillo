@@ -11,7 +11,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserRegistered extends Notification {
+class UserRegistered extends Notification
+{
 	use Queueable;
 
 	public User $user;
@@ -19,7 +20,8 @@ class UserRegistered extends Notification {
 	/**
 	 * Create a new notification instance.
 	 */
-	public function __construct(User $user) {
+	public function __construct(User $user)
+	{
 		$this->user = $user;
 	}
 
@@ -28,14 +30,16 @@ class UserRegistered extends Notification {
 	 *
 	 * @return array<int, string>
 	 */
-	public function via(object $notifiable): array {
+	public function via(object $notifiable): array
+	{
 		return ['mail'];
 	}
 
 	/**
 	 * Get the mail representation of the notification.
 	 */
-	public function toMail(object $notifiable): MailMessage {
+	public function toMail(object $notifiable): MailMessage
+	{
 		return (new MailMessage())
 			->subject(__('A new user has been registered'))
 			->line(__('The name of the new user is ') . $this->user->name)
@@ -47,7 +51,8 @@ class UserRegistered extends Notification {
 	 *
 	 * @return array<string, mixed>
 	 */
-	public function toArray(object $notifiable): array {
+	public function toArray(object $notifiable): array
+	{
 		return [
 		];
 	}

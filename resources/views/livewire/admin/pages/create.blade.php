@@ -10,7 +10,8 @@ use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Create Page'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Create Page'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	#[Rule('required|max:65000')]
@@ -35,14 +36,16 @@ new #[Title('Create Page'), Layout('components.layouts.admin')] class extends Co
 	public string $meta_keywords = '';
 
 	// Méthode appelée avant la mise à jour de la propriété $title
-	public function updatedTitle($value): void {
+	public function updatedTitle($value): void
+	{
 		$this->generateSlug($value);
 
 		$this->seo_title = $value;
 	}
 
 	// Enregistre la nouvelle page
-	public function save() {
+	public function save()
+	{
 		$data = $this->validate();
 
 		Page::create($data);
@@ -51,7 +54,8 @@ new #[Title('Create Page'), Layout('components.layouts.admin')] class extends Co
 	}
 
 	// Méthode pour générer le slug à partir du titre
-	private function generateSlug(string $title): void {
+	private function generateSlug(string $title): void
+	{
 		$this->slug = Str::of($title)->slug('-');
 	}
 }; ?>

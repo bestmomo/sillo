@@ -6,6 +6,7 @@
 
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
+
 new
 #[Title('Frameworks'), Layout('components.layouts.academy')]
 class extends Component

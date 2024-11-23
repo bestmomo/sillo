@@ -11,10 +11,12 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class SerieSeeder extends Seeder {
+class SerieSeeder extends Seeder
+{
 	use WithoutModelEvents;
 
-	public function run() {
+	public function run()
+	{
 		DB::table('series')->insert([
 			[
 				'title'       => 'Serie 1',

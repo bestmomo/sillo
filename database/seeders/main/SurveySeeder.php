@@ -11,10 +11,12 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class SurveySeeder extends Seeder {
+class SurveySeeder extends Seeder
+{
 	use WithoutModelEvents;
 
-	public function run() {
+	public function run()
+	{
 		// Données des sondages
 		$surveys = [
 			[
@@ -54,7 +56,8 @@ class SurveySeeder extends Seeder {
 			['user_id' => 3, 'survey_id' => 1, 'answers' => '33', 'created_at' => now(), 'updated_at' => now()],
 		];
 
-		foreach ($surveys as $surveyData) {
+		foreach ($surveys as $surveyData)
+		{
 			// Créer le sondage
 			$survey = Survey::create([
 				'title'       => $surveyData['title'],
@@ -63,12 +66,14 @@ class SurveySeeder extends Seeder {
 			]);
 
 			// Créer les questions et les réponses associées
-			foreach ($surveyData['questions'] as $questionData) {
+			foreach ($surveyData['questions'] as $questionData)
+			{
 				$question = SurveyQuestion::create([
 					'survey_id'     => $survey->id,
 					'question_text' => $questionData['question_text'],
 				]);
-				foreach ($questionData['answers'] as $answerData) {
+				foreach ($questionData['answers'] as $answerData)
+				{
 					SurveyAnswer::create([
 						'question_id' => $question->id,
 						'answer_text' => $answerData['answer_text'],

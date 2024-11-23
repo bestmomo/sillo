@@ -15,7 +15,8 @@ use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
-new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Component
+{
 	// Utilisation des traits WithFileUploads et Toast
 	use WithFileUploads, Toast;
 
@@ -40,9 +41,11 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	public ?TemporaryUploadedFile $photo = null;
 
 	// Initialisation du composant avec les données du post
-	public function mount(Post $post): void {
+	public function mount(Post $post): void
+	{
 		// Autorisation
-		if (Auth()->user()->isRedac() && $post->user_id !== Auth()->id()) {
+		if (Auth()->user()->isRedac() && $post->user_id !== Auth()->id())
+		{
 			abort(403);
 		}
 
@@ -52,22 +55,26 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 		$this->series = $category->series;
 
 		// Pas de série
-		if ($this->series->isEmpty()) {
+		if ($this->series->isEmpty())
+		{
 			$this->categories = Category::all();
 
 			return;
 		} 
 
 		// Cas d'appartenance à une série
-		if (null !== $post->serie_id) {
+		if (null !== $post->serie_id)
+		{
 			$this->inSerie = true;
 			$this->serie   = Serie::find($this->serie_id);
-			if ($post->parent_id) {
+			if ($post->parent_id)
+			{
 				$this->seriePost = Post::find($post->parent_id);
 			}
 			// On regarde s'il a des enfants
-			if (!Post::where('parent_id', $post->id)->get()->isEmpty()) {
-				$this->series = new Collection;
+			if (!Post::where('parent_id', $post->id)->get()->isEmpty())
+			{
+				$this->series = new Collection();
 
 				return;
 			}
@@ -83,8 +90,10 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	}
 
 	// Méthode appelée lorsqu'une propriété est mise à jour
-	public function updating($property, $value) {
-		switch ($property) {
+	public function updating($property, $value)
+	{
+		switch ($property)
+		{
 			case 'title':
 				$this->slug = Str::slug($value);
 
@@ -98,9 +107,12 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 				$category     = Category::with('series')->find($value);
 				$this->series = $category->series;
 
-				if ($this->series->isNotEmpty()) {
+				if ($this->series->isNotEmpty())
+				{
 					$this->seriePost = $this->series->first()->lastPost();
-				} else {
+				}
+				else
+				{
 					$this->inSerie = false;
 				}
 
@@ -109,7 +121,8 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	}
 
 	// Méthode pour sauvegarder le post
-	public function save() {
+	public function save()
+	{
 		$data = $this->validate([
 			'title'            => 'required|string|max:255',
 			'body'             => 'required|string|max:16777215',
@@ -124,7 +137,8 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 		]);
 
 		// Sauvegarde de l'image si elle a été modifiée
-		if ($this->photo) {
+		if ($this->photo)
+		{
 			$date          = now()->format('Y/m'); // Détermination année et mois de publication genre 2024/06
 			$path          = $date . '/' . basename($this->photo->store('photos/' . $date, 'public'));
 			$data['image'] = $path;
@@ -138,7 +152,8 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 
 		$data['body'] = replaceAbsoluteUrlsWithRelative($data['body']);
 
-		if (!$this->post->active && $data['active']) {
+		if (!$this->post->active && $data['active'])
+		{
 			$data['created_at'] = now();
 		}
 

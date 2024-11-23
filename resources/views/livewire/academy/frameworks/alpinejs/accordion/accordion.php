@@ -10,5 +10,6 @@ use Livewire\Volt\Component;
 new
 #[Title('Accordion')]
 #[Layout('components.layouts.academy')]
-class extends Component {
+class extends Component
+{
 };

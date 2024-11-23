@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasMany};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable {
+class User extends Authenticatable
+{
 	use HasFactory;
 	use Notifiable;
 
@@ -33,39 +34,45 @@ class User extends Authenticatable {
 	/**
 	 * One to Many relation.
 	 */
-	public function posts(): HasMany {
+	public function posts(): HasMany
+	{
 		return $this->hasMany(Post::class);
 	}
 
 	/**
 	 * Retrieve the comments associated with the model.
 	 */
-	public function comments(): HasMany {
+	public function comments(): HasMany
+	{
 		return $this->hasMany(Comment::class);
 	}
 
 	/**
 	 * Retrieve the quizzes associated with the model.
 	 */
-	public function quizzes(): HasMany {
+	public function quizzes(): HasMany
+	{
 		return $this->hasMany(Quiz::class);
 	}
 
 	/**
 	 * Retrieve the surveys associated with the model.
 	 */
-	public function surveys(): HasMany {
+	public function surveys(): HasMany
+	{
 		return $this->hasMany(Survey::class);
 	}
 
-	public function chats(): HasMany {
+	public function chats(): HasMany
+	{
 		return $this->hasMany(Chat::class);
 	}
 
 	/**
 	 * Retrieve the quizzes that the user has participated in.
 	 */
-	public function participatedQuizzes(): BelongsToMany {
+	public function participatedQuizzes(): BelongsToMany
+	{
 		return $this->belongsToMany(Quiz::class, 'quiz_user')
 			->withPivot('correct_answers', 'total_answers')
 			->withTimestamps();
@@ -74,7 +81,8 @@ class User extends Authenticatable {
 	/**
 	 * Retrieve the surveys that the user has participated in.
 	 */
-	public function participatedSurveys(): BelongsToMany {
+	public function participatedSurveys(): BelongsToMany
+	{
 		return $this->belongsToMany(Survey::class, 'survey_user')
 			->withPivot('answers')
 			->withTimestamps();
@@ -83,28 +91,32 @@ class User extends Authenticatable {
 	/**
 	 * Retrieve the user's favorite posts.
 	 */
-	public function favoritePosts(): BelongsToMany {
+	public function favoritePosts(): BelongsToMany
+	{
 		return $this->belongsToMany(Post::class, 'favorites');
 	}
 
 	/**
 	 * Determine if user is administrator.
 	 */
-	public function isAdmin(): bool {
+	public function isAdmin(): bool
+	{
 		return 'admin' === $this->role;
 	}
 
 	/**
 	 * Determine if user is redactor.
 	 */
-	public function isRedac(): bool {
+	public function isRedac(): bool
+	{
 		return 'redac' === $this->role;
 	}
 
 	/**
 	 * Determine if user is administrator or redactor.
 	 */
-	public function isAdminOrRedac(): bool {
+	public function isAdminOrRedac(): bool
+	{
 		return 'admin' === $this->role || 'redac' === $this->role;
 	}
 
@@ -116,7 +128,8 @@ class User extends Authenticatable {
 	 *
 	 * @return BelongsToMany
 	 */
-	public function scopeSearch(Builder $query, string $value) {
+	public function scopeSearch(Builder $query, string $value)
+	{
 		$query
 			->where('name', 'like', "%{$value}%")
 			->orWhere('firstname', 'like', "%{$value}%")
@@ -128,7 +141,8 @@ class User extends Authenticatable {
 	 *
 	 * @return array<string, string>
 	 */
-	protected function casts(): array {
+	protected function casts(): array
+	{
 		return [
 			'email_verified_at' => 'datetime',
 			'password'          => 'hashed',

@@ -10,22 +10,26 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Edit Event'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Edit Event'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use ManageEvent;
 
 	public Event $event;
 
-	public function mount(Event $event): void {
+	public function mount(Event $event): void
+	{
 		$this->event = $event;
 		$this->fill($this->event);
 		$this->colors = $this->getColors();
 	}
 
 	// Enregistre le nouvel événement
-	public function save() {
+	public function save()
+	{
 		$data = $this->validate($this->rules);
-		if ($this->checkDates()) {
+		if ($this->checkDates())
+		{
 			return;
 		}
 

@@ -11,13 +11,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
  */
-class PostFactory extends Factory {
+class PostFactory extends Factory
+{
 	/**
 	 * Define the model's default state.
 	 *
 	 * @return array<string, mixed>
 	 */
-	public function definition(): array {
+	public function definition(): array
+	{
 		return [
 			'body'             => fake()->paragraphs($nb = 8, $asText = true),
 			'meta_description' => fake()->sentence($nbWords = 6, $variableNbWords = true),

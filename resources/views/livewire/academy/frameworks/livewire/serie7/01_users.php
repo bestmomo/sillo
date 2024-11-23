@@ -10,7 +10,8 @@ use Livewire\WithPagination;
 
 new // #[Title('Serie7')]
 // #[Layout('components.layouts.academy')]
-class() extends Component {
+class() extends Component
+{
 	use WithPagination;
 
 	public $subtitle = 'Users';
@@ -20,16 +21,19 @@ class() extends Component {
 	public $sortDirection = 'ASC';
 	public $sortColumn    = 'name';
 
-	public function mount() {
+	public function mount()
+	{
 		$this->name = 'GC7';
 
 		$this->dispatch('update-subtitle', newSubtitle: $this->subtitle);
 		logger('Dispatching update-subtitle event');
 	}
 
-	public function doSort($column) {
+	public function doSort($column)
+	{
 		$this->sortColumn = $column;
-		if ($this->sortColumn === $column) {
+		if ($this->sortColumn === $column)
+		{
 			$this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
 
 			return;
@@ -38,11 +42,13 @@ class() extends Component {
 		$this->sortDirection = 'ASC';
 	}
 
-	public function updatingSearch() {
+	public function updatingSearch()
+	{
 		$this->resetPage();
 	}
 
-	public function with(): array {
+	public function with(): array
+	{
 		$paginator = User::search($this->search)
 			->orderBy($this->sortColumn, $this->sortDirection)
 			->paginate($this->perPage);

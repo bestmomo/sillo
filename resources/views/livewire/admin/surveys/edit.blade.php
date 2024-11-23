@@ -10,14 +10,17 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use ManageSurvey;
 
 	public Survey $survey;
 
-	public function mount(Survey $survey): void {
-		if (Auth()->user()->isRedac() && $survey->user_id !== Auth()->id()) {
+	public function mount(Survey $survey): void
+	{
+		if (Auth()->user()->isRedac() && $survey->user_id !== Auth()->id())
+		{
 			abort(403);
 		}
 
@@ -27,11 +30,13 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
 		$this->description = $survey->description;
 		$this->active      = $survey->active;
 
-		foreach ($this->survey->questions as $question) {
+		foreach ($this->survey->questions as $question)
+		{
 			$this->questions[] = [
 				'question_text' => $question->question_text,
 				'answers'       => $question->answers
-					->map(function ($answer) {
+					->map(function ($answer)
+					{
 						return [
 							'answer_text' => $answer->answer_text,
 						];
@@ -41,16 +46,19 @@ new #[Title('Create Quiz'), Layout('components.layouts.admin')] class extends Co
 		}
 	}
 
-	public function save() {
+	public function save()
+	{
 		$data = $this->validate($this->rules);
 
 		$this->survey->update($data);
 
 		// Synchroniser les questions et les réponses
-		foreach ($data['questions'] as $qIndex => $question) {
+		foreach ($data['questions'] as $qIndex => $question)
+		{
 			$surveyQuestion = $this->survey->questions()->updateOrCreate(['id' => $this->survey->questions[$qIndex]->id ?? null], ['question_text' => $question['question_text']]);
 
-			foreach ($question['answers'] as $aIndex => $answer) {
+			foreach ($question['answers'] as $aIndex => $answer)
+			{
 				$surveyQuestion->answers()->updateOrCreate(['id' => $surveyQuestion->answers[$aIndex]->id ?? null], ['answer_text' => $answer['answer_text']]);
 			}
 		}

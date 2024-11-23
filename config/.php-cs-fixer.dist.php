@@ -10,6 +10,10 @@ $finder = PhpCsFixer\Finder::create()
 	->exclude('storage')
 	->exclude('bootstrap/cache');
 
+// Direct call: php vendor/bin/php-cs-fixer fix app/ --config=config\.php-cs-fixer.dist.php
+// Pour fix tout le projet:
+// php vendor/bin/php-cs-fixer fix ./ --config=config\.php-cs-fixer.dist.php --cache-file=none
+
 return (new PhpCsFixer\Config())
 	->setRiskyAllowed(false)
 	->setRules([

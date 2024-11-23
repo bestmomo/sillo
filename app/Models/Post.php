@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, HasOne};
 use Illuminate\Notifications\Notifiable;
 
-class Post extends Model {
+class Post extends Model
+{
 	use HasFactory;
 	use Notifiable;
 
@@ -25,47 +26,55 @@ class Post extends Model {
 	/**
 	 * Get user of the Post.
 	 */
-	public function user(): BelongsTo {
+	public function user(): BelongsTo
+	{
 		return $this->belongsTo(User::class);
 	}
 
 	/**
 	 * Get the category for the post.
 	 */
-	public function category(): BelongsTo {
+	public function category(): BelongsTo
+	{
 		return $this->belongsTo(Category::class);
 	}
 
 	/**
 	 * Get the serie for the post.
 	 */
-	public function serie(): BelongsTo {
+	public function serie(): BelongsTo
+	{
 		return $this->belongsTo(Serie::class);
 	}
 
 	/**
 	 * Get all comments for the post.
 	 */
-	public function comments(): HasMany {
+	public function comments(): HasMany
+	{
 		return $this->hasMany(Comment::class);
 	}
 
 	/**
 	 * Get quiz for the post.
 	 */
-	public function quiz(): HasOne {
+	public function quiz(): HasOne
+	{
 		return $this->hasOne(Quiz::class);
 	}
 
-	public function favoritedByUsers(): BelongsToMany {
+	public function favoritedByUsers(): BelongsToMany
+	{
 		return $this->belongsToMany(User::class, 'favorites');
 	}
 
 	/**
 	 * Get all valid comments for the post.
 	 */
-	public function validComments(): HasMany {
-		return $this->comments()->whereHas('user', function ($query) {
+	public function validComments(): HasMany
+	{
+		return $this->comments()->whereHas('user', function ($query)
+		{
 			$query->whereValid(true);
 		});
 	}

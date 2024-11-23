@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 
-class Contact extends Model {
+class Contact extends Model
+{
 	use HasFactory;
 	use Notifiable;
 
@@ -25,7 +26,8 @@ class Contact extends Model {
 	/**
 	 * Get user of the Contact.
 	 */
-	public function user(): BelongsTo {
+	public function user(): BelongsTo
+	{
 		return $this->belongsTo(User::class);
 	}
 }

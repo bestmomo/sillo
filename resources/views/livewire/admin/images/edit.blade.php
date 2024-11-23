@@ -12,7 +12,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	public int $year;
@@ -43,7 +44,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 	public int $clipH = 0;
 
 	// Méthode de montage du composant
-	public function mount($year, $month, $id): void {
+	public function mount($year, $month, $id): void
+	{
 		$this->year  = $year;
 		$this->month = $month;
 		$this->id    = $id;
@@ -53,29 +55,35 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->getImageInfos();
 	}
 
-	public function saveImageToTemp($viewToast): void {
+	public function saveImageToTemp($viewToast): void
+	{
 		$tempDir        = Storage::path('public/temp');
 		$this->tempPath = $tempDir . '/' . $this->fileName;
 
 		// Vérification que le répertoire temporaire existe, sinon on le crée
-		if (!File::exists($tempDir)) {
+		if (!File::exists($tempDir))
+		{
 			File::makeDirectory($tempDir, 0o755, true);
 		}
 
 		// Copier l'image dans le répertoire temporaire
-		if (File::exists($this->imagePath)) {
+		if (File::exists($this->imagePath))
+		{
 			File::copy($this->imagePath, $this->tempPath);
 		}
 
-		if ($viewToast) {
+		if ($viewToast)
+		{
 			$this->success(__('Changes validated'));
 		}
 
 		$this->image = Storage::url('public/temp/' . $this->fileName);
 	}
 
-	public function restoreImage($cancel): void {
-		if (File::exists($this->imagePath)) {
+	public function restoreImage($cancel): void
+	{
+		if (File::exists($this->imagePath))
+		{
 			File::copy($this->imagePath, $this->tempPath);
 			$this->refreshImageUrl();
 			$this->clipW = 0;
@@ -86,21 +94,25 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 
 		$this->changed = false;
 
-		if ($cancel) {
+		if ($cancel)
+		{
 			$this->info(__('No modification has been made'));
 			$this->exit();
 		}
 	}
 
-	public function updated($property, $value) {
-		if ('group' === $property) {
+	public function updated($property, $value)
+	{
+		if ('group' === $property)
+		{
 			return;
 		}
 
 		$manager = new ImageManager(new Driver());
 		$image   = $manager->read($this->tempPath);
 
-		switch ($property) {
+		switch ($property)
+		{
 			case 'imageScale':
 				$image->scale(height: $this->height * $value);
 				$this->width      = $image->width();
@@ -179,7 +191,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->refreshImageUrl();
 	}
 
-	public function invert(): void {
+	public function invert(): void
+	{
 		$manager = new ImageManager(new Driver());
 		$image   = $manager->read($this->tempPath);
 		$image->invert();
@@ -189,7 +202,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->refreshImageUrl();
 	}
 
-	public function getImage($year, $month, $id): void {
+	public function getImage($year, $month, $id): void
+	{
 		$imagesPath         = "public/photos/{$year}/{$month}";
 		$allFiles           = Storage::files($imagesPath);
 		$image              = $allFiles[$id];
@@ -200,24 +214,30 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->refreshImageUrl();
 	}
 
-	public function keepVersion(): void {
-		if (File::exists($this->tempPath)) {
+	public function keepVersion(): void
+	{
+		if (File::exists($this->tempPath))
+		{
 			File::copy($this->tempPath, $this->imagePath);
 		}
 		$this->success(__('Image changes applied successfully'));
 		$this->exit();
 	}
 
-	public function exit(): void {
-		if (File::exists($this->tempPath)) {
+	public function exit(): void
+	{
+		if (File::exists($this->tempPath))
+		{
 			File::delete($this->tempPath);
 		}
 
 		redirect()->route('images.index');
 	}
 
-	public function applyChanges(): void {
-		if (File::exists($this->tempPath)) {
+	public function applyChanges(): void
+	{
+		if (File::exists($this->tempPath))
+		{
 			File::copy($this->tempPath, $this->imagePath);
 		}
 
@@ -226,14 +246,16 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		$this->success(__('Image changes applied successfully'));
 	}
 
-	private function getImageInfos(): void {
+	private function getImageInfos(): void
+	{
 		$manager      = new ImageManager(new Driver());
 		$image        = $manager->read($this->tempPath);
 		$this->width  = $image->width();
 		$this->height = $image->height();
 	}
 
-	private function findUsage(): array {
+	private function findUsage(): array
+	{
 		$usage = [];
 
 		$name = $this->year . '/' . str_pad($this->month, 2, '0', STR_PAD_LEFT) . '/' . $this->fileName;
@@ -244,7 +266,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 			->orWhere('body', 'LIKE', "%{$name}%")
 			->get();
 
-		foreach ($posts as $post) {
+		foreach ($posts as $post)
+		{
 			$usage[] = [
 				'type'  => 'post',
 				'id'    => $post->id,
@@ -256,7 +279,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		// Check in pages
 		$pages = Page::where('body', 'LIKE', "%{$name}%")->get();
 
-		foreach ($pages as $page) {
+		foreach ($pages as $page)
+		{
 			$usage[] = [
 				'type'  => 'page',
 				'id'    => $page->id,
@@ -267,7 +291,8 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
 		return $usage;
 	}
 
-	private function refreshImageUrl(): void {
+	private function refreshImageUrl(): void
+	{
 		$this->image = Storage::url('public/temp/' . $this->fileName) . '?' . now()->timestamp;
 	}
 }; ?>

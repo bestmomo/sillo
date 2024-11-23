@@ -12,7 +12,8 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Component {
+new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use WithPagination;
 
@@ -24,29 +25,35 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 	public int $perPage = 10;
 	public int $page    = 1;
 
-	public function headers(): array {
+	public function headers(): array
+	{
 		return [['key' => 'url', 'label' => ''],
 			['key' => 'path', 'label' => __('Path')]];
 	}
 
-	public function mount(): void {
+	public function mount(): void
+	{
 		$this->years  = $this->getYears();
 		$this->months = $this->getMonths($this->selectedYear);
 		$this->getImages();
 	}
 
-	public function updating($property, $value): void {
-		if ('selectedYear' == $property) {
+	public function updating($property, $value): void
+	{
+		if ('selectedYear' == $property)
+		{
 			$this->months = $this->getMonths($value);
 		}
 	}
 
-	public function getImages(): LengthAwarePaginator {
+	public function getImages(): LengthAwarePaginator
+	{
 		$imagesPath = "public/photos/{$this->selectedYear}/{$this->selectedMonth}";
 		$allFiles   = Storage::files($imagesPath);
 
 		$this->allImages = collect($allFiles)
-			->map(function ($file) {
+			->map(function ($file)
+			{
 				return [
 					'path' => $file,
 					'url'  => Storage::url($file),
@@ -64,7 +71,8 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 		]);
 	}
 
-	public function deleteImage($index): void {
+	public function deleteImage($index): void
+	{
 		$path = $this->allImages[$index]['path'];
 		Storage::delete($path);
 
@@ -72,23 +80,28 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 		$this->getImages();
 	}
 
-	public function with(): array {
+	public function with(): array
+	{
 		return [
 			'headers' => $this->headers(),
 			'images'  => $this->getImages(),
 		];
 	}
 
-	private function getYears(): Collection {
-		return $this->getDirectories('public/photos', function ($years) {
+	private function getYears(): Collection
+	{
+		return $this->getDirectories('public/photos', function ($years)
+		{
 			$this->selectedYear = $years->first()['id'] ?? null;
 
 			return $years;
 		});
 	}
 
-	private function getMonths($year): Collection {
-		return $this->getDirectories("public/photos/{$year}", function ($months) {
+	private function getMonths($year): Collection
+	{
+		return $this->getDirectories("public/photos/{$year}", function ($months)
+		{
 			$this->selectedMonth = $months->first()['id'] ?? null;
 			$this->getImages();
 
@@ -96,10 +109,12 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
 		});
 	}
 
-	private function getDirectories(string $basePath, Closure $callback): Collection {
+	private function getDirectories(string $basePath, Closure $callback): Collection
+	{
 		$directories = Storage::directories($basePath);
 
-		$items = collect($directories)->map(function ($path) {
+		$items = collect($directories)->map(function ($path)
+		{
 			$name = basename($path);
 
 			return ['id' => $name, 'name' => $name];

@@ -3,11 +3,13 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Title('Chats')] #[Layout('components.layouts.academy')] class extends Component {
+new #[Title('Chats')] #[Layout('components.layouts.academy')] class extends Component
+{
 	public $subtitle     = 'V1 ou V2 ?';
 	protected $listeners = ['update-subtitle' => 'updateSubtitle'];
 
-	public function updateSubtitle($newSubtitle) {
+	public function updateSubtitle($newSubtitle)
+	{
 		$this->subtitle = $newSubtitle;
 	}
 }; ?>

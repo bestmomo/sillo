@@ -10,10 +10,12 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class SettingSeeder extends Seeder {
+class SettingSeeder extends Seeder
+{
 	use WithoutModelEvents;
 
-	public function run() {
+	public function run()
+	{
 		// Données des paramètres
 		$settings = [
 			['key' => 'pagination', 'value' => 6],
