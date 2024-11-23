@@ -10,16 +10,18 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Volt\Component;
-
-new class() extends Component {
+new class() extends Component
+{
 	public $message;
 	public $conversation = [];
 
-	public function mount() {
+	public function mount()
+	{
 		Debugbar::addMessage('Récupération de la conversation');
 		$messages = AcademyChatV1Message::all();
 
-		foreach ($messages as $message) {
+		foreach ($messages as $message)
+		{
 			$this->conversation[] = [
 				'username' => $message->user->name,
 				'message'  => $message->message,
@@ -27,7 +29,8 @@ new class() extends Component {
 		}
 	}
 
-	public function submitMessage() {
+	public function submitMessage()
+	{
 		Debugbar::addMessage('Envoi du dernier thread: ' . $this->message);
 
 		// Dispatch the event
@@ -38,7 +41,8 @@ new class() extends Component {
 	}
 
 	#[On('echo:chat-v1-channel,AcademyChatV1MessageEvent')]
-	public function listenForMessage($data): void {
+	public function listenForMessage($data): void
+	{
 		Debugbar::addMessage('Méthode listenForMessage chat V1 appelée');
 		Debugbar::addMessage($data);
 

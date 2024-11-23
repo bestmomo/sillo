@@ -8,10 +8,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
-class ImageController extends Controller {
-	public function upload(Request $request) {
-		if ($request->hasFile('image')) {
+class ImageController extends Controller
+{
+	public function upload(Request $request)
+	{
+		if ($request->hasFile('image'))
+		{
 			$file     = $request->file('image');
 			$filename = time() . '_' . $file->getClientOriginalName();
 
