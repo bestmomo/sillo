@@ -1,7 +1,7 @@
 @REM ATTENTION:  Windows & Sqlite UNIQUEMENT
 @REM (Et ne le lancer que tous serveurs arrêtés)
 
-@REM              UNIQUEMENT pour pur Developpement !!!
+@REM              UNIQUEMENT pour pur Développement !!!
 
 @REM ACTIONS :
 
@@ -95,7 +95,7 @@ echo.
 echo Restauration...
 
 echo.
-echo Installation des dependances JS
+echo Installation des dépendances JS
 call npm install
 
 echo.

@@ -1,4 +1,4 @@
-<script type="module" src="http://[::1]:8000/@vite/client" data-navigate-track="reload"></script>
+<!-- script type="module" src="http://[::1]:8000/@vite/client" data-navigate-track="reload"></script> -->
 <style>
 html,
 body {
