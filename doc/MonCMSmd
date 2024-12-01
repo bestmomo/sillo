@@ -380,6 +380,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
 
   ```php
   class UserFactory extends Factory {
+    public static $users = [];
     protected static ?string $password;
   
     public function definition(): array {
