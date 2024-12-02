@@ -4,19 +4,21 @@ use App\Models\Page;
 use Livewire\Volt\Component;
 
 // Création d'une nouvelle classe anonyme étendant Component
-new class extends Component {
-    // Propriété publique pour stocker la page
-    public Page $page;
+new class() extends Component
+{
+	// Propriété publique pour stocker la page
+	public Page $page;
 
-    // Méthode de montage pour initialiser la page
-    public function mount(Page $page): void
-    {
-        if (!$page->active) {
-            abort(404);
-        }
+	// Méthode de montage pour initialiser la page
+	public function mount(Page $page): void
+	{
+		if (!$page->active)
+		{
+			abort(404);
+		}
 
-        $this->page = $page;
-    }
+		$this->page = $page;
+	}
 }; ?>
 
 <!-- Vue du composant -->

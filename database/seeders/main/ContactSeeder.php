@@ -1,10 +1,10 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use App\Models\Contact;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

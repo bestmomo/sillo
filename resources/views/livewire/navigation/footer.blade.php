@@ -3,7 +3,8 @@
 use App\Models\Footer;
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	/**
 	 * Retourne les données nécessaires à la vue.
 	 */

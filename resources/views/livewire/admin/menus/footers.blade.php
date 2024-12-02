@@ -10,7 +10,8 @@ use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	public Collection $footers;
@@ -88,7 +89,8 @@ new #[Title('Footer Menu'), Layout('components.layouts.admin')] class extends Co
 	private function reorderFooters(): void
 	{
 		$footers = Footer::orderBy('order')->get();
-		foreach ($footers as $index => $footer) {
+		foreach ($footers as $index => $footer)
+		{
 			$footer->order = $index + 1;
 			$footer->save();
 		}

@@ -5,7 +5,7 @@
 *: Mais pourquoi ce site Sillo ?!?
 
 Laravel est un formidable framework, basé sur HTML/CSS/JS et PHP/MySQL (ou Sqlite)...
-Depuis plus de 10 ans, j'oeuvre pour aider la communauté francophone, à en comprendre toutes les finesses à travers plusieurs tutoriels sur [laravel.sillo.com](https://laravel.sillo.org/laravel-11/) (Aussi, à terme, avoir ce site avec Laravel comme base, serait une chose cohérente, d'où ce projet. Voir ci-dessous la page '*présentation* pour commencer à en voir l'organisation globale...)
+Depuis plus de 10 ans, j'oeuvre pour aider la communauté francophone, à en comprendre toutes les finesses à travers plusieurs tutoriels sur [laravel.sillo.com](https://laravel.sillo.org/pages/laravel-11/) (Aussi, à terme, avoir ce site avec Laravel comme base, serait une chose cohérente, d'où ce projet. Voir ci-dessous la page '*présentation* pour commencer à en voir l'organisation globale...)
 
 Ceci dit, voilà l'Opportunité Exceptionnelle qui vous est aujourd'hui offerte (Et ce complètement gratuitement !!!) :
 

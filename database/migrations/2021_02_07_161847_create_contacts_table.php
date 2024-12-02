@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use Illuminate\Database\Migrations\Migration;
@@ -17,7 +17,8 @@ class CreateContactsTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('contacts', function (Blueprint $table) {
+		Schema::create('contacts', function (Blueprint $table)
+		{
 			$table->id();
 			$table->timestamps();
 			$table->unsignedBigInteger('user_id')->nullable()->default(null);

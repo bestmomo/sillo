@@ -4,7 +4,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new #[Title('Divers')] #[Layout('components.layouts.academy')]
-class extends Component {
+class extends Component
+{
 }; ?>
 <div class="relative w-full h-screen flex flex-col">
 

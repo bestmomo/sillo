@@ -3,7 +3,8 @@ use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Layout('components.layouts.academy')] #[Title('Todos')] class extends Component {
+new #[Layout('components.layouts.academy')] #[Title('Todos')] class extends Component
+{
 	use Toast;
 
 	#[Rule('required|min:3')]

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Traits;
@@ -29,7 +29,8 @@ trait ManageSurvey
 	 */
 	public function addQuestion(int $number = 1): void
 	{
-		while ($number--) {
+		while ($number--)
+		{
 			$this->questions[] = [
 				'question_text' => '',
 				'answers'       => [

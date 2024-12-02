@@ -1,14 +1,15 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Models\User;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new class() extends Component {
+new class() extends Component
+{
 	use WithPagination;
 
 	public $name;
@@ -28,7 +29,8 @@ new class() extends Component {
 	public function doSort($column)
 	{
 		$this->sortColumn = $column;
-		if ($this->sortColumn === $column) {
+		if ($this->sortColumn === $column)
+		{
 			$this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
 
 			return;

@@ -15,7 +15,8 @@ use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
-new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Component
+{
 	// Utilisation des traits Toast et WithPagination
 	use Toast;
 	use WithPagination;
@@ -40,7 +41,8 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	{
 		$headers = [['key' => 'title', 'label' => __('Title')]];
 
-		if (Auth::user()->isAdmin()) {
+		if (Auth::user()->isAdmin())
+		{
 			$headers = array_merge($headers, [['key' => 'user_name', 'label' => __('Author')]]);
 		}
 
@@ -68,7 +70,8 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	// Méthode pour obtenir les catégories
 	public function getCategories(): Collection
 	{
-		if (Auth::user()->isAdmin()) {
+		if (Auth::user()->isAdmin())
+		{
 			return Category::all();
 		}
 
@@ -84,11 +87,13 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	// Méthode appelée avant la mise à jour d'une propriété
 	public function updating($property, $value): void
 	{
-		if ('serie_id' == $property) {
+		if ('serie_id' == $property)
+		{
 			$this->serie_id = $value;
 		}
 
-		if ('category_id' == $property) {
+		if ('category_id' == $property)
+		{
 			$this->series   = '' != $value ? $this->getSeries($value) : new Collection();
 			$this->serie_id = 0;
 		}

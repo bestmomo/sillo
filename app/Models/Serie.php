@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Models;
@@ -40,27 +40,30 @@ class Serie extends Model
 	{
 		// Récupérer tous les posts pertinents en une seule requête avec les colonnes spécifiées
 		$posts = $this->hasMany(Post::class)
-					  ->select('id', 'title', 'serie_id', 'parent_id')
-					  ->get();
-	
+			->select('id', 'title', 'serie_id', 'parent_id')
+			->get();
+
 		// Trouver le post racine (celui dont parent_id est NULL)
 		$rootPost = $posts->firstWhere('parent_id', null);
-	
-		if (!$rootPost) {
+
+		if (!$rootPost)
+		{
 			return null; // Aucun post racine trouvé
 		}
-	
+
 		$currentPost = $rootPost;
-	
+
 		// Suivre la chaîne de parent_id jusqu'au dernier post
-		while (true) {
+		while (true)
+		{
 			$nextPost = $posts->firstWhere('parent_id', $currentPost->id);
-			if (!$nextPost) {
+			if (!$nextPost)
+			{
 				break;
 			}
 			$currentPost = $nextPost;
 		}
-	
+
 		return $currentPost;
 	}
 

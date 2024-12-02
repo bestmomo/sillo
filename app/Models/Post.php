@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Models;
@@ -73,7 +73,8 @@ class Post extends Model
 	 */
 	public function validComments(): HasMany
 	{
-		return $this->comments()->whereHas('user', function ($query) {
+		return $this->comments()->whereHas('user', function ($query)
+		{
 			$query->whereValid(true);
 		});
 	}

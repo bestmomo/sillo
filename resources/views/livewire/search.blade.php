@@ -3,7 +3,8 @@
 use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	// Propriété pour le champ de recherche avec validation
 	#[Rule('required|string|max:100')]
 	public string $search = '';

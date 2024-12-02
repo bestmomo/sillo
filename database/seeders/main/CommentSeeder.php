@@ -1,10 +1,10 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use App\Models\Comment;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -18,7 +18,8 @@ class CommentSeeder extends Seeder
 	{
 		$nbrPosts = PostSeeder::$nbrPosts;
 		$nbrUsers = UserSeeder::$nbrUsers;
-		foreach (range(1, $nbrPosts - 1) as $i) {
+		foreach (range(1, $nbrPosts - 1) as $i)
+		{
 			$this->createComment($i, rand(1, $nbrUsers));
 		}
 

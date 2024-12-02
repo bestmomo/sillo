@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace Database\Seeders;
@@ -25,7 +25,8 @@ class AcademyDatabaseSeeder extends Seeder
 		$namespace = 'Database\\Seeders\\Academy\\';
 		$items     = ['User', 'Post'];
 
-		foreach ($items as $item) {
+		foreach ($items as $item)
+		{
 			$seederClass = "{$namespace}Academy{$item}Seeder";
 			$this->call($seederClass);
 		}

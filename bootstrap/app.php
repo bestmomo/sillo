@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use Illuminate\Foundation\Application;
@@ -14,7 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
 		channels: __DIR__ . '/../routes/channels.php',
 		health: '/up',
 	)
-	->withMiddleware(function (Middleware $middleware) {
+	->withMiddleware(function (Middleware $middleware)
+	{
 	})
-	->withExceptions(function (Exceptions $exceptions) {
+	->withExceptions(function (Exceptions $exceptions)
+	{
 	})->create();

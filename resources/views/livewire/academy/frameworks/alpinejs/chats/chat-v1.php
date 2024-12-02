@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Events\AcademyChatV1MessageEvent;
@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	public $message;
 	public $conversation = [];
 
@@ -20,7 +21,8 @@ new class() extends Component {
 		Debugbar::addMessage('Récupération de la conversation');
 		$messages = AcademyChatV1Message::all();
 
-		foreach ($messages as $message) {
+		foreach ($messages as $message)
+		{
 			$this->conversation[] = [
 				'username' => $message->user->name,
 				'message'  => $message->message,

@@ -10,7 +10,8 @@ use Livewire\Volt\Component;
 new
 #[Title('Pets')]
 #[Layout('components.layouts.academy')]
-class extends Component {
+class extends Component
+{
 	// https://learnwebcode.github.io/json-example/pets-data.json
 }; ?>
 

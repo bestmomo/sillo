@@ -9,7 +9,8 @@ use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 // Définition du composant Livewire avec le layout 'components.layouts.admin'
-new #[Layout('components.layouts.admin')] class extends Component {
+new #[Layout('components.layouts.admin')] class extends Component
+{
 	// Utilisation des traits Toast et WithPagination
 	use Toast;
 	use WithPagination;

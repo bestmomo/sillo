@@ -1,10 +1,10 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\academy;
+namespace Database\Seeders\Academy;
 
 use App\Models\AcademyPost;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

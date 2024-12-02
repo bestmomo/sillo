@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Http\Controllers;
@@ -13,7 +13,8 @@ class ImageController extends Controller
 {
 	public function upload(Request $request)
 	{
-		if ($request->hasFile('image')) {
+		if ($request->hasFile('image'))
+		{
 			$file     = $request->file('image');
 			$filename = time() . '_' . $file->getClientOriginalName();
 

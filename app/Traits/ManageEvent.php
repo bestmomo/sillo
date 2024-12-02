@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Traits;
@@ -36,7 +36,8 @@ trait ManageEvent
 		$end_date   = Carbon::parse($this->end_date);
 
 		// Check if end_date is at least one day after start_date
-		if ($this->end_date && !$end_date->isAfter($start_date)) {
+		if ($this->end_date && !$end_date->isAfter($start_date))
+		{
 			$this->error(__('End date must be after start date.'));
 
 			return true;
@@ -55,7 +56,8 @@ trait ManageEvent
 		$colors = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'];
 
 		$colorArray = [];
-		foreach ($colors as $color) {
+		foreach ($colors as $color)
+		{
 			$colorArray[] = ['id' => $color, 'name' => ucfirst($color)];
 		}
 

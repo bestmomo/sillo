@@ -3,7 +3,8 @@
 use App\Models\Quiz;
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	public Quiz $quiz;
 	public array $userAnswers  = [];
 	public bool $quizSubmitted = false;
@@ -17,7 +18,8 @@ new class() extends Component {
 		$this->quiz     = Quiz::with('questions.answers', 'post:id,title')->findOrFail($id);
 		$this->subtitle = $this->quiz->post ? __('Post') . ' : ' . $this->quiz->post->title : '';
 
-		if (auth()->user()->participatedQuizzes()->where('quiz_id', $id)->exists()) {
+		if (auth()->user()->participatedQuizzes()->where('quiz_id', $id)->exists())
+		{
 			abort(403);
 		}
 	}
@@ -28,12 +30,14 @@ new class() extends Component {
 		$correctAnswersCount = 0;
 		$totalAnswersCount   = 0;
 
-		foreach ($this->quiz->questions as $question) {
+		foreach ($this->quiz->questions as $question)
+		{
 			$correctAnswers = $question->answers->where('is_correct', true)->pluck('id')->toArray();
 			$userAnswers    = array_keys($this->userAnswers[$question->id] ?? []);
 			$correct        = !array_diff($correctAnswers, $userAnswers) && !array_diff($userAnswers, $correctAnswers);
 
-			if ($correct) {
+			if ($correct)
+			{
 				++$correctAnswersCount;
 			}
 			++$totalAnswersCount;
@@ -62,18 +66,23 @@ new class() extends Component {
 		$currentQuestionId = $questionId;
 		$question          = $this->quiz->questions->find($questionId);
 
-		if ($question) {
+		if ($question)
+		{
 			$currentQuestionText = $question->question_text;
 			$wrongAnswerText     = null;
 			$correctAnswerText   = null;
 
-			foreach ($question->answers as $answer) {
+			foreach ($question->answers as $answer)
+			{
 				$isCorrect = $answer->is_correct;
 				$isChecked = isset($this->userAnswers[$questionId]) && array_key_exists($answer->id, $this->userAnswers[$questionId]);
 
-				if ($isChecked && !$isCorrect) {
+				if ($isChecked && !$isCorrect)
+				{
 					$wrongAnswerText = $answer->answer_text;
-				} elseif (!$isChecked && $isCorrect) {
+				}
+				elseif (!$isChecked && $isCorrect)
+				{
 					$correctAnswerText = $answer->answer_text;
 				}
 			}
@@ -105,7 +114,8 @@ new class() extends Component {
 		];
 
 		// Envoi de la requête à l'API OpenAI
-		try {
+		try
+		{
 			$response = Http::withToken($token)
 				->withHeaders([
 					'Content-Type' => 'application/json',
@@ -113,15 +123,20 @@ new class() extends Component {
 				->post('https://api.openai.com/v1/chat/completions', $payload);
 
 			// Vérification du statut de la réponse
-			if ($response->successful()) {
+			if ($response->successful())
+			{
 				// Décodage de la réponse et récupération du contenu
 				$this->chatAnswer = json_decode($response->body())->choices[0]->message->content;
 				$this->myModal    = true;
-			} else {
+			}
+			else
+			{
 				// Gestion des erreurs
 				throw new Exception(__('Error in API response: ') . $response->body());
 			}
-		} catch (Exception $e) {
+		}
+		catch (Exception $e)
+		{
 			$erreur_obj = json_decode($response->body());
 			$error_code = $erreur_obj->error->code;
 			Log::error('Failed to get answer from OpenAI: ' . $e->getMessage());

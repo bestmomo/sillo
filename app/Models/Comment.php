@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Models;
@@ -66,10 +66,10 @@ class Comment extends Model
 	{
 		return $this->parent ? $this->parent->getDepth() + 1 : 0;
 	}
-	
-    // Relation avec le modèle Reaction
-    public function reactions()
-    {
-        return $this->hasMany(Reaction::class);
-    }
+
+	// Relation avec le modèle Reaction
+	public function reactions()
+	{
+		return $this->hasMany(Reaction::class);
+	}
 }

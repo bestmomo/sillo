@@ -1,80 +1,81 @@
 <?php
 
-use Livewire\Attributes\{Layout, Validate, Title};
-use Livewire\Volt\Component;
-use Illuminate\Support\Str;
 use Illuminate\Auth\Events\Lockout;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\{Auth, RateLimiter};
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\{Layout, Title, Validate};
+use Livewire\Volt\Component;
 
 new
 #[Title('Login')]
 #[Layout('components.layouts.auth')]
-class extends Component {
+class extends Component
+{
+	#[Validate('required|string|email')]
+	public string $email = '';
 
-    #[Validate('required|string|email')]
-    public string $email = '';
+	#[Validate('required|string')]
+	public string $password = '';
 
-    #[Validate('required|string')]
-    public string $password = '';
-
-    #[Validate('boolean')]
-    public bool $remember = false;
+	#[Validate('boolean')]
+	public bool $remember = false;
 
 	public function login()
 	{
-        $this->validate();
+		$this->validate();
 
-        $this->authenticate();
+		$this->authenticate();
 
-        Session::regenerate();
+		Session::regenerate();
 
-        if (auth()->user()->isAdmin()) {
-            return redirect()->intended('/admin/dashboard');
-        }
+		if (auth()->user()->isAdmin())
+		{
+			return redirect()->intended('/admin/dashboard');
+		}
 
-        $this->redirectIntended(default: url('/'), navigate: true);
+		$this->redirectIntended(default: url('/'), navigate: true);
 	}
 
-    public function authenticate(): void
-    {
-        $this->ensureIsNotRateLimited();
+	public function authenticate(): void
+	{
+		$this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only(['email', 'password']), $this->remember)) {
-            RateLimiter::hit($this->throttleKey());
+		if (!Auth::attempt($this->only(['email', 'password']), $this->remember))
+		{
+			RateLimiter::hit($this->throttleKey());
 
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
-        }
+			throw ValidationException::withMessages([
+				'email' => __('auth.failed'),
+			]);
+		}
 
-        RateLimiter::clear($this->throttleKey());
-    }
+		RateLimiter::clear($this->throttleKey());
+	}
 
-    protected function ensureIsNotRateLimited(): void
-    {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
-            return;
-        }
+	protected function ensureIsNotRateLimited(): void
+	{
+		if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5))
+		{
+			return;
+		}
 
-        event(new Lockout(request()));
+		event(new Lockout(request()));
 
-        $seconds = RateLimiter::availableIn($this->throttleKey());
+		$seconds = RateLimiter::availableIn($this->throttleKey());
 
-        throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
-        ]);
-    }
+		throw ValidationException::withMessages([
+			'email' => trans('auth.throttle', [
+				'seconds' => $seconds,
+				'minutes' => ceil($seconds / 60),
+			]),
+		]);
+	}
 
-    protected function throttleKey(): string
-    {
-        return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
-    }
-
+	protected function throttleKey(): string
+	{
+		return Str::transliterate(Str::lower($this->email) . '|' . request()->ip());
+	}
 }; ?>
 
 <div>

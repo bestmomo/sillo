@@ -1,10 +1,10 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use App\Models\Event;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -40,7 +40,8 @@ class EventSeeder extends Seeder
 			],
 		];
 
-		foreach ($events as $eventData) {
+		foreach ($events as $eventData)
+		{
 			Event::create($eventData);
 		}
 	}

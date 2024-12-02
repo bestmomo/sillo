@@ -4,7 +4,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\{Auth, Session};
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	// Collection de menus
 	public Collection $menus;
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Events;
@@ -26,6 +26,8 @@ class AcademyChatV1MessageEvent implements ShouldBroadcastNow
 
 	/**
 	 * Create a new event instance.
+	 * @param mixed $user_id
+	 * @param mixed $message
 	 */
 	public function __construct($user_id, $message)
 	{

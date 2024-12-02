@@ -6,7 +6,8 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 // Définition du composant avec les attributs de titre et de mise en page
-new #[Title('Contact')] #[Layout('components.layouts.auth')] class extends Component {
+new #[Title('Contact')] #[Layout('components.layouts.auth')] class extends Component
+{
 	use Toast;
 
 	// Définition des règles de validation pour les champs du formulaire
@@ -25,7 +26,8 @@ new #[Title('Contact')] #[Layout('components.layouts.auth')] class extends Compo
 	// Méthode de montage pour pré-remplir les champs avec les informations de l'utilisateur authentifié
 	public function mount(): void
 	{
-		if (Auth::check()) {
+		if (Auth::check())
+		{
 			$this->name    = Auth::user()->name;
 			$this->email   = Auth::user()->email;
 			$this->user_id = Auth::id();

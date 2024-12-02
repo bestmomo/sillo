@@ -8,7 +8,8 @@ use App\Models\User;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new class() extends Component {
+new class() extends Component
+{
 	use WithPagination;
 
 	public $name;
@@ -24,7 +25,8 @@ new class() extends Component {
 	public function mount($loadMore = true, $offset = 0)
 	{
 		$this->name = 'GC7';
-		if (0 == $offset) {
+		if (0 == $offset)
+		{
 			$this->dispatch('update-subtitle', newSubtitle: $this->subtitle);
 			logger('Dispatching update-subtitle event');
 		}
@@ -36,7 +38,8 @@ new class() extends Component {
 	public function doSort($column)
 	{
 		$this->sortColumn = $column;
-		if ($this->sortColumn === $column) {
+		if ($this->sortColumn === $column)
+		{
 			$this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
 
 			return;
@@ -52,7 +55,8 @@ new class() extends Component {
 
 	public function with(): array
 	{
-		if ($this->loadMore) {
+		if ($this->loadMore)
+		{
 			$this->users = User::offset($this->offset)
 				->orderBy($this->sortColumn, $this->sortDirection)
 				->search($this->search)

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Http\Controllers\ImageController;
@@ -17,7 +17,8 @@ Volt::route('/', 'index');
 Volt::route('/academy', 'academy.academy')->name('academy.academy');
 Volt::route('/t', 'academy.abc.aaa_test')->name('academy.test');
 Volt::route('/frameworks', 'academy.frameworks');
-Route::prefix('/framework')->group(function () {
+Route::prefix('/framework')->group(function ()
+{
 	getAcademyFrameworksRoutes();
 });
 
@@ -32,7 +33,8 @@ Volt::route('/posts/{slug}', 'posts.show')->name('posts.show');
 Volt::route('/pages/{page:slug}', 'pages.show')->name('pages.show');
 
 // Routes pour les invités
-Route::middleware('guest')->group(function () {
+Route::middleware('guest')->group(function ()
+{
 	Volt::route('/login', 'auth.login')->name('login');
 	Volt::route('/register', 'auth.register');
 	Volt::route('/forgot-password', 'auth.forgot-password');
@@ -40,8 +42,10 @@ Route::middleware('guest')->group(function () {
 });
 
 // Routes pour les utilisateurs authentifiés
-Route::middleware('auth')->group(function () {
-	Route::middleware(IsStudent::class)->group(function () {
+Route::middleware('auth')->group(function ()
+{
+	Route::middleware(IsStudent::class)->group(function ()
+	{
 		Volt::route('/framework/alpinejs/chats', 'academy.frameworks.alpinejs.chats')->name('alpinejs.chats');
 	});
 
@@ -55,7 +59,8 @@ Route::middleware('auth')->group(function () {
 	// Routes pour les administrateurs et rédacteurs
 	Route::middleware(IsAdminOrRedac::class)
 		->prefix('admin')
-		->group(function () {
+		->group(function ()
+		{
 			Volt::route('/dashboard', 'admin.index')->name('admin');
 			Volt::route('/posts/index', 'admin.posts.index')->name('posts.index');
 			Volt::route('/posts/create', 'admin.posts.create')->name('posts.create');
@@ -70,7 +75,8 @@ Route::middleware('auth')->group(function () {
 			Volt::route('/surveys/{survey}/edit', 'admin.surveys.edit')->name('surveys.edit');
 
 			// Routes uniquement pour les administrateurs
-			Route::middleware(IsAdmin::class)->group(function () {
+			Route::middleware(IsAdmin::class)->group(function ()
+			{
 				Volt::route('/categories/index', 'admin.categories.index')->name('categories.index');
 				Volt::route('/categories/{category}/edit', 'admin.categories.edit')->name('categories.edit');
 				Volt::route('/pages/index', 'admin.pages.index')->name('pages.index');
@@ -98,7 +104,8 @@ Route::middleware('auth')->group(function () {
 		});
 });
 
-Route::fallback(function () {
+Route::fallback(function ()
+{
 	$path         = request()->path();
 	$redirectPath = '/posts/' . $path;
 
@@ -107,18 +114,12 @@ Route::fallback(function () {
 
 //2see : Develop a component for all topics in 'LaDOC', and group the related routes
 // À faire : Développer un composant pour toutes les thématiques de 'LaDOC', et regrouper les routes correspondantes
-Route::get('/doc/laravel', function () {
+Route::get('/doc/laravel', function ()
+{
 	return view('docs.laravel');
 })->name('docs.laravel');
 
-Route::get('/doc/ladoc', function () {
+Route::get('/doc/ladoc', function ()
+{
 	return view('docs.ladoc');
 })->name('docs.ladoc');
-
-//2do by BestMomo : Please change the link for memo in https://laravel.sillo.org/pages/laravel-11
-// ' 'Ne ratez pas le superbe diagramme dynamique de Lionel ici.' )
-// https://laravel.sillo.org/doc/memo → https://laravel.sillo.org/doc/laravel
-// And remove this duplicate route ( = all this bloc ;-) !
-Route::get('/doc/memo', function () {
-	return view('docs.laravel');
-})->name('docs.memo');

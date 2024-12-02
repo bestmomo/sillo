@@ -10,7 +10,8 @@ use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Create Page'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Create Page'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	#[Rule('required|max:65000')]

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Notifications;
@@ -43,7 +43,7 @@ class UserRegistered extends Notification
 		return (new MailMessage())
 			->subject(__('A new user has been registered'))
 			->line(__('The name of the new user is ') . $this->user->name)
-            ->line(__('The email of the new user is ') . $this->user->email);
+			->line(__('The email of the new user is ') . $this->user->email);
 	}
 
 	/**

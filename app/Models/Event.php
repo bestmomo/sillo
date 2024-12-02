@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Models;
@@ -28,7 +28,8 @@ class Event extends Model
 	public static function getUpcomingEvents()
 	{
 		return self::where('start_date', '>=', Carbon::now())
-			->orWhere(function ($query) {
+			->orWhere(function ($query)
+			{
 				$query->where('end_date', '>=', Carbon::now())
 					->whereNotNull('end_date');
 			})
@@ -49,9 +50,12 @@ class Event extends Model
 			'css'         => '!bg-' . $this->color . '-200',
 		];
 
-		if (is_null($this->end_date)) {
+		if (is_null($this->end_date))
+		{
 			$formattedEvent['date'] = $this->start_date;
-		} else {
+		}
+		else
+		{
 			$formattedEvent['range'] = [
 				$this->start_date,
 				$this->end_date,

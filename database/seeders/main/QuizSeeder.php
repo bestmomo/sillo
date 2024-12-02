@@ -1,10 +1,10 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use App\Models\{Answer, Question, Quiz};
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -65,7 +65,8 @@ class QuizSeeder extends Seeder
 			],
 		];
 
-		foreach ($quizzes as $quizData) {
+		foreach ($quizzes as $quizData)
+		{
 			// Créer le quiz
 			$quiz = Quiz::create([
 				'title'       => $quizData['title'],
@@ -75,12 +76,14 @@ class QuizSeeder extends Seeder
 			]);
 
 			// Créer les questions et les réponses associées
-			foreach ($quizData['questions'] as $questionData) {
+			foreach ($quizData['questions'] as $questionData)
+			{
 				$question = Question::create([
 					'quiz_id'       => $quiz->id,
 					'question_text' => $questionData['question_text'],
 				]);
-				foreach ($questionData['answers'] as $answerData) {
+				foreach ($questionData['answers'] as $answerData)
+				{
 					Answer::create([
 						'question_id' => $question->id,
 						'answer_text' => $answerData['answer_text'],

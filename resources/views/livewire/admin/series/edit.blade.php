@@ -7,7 +7,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Layout('components.layouts.admin')] class extends Component {
+new #[Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 
 	public Serie $serie;
@@ -18,7 +19,8 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	// Initialise le composant avec une série donnée.
 	public function mount(Serie $serie): void
 	{
-		if (Auth()->user()->isRedac() && $serie->user_id !== Auth()->id()) {
+		if (Auth()->user()->isRedac() && $serie->user_id !== Auth()->id())
+		{
 			abort(403);
 		}
 
@@ -30,7 +32,8 @@ new #[Layout('components.layouts.admin')] class extends Component {
 	// Met à jour le slug lorsque le titre change.
 	public function updating($property, $value)
 	{
-		if ('title' == $property) {
+		if ('title' == $property)
+		{
 			$this->slug = Str::slug($value);
 		}
 	}

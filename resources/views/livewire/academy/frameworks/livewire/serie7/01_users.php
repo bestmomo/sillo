@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use App\Models\User;
@@ -10,7 +10,8 @@ use Livewire\WithPagination;
 
 new // #[Title('Serie7')]
 // #[Layout('components.layouts.academy')]
-class() extends Component {
+class() extends Component
+{
 	use WithPagination;
 
 	public $subtitle = 'Users';
@@ -31,7 +32,8 @@ class() extends Component {
 	public function doSort($column)
 	{
 		$this->sortColumn = $column;
-		if ($this->sortColumn === $column) {
+		if ($this->sortColumn === $column)
+		{
 			$this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
 
 			return;

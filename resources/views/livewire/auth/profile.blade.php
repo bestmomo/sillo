@@ -13,7 +13,8 @@ use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 // Définition du composant avec les attributs de titre et de mise en page
-new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Component {
+new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Component
+{
 	use Toast;
 
 	// Déclaration des propriétés
@@ -46,9 +47,12 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
 		]);
 
 		// Hashage du mot de passe
-		if (empty($data['password'])) {
+		if (empty($data['password']))
+		{
 			unset($data['password']);
-		} else {
+		}
+		else
+		{
 			$data['password'] = Hash::make($data['password']);
 		}
 

@@ -10,7 +10,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Create Event'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Create Event'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use ManageEvent;
 
@@ -23,7 +24,8 @@ new #[Title('Create Event'), Layout('components.layouts.admin')] class extends C
 	public function save()
 	{
 		$data = $this->validate($this->rules);
-		if ($this->checkDates()) {
+		if ($this->checkDates())
+		{
 			return;
 		}
 

@@ -4,7 +4,8 @@ use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	public $posts;
 	public $page;
 	public $perPage;
@@ -15,7 +16,8 @@ new class() extends Component {
 	{
 		$paginator = $this->getBaseQuery()->paginate(6);
 		$posts     = $paginator->getCollection();
-		foreach ($posts as $post) {
+		foreach ($posts as $post)
+		{
 			// $post->excerpt = preg_replace("/\r|\n/", " ", $post->excerpt);
 			$post->excerpt = rtrim($post->excerpt, '-;,!?….\n\r\t');
 			$post->excerpt = preg_replace('/\s+\S+$/', '', $post->excerpt);

@@ -1,12 +1,13 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use Livewire\Volt\Component;
 
-new class() extends Component {
+new class() extends Component
+{
 	public $btns;
 	public $choice;
 	public $component;
@@ -21,7 +22,8 @@ new class() extends Component {
 	{
 		$index = array_search($choice, $this->btns);
 
-		if (false !== $index) {
+		if (false !== $index)
+		{
 			$formattedIndex  = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
 			$lowercaseChoice = strtolower($choice);
 

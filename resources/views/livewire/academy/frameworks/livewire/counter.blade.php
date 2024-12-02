@@ -3,7 +3,8 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Layout('components.layouts.academy')] #[Title('Counter')] class extends Component {
+new #[Layout('components.layouts.academy')] #[Title('Counter')] class extends Component
+{
 	public $count = 100;
 	public $by;
 

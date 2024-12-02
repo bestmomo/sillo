@@ -6,7 +6,8 @@ use Livewire\Volt\Component;
 new
 #[Title('Academy')]
 #[Layout('components.layouts.academy')]
-class extends Component {
+class extends Component
+{
 }; ?>
 
 <div>

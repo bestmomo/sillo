@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 namespace App\Repositories;
@@ -24,11 +24,13 @@ class PostRepository
 	{
 		$query = $this->getBaseQuery()->orderBy('pinned', 'desc')->latest();
 
-		if ($category) {
+		if ($category)
+		{
 			$query->whereBelongsTo($category);
 		}
 
-		if ($serie) {
+		if ($serie)
+		{
 			$query->whereBelongsTo($serie)->oldest();
 		}
 
@@ -55,20 +57,23 @@ class PostRepository
 			'category',
 			'serie',
 			'quiz:id,post_id',
-			'quiz.participants' => function ($query) use ($userId) {
+			'quiz.participants' => function ($query) use ($userId)
+			{
 				$query->where('user_id', $userId);
 			},
 		])
 			->withCount('validComments')
 			->withExists([
-				'favoritedByUsers as is_favorited' => function ($query) use ($userId) {
+				'favoritedByUsers as is_favorited' => function ($query) use ($userId)
+				{
 					$query->where('user_id', $userId);
 				},
 			])
 			->whereSlug($slug)
 			->firstOrFail();
 
-		if ($post->serie_id) {
+		if ($post->serie_id)
+		{
 			$post->previous = $post->parent_id ? Post::findOrFail($post->parent_id) : null;
 			$post->next     = Post::where('active', true)->whereParentId($post->id)->first() ?: null;
 		}
@@ -87,7 +92,8 @@ class PostRepository
 	{
 		return $this->getBaseQuery()
 			->latest()
-			->where(function ($query) use ($search) {
+			->where(function ($query) use ($search)
+			{
 				$query->where('body', 'like', "%{$search}%")->orWhere('title', 'like', "%{$search}%");
 			})
 			->paginate(config('app.pagination'));
@@ -103,7 +109,8 @@ class PostRepository
 	public function getFavoritePosts(User $user): LengthAwarePaginator
 	{
 		return $this->getBaseQuery()
-			->whereHas('favoritedByUsers', function (Builder $query) {
+			->whereHas('favoritedByUsers', function (Builder $query)
+			{
 				$query->where('user_id', auth()->id());
 			})
 			->latest()
@@ -121,7 +128,8 @@ class PostRepository
 	{
 		$newSlug = $slug;
 		$counter = 1;
-		while (Post::where('slug', $newSlug)->exists()) {
+		while (Post::where('slug', $newSlug)->exists())
+		{
 			$newSlug = $slug . '-' . $counter;
 			++$counter;
 		}
@@ -141,11 +149,12 @@ class PostRepository
 			'sqlite' => 'substr(body, 1, 700)',
 			'pgsql'  => 'substring(body from 1 for 700)',
 		];
-		
+
 		// 2fix use config instead of env()
 		$usedDbSystem = env('DB_CONNECTION', 'mysql');
 
-		if (!isset($specificReqs[$usedDbSystem])) {
+		if (!isset($specificReqs[$usedDbSystem]))
+		{
 			throw new \Exception("Base de données non supportée: {$usedDbSystem}");
 		}
 
@@ -158,7 +167,8 @@ class PostRepository
                     ELSE {$adaptedReq}
                 END AS excerpt",
 			)
-			->when($userId = auth()->id(), function ($query, $userId) {
+			->when($userId = auth()->id(), function ($query, $userId)
+			{
 				$query->selectRaw('(SELECT 1 FROM favorites WHERE favorites.post_id = posts.id AND favorites.user_id = ?) AS is_favorited', [$userId]);
 			})
 			->with('user:id,name', 'category', 'serie')

@@ -12,7 +12,8 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Title('Users'), Layout('components.layouts.admin')] class extends Component {
+new #[Title('Users'), Layout('components.layouts.admin')] class extends Component
+{
 	use Toast;
 	use WithPagination;
 
@@ -29,13 +30,16 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 	public function fetchUsers(): LengthAwarePaginator
 	{
 		$users = User::query()
-			->when($this->search, function (Builder $query) {
+			->when($this->search, function (Builder $query)
+			{
 				$query->where('name', 'like', "%{$this->search}%");
 			})
-			->when('all' !== $this->role, function (Builder $query) {
+			->when('all' !== $this->role, function (Builder $query)
+			{
 				$query->where('role', $this->role);
 			})
-			->when($this->isStudent, function ($query) {
+			->when($this->isStudent, function ($query)
+			{
 				$query->where('isStudent', true);
 			})
 			->withCount('posts', 'comments')
@@ -59,7 +63,8 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 					'admin' => __('Administrators'),
 					'redac' => __('Redactors'),
 					'user'  => __('Users'),
-				])->map(function ($roleName, $roleId) use ($roleCounts, $studentCounts) {
+				])->map(function ($roleName, $roleId) use ($roleCounts, $studentCounts)
+				{
 					$count        = $roleCounts->get($roleId, 0);
 					$studentCount = $studentCounts->get($roleId, 0);
 					$plur         = $studentCount > 1 ? 's' : '';
@@ -69,7 +74,8 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 					return "{$roleName} ({$count}), {$with} {$studentCount} {$student}{$plur}";
 				}),
 			)
-			->map(function ($roleName, $roleId) {
+			->map(function ($roleName, $roleId)
+			{
 				return ['name' => $roleName, 'id' => $roleId];
 			})
 			->values()
@@ -78,7 +84,8 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 		$this->rolesCount = $rolesCount;
 
 		// Ajout des statistiques à chaque utilisateur
-		$users->getCollection()->transform(function ($user) use ($roleCounts, $studentCounts) {
+		$users->getCollection()->transform(function ($user) use ($roleCounts, $studentCounts)
+		{
 			$user->userCountsByRole    = $roleCounts;
 			$user->studentCountsByRole = $studentCounts;
 
@@ -124,7 +131,8 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 	{
 		$headers = [['key' => 'id', 'label' => '#'], ['key' => 'name', 'label' => __('Name')], ['key' => 'role', 'label' => __('Role')], ['key' => 'isStudent', 'label' => __('Status')], ['key' => 'valid', 'label' => __('Valid')]];
 
-		if ('user' !== $this->role) {
+		if ('user' !== $this->role)
+		{
 			$headers = array_merge($headers, [['key' => 'posts_count', 'label' => __('Posts')]]);
 		}
 

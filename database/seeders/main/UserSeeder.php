@@ -1,10 +1,10 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-namespace database\seeders\main;
+namespace Database\Seeders\Main;
 
 use App\Models\User;
 use Carbon\Carbon;
@@ -46,7 +46,8 @@ class UserSeeder extends Seeder
 		];
 
 		// Créer les utilisateurs spécifiques
-		foreach ($users as $userData) {
+		foreach ($users as $userData)
+		{
 			User::factory()->create($userData);
 		}
 
@@ -63,7 +64,8 @@ class UserSeeder extends Seeder
 
 		// Mettre à jour un utilisateur spécifique
 		$unValidUser = User::find(4);
-		if ($unValidUser) {
+		if ($unValidUser)
+		{
 			$unValidUser->isStudent = true;
 			$unValidUser->valid     = false;
 			$unValidUser->save();

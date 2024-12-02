@@ -6,7 +6,8 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Component {
+new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Component
+{
 	use WithPagination;
 	use Toast;
 

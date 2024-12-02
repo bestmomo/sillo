@@ -51,8 +51,8 @@ en fin de ce mémo -->
 
 ##### Astuces
 
-* Considérer que ce Mémo est destiné à, et optimisé pour être utilisé en mode '<a href="https://laravel.sillo.org/doc/memo" title="See it !" target="_blank">*Preview*</a>' (<a href="https://laravel.sillo.org/doc/memo" title="La voir !" target="_blank">Prévisualisation</a>) :
-* Surtout, utiliser une 'vraie' souris (Et pas le paddle si vous êtes sur un *notebook* (Ordinateur portable))
+* Considérer que ce Mémo est destiné à, et optimisé pour être utilisé en mode '<a href="https://laravel.sillo.org/doc/laravel" title="See it !" target="_blank">*Preview*</a>' (<a href="https://laravel.sillo.org/doc/laravel" title="La voir !" target="_blank">Prévisualisation</a>) :
+* Surtout, utiliser une 'vraie' souris (Et pas le *paddle* si vous êtes sur un *notebook* (Ordinateur portable))
 pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoomer facilement.
 * Pour **Copier/Coller** de (s || longs) scripts dans la *Preview* :
 \- Cliquer tout à la fin du 'pavé' désiré,
@@ -303,12 +303,12 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
   ```
 
 * À noter: ∃ un fichier ./**.env_exemple**...En effet, lors du dépôt **Git** d'un projet, le ./**.env** est souvent,
- pour ne pas dire toujours, ignoré des **push**es... Donc, en cas de clone par un tier, ce fichier sert
+ pour ne pas dire toujours, ignoré des ***push***es... Donc, en cas de clone par un tier, ce fichier sert
  de matrice pour l'aider à recréer son ./**.env**
 
 ### Exécuter votre script <!-- markmap: fold -->
 
-#### Start & & || Restart des serveurs
+#### Start ( & / || ) Restart des serveurs
 
 * **PHP** dans une première console (**CLI**):
 
@@ -322,7 +322,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     npm run dev
   ```
 
-#### Ouvrir votre navigateur sur [http://127.0.0.1:8000](http://127.0.0.1:8000)
+#### Ouvrir votre navigateur sur : <a href="http://127.0.0.1:8000" title="Votre App en local" target = "_blank">http://127.0.0.1:8000</a>
 
 ### Outil recommandé (La Debugbar) <!-- markmap: fold -->
 
@@ -333,7 +333,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     composer require barryvdh/laravel-debugbar --dev
   ```
 
-* *Restart* ([Re]démarrer) les serveurs
+* *[Re]start servers* ([Re]démarrer les serveurs)
 
 ### Package des langues <!-- markmap: fold -->
 
@@ -356,7 +356,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
 
 ### Les données <!-- markmap: fold -->
 
-#### Tables users <!-- markmap: fold -->
+#### Table *users* <!-- markmap: fold -->
 
 ##### database/migrations/**0001_01_01_000000_create_users_table.php** <!-- markmap: fold -->
 
@@ -380,17 +380,18 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
 
   ```php
   class UserFactory extends Factory {
+    public static $users = [];
     protected static ?string $password;
   
     public function definition(): array {
-    [$name, $email] = $this->uniqueUsersEmail();
-        return [
-            'name'           => $name,
-            'email'          => $email,
-            'password'       => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
-            'valid'          => true,
-        ];
+      [$name, $email] = $this->uniqueUserNameAndEmail();
+      return [
+        'name'           => $name,
+        'email'          => $email,
+        'password'       => static::$password ??= Hash::make('password'),
+        'remember_token' => Str::random(10),
+        'valid'          => true,
+      ];
     }
     
     /**
@@ -402,7 +403,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
         ]);
     }
     
-    public function uniqueUsersEmail() {
+    public function uniqueUserNameAndEmail() {
       static $names;
   
       $name = fake('fr_FR')->lastname();
@@ -438,15 +439,15 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     }
   ```
 
-#### Tables categories <!-- markmap: fold -->
+#### Table *categories* <!-- markmap: fold -->
 
-##### Model & migration des categories <!-- markmap: fold -->
+##### Model & migration des *categories* <!-- markmap: fold -->
 
 ```bash
   php artisan make:model Category --migration
 ```
 
-##### Migrations des categories <!-- markmap: fold -->
+##### Migrations des *categories* <!-- markmap: fold -->
 
   ```php
     public function up(): void {
@@ -470,7 +471,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     }
   ```
 
-#### Tables posts (Articles) <!-- markmap: fold -->
+#### Table *posts* (Articles) <!-- markmap: fold -->
 
 ##### Création model & migration des articles <!-- markmap: fold -->
 
@@ -484,8 +485,16 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     public function up(): void {
       Schema::create('posts', function (Blueprint $table) {
       $table->id();
-      $table->timestamps();
       $table->string('title');
+      $table->foreignId('user_id')
+        ->constrained()
+        ->onDelete('cascade')
+        ->onUpdate('cascade');
+      $table->foreignId('category_id')
+        ->constrained()
+        ->onDelete('cascade')
+        ->onUpdate('cascade');
+      });
       $table->string('slug')->unique();
       $table->mediumText('body');
       $table->boolean('active')->default(false);
@@ -494,17 +503,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
       $table->text('meta_description');
       $table->text('meta_keywords');
       $table->boolean('pinned')->default(false);
-  
-      $table->foreignId('user_id')
-        ->constrained()
-        ->onDelete('cascade')
-        ->onUpdate('cascade');
-  
-      $table->foreignId('category_id')
-        ->constrained()
-        ->onDelete('cascade')
-        ->onUpdate('cascade');
-      });
+      $table->timestamps();
     }
   ```
 
@@ -541,7 +540,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
 
 #### Les relations <!-- markmap: fold -->
 
-##### Les relations dans Models/Post.php <!-- markmap: fold -->
+##### Les relations dans Models/**Post.php** <!-- markmap: fold -->
 
   ```php
     use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -557,7 +556,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     }
   ```
 
-##### La relation dans Models/User.php <!-- markmap: fold -->
+##### La relation dans Models/**User.php** <!-- markmap: fold -->
 
   ```php
     use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -571,7 +570,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     }
   ```
 
-##### La relation dans Models/Category.php <!-- markmap: fold -->
+##### La relation dans Models/**Category.php** <!-- markmap: fold -->
 
   ```php
     use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -590,9 +589,9 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
   php artisan migrate
   ```
 
-##### **<a href="https://laravel.sillo.org/storage/photos/2024/08/XIVfqMqmJ7OUNl9kwGWNk5duv0U0nweTIz2nbI1E.png" title="Voir les détails" target="_blank">Voir diagramme UML des 3 tables</a>**
+* **<a href="https://laravel.sillo.org/storage/photos/2024/08/XIVfqMqmJ7OUNl9kwGWNk5duv0U0nweTIz2nbI1E.png" title="Voir les détails" target="_blank">Voir diagramme UML des 3 tables</a>**
 
-#### Population de users <!-- markmap: fold -->
+#### Population des *users* <!-- markmap: fold -->
 
 ##### Création du seeder User
 
@@ -654,7 +653,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     }
   ```
 
-#### Population de categories <!-- markmap: fold -->
+#### Population des *categories* <!-- markmap: fold -->
 
 ##### Création du seeder Category
 
@@ -677,7 +676,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
   }
   ```
 
-#### Population de posts <!-- markmap: fold -->
+#### Population des *posts* <!-- markmap: fold -->
 
 ##### Créer app/**helpers.php** <!-- markmap: fold -->
 
@@ -771,7 +770,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     }
   ```
 
-#### Activation des seeders <!-- markmap: fold -->
+#### Activation des *seeders* <!-- markmap: fold -->
 
 * database/seeders/**DatabaseSeeder.php** :
 
@@ -926,7 +925,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
 
 ## - L'authentification <!-- markmap: fold -->
 
-### Installer MaryUI (Avec Volt et npm) <!-- markmap: fold -->
+### Installer **MaryUI** (Avec **Volt** et **npm**) <!-- markmap: fold -->
 
 #### Revoir ci-avant : ' Généralités / Technos / MaryUI ' pour l'installation
 
@@ -942,7 +941,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     npm run dev
   ```
 
-##### **[URL du rendu](http://127.0.0.1:8000)**
+##### **<a href="http://127.0.0.1:8000" title="Votre App en local" target="_blank">URL du rendu</a>**
 
 ### Layout pour l'authentification <!-- markmap: fold -->
 
@@ -974,7 +973,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
   </html>
   ```
 
-### Composants VOLT pour authentification <!-- markmap: fold -->
+### Composants **VOLT** pour l'authentification <!-- markmap: fold -->
 
 #### Composant Register <!-- markmap: fold -->
 
@@ -1063,7 +1062,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     </div>
   ```
 
-##### Traduction pour formulaire Register <!-- markmap: fold -->
+##### Traductions pour formulaire Register <!-- markmap: fold -->
 
 * ./lang/**fr.json** :
 
@@ -1080,10 +1079,14 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
 
 ##### Particularité : Pot de miel <!-- markmap: fold -->
 
-* À noter: ∃ un champs caché (gender) pour identifier les robots...
+* À noter : ∃ un champs caché (gender) pour identifier les robots...
+* '*On n'arrête pas l'progrès'* !' (*Lol* !) : Un 'robot' extralucide, car
+ce champs est logiquement invisible..., va dire de quel sexe il est !!! ;-)
 * Voir dans le code du composant : **if ($this->gender) abort(403);**
+(*Bon, même si on n'est pas encore à la pire ère de *Terminator*,
+on l'envoie quand même immédiatement bouler* ! :-) → *Error* **403 !**
 
-##### **[Rendu Register](http://127.0.0.1:8000/register)** (Tester la validation des champs)
+##### **<a href="http://127.0.0.1:8000/register" title="Tester la validation des champs" target="_blank">Rendu Register</a>**
 
 #### Composant Login <!-- markmap: fold -->
 
@@ -1192,14 +1195,14 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
     </div>
   ```
 
-##### Traduction pour formulaire Login <!-- markmap: fold -->
+##### Traductions pour formulaire Login <!-- markmap: fold -->
 
   ```json
 "Forgot your password?": "Mot de passe oublié ?",
 "Remember me": "Se rappeler de moi"
   ```
 
-##### **[Rendu Login](http://127.0.0.1:8000/login)** (Tester la validation des champs)
+##### **<a href="http://127.0.0.1:8000/login" title="Tester la validation des champs" target="_blank">Rendu Login</a>**
 
 #### Oubli et reset du mot de passe
 
@@ -1307,7 +1310,7 @@ php artisan   make:volt auth/forgot-password --class
   "Email Password Reset Link": "Envoi du lien de renouvellement"
   ```
 
-###### **[Rendu forgot-password](http://127.0.0.1:8000/forgot-password)** (Tester la validation du champs - *Ne pas soumettre le Formulaire*)
+###### **<a href="http://127.0.0.1:8000/forgot-password" title="Tester la validation du champs - Ne pas soumettre le Formulaire" target="_blank">Rendu forgot-password</a>**
 
 ##### Gestion du reset du mot de passe <!-- markmap: fold -->
 
@@ -1405,9 +1408,9 @@ php artisan   make:volt auth/forgot-password --class
 
 ###### Voir le email reçu <!-- markmap: fold -->
 
-* Par défaut: Dans storage\logs\laravel.log (Tout à la fin du fichier, le code HTML du courriel)
+* Par défaut: Dans storage\logs\\**laravel.log** (Tout à la fin du fichier, le code HTML du courriel)
 
-  OU, pour avoir le vrai rendu de ce courriel, une très bonne solution GRATUITE est MailHog :
+  OU, pour avoir le vrai rendu de ce courriel, une très bonne solution GRATUITE est **MailHog** :
 
 <a href="https://github.com/mailhog/MailHog" title="Dépôt de MailHog" target="_blank">Installer MailHog</a> <!-- markmap: fold -->
 
@@ -1426,7 +1429,7 @@ php artisan   make:volt auth/forgot-password --class
     MAIL_FROM_NAME="${APP_NAME}"
   ```
 
-* \- Lancer le serveur MailHog :
+* \- Lancer le serveur **MailHog** :
 &nbsp; → Exécuter le fichier exécutable récupéré
 
 ###### **<a href="http://127.0.0.1:8025" title="Ouvrir votre messagerie locale" target="_blank">URL du rendu des courriels avec MailHog</a>**
@@ -2696,7 +2699,7 @@ php artisan make:volt pages/contact --class
       public Collection $menus;
   
       public function mount(Collection $menus): void {
-      $this->menus = $menus;
+        $this->menus = $menus;
       }
       ...
   }
@@ -3175,7 +3178,7 @@ php artisan make:volt pages/contact --class
   Gravatar::get('email@example.com');
   ```
 
-#### <a href="https://gravatar.com" title="Aller sur le site de Gravatar" target="_blank">Créer son Gravatar</a
+#### <a href="https://gravatar.com" title="Aller sur le site de Gravatar" target="_blank">Créer son Gravatar</a>
 
 ### Les notifications <!-- markmap: fold -->
 
@@ -3807,7 +3810,7 @@ php artisan make:volt pages/contact --class
   "Back to site": "Retourner sur le site"
   ```
 
-### Réf.: ***<a href="https://laravel.sillo.org/posts/mon-cms-le-profil">" title="Voir les détails" target="_blank">https://laravel.sillo.org/posts/mon-cms-le-profil</a>***
+### Réf.: ***<a href="https://laravel.sillo.org/posts/mon-cms-le-profil" title="Voir les détails" target="_blank">https://laravel.sillo.org/posts/mon-cms-le-profil</a>***
 
 ## - Les favoris <!-- markmap: fold -->
 
@@ -3836,7 +3839,7 @@ php artisan make:volt pages/contact --class
 #### Relation n:n (User & Post) <!-- markmap: fold -->
 
 * À noter :
-    Comme la convention de nommage de table pivot n'est pas respectée
+    Comme la convention de nommage de la table pivot n'est pas respectée
     (Devrait être 'posts_users' mais est 'favorites'), on doit
     préciser ce nom dans les relations BelongsToMany
   
@@ -3862,7 +3865,7 @@ php artisan make:volt pages/contact --class
 
 #### PostRepository: getPostBySlug() <!-- markmap: fold -->
 
-* Vérifier en plus si l'user a mis le post en favori :
+* Vérifier en plus si l'*user* a mis le *post* en favori :
 
 * ```php
   public function getPostBySlug(string $slug): Post {
@@ -4230,7 +4233,7 @@ php artisan make:volt pages/contact --class
 
 #### Layout <!-- markmap: fold -->
 
-* Créer views/layouts/admin.blade.php :
+* Créer views/layouts/**admin.blade.php** :
 
   ```html
   <!DOCTYPE html>
@@ -4566,7 +4569,7 @@ php artisan make:volt pages/contact --class
 
 #### Composant Articles <!-- markmap: fold -->
 
-##### CLI 
+##### CLI
 <!-- markmap: fold -->
 
   ```bash
@@ -5006,7 +5009,7 @@ php artisan make:volt pages/contact --class
 
 ##### Installation CDN (Usage limité: 1000 appels/mois - Mise à jour auto) <!-- markmap: fold -->
 
-* Fichier ./resources\views\components\layouts\**admin.blade.php** :
+* Fichier ./resources/views/components/layouts/**admin.blade.php** :
 
   ```html
   <script src="https://cdn.tiny.cloud/1/YOUR-KEY-HERE/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
@@ -5062,10 +5065,12 @@ php artisan make:volt pages/contact --class
 
 ##### Save Image <!-- markmap: fold -->
 
-* Par défaut, image temporaire → ./storage/app/livewire-tmp/
+###### Dossier par défaut → **photos/** <!-- markmap: fold -->
+
+* Image temporaire → ./storage/app/livewire-tmp/
 * → Pour poser dans le dossier **photos/**, adapter la fonction save() :
 
-  ```php
+* ```php
   public function save() {
       $data = $this->validate();
   
@@ -5086,7 +5091,7 @@ php artisan make:volt pages/contact --class
 
 ###### Url des images <!-- markmap: fold -->
 
-* Ajout dans app/helpers.php :
+* Ajout dans app/**helpers.php** :
 
   ```php
   if (!function_exists('replaceAbsoluteUrlsWithRelative')) {
@@ -5278,7 +5283,7 @@ php artisan make:volt pages/contact --class
   "Post updated with success.": "Article mis à jour avec succès."
   ```
 
-#### Bouton édition dans le posts.show <!-- markmap: fold -->
+#### Bouton édition dans posts.show <!-- markmap: fold -->
 
 ##### HTML
 
@@ -5307,9 +5312,9 @@ php artisan make:volt pages/contact --class
   "Edit this post": "Modifier cet article"
   ```
 
-#### Bouton clone dans le posts.show <!-- markmap: fold -->
+#### Bouton clone dans posts.show <!-- markmap: fold -->
 
-##### HTML Clone <!-- markmap: fold -->
+##### Lien dans post.show
 
   ```html
   @if (Auth::user()->isAdmin() || Auth::user()->id == $post->user_id)
@@ -5328,13 +5333,7 @@ php artisan make:volt pages/contact --class
   @endif
   ```
 
-###### Traduction Clone <!-- markmap: fold -->
-
-  ```json
-  "Clone this post": "Dupliquer cet article"
-  ```
-
-###### Logique du clonage  <!-- markmap: fold -->
+##### Logique du clonage
 
   ```php
   public function clonePost(int $postId): void
@@ -5348,6 +5347,12 @@ php artisan make:volt pages/contact --class
   
       redirect()->route('posts.edit', $clonedPost->slug);
   }
+  ```
+
+##### Traduction Clone
+
+  ```json
+  "Clone this post": "Dupliquer cet article"
   ```
 
 #### Réf.: ***<a href="https://laravel.sillo.org/posts/mon-cms-modifier-un-article" title="Voir les détails" target="_blank">https://laravel.sillo.org/posts/mon-cms-modifier-un-article</a>
@@ -5976,7 +5981,7 @@ php artisan make:volt pages/contact --class
   </div>
   ```
 
-#### Traduction Éditer Pages <!-- markmap: fold -->
+#### Traductions Éditer Pages <!-- markmap: fold -->
 
   ```json
   "Page edited with success.": "Page mise à jour avec succès.",
@@ -6145,7 +6150,8 @@ php artisan make:volt pages/contact --class
 #### Traductions Index Contact <!-- markmap: fold -->
 
   ```json
-  ... "Use this form to contact me": "Utilisez ce formulaire pour me contacter",
+  ...
+  "Use this form to contact me": "Utilisez ce formulaire pour me contacter",
   "Contact to handle from ": "Contact à traiter de ",
   "Show the contacts": "Voir les contacts",
   "Handled": "Traité",
@@ -6509,7 +6515,7 @@ php artisan make:volt pages/contact --class
   </div>
   ```
 
-##### Traduction Modification Comptes <!-- markmap: fold -->
+##### Traductions Modification Comptes <!-- markmap: fold -->
 
   ```json
   "Edit an account": "Modifier un compte",
@@ -7846,7 +7852,7 @@ Route::middleware('auth')->group(function () {
 #### Route admin.images.index <!-- markmap: fold -->
 
 * À noter : La route images.edit est créée 'en avance' car nécessaire dans la vue images.index
-(*Cela évite une erreur à l'affichage si on clique maintenant sur le lien de la sidebar...*)
+(*Cela évite une erreur à l'affichage si on clique maintenant sur le lien dans la sidebar...*)
 
   ```php
   Route::middleware('auth')->group(function () {
@@ -8139,7 +8145,7 @@ Route::middleware('auth')->group(function () {
   </div>
   ```
 
-##### Traduction code composant admin.images.index <!-- markmap: fold -->
+##### Traductions code composant admin.images.index <!-- markmap: fold -->
 
   ```json
   "Select year and month": "Sélectionner l'année et le mois",
@@ -8575,7 +8581,7 @@ Route::middleware('auth')->group(function () {
   </div>
   ```
 
-##### Traduction code composant admin.images.edit <!-- markmap: fold -->
+##### Traductions code composant admin.images.edit <!-- markmap: fold -->
 
   ```json
   "Manage an image": "Gérer une image",
@@ -8639,7 +8645,7 @@ Route::middleware('auth')->group(function () {
     @endif
   ```
 
-### Variables Setting ( ./.env ) <!-- markmap: fold -->
+### Variables Setting ( ./**.env** ) <!-- markmap: fold -->
 
   ```json
     APP_MAINTENANCE_DRIVER=file
@@ -8870,7 +8876,7 @@ Route::middleware('auth')->group(function () {
   </div>
   ```
 
-### Nettoyage code (Code cleaning) <!-- markmap: fold -->
+### Nettoyage code (*Code cleaning*) <!-- markmap: fold -->
 
 * Suppression de code (Devenu inutile) dans config/**app.php** :
 
@@ -8928,7 +8934,7 @@ selon le même principe, isoler dans d'autres dossiers, des seeders qui seront p
 
 ##### Modus operandi <!-- markmap: fold -->
 
-* 1 ) &nbsp; Créer un dossier **database/seeders/main**
+* 1 ) &nbsp; Créer un dossier **database/seeders/Main**
 
 * 2 ) &nbsp; Y copier dedans tous les seeders nécessaires à la base de l'app à ce stade, soit :
     CategorySeeder, CommentSeeder, ContactSeeder, FooterSeeder, MenusSeeder, PageSeeder, PostSeeder, SettingSeeder et UserSeeder
@@ -9240,10 +9246,10 @@ Une fois au point, plus qu'à copier/coller le code dans le fichier ad'hoc :-) !
   
       private function completeFixedOrRealSentence($fixedSentence = 0) {
         // Cas le + fréquent en 1er
-          return !$fixedSentence ? $this->faker->fakerSentence()->complete : "La belle-mère répondit n'avoir plus rien de la liquidation
-                  qui était close, et qu'il leur restait, outre Belleville, six cents livres de rente. Quoiqu'elle fût laide, sèche comme
-                  un cotret. et bourgeonnée comme un printemps, certes madame Martin ne manquait pas de lui en procurer une autre plus
-                  riche commode. Le médecin, bien entendu, fit encore les frais de...";
+        return !$fixedSentence ? $this->faker->fakerSentence()->complete : "La belle-mère répondit n'avoir plus rien de la liquidation
+                qui était close, et qu'il leur restait, outre Belleville, six cents livres de rente. Quoiqu'elle fût laide, sèche comme
+                un cotret. et bourgeonnée comme un printemps, certes madame Martin ne manquait pas de lui en procurer une autre plus
+                riche commode. Le médecin, bien entendu, fit encore les frais de...";
         }
     };
   ```
@@ -9278,11 +9284,11 @@ Une fois au point, plus qu'à copier/coller le code dans le fichier ad'hoc :-) !
 
   ```html
   @props([
-      'title'        => '',
-      'dashboardBtn' => true,
-      'addBtn'       => null,
-      'noHeader'     => false,
-    'forceHeader'    => false,
+    'title'        => '',
+    'dashboardBtn' => true,
+    'addBtn'       => null,
+    'noHeader'     => false,
+    'forceHeader'  => false,
   ])
 
   @if (!$noHeader || $forceHeader)
@@ -9711,12 +9717,12 @@ Une fois au point, plus qu'à copier/coller le code dans le fichier ad'hoc :-) !
   <div>  
     <x-card>
     ...
-          <x-helpers.cancel-save-btns :lk="route('settings')" />
-        </x-slot:actions>
-      </x-form>
-    </x-card>
-  <x-helpers.progress-bar />
-</div>
+            <x-helpers.cancel-save-btns :lk="route('settings')" />
+          </x-slot:actions>
+        </x-form>
+      </x-card>
+    <x-helpers.progress-bar />
+  </div>
   ```
 
 ##### various/**test.blade.php** <!-- markmap: fold -->
@@ -9791,11 +9797,8 @@ Une fois au point, plus qu'à copier/coller le code dans le fichier ad'hoc :-) !
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 319.253 319.253" xml:space="preserve">
     <g>
-      <path d="M317.361,282.335L172.735,22.335c-2.646-4.758-7.664-7.708-13.108-7.708c-5.444,0-10.462,2.95-13.108,7.708L1.891,282.335
-  		c-2.584,4.647-2.517,10.313,0.179,14.896c2.694,4.583,7.613,7.397,12.93,7.397h289.254c5.316,0,10.235-2.814,12.93-7.397
-  		C319.879,292.647,319.945,286.981,317.361,282.335z M40.508,274.627L159.627,60.483l119.118,214.143H40.508z" fill="#972023"/>
-      <polygon points="132.405,164.598 116.849,180.155 144.07,207.377 116.849,234.598 132.405,250.155 159.627,222.933 
-  		186.849,250.155 202.405,234.598 175.183,207.377 202.405,180.155 186.849,164.598 159.627,191.82 	"/>
+      <path d="M317.361,282.335L172.735,22.335c-2.646-4.758-7.664-7.708-13.108-7.708c-5.444,0-10.462,2.95-13.108,7.708L1.891,282.335c-2.584,4.647-2.517,10.313,0.179,14.896c2.694,4.583,7.613,7.397,12.93,7.397h289.254c5.316,0,10.235-2.814,12.93-7.397C319.879,292.647,319.945,286.981,317.361,282.335z M40.508,274.627L159.627,60.483l119.118,214.143H40.508z" fill="#972023"/>
+      <polygon points="132.405,164.598 116.849,180.155 144.07,207.377 116.849,234.598 132.405,250.155 159.627,222.933 186.849,250.155 202.405,234.598 175.183,207.377 202.405,180.155 186.849,164.598 159.627,191.82" />
     </g>
   </svg>
   ```
@@ -10023,7 +10026,7 @@ Une fois au point, plus qu'à copier/coller le code dans le fichier ad'hoc :-) !
   echo Restauration...
   
   echo.
-  echo Installation des dependances JS
+  echo Installation des dépendances JS
   call npm install
   
   echo.
@@ -10070,7 +10073,7 @@ Les serveurs locaux y étant lancés, votre navigateur affichera le site...: **S
 
 #### <a href="https://laravel.sillo.org/doc/ladoc" title="LaDoc" target="_blank">**LaDoc**</a>
 
-* Cette MindMap est un premier jet...
+* Cette présente MindMap est un premier jet...
 Mais si vous en voyez l'intérêt, et surtout l'utilité,
 nous pouvons élargir ensemble cette approche à d'autres thématiques...
 * → Contribuez *ad libitum* !

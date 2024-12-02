@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
 use Illuminate\Support\Facades\Broadcast;
@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel(
 	'chat-v2-private-channel',
-	function () {
+	function ()
+	{
 		return true;
 	}
 );
