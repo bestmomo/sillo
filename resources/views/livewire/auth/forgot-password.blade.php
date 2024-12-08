@@ -43,17 +43,12 @@ class extends Component
 }; ?>
 
 <div>
-    <!-- Formulaire de réinitialisation du mot de passe -->
     <x-card class="flex items-center justify-center h-screen" title="{{__('Password renewal')}}" subtitle="{{__('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.')}}" shadow separator  progress-indicator>
-        <!-- Affichage du statut de la session -->
         <x-session-status class="mb-4" :status="session('status')" />
-        <!-- Formulaire de soumission -->
         <x-form wire:submit="sendPasswordResetLink">
-            <!-- Champ d'email -->
-            <x-input label="{{__('E-mail')}}" wire:model="email" icon="o-envelope" inline />
-            <!-- Actions du formulaire -->
+            <x-input label="{{__('Your e-mail')}}" wire:model="email" icon="o-envelope" required />
+			<p class="text-xs text-gray-500"><span class="text-red-600">*</span> @lang('Required information')</p>
             <x-slot:actions>
-                <!-- Bouton d'envoi du lien de réinitialisation du mot de passe -->
                 <x-button label="{{ __('Email Password Reset Link') }}" type="submit" icon="o-paper-airplane" class="btn-primary" />
             </x-slot:actions>
         </x-form>

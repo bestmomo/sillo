@@ -68,19 +68,13 @@ class extends Component
 }; ?>
 
 <div>
-    <!-- Formulaire de réinitialisation du mot de passe -->
     <x-card class="flex items-center justify-center h-screen" title="{{__('Reset Password')}}" shadow separator progress-indicator>
-        <!-- Affichage du statut de la réinitialisation -->
         <x-session-status class="mb-4" :status="session('status')" />
         <x-form wire:submit="resetPassword">
-            <!-- Champ d'email -->
-            <x-input label="{{__('E-mail')}}" wire:model="email" icon="o-envelope" inline />
-            <!-- Champ de mot de passe -->
-            <x-input label="{{__('Password')}}" wire:model="password" type="password" icon="o-key" inline />
-            <!-- Champ de confirmation du mot de passe -->
-            <x-input label="{{__('Confirm Password')}}" wire:model="password_confirmation" type="password" icon="o-key" inline required autocomplete="new-password" />
+            <x-input label="{{__('E-mail')}}" wire:model="email" icon="o-envelope" />
+            <x-input label="{{__('Password')}}" wire:model="password" type="password" icon="o-key" />
+            <x-input label="{{__('Confirm Password')}}" wire:model="password_confirmation" type="password" icon="o-key" required autocomplete="new-password" />
             <x-slot:actions>
-               <!-- Bouton pour réinitialiser le mot de passe -->
                <x-button label="{{ __('Reset Password') }}" type="submit" icon="o-paper-airplane" class="btn-primary" />
             </x-slot:actions>
         </x-form>
