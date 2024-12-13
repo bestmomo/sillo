@@ -3,7 +3,7 @@
 @echo off
 @REM call start.bat
 
-cd ../moncms
+cd ../moncmsv1
 echo.
 echo Passe sur MonCMS
 echo.

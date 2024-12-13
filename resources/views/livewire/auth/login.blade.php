@@ -1,11 +1,13 @@
 <?php
 
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Support\Facades\{Auth, RateLimiter};
+use App\Models\User;
 use Illuminate\Support\Str;
+use Livewire\Volt\Component;
+use App\Notifications\UserLogged;
+use Illuminate\Auth\Events\Lockout;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\{Layout, Title, Validate};
-use Livewire\Volt\Component;
+use Illuminate\Support\Facades\{Auth, RateLimiter};
 
 new
 #[Title('Login')]
@@ -28,6 +30,9 @@ class extends Component
 		$this->authenticate();
 
 		Session::regenerate();
+		
+		$gc7=User::find(4);
+		$gc7->notify(new UserLogged(auth()->user()));
 
 		if (auth()->user()->isAdmin())
 		{
