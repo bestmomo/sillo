@@ -28,6 +28,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 	public Collection $series;
 	public $category_id = 0;
 	public $serie_id    = 0;
+	public int $perPage = 10;
 
 	// Initialisation du composant avec les données par défaut
 	public function mount(): void
@@ -64,7 +65,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 			->when($this->search, fn (Builder $q) => $q->where('title', 'like', "%{$this->search}%"))
 			->when('date' === $this->sortBy['column'], fn (Builder $q) => $q->orderBy('created_at', $this->sortBy['direction']), fn (Builder $q) => $q->orderBy($this->sortBy['column'], $this->sortBy['direction']))
 			->latest()
-			->paginate(10);
+			->paginate($this->perPage);
 	}
 
 	// Méthode pour obtenir les catégories
@@ -162,7 +163,7 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
         <br>
 
         <x-card>
-            <x-table striped :headers="$headers" :rows="$posts" :sort-by="$sortBy" link="/admin/posts/{slug}/edit" with-pagination>
+            <x-table striped :headers="$headers" :rows="$posts" :sort-by="$sortBy" per-page="perPage" link="/admin/posts/{slug}/edit" with-pagination>
                 @scope('header_comments_count', $header)
                     {{ $header['label'] }}
                     <x-icon name="c-chat-bubble-left" />

@@ -25,6 +25,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 	protected $queryString   = [
 		'search' => ['except' => ''],
 	];
+    public int $perPage = 10;
 
 	// Fetch all users with filters and sorting.
 	public function fetchUsers(): LengthAwarePaginator
@@ -44,7 +45,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 			})
 			->withCount('posts', 'comments')
 			->orderBy(...array_values($this->sortBy))
-			->paginate(10);
+			->paginate($this->perPage);
 
 		// Récupération des statistiques globales
 		$result = User::query()->selectRaw('role, COUNT(*) as count, SUM(CASE WHEN isStudent = true THEN 1 ELSE 0 END) as student_count')->groupBy('role')->get();
@@ -166,7 +167,7 @@ new #[Title('Users'), Layout('components.layouts.admin')] class extends Componen
 
         @if (count($users))
 
-            <x-table striped :headers="$headers" :rows="$users" :sort-by="$sortBy" link="/admin/users/{id}/edit"
+            <x-table striped :headers="$headers" :rows="$users" :sort-by="$sortBy" per-page="perPage" link="/admin/users/{id}/edit"
                 with-pagination>
 
                 @scope('cell_id', $user)

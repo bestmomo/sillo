@@ -69,20 +69,15 @@ new #[Title('Register')] #[Layout('components.layouts.auth')] class extends Comp
         progress-indicator>
 
         <x-form wire:submit="register">
-            <!-- Champ de nom -->
-            <x-input label="{{ __('Name') }}" wire:model="name" icon="o-user" inline />
-            <!-- Champ d'email -->
-            <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" inline />
-            <!-- Champ de mot de passe -->
-            <x-input label="{{ __('Password') }}" wire:model="password" type="password" icon="o-key" inline />
-            <!-- Champ de confirmation du mot de passe -->
-            <x-input label="{{ __('Confirm Password') }}" wire:model="password_confirmation" type="password"
-                icon="o-key" inline />
+			<x-input label="{{ __('Your name') }}" wire:model="name" icon="o-user" required />
+            <x-input label="{{ __('Your e-mail') }}" wire:model="email" icon="o-envelope" required />
+            <x-input label="{{ __('Your password') }}" wire:model="password" icon="o-key" required />
+            <x-input label="{{ __('Confirm Password') }}" wire:model="password_confirmation" icon="o-key" required />
                 
             <div style="display: none;">
                 <x-input wire:model="gender" type="text" inline />
             </div>
-
+			<p class="text-xs text-gray-500"><span class="text-red-600">*</span> @lang('Required information')</p>
             <x-slot:actions>
                 <!-- Bouton pour rediriger vers la page de connexion -->
                 <x-button label="{{ __('Already registered?') }}" class="btn-ghost" link="/login" />
