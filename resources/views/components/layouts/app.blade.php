@@ -72,6 +72,20 @@
 
     <script src="{{ asset('storage/scripts/prism.js') }}"></script>
 
+    <script>
+        document.addEventListener('prism-highlight', (e) => {
+            // Wait a short moment to ensure DOM is updated
+            setTimeout(() => {
+                // Select all pre and code elements in the post content
+                const codeBlocks = document.querySelectorAll('.prose pre, .prose code');
+                // Manually highlight each code block
+                codeBlocks.forEach(block => {
+                    Prism.highlightElement(block);
+                });
+            }, 100);
+        });
+    </script>
+
 </body>
 
 </html>
