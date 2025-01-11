@@ -191,11 +191,12 @@ new #[Title('Edit Post'), Layout('components.layouts.admin')] class extends Comp
 					@endif
 				@endscope
                 @scope('cell_date', $post)
-                    @lang('Created') {{ $post->created_at->diffForHumans() }}
-                    @if ($post->updated_at != $post->created_at)
-                        <br>
-                        @lang('Updated') {{ $post->updated_at->diffForHumans() }}
-                    @endif
+					<span class="whitespace-nowrap">
+						{{ $post->created_at->isoFormat('LL') }}
+						@if(!$post->created_at->isSameDay($post->updated_at))
+							<p>@lang('Change') : {{ $post->updated_at->isoFormat('LL') }}</p>
+						@endif
+					</span>
                 @endscope
 
                 @scope('actions', $post)
