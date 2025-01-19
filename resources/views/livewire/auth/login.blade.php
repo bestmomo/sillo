@@ -79,11 +79,12 @@ class extends Component
 }; ?>
 
 <div>
-    <x-card class="flex items-center justify-center h-screen" title="{{ __('Login') }}" shadow separator progress-indicator>
-        <x-form wire:submit="login">
-            <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" type="email" inline />
-            <x-input label="{{ __('Password') }}" wire:model="password" type="password" icon="o-key" type="password" inline />
-            <x-checkbox label="{{ __('Remember me') }}" wire:model="remember" />
+    <x-card class="flex items-center justify-center h-screen" title="{{ __('Log In') }}" shadow separator progress-indicator>
+        <x-form wire:submit="login" >
+            <x-input label="{{ __('Your e-mail') }}" wire:model="email" icon="o-envelope" type="email" required />
+            <x-input label="{{ __('Your password') }}" wire:model="password" type="password" icon="o-key" type="password" required />
+            <x-checkbox label="{{ __('Remain identified for a few days') }}" wire:model="remember" />
+            <p class="text-xs text-gray-500"><span class="text-red-600">*</span> @lang('Required information')</p>
             <x-slot:actions>
                 <div class="flex flex-col space-y-2 flex-end sm:flex-row sm:space-y-0 sm:space-x-2">
                     <x-button label="{{ __('Login') }}" type="submit" icon="o-paper-airplane" class="ml-2 btn-primary sm:order-1" />

@@ -494,16 +494,16 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
         ->constrained()
         ->onDelete('cascade')
         ->onUpdate('cascade');
-      });
+      $table->boolean('active')->default(false);
       $table->string('slug')->unique();
       $table->mediumText('body');
-      $table->boolean('active')->default(false);
       $table->string('image')->nullable();
       $table->string('seo_title');
       $table->text('meta_description');
       $table->text('meta_keywords');
       $table->boolean('pinned')->default(false);
       $table->timestamps();
+      });
     }
   ```
 
@@ -648,7 +648,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
 
         $u = User::find(6);
         $u->valid = false;
-        $u->save()
+        $u->save();
       }
     }
   ```

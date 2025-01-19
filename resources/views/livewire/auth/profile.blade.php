@@ -87,7 +87,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
     <x-card class="flex items-center justify-center h-screen" title="">
 
         <a href="/" title="{{ __('Go on site') }}">
-            <x-card class="items-center py-0" title="{{ __('Update profile') }}" shadow separator
+            <x-card class="items-center py-0" title="{{ __('My personal informations') }}" shadow separator
                 progress-indicator></x-card>
         </a>
 
@@ -109,14 +109,14 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
             </x-avatar>
 
             <!-- Champ d'email -->
-            <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" inline />
+            <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" required />
 
             <hr>
 
             <!-- Champ de mot de passe -->
-            <x-input label="{{ __('Password') }}" wire:model="password" icon="o-key" inline />
+            <x-input label="{{ __('Password') }}" wire:model="password" icon="o-key" />
             <!-- Confirmation du mot de passe -->
-            <x-input label="{{ __('Confirm Password') }}" wire:model="password_confirmation" icon="o-key" inline />
+            <x-input label="{{ __('Confirm Password') }}" wire:model="password_confirmation" icon="o-key" />
             <!-- Bouton pour générer un mot de passe sécurisé -->
             <x-button label="{{ __('Generate a secure password') }}" wire:click="generatePassword()" icon="m-wrench"
                 class="btn-outline btn-sm" />
@@ -129,6 +129,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
                     @lang('Gives access to numerous helping scripts, spaces to test...')
                 </x-slot:content>
             </x-popover>
+			<p class="text-xs text-gray-500"><span class="text-red-600">*</span> @lang('Required information')</p>
 
             <!-- Actions du formulaire -->
             <x-slot:actions>
