@@ -648,7 +648,7 @@ pour entre autre, y naviguer aisément et grâce à la molette, zoomer/dé-zoome
 
         $u = User::find(6);
         $u->valid = false;
-        $u->save()
+        $u->save();
       }
     }
   ```
