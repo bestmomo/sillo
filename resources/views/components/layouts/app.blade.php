@@ -1,91 +1,92 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <title>{!! (isset($title) ? $title . ' | ' : (View::hasSection('title') ? View::getSection('title') . ' | ' : '')) . config('app.name') !!}</title>
-    <meta name="description" content="@yield('description')">
-    <meta name="keywords" content="@yield('keywords')">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+		<title>{!! (isset($title) ? $title . ' | ' : (View::hasSection('title') ? View::getSection('title') . ' | ' : '')) . config('app.name') !!}</title>
+		<meta name="description" content="@yield('description')">
+		<meta
+		name="keywords" content="@yield('keywords')">
 
-    <link rel="stylesheet" href="{{ asset('storage/css/prism.css') }}">
+		@vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @php
-        $isHomePage = request()->is('/') || Str::startsWith(request()->fullUrl(), url('/?page='));
-    @endphp
+		<link rel="stylesheet" href="{{ asset('storage/css/prism.css') }}">
 
-    @if(request()->is('surveys/show/*'))
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    @elseif ($isHomePage)
-        <script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.css" rel="stylesheet">
-    @endif
-</head>
+		@php
+            $isHomePage = request()->is('/') || Str::startsWith(request()->fullUrl(), url('/?page='));
+        @endphp
 
-<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
-    {{-- HERO --}}
-    <div class="min-h-[35vw] hero" style="background-image: url({{ asset('storage/hero.jpg') }});">
-        <div class="bg-opacity-60 hero-overlay"></div>
-        <a href="{{ '/' }}">
-            <div class="text-center hero-content text-neutral-content">
-                <div>
-                    <h1 class="mb-5 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
-                        {{ config('app.title') }}
-                    </h1>
-                    <p class="mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
-                        {{ config('app.subTitle') }}
-                    </p>
-                </div>                
-            </div>
-        </a>
-    </div>
+		@if(request()->is('surveys/show/*'))
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+        @elseif ($isHomePage)
+            <script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.js"></script>
+            <link
+            href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.css" rel="stylesheet">
+        @endif
+	</head>
 
-    {{-- NAVBAR --}}
-    <livewire:navigation.navbar :$menus />
+	<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
+		{{-- HERO --}}
+		<div class="min-h-[35vw] hero" style="background-image: url({{ asset('storage/hero.jpg') }});">
+			<div class="bg-opacity-60 hero-overlay"></div>
+			<a href="{{ '/' }}">
+				<div class="text-center hero-content text-neutral-content">
+					<div>
+						<h1
+							class="mb-5 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl !font-shadow">{{ strtoupper(config('app.title')) }}
+						</h1>
+						<p
+							class="mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">{{ config('app.subTitle') }}
+						</p>
+					</div>
+				</div>
+			</a>
+		</div>
 
-    {{-- MAIN --}}
-    <x-main full-width>
+		{{-- NAVBAR --}}
+		<livewire:navigation.navbar :$menus/>
 
-        {{-- SIDEBAR --}}
-        <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-inherit lg:hidden">
-            <livewire:navigation.sidebar :$menus />
-        </x-slot:sidebar>
+		{{-- MAIN --}}
+		<x-main full-width>
 
-        {{-- SLOT --}}
-        <x-slot:content>
-            {{ $slot }}
-        </x-slot:content>
+			{{-- SIDEBAR --}}
+			<x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-inherit lg:hidden">
+				<livewire:navigation.sidebar :$menus/>
+			</x-slot:sidebar>
 
-    </x-main>
+			{{-- SLOT --}}
+			<x-slot:content>
+				{{ $slot }}
+			</x-slot:content>
 
-    {{-- FOOTER --}}
-    <hr><br>
-    <livewire:navigation.footer />
-    <br>
+		</x-main>
 
-    {{--  TOAST area --}}
-    <x-toast />
+		{{-- FOOTER --}}
+		<hr><br>
+		<livewire:navigation.footer/>
+		<br>
 
-    <script src="{{ asset('storage/scripts/prism.js') }}"></script>
+		{{--  TOAST area --}}
+		<x-toast/>
 
-    <script>
-        document.addEventListener('prism-highlight', (e) => {
-            // Wait a short moment to ensure DOM is updated
-            setTimeout(() => {
-                // Select all pre and code elements in the post content
-                const codeBlocks = document.querySelectorAll('.prose pre, .prose code');
-                // Manually highlight each code block
-                codeBlocks.forEach(block => {
-                    Prism.highlightElement(block);
-                });
-            }, 100);
-        });
-    </script>
+		<script src="{{ asset('storage/scripts/prism.js') }}"></script>
 
-</body>
+		<script>
+			document.addEventListener('prism-highlight', (e) => { // Wait a short moment to ensure DOM is updated
+setTimeout(() => { // Select all pre and code elements in the post content
+const codeBlocks = document.querySelectorAll('.prose pre, .prose code');
+// Manually highlight each code block
+codeBlocks.forEach(block => {
+Prism.highlightElement(block);
+});
+}, 100);
+});
+		</script>
+
+	</body>
 
 </html>
+

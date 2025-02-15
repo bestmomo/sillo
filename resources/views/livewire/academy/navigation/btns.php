@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 function CssClass ($k)
 {
 	$currRoute = Route::currentRouteName();
-	return $k == $currRoute ? 'text-white' : '';
+	return $k == $currRoute ? 'text-green-400 disabled' : '';
 }
 
 $btns = [
