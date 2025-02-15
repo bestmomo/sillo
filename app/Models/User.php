@@ -120,6 +120,11 @@ class User extends Authenticatable
 		return 'admin' === $this->role || 'redac' === $this->role;
 	}
 
+	public function isStudent(): bool
+	{
+		return $this->isStudent;
+	}
+	
 	/**
 	 * Scope a query to search for a specific value in the 'name', 'firstname', or 'email' columns.
 	 *

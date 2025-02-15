@@ -15,16 +15,9 @@ include_once 'tests.php'; ?>
         </x-slot:actions>
     </x-header>
 
-    @if (!Str::startsWith(config('app.locale'), 'fr'))
-        <x-card separator class="my-3 -mt-3 bg-error text-center text-xl text-white font-bold shadow-xl">
-            ⚠️ Please note that this section is exclusively in French. The refined and adopted versions, however, will be
-            multi-language and online 🙂 !
-        </x-card>
-    @endif
-
     <x-card separator class="mb-6 border-2 shadow-xl">
 
-        {{-- @foreach ($subjects as $subject)
+        @foreach ($subjects as $subject)
 
             <x-list-item :item="$subject" value="title"> <x-slot:avatar>
                     {{ Debugbar::info($subject) }}
@@ -50,7 +43,7 @@ include_once 'tests.php'; ?>
 
             </x-list-item>
 
-        @endforeach --}}
+        @endforeach
 
     </x-card>
 
