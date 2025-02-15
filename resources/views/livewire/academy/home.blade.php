@@ -11,8 +11,7 @@ class extends Component
 }; ?>
 
 <div>
-    <x-header title="ACADÉMIE" shadow separator progress-indicator>
-    </x-header>
+    <x-header class="text-green-400 font-shadow !text-3xl" title="ACADEMIE" shadow separator progress-indicator />
     
     <h2>(Page d'accueil de l'académie)</p>
         <p>//2do Présentation</p>

@@ -10,17 +10,16 @@
 		@vite(['resources/css/app.css', 'resources/js/app.js'])
 	</head>
 
-	<body
-		class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
+	<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
 
 		@include('livewire.academy.navigation.aca-sub-menu')
-		
+
 		@include('livewire.academy.partials.disclaimer')
 
-		<x-main full-width>
-			<x-slot:content>
-				{{ $slot }}
-			</x-slot:content>
+			<x-main full-width class='!w-full'>
+				<x-slot:content>
+					{{ $slot }}
+				</x-slot:content>
 		</x-main>
 
 		{{-- FOOTER --}}
@@ -28,7 +27,7 @@
             <livewire:navigation.footer />
             <br> --}}
 
-		 {{-- TOAST area --}}
+		{{-- TOAST area --}}
 		<x-toast/>
 
 	</body>

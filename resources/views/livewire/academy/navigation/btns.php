@@ -17,7 +17,7 @@ $btns = [
 	'Académie' => [
 		'title'     => 'Accueil Académie',
 		'icon'      => 'o-academic-cap',
-		'routeLink' => 'academy.academy',
+		'routeLink' => 'academy',
 	],
 	'Frameworks' => [
 		'title'     => 'Livewire & AlpineJS',
@@ -27,7 +27,7 @@ $btns = [
 	'Études' => [
 		'title'     => 'Étude de Cas',
 		'icon'      => 'o-wallet',
-		'routeLink' => 'academy.tests',
+		'routeLink' => 'academy.cases',
 	],
 ];
 

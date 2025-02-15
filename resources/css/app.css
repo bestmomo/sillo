@@ -29,3 +29,10 @@
 html {
     scroll-behavior: smooth;
 }
+
+@font-face {
+    font-family: 'shadow';
+    src: url('../assets/fonts/BlockShadow-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

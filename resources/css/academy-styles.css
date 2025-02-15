@@ -43,9 +43,17 @@ p {
     margin-bottom: 10px;
 }
 
+@font-face {
+    font-family: 'shadow';
+    src: url('/assets/fonts/BlockShadow-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* body {
     display: flex;
     justify-content: start;
+
     margin: 0;
 
     & nav {

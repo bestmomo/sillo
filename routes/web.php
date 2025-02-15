@@ -15,13 +15,14 @@ Volt::route('/', 'index');
 // Volt::route('/doc', 'doc.memo')->name('doc.memo');
 
 Volt::route('/t', 'academy.abc.aaa_test')->name('academy.test');
-Volt::route('/academy', 'academy.academy')->name('academy.academy');
+
+Volt::route('/academy', 'academy.home')->name('academy');
 Volt::route('/frameworks', 'academy.frameworks')->name('academy.frameworks');
 Route::prefix('/framework')->group(function ()
 {
 	getAcademyFrameworksRoutes();
 });
-Volt::route('/academy/cas', 'academy.tests.tests')->name('academy.tests');
+Volt::route('/academy/cas', componentName: 'academy.dpts.cases')->name('academy.cases');
 
 	Route::middleware(IsAdmin::class)->group(function ()
 	{
