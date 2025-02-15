@@ -1,12 +1,12 @@
 <?php
 
 use Barryvdh\Debugbar\Facades\Debugbar;
-include_once 'tests.php'; ?>
+include_once 'cases.php'; ?>
 
 @section('title', __('Test'))
 <div class="container mx-auto">
 
-    <x-header title="{{ __('Tests') }}" separator progress-indicator>
+    <x-header class='font-shadow text-green-400' title="TOUS LES CAS" separator progress-indicator>
         <x-slot:actions>
             {{-- <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce.300ms="search" clearable
                 icon="o-magnifying-glass" /> --}}
@@ -20,7 +20,7 @@ include_once 'tests.php'; ?>
         @foreach ($subjects as $subject)
 
             <x-list-item :item="$subject" value="title"> <x-slot:avatar>
-                    {{ Debugbar::info($subject) }}
+                    {{-- {{ Debugbar::info($subject) }} --}}
                     <x-badge value="{{ ucfirst(strtolower($subject['state'])) }}"
                         class="text-black badge-{{ $subject['stateColor'] }}" />
                 </x-slot:avatar> <x-slot:sub-value class='truncable-none overflow-visible'> {{ $subject['description'] }}

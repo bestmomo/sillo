@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 function CssClass ($k)
 {
 	$currRoute = Route::currentRouteName();
+	Debugbar::info($k);
+	Debugbar::info($currRoute);
 	return $k == $currRoute ? 'text-green-400 disabled' : '';
 }
 
@@ -36,4 +38,4 @@ $btns = array_map(function($btn) {
     return $btn;
 }, $btns);
 
-Debugbar::info($btns);
+// Debugbar::info($btns);

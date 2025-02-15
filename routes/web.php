@@ -22,7 +22,7 @@ Route::prefix('/framework')->group(function ()
 {
 	getAcademyFrameworksRoutes();
 });
-Volt::route('/academy/cas', componentName: 'academy.dpts.cases')->name('academy.cases');
+Volt::route('/academy/cases', componentName: 'academy.dpts.cases.cases')->name('academy.cases');
 
 	Route::middleware(IsAdmin::class)->group(function ()
 	{

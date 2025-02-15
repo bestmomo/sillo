@@ -15,8 +15,7 @@
 		@foreach ($btns as $k => $btn)
 
 			<x-button label="{{ $k }}" title="{{ $btn['title'] }}" icon="{{ $btn['icon'] }}"
-				link="{{ route($btn['routeLink']) }}" {{-- @class(['btn-ghost btn-sm', 'btn-disabled !text-white'=>
-				Route::currentRouteName() == $route_last_segment]) --}}
+				link="{{ route($btn['routeLink']) }}"
 				@class(['btn-ghost btn-sm', $btn['css']])
 				responsive
 				/>
