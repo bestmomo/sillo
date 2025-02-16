@@ -10,7 +10,7 @@ include_once 'cases.php'; ?>
         <x-slot:actions>
             {{-- <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce.300ms="search" clearable
                 icon="o-magnifying-glass" /> --}}
-            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden"
+            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden font-new"
                 link="{{ route('admin') }}" />
         </x-slot:actions>
     </x-header>

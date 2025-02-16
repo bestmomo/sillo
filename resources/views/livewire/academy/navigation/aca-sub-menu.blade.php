@@ -6,7 +6,7 @@
 
 	<x-slot:brand class="mr-6">
 		<div>
-			<a href="{{ route('admin') }}" title=" {{ __('Dashboard') }} ">{{ __('Home') }}</a>
+			<a class='font-new text-lg' href="{{ route('home') }}" title=" {{ __('Home') }} ">{{ __('Home') }}</a>
 		</div>
 	</x-slot:brand>
 
@@ -16,7 +16,7 @@
 
 			<x-button label="{{ $k }}" title="{{ $btn['title'] }}" icon="{{ $btn['icon'] }}"
 				link="{{ route($btn['routeLink']) }}"
-				@class(['btn-ghost btn-sm', $btn['css']])
+				@class(['btn-ghost btn-sm font-new text-lg', $btn['css']])
 				responsive
 				/>
 		@endforeach

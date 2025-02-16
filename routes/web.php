@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 // Routes publiques
-Volt::route('/', 'index');
+Volt::route('/', 'index')->name('home');
 
 // Volt::route('/doc', 'doc.memo')->name('doc.memo');
 
@@ -22,10 +22,10 @@ Route::prefix('/framework')->group(function ()
 {
 	getAcademyFrameworksRoutes();
 });
-Volt::route('/academy/cases', componentName: 'academy.dpts.cases.cases')->name('academy.cases');
 
-	Route::middleware(IsAdmin::class)->group(function ()
-	{
+Route::middleware(IsStudent::class)->group(function ()
+{
+		Volt::route('/academy/cases', componentName: 'academy.dpts.cases.cases')->name('academy.cases');
 		Volt::route('/t', 'admin.tests.tests')->name('admin.tests');
 		// 2do factorise routes
 		Volt::route('/t/table-filter/trouble', 'admin.tests.tableFilter.trouble')->name('t.tableFilter.trouble');
