@@ -4,7 +4,7 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
-use App\Models\User;
+use App\Models\AcademyUser;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
@@ -57,7 +57,7 @@ new class() extends Component
 	{
 		if ($this->loadMore)
 		{
-			$this->users = User::offset($this->offset)
+			$this->users = AcademyUser::offset($this->offset)
 				->orderBy($this->sortColumn, $this->sortDirection)
 				->search($this->search)
 				->limit($this->limit)
@@ -155,7 +155,7 @@ new class() extends Component
             </table>
         </div>
 
-        @livewire('academy.frameworks.livewire.serie7.03_offset', ['loadMore' => false, 'offset' => $offset + $limit], key($offset))
+        @livewire('academy.dpts.frameworks.livewire.serie7.03_offset', ['loadMore' => false, 'offset' => $offset + $limit], key($offset))
     @else
         <div class="flex gap-3 mt-3">
             <button wire:click="$set('loadMore', true)" class="btn btn-primary mt-0 mb-5 p-0 text-xs w-1/6">Load

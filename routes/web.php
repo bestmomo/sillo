@@ -16,27 +16,34 @@ Volt::route('/', 'index')->name('home');
 
 Route::middleware(IsStudent::class)->group(function ()
 {
-	Volt::route('/academy', 'academy.home')->name('academy');
-
 	// Raccourci pour un test provisoire en cours
 	Volt::route('/t', 'academy.dpts.test.in-progress')->name('test.in-progress');
 
-	Volt::route('/frameworks', 'academy.frameworks')->name('academy.frameworks');
-	Route::prefix('/framework')->group(function ()
+	// L'Académie
+	Route::prefix('/academy')->group(function ()
 	{
-		getAcademyFrameworksRoutes();
-	});
+		Volt::route('/', 'academy.home')->name('academy');
 
-	Route::prefix('/case')->group(function ()
-	{
-		Volt::route('/academy/cases', componentName: 'academy.dpts.cases.cases')->name('academy.cases');
-		Volt::route('/case', 'admin.tests.tests')->name('admin.tests');
-		// 2do factorise routes
-		Volt::route('/case/table-filter/trouble', 'admin.tests.tableFilter.trouble')->name('t.tableFilter.trouble');
-		Volt::route('/t/table-filter/soluce1', 'admin.tests.tableFilter.soluce1')->name('t.tableFilter.soluce1');
-		Volt::route('/t/table-filter/soluce2', 'admin.tests.tableFilter.soluce2')->name('t.tableFilter.soluce2');
+		// Les FrameWorks
+		Volt::route('/frameworks', 'academy.dpts.frameworks.frameworks')->name('academy.frameworks');
+		Route::prefix('/framework')->group(function ()
+		{
+			getAcademyFrameworksRoutes();
+		});
+
+		// Les Cas
+		Volt::route('/cases', componentName: 'academy.dpts.cases.cases')->name('academy.cases');
+		Route::prefix('/case')->group(function ()
+		{
+			// Volt::route('/case', 'admin.tests.tests')->name('admin.tests'); //2see if toujrs interessant à avoir
+			// 2do factorise routes
+			Volt::route('/case/table-filter/trouble', 'admin.dpts.cases.table-filter.trouble')->name('case.table-filter.trouble');
+			Volt::route('/case/table-filter/soluce1', 'admin.dpts.cases.tableFilter.soluce1')->name('case.table-filter.soluce1');
+			Volt::route('/case/table-filter/soluce2', 'admin.dpts.cases.tableFilter.soluce2')->name('case.table-filter.soluce2');
+		});
 	});
 });
+
 Route::post('/upload-image', [ImageController::class, 'upload']);
 
 Volt::route('/contact', 'contact')->name('contact');
@@ -119,15 +126,13 @@ Route::middleware('auth')->group(function ()
 		});
 });
 
+//2do a pretty error page as in real website (For all: 404 & 403 &+)
 // Route::fallback(function ()
 // {
 // 	$path         = request()->path();
 // 	$redirectPath = '/posts/' . $path;
-
 // 	return redirect(url($redirectPath));
 // });
-
-//2do a pretty 404 error page as in real website
 Route::fallback(function ()
 {
 	return '404';

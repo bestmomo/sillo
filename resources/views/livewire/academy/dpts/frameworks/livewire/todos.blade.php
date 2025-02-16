@@ -34,8 +34,7 @@ new #[Layout('components.layouts.academy')] #[Title('Todos')] class extends Comp
 }; ?>
 
 <div>
-    <x-header title="Todos" shadow separator progress-indicator>
-    </x-header>
+    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="ToDos" shadow separator progress-indicator />
 
     <form wire:submit='add'>
         <div class="flex items-end my-3">

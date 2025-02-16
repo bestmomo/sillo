@@ -4,7 +4,7 @@
  *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-use App\Models\User;
+use App\Models\AcademyUser;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
@@ -49,7 +49,7 @@ class() extends Component
 
 	public function with(): array
 	{
-		$paginator = User::search($this->search)
+		$paginator = AcademyUser::search($this->search)
 			->orderBy($this->sortColumn, $this->sortDirection)
 			->paginate($this->perPage);
 

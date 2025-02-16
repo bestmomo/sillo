@@ -89,7 +89,7 @@ class extends Component
 }; ?>
 
 <div>
-    <x-header class="pb-0 mb-[-14px]" title="Email" shadow separator progress-indicator />
+    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Email" shadow separator progress-indicator />
 
     <div>
         @if (!$dev)

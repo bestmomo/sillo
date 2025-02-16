@@ -1,10 +1,10 @@
 <?php
 
 /**
- *  (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
-use App\Models\User;
+use App\Models\AcademyUser;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
@@ -51,7 +51,7 @@ new class() extends Component
 
 	public function with(): array
 	{
-		$users = User::take($this->amount)
+		$users = AcademyUser::take($this->amount)
 			->search($this->search)
 			->orderBy($this->sortColumn, $this->sortDirection)
 			->get();

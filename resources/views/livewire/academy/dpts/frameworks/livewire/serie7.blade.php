@@ -39,8 +39,8 @@ new #[Title('Serie7')] #[Layout('components.layouts.academy')] class extends Com
             }
         </style>
     @endsection
-
-    <x-header class="p-4 pb-0 mb-[-12px]" title="Serie 7  - {{ $subtitle }}" shadow separator progress-indicator />
+    
+    <x-header class="mx-auto pb-0 mb-[-14px] font-new text-green-400 w-[95%]" title="Série 7  - {{ $subtitle }}" shadow separator progress-indicator />
 
     {{-- Subtitle: {{ $subtitle }} --}}
 
@@ -52,16 +52,16 @@ new #[Title('Serie7')] #[Layout('components.layouts.academy')] class extends Com
     </nav>
     <hr class="mb-2">
     <div x-show="choice=='menuLivewire'" x-cloak x-transition.duration.300ms>
-        <livewire:academy.frameworks.livewire.serie7.00_L_submenu_livewire :btns=$btns />
+        <livewire:academy.dpts.frameworks.livewire.serie7.00_L_submenu_livewire :btns=$btns />
     </div>
     <div x-show="choice=='menuAlpineJs'" x-cloak x-transition.duration.300ms>
-        <livewire:academy.frameworks.livewire.serie7.00_A_submenu_alpine :btns=$btns />
+        <livewire:academy.dpts.frameworks.livewire.serie7.00_A_submenu_alpine :btns=$btns />
     </div>
 
     <script>
         let btnToClick = @js($btnToClick);
         console.log('JS cliquera sur le bouton ' + btnToClick);
     </script>
-    @include('livewire.academy.frameworks.livewire.serie7.00_click')
+    @include('livewire.academy.dpts.frameworks.livewire.serie7.00_click')
 
 </div>

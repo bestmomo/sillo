@@ -34,7 +34,7 @@ include_once '00_L_submenu.php';
     </div>
 
     @if ($component)
-        @livewire('academy.frameworks.livewire.serie7.' . $component, key($component))
+        @livewire('academy.dpts.frameworks.livewire.serie7.' . $component, key($component))
     @endif
 
 </div>

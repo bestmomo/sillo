@@ -6,7 +6,7 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Component
+new #[Title('Articles')] #[Layout('components.layouts.academy')] class extends Component
 {
 	use WithPagination;
 	use Toast;
@@ -17,23 +17,22 @@ new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Compo
 	{
 		$postId = $post->id;
 		$post->delete();
-		$this->info("Post # {$postId} deleted !");
+		$this->info("Article n° {$postId} effacé !");
 		$this->dispatch('refreshPosts');
 	}
 
 	public function render(): mixed
 	{
-		// 2do cf. possibilité de ne pas utiliser le render (sert pour delete())
-		return view('livewire.academy.frameworks.livewire.blog', [
+		return view('livewire.academy.dpts.frameworks.livewire.blog', [
 			'posts' => AcademyPost::orderBy('id', 'desc')->paginate(10),
 		]);
 	}
 }; ?>
 
 <div>
-    <x-header title="Blog" shadow separator progress-indicator>
-    </x-header>
-    <h2 class="mb-2 text-xl">{{ $posts->count() }} Post{{ $posts->count() > 1 ? 's' : '' }} / {{ $posts->total() }}</h2>
+    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Articles" shadow separator progress-indicator />
+    
+    <h2 class="mb-2 text-xl">{{ $posts->count() }} article{{ $posts->count() > 1 ? 's' : '' }} / {{ $posts->total() }}</h2>
 
     {{-- {{ dd($posts, $posts->withQueryString() )}} --}}
 
@@ -46,8 +45,8 @@ new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Compo
         <table>
             <thread>
                 <tr>
-                    <th>Title</th>
-                    <th>Content</th>
+                    <th>Titre</th>
+                    <th>Contenu</th>
                     <th class='text-center' style='max-width:100px!important;'>Actions</th>
                 </tr>
             </thread>
@@ -58,13 +57,14 @@ new #[Title('Blog')] #[Layout('components.layouts.academy')] class extends Compo
                         <td>{{ str($post->content)->words(2) }}</td>
                         <td class='p-0 text-center' style='max-width:100px!important;'>
                             <a href='/t/post/edit'>
-                                <x-button type='button' icon="s-pencil" wire:click='edit({{ $post->id }})' />
-
+                                <x-button type='button' icon="s-pencil"
+                                {{-- wire:click='edit({{ $post->id }})'  --}}
+                                disabled/>
                             </a>
                             <x-button type='button' icon="o-trash" wire:click='delete({{ $post->id }})'
-                                wire:confirm="Are you sure you want to delete this post # {{ $post->id }} ?
+                                wire:confirm="Êtes-vous sûr de vouloir efacer l'article n°{{ $post->id }} ?
                     
-Title:  {{ str($post->title)->words(3) }}" />
+Titre:  {{ str($post->title)->words(3) }}" />
                         </td>
                     </tr>
                 @endforeach

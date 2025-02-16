@@ -25,12 +25,11 @@ new #[Layout('components.layouts.academy')] #[Title('Counter')] class extends Co
 }; ?>
 
 <div class="mt-1">
-    <x-header title="Counter" shadow separator progress-indicator>
-    </x-header>
+    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Compteurs" shadow separator progress-indicator />
 
     <div>
 
-        <p>Counter: {{ $count }}<br>
+        <p>Counter: {{ $count }} (Pure LiveWire)<br>
             {{-- <x-button class="btn-primary mt-1" wire:click="increment">+</x-button> --}}
             {{-- <x-button class="btn-primary mt-1" wire:mouseenter="increment">+</x-button> --}}
             {{-- <x-button class="btn-primary mt-1" wire:click.window="increment">+</x-button> --}}
@@ -45,7 +44,7 @@ new #[Layout('components.layouts.academy')] #[Title('Counter')] class extends Co
         <h2 class="mb-3">Counter with AlpineJS (Src <a href="http://www.penguinui.com/components/counter"
                 class="text-blue-500 hover:text-orange-400 transition duration-700" target="_blank">Perguini</a>)</h2>
 
-        <div x-data="{ currentVal: 1, minVal: 0, maxVal: 7, decimalPoints: 0, incrementAmount: 1 }" class="flex flex-col gap-1">
+        <div x-data="{ currentVal: 3, minVal: 0, maxVal: 7, decimalPoints: 0, incrementAmount: 1 }" class="flex flex-col gap-1">
             <label for="counterInput" class="pl-1 text-sm text-slate-700 dark:text-slate-300">Items(s)</label>
 
             <div @dblclick.prevent class="flex items-center">
@@ -75,7 +74,6 @@ new #[Layout('components.layouts.academy')] #[Title('Counter')] class extends Co
             </div>
 
         </div>
-
 
     </div>
 
@@ -124,9 +122,6 @@ new #[Layout('components.layouts.academy')] #[Title('Counter')] class extends Co
                 </button>
             </div>
         </div>
-
-
-
 
     </div>
 </div>

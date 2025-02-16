@@ -3,13 +3,7 @@ include_once 'frameworks.php';
 ?>
 
 <div>
-    <x-header title="Frameworks" shadow separator progress-indicator>
-    </x-header>
+    <x-header class="font-shadow text-green-400" title="FRAMEWORKS" icon="o-check" shadow separator progress-indicator />
 
-    {{-- <livewire:academy.frameworks.livewire.hello-world /> --}}
-    {{-- <livewire:academy.frameworks.livewire.counter /> --}}
-    {{-- <livewire:academy.frameworks.livewire.counter by=3/> --}}
-
-    {{-- <livewire:academy.frameworks.livewire.Todos /> --}}
-
+    <h1 class='h-[550px] flex items-center'>← Choix dans le menu ci-contre</h1>
 </div>

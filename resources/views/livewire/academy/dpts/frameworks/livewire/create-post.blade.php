@@ -4,10 +4,10 @@
  * (ɔ) LARAVEL.Sillo.org - 2015-2024.
  */
 
-use App\Models\PostAcademy;
-use Livewire\Attributes\{Layout, Rule, Title};
-use Livewire\Volt\Component;
 use Mary\Traits\Toast;
+use App\Models\AcademyPost;
+use Livewire\Volt\Component;
+use Livewire\Attributes\{Layout, Rule, Title};
 
 new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends Component
 {
@@ -25,7 +25,7 @@ new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends C
 		try
 		{
 			$this->validate();
-			PostAcademy::create([
+			AcademyPost::create([
 				'title'   => $this->title,
 				'content' => $this->content,
 			]);
@@ -43,10 +43,9 @@ new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends C
 }; ?>
 
 <div>
-    <x-header title="New Post" shadow separator progress-indicator>
-    </x-header>
+    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Formulaire" shadow separator progress-indicator />
 
-    Current title: <span x-text="$wire.title.toUpperCase()"></span>
+    <p>Titre actuel en majuscules : <span x-text="$wire.title.toUpperCase()"></span></p>
 
     @php
         $contentLength = strlen($content);
@@ -60,21 +59,19 @@ new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends C
         @enderror
 
         <label for="title">
-            <span>Title</span>
+            <span>Titre</span>
             <x-input class="mt-1 mb-2" type="text" wire:model='title'></x-input>
         </label>
 
         <label for="content">
-            <span>Content</span>
+            <span>Contenu (Caractères comptabilisés)</span>
             <x-textarea class="mt-1" name="" id="" cols="30" rows="7"
                 wire:model.live='content' maxlength="{{ $maxChars }}"></x-textarea>
         </label>
-        <span
-            x-text="'{{ trans_choice($messageKey, $contentLength, ['n' => $contentLength, 'm' => $maxChars]) }}'"></span>
+        <span x-text="'{{ trans_choice($messageKey, $contentLength, ['n' => $contentLength, 'm' => $maxChars]) }}'"></span>
 
         <div class="text-right w-full">
-            <x-button type="submit" class="btn-primary mt-2 mr-5">
-                Save</x-button>
+            <x-button type="submit" class="btn-primary mt-2 mr-5" disabled>Enregistrer</x-button>
         </div>
     </form>
 </div>

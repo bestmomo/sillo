@@ -4,10 +4,10 @@
  *  (ɔ) LARAVEL.Sillo.org - 2012-2024
  */
 
-use App\Models\PostAcademy;
-use Livewire\Attributes\{Layout, Rule, Title};
-use Livewire\Volt\Component;
 use Mary\Traits\Toast;
+use App\Models\AcademyPost;
+use Livewire\Volt\Component;
+use Livewire\Attributes\{Layout, Rule, Title};
 
 new
 #[Title('New Form')]
@@ -26,7 +26,7 @@ class extends Component
 	public function save()
 	{
 		$this->validate();
-		PostAcademy::create([
+		AcademyPost::create([
 			'title'   => $this->title,
 			'content' => $this->content,
 		]);

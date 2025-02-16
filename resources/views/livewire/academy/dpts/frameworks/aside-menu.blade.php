@@ -19,18 +19,18 @@
         </div>
         <div
             class="mt-4 ml-0 pt-1 px-1 text-xs text-left rounded mr-3 {{ request()->is('frameworks') ? 'bg-gray-700 text-white' : '' }}">
-            <a href="/frameworks">FRAMEWORKS</a>
+            <a href="/academy/frameworks">FRAMEWORKS</a>
         </div>
-        <div class='x-auto w-full text-center mb-4 pr-3'><small><a href="/t">Back Test</a></small></div>
+        <div class='x-auto w-full text-center mb-4 pr-3 font-bold'><small><a href="/t">Test</a></small></div>
 
         @foreach ($frameworksLinks as $framework => $links)
             <div class="{{ $loop->index ? 'mt-4' : '' }}">{{ strtoupper($framework) }}</div>
             <hr>
             @foreach ($links as $link)
                 <div class="my-1">
-                    <a href="/framework/{{ $framework }}/{{ $link }}"
+                    <a href="/academy/framework/{{ $framework }}/{{ $link }}"
                         class="py-1 px-2 rounded my-3 pl-2
-                            {{ request()->is('framework/' . $framework . '/' . $link) ? 'bg-gray-700 text-white' : '' }}">{{ ucfirst(str_replace('-', ' ', affLink($link))) }}</a>
+                            {{ request()->is('academy/framework/' . $framework . '/' . $link) ? 'bg-gray-700 text-white' : '' }}">{{ ucfirst(str_replace('-', ' ', affLink($link))) }}</a>
                 </div>
             @endforeach
         @endforeach

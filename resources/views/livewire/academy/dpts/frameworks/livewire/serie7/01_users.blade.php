@@ -55,7 +55,7 @@ include_once '01_users.php';
                         <tbody>
                             @forelse ($users as $user)
                                 <tr wire:key="user-{{ $user->id }}"
-                                    class="{{ $user->isStudent ? 'text-cyan-500' : '' }}"
+                                    class="{{ $user->isStudent() ? 'text-cyan-500' : '' }}"
                                     class="border-b dark:border-gray-700">
                                     <td class="px-4 py-3">{{ $user->id }}</td>
                                     <td class="px-4 py-3 ">
