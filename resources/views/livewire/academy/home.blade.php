@@ -13,29 +13,30 @@ class extends Component
 <div class='text-lg'>
     <x-header class="text-green-400 font-shadow" title="L'ACADEMIE" shadow separator progress-indicator />
     
-        <p class='text-justify'>L'Académie est un espace d'Études et de Travaux Pratiques.</p><br>
+        <p class='text-justify font-bold text-xl'>L'académie est un espace d'Études, de Travaux Pratiques et de Test.</p><br>
         
         <p class='text-justify'>
             Conseil: Quelque soient vos développements, n'y utilisez pas les tables de base du projet. Préférez utiliser celles commençant par '<b>academy_</b>' ou créez les vôtres selon le même début de nom.<br>
-            En effet, si vous <i>' push ' *</i> votre code au <a class='link' href="https://github.com/bestmomo/sillo" target='_blank'>projet officiel</a> <x-icon-external-link class='w-4 h-4 mb-1 inline-block' />
+            En effet, si vous <i>' push ' *</i> votre code au <a class='link' href="https://github.com/bestmomo/sillo" target='_blank'>projet officiel</a> <x-icon-external-link class='w-4 h-4 mb-1 inline-block' />, de vrais utilisateurs auront accès à ces données...
         </p><br>
         
-        <p>Pour l'heure, voici la contenu :</p><br>
+        <p>Pour l'heure, voici les 2 départements (dpts/) ouverts :</p><br>
         
         <ul class="ml-3 list-disc list-inside">
             <p class='font-bold'>I / Étude de FrameWorks :</p>//2do link
-            <li>LiveWire</li>
-            <li>AlpineJS</li>
+            <li><a href="https://livewire.laravel.com/docs/quickstart" title="Doc. officielle LiveWire" target="_blank">LiveWire</a><x-icon-external-link class='w-4 h-4 mb-1 inline-block' /></li>
+            <li><a href="https://alpinejs.dev/start-here" title="Doc. officielle AlpineJS" target="_blank">AlpineJS</a><x-icon-external-link class='w-4 h-4 mb-1 inline-block' /></li>
         </ul>
         <p>→ Jouez ad'libitum avec ces parties !</p>
         <br>
         <ul class="ml-3 list-disc list-inside">
-            <p class='font-bold'>II / T.P. (Travaux Pratiques - Études de cas) :</p>//2do link
+          <p class='font-bold'>II / Études (Études de Cas - Travaux Pratiques) :</p>//2do link
             <li>Cas 1: Problème //** sélection & tri et affichage d'une liste*</li>
             <li>Cas 2: À venir...</li>
         </ul>
         <p>→ Étudiez les cas déjà réalisés, et tâchez d'y apporter votre solution !</p>
-        
+        <br>
+        <p class="text-justify">Accessoirement, il existe un fichier de code pour faire un test rapide, ponctuel et provisoire (URL : <b>/t</b>) (Afin de simplifier et d'isoler une problématique)</p>
         <br><hr><br>
         <p class="text-justify">
         Rappels :<br>

@@ -16,8 +16,8 @@
 
 		@include('livewire.academy.partials.disclaimer')
 
-			<x-main full-width class='!w-full'>
-				<x-slot:content>
+			<x-main full-width>
+				<x-slot:content class='!pt-0'>
 					{{ $slot }}
 				</x-slot:content>
 		</x-main>

@@ -6,7 +6,7 @@
 
 	<x-slot:brand class="mr-6">
 		<div>
-			<a class='font-new text-lg' href="{{ route('home') }}" title=" {{ __('Home') }} ">{{ __('Home') }}</a>
+			<a class='font-new text-lg' href="{{ route('home') }}" title=" {{ __('Public Home') }} ">{{ __('Home') }}</a>
 		</div>
 	</x-slot:brand>
 

@@ -31,6 +31,11 @@ $btns = [
 		'icon'      => 'o-wallet',
 		'routeLink' => 'academy.cases',
 	],
+	'Test' => [
+		'title'     => 'Test rapide',
+		'icon'      => 'o-beaker',
+		'routeLink' => 'test.in-progress',
+	],
 ];
 
 $btns = array_map(function($btn) {

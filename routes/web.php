@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
 use App\Http\Controllers\ImageController;
@@ -14,24 +14,29 @@ Volt::route('/', 'index')->name('home');
 
 // Volt::route('/doc', 'doc.memo')->name('doc.memo');
 
-Volt::route('/t', 'academy.abc.aaa_test')->name('academy.test');
-
-Volt::route('/academy', 'academy.home')->name('academy');
-Volt::route('/frameworks', 'academy.frameworks')->name('academy.frameworks');
-Route::prefix('/framework')->group(function ()
-{
-	getAcademyFrameworksRoutes();
-});
-
 Route::middleware(IsStudent::class)->group(function ()
 {
+	Volt::route('/academy', 'academy.home')->name('academy');
+
+	// Raccourci pour un test provisoire en cours
+	Volt::route('/t', 'academy.dpts.test.in-progress')->name('test.in-progress');
+
+	Volt::route('/frameworks', 'academy.frameworks')->name('academy.frameworks');
+	Route::prefix('/framework')->group(function ()
+	{
+		getAcademyFrameworksRoutes();
+	});
+
+	Route::prefix('/case')->group(function ()
+	{
 		Volt::route('/academy/cases', componentName: 'academy.dpts.cases.cases')->name('academy.cases');
-		Volt::route('/t', 'admin.tests.tests')->name('admin.tests');
+		Volt::route('/case', 'admin.tests.tests')->name('admin.tests');
 		// 2do factorise routes
-		Volt::route('/t/table-filter/trouble', 'admin.tests.tableFilter.trouble')->name('t.tableFilter.trouble');
+		Volt::route('/case/table-filter/trouble', 'admin.tests.tableFilter.trouble')->name('t.tableFilter.trouble');
 		Volt::route('/t/table-filter/soluce1', 'admin.tests.tableFilter.soluce1')->name('t.tableFilter.soluce1');
 		Volt::route('/t/table-filter/soluce2', 'admin.tests.tableFilter.soluce2')->name('t.tableFilter.soluce2');
 	});
+});
 Route::post('/upload-image', [ImageController::class, 'upload']);
 
 Volt::route('/contact', 'contact')->name('contact');

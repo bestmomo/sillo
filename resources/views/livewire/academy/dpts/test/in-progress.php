@@ -9,8 +9,8 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new
-#[Title('Test')]
-#[Layout('components.layouts.academy')]
+#[Title('Test Rapide')]
+#[Layout('components.layouts.acaLight')]
 class() extends Component
 {
 	public $roleCounts = [];
