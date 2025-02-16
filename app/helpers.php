@@ -84,4 +84,6 @@ if (!function_exists('generateRandomDateInRange'))
 		// Ajouter les secondes aléatoires à la date de début pour obtenir la date aléatoire
 		return $start->copy()->addSeconds($randomSeconds);
 	}
+	
+	//2do Synchroniser avec les helpers de Sillo-Shop
 }

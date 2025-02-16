@@ -1,41 +1,28 @@
 <?php
-//2do (Tableau de cumuls d'users - Role/Student/Total - en 1 seule requête) → Lui trouver sa place dans academy !
+
+use Barryvdh\Debugbar\Facades\Debugbar;
 include_once 'in-progress.php';
 ?>
 <div>
-<x-header class="mb-0 font-shadow text-green-400" title="TEST RAPIDE" icon="o-check" shadow separator progress-indicator/>
+	<x-header class="font-shadow text-green-400" title="TEST RAPIDE" icon="o-check" shadow separator progress-indicator/>
 
 	<h1>Ready.</h1>
 
-	<hr>
+	<hr class='my-3'>
 
-	<div class="my-3 font-bold text-xl">Users (1 DB request) :</div>
 
-	<table class="w-full max-w-52 mx-auto">
-		<thead>
-			<th class="rounded-tl-lg">Role</th>
-			<th>Student</th>
-			<th class="rounded-tr-lg">Total</th>
-		</thead>
-		<tbody>
-			@foreach ($roleCounts as $role => $count)
-                <tr class="!border-0">
-                    <td class="border-b-gray-500 pl-3">{{ ucfirst($role) }}</td>
-                    <td class="text-right border-b-gray-500 pr-7">{{ $studentCounts[$role] ?? 0 }}</td>
-                    <td class="text-right border-b-gray-500 pr-7">{{ $count }}</td>
-                </tr>
-            @endforeach
-			<tr>
-				<td class="border-0 font-bold"></td>
-				<td class="text-right font-bold border-0 pr-7">{{ $studentsCount }}</td>
-				<td class="text-right font-bold border-0 pr-7">{{ $usersCount }}</td>
-			</tr>
-		</tbody>
-	</table>
+	@if ($activeTests[0] ?? null == 'stats-users')
+		@livewire('academy.dpts.test.stats-users', ['testName' => $activeTests[0]])
 
-	{{-- {{ $users->pluck('name', 'role')->join(', ') }}
-	--}}
+	@elseif (0)
+		{{-- Autre 'vieux' test --}}
+	@else
+		{{-- !flex !flex-none text-center !m-0 !p-0 --}}
 
-	{{-- @livewire('uuu2') --}}
+		<x-header class="flex font-shadow text-primary !justify-center text-center" title="PAS DE VIEUX TEST DEMANDE" icon="o-check" shadow separator progress-indicator/> @endif
+
+
+	{{-- @livewire('academy.dpts.test.stats-users', ['testName'=>$activeTests[0]]) --}}
+	{{-- <livewire:academy.dpts.test.statsUsers:$name /> --}}
 </div>
 

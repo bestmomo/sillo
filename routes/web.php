@@ -119,12 +119,18 @@ Route::middleware('auth')->group(function ()
 		});
 });
 
+// Route::fallback(function ()
+// {
+// 	$path         = request()->path();
+// 	$redirectPath = '/posts/' . $path;
+
+// 	return redirect(url($redirectPath));
+// });
+
+//2do a pretty 404 error page as in real website
 Route::fallback(function ()
 {
-	$path         = request()->path();
-	$redirectPath = '/posts/' . $path;
-
-	return redirect(url($redirectPath));
+	return '404';
 });
 
 //2see : Develop a component for all topics in 'LaDOC', and group the related routes

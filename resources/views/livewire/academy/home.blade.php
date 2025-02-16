@@ -30,13 +30,14 @@ class extends Component
         <p>→ Jouez ad'libitum avec ces parties !</p>
         <br>
         <ul class="ml-3 list-disc list-inside">
-          <p class='font-bold'>II / Études (Études de Cas - Travaux Pratiques) :</p>//2do link
+           <p class='font-bold'>II / Études (Études de Cas - Travaux Pratiques) :</p>//2do link
             <li>Cas 1: Problème //** sélection & tri et affichage d'une liste*</li>
             <li>Cas 2: À venir...</li>
+            <li>Cas 3: Un cas résolu (Juste pour l'exemple pour le moment...)</li>
         </ul>
         <p>→ Étudiez les cas déjà réalisés, et tâchez d'y apporter votre solution !</p>
         <br>
-        <p class="text-justify">Accessoirement, il existe un fichier de code pour faire un test rapide, ponctuel et provisoire (URL : <b>/t</b>) (Afin de simplifier et d'isoler une problématique)</p>
+        <p class="text-justify">Accessoirement, il existe un fichier de code pour faire un test rapide, ponctuel et provisoire (URL : <b>/t</b>) (Afin de simplifier et d'isoler une problématique...)</p>
         <br><hr><br>
         <p class="text-justify">
         Rappels :<br>
