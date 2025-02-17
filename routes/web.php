@@ -6,6 +6,7 @@
 
 use App\Http\Controllers\ImageController;
 use App\Http\Middleware\{IsAdmin, IsAdminOrRedac, IsStudent};
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -16,7 +17,7 @@ Volt::route('/', 'index')->name('home');
 
 Route::middleware(IsStudent::class)->group(function ()
 {
-	// Raccourci pour un test provisoire en cours
+	// Raccourci pour un test rapide et provisoire en cours, isolé
 	Volt::route('/t', 'academy.dpts.test.in-progress')->name('academy.test.in-progress');
 
 	// L'Académie
@@ -126,20 +127,13 @@ Route::middleware('auth')->group(function ()
 		});
 });
 
-//2do a pretty error page as in real website (For all: 404 & 403 &+)
-// Route::fallback(function ()
-// {
-// 	$path         = request()->path();
-// 	$redirectPath = '/posts/' . $path;
-// 	return redirect(url($redirectPath));
-// });
 Route::fallback(function ()
 {
-	return '404';
+	return abort(404, json_encode([request()->path(), request()->url()]));
 });
 
 //2see : Develop a component for all topics in 'LaDOC', and group the related routes
-// À faire : Développer un composant pour toutes les thématiques de 'LaDOC', et regrouper les routes correspondantes
+// = À faire : Développer un composant pour toutes les thématiques de 'LaDOC', et regrouper les routes correspondantes
 Route::get('/doc/laravel', function ()
 {
 	return view('docs.laravel');
