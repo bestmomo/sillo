@@ -5757,16 +5757,16 @@
         },
         {
             "name": "spatie/browsershot",
-            "version": "5.0.7",
+            "version": "5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/browsershot.git",
-                "reference": "d09837ff17e3d894a4a3cf913bdc03dab6c2d276"
+                "reference": "0102971ae974022ec4a7a149e8924ea355b52cc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/browsershot/zipball/d09837ff17e3d894a4a3cf913bdc03dab6c2d276",
-                "reference": "d09837ff17e3d894a4a3cf913bdc03dab6c2d276",
+                "url": "https://api.github.com/repos/spatie/browsershot/zipball/0102971ae974022ec4a7a149e8924ea355b52cc3",
+                "reference": "0102971ae974022ec4a7a149e8924ea355b52cc3",
                 "shasum": ""
             },
             "require": {
@@ -5813,7 +5813,7 @@
                 "webpage"
             ],
             "support": {
-                "source": "https://github.com/spatie/browsershot/tree/5.0.7"
+                "source": "https://github.com/spatie/browsershot/tree/5.0.8"
             },
             "funding": [
                 {
@@ -5821,26 +5821,26 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-14T13:09:56+00:00"
+            "time": "2025-02-17T09:56:12+00:00"
         },
         {
             "name": "spatie/crawler",
-            "version": "8.4.0",
+            "version": "8.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/crawler.git",
-                "reference": "344e1b90488c19bdf01d76d40d6728994d0951f7"
+                "reference": "906892d266a77f6dfb834559bac24542a49139fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/crawler/zipball/344e1b90488c19bdf01d76d40d6728994d0951f7",
-                "reference": "344e1b90488c19bdf01d76d40d6728994d0951f7",
+                "url": "https://api.github.com/repos/spatie/crawler/zipball/906892d266a77f6dfb834559bac24542a49139fa",
+                "reference": "906892d266a77f6dfb834559bac24542a49139fa",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.3",
                 "guzzlehttp/psr7": "^2.0",
-                "illuminate/collections": "^10.0|^11.0",
+                "illuminate/collections": "^10.0|^11.0|^12.0",
                 "nicmart/tree": "^0.9",
                 "php": "^8.1",
                 "spatie/browsershot": "^3.45|^4.0|^5.0",
@@ -5877,7 +5877,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/crawler/issues",
-                "source": "https://github.com/spatie/crawler/tree/8.4.0"
+                "source": "https://github.com/spatie/crawler/tree/8.4.1"
             },
             "funding": [
                 {
@@ -5889,7 +5889,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-16T15:32:54+00:00"
+            "time": "2025-02-17T09:24:49+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
@@ -10770,16 +10770,16 @@
         },
         {
             "name": "laravel-lang/routes",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/routes.git",
-                "reference": "addc4438fac481389e66e349ac3b93670aa4301b"
+                "reference": "c1d40fff2cc7c31260abce21d2ce6b7c330f9537"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/routes/zipball/addc4438fac481389e66e349ac3b93670aa4301b",
-                "reference": "addc4438fac481389e66e349ac3b93670aa4301b",
+                "url": "https://api.github.com/repos/Laravel-Lang/routes/zipball/c1d40fff2cc7c31260abce21d2ce6b7c330f9537",
+                "reference": "c1d40fff2cc7c31260abce21d2ce6b7c330f9537",
                 "shasum": ""
             },
             "require": {
@@ -10843,7 +10843,7 @@
                 "issues": "https://github.com/Laravel-Lang/routes/issues",
                 "source": "https://github.com/Laravel-Lang/routes"
             },
-            "time": "2024-07-10T10:28:26+00:00"
+            "time": "2025-02-16T23:06:12+00:00"
         },
         {
             "name": "laravel/pint",

@@ -8,6 +8,7 @@ new #[Title('GA')] #[Layout('components.layouts.academy')] class extends Compone
 }; ?>
 
 <div>
-    <x-header class="mb-0" title="Kanboard" shadow separator progress-indicator />
-    <h1>Kanboard</h1>
+    <livewire:academy.components.page-title title='Kanboard'/>
+    
+    <h2>À venir...</h2>
 </div>

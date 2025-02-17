@@ -8,18 +8,23 @@ include_once 'accordion/accordion.php';
             --tw-rotate: -135deg;
         }
     </style>
+    
     @php
-        $items = [['Sujet 1', 'Tatati1'], ['Sujet 2', 'Tatati2'], ['Sujet 3', 'Tatati3']];
+        $items = [
+            ['Sujet 1', 'Tatati1'],
+            ['Sujet 2', 'Tatati2'],
+            ['Sujet 3', 'Tatati3']
+        ];
     @endphp
 
-    <x-header title="Accordion" shadow separator progress-indicator></x-header>
+    <livewire:academy.components.page-title title='Accordion'/>
 
-    <p>Dynamic Accordion component:</p>
-    <livewire:academy.frameworks.alpinejs.accordion.accordion_items :items=$items />
+    <p class='text-green-400 font-bold'>Dynamic Accordion component:</p>
+    <livewire:academy.dpts.frameworks.alpinejs.accordion.accordion_items :items=$items />
 
     <hr>
 
-    <p>AlpineJs Accordion:</p>
+    <p class='text-green-400 font-bold'>AlpineJs Accordion:</p>
     <div class="join join-vertical w-full" x-data="{
         active: 'HeadingOne',
         toggle(item) {
@@ -60,7 +65,7 @@ include_once 'accordion/accordion.php';
 
     </div>
 
-    <p>DaisyUI accordion:</p>
-    @include('livewire.academy.frameworks.alpinejs.accordion.accordion_ori')
+    <p class='text-green-400 font-bold'>DaisyUI accordion:</p>
+    @include('livewire.academy.dpts.frameworks.alpinejs.accordion.accordion_ori')
     <hr>
 </div>

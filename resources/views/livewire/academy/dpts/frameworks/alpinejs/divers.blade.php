@@ -9,7 +9,7 @@ class extends Component
 }; ?>
 <div class="relative w-full h-screen flex flex-col">
 
-    <x-header class="!-mb-5" title="Divers" shadow separator progress-indicator></x-header>
+    <livewire:academy.components.page-title title='Divers'/>
 
     <div class="flex-grow relative overflow-hidden">
         <div class="absolute inset-0 overflow-y-auto">

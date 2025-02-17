@@ -4,7 +4,7 @@ include_once 'test.php';
 
 <div>
 
-    <x-header title="Test" shadow separator progress-indicator></x-header>
+    <livewire:academy.components.page-title title='Test'/>
 
     <div x-init="console.log('ok')" x-data="{
         count: 10

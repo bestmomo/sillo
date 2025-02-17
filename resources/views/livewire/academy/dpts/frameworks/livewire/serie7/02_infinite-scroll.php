@@ -21,7 +21,7 @@ new class() extends Component
 
 	public function mount()
 	{
-		$this->name = 'GC7';
+		$this->name = 'Laravel';
 		$this->dispatch('update-subtitle', newSubtitle: $this->subtitle);
 		logger('Dispatching update-subtitle event');
 	}

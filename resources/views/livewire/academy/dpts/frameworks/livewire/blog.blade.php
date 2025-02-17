@@ -30,7 +30,7 @@ new #[Title('Articles')] #[Layout('components.layouts.academy')] class extends C
 }; ?>
 
 <div>
-    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Articles" shadow separator progress-indicator />
+    <livewire:academy.components.page-title title='Articles'/>
     
     <h2 class="mb-2 text-xl">{{ $posts->count() }} article{{ $posts->count() > 1 ? 's' : '' }} / {{ $posts->total() }}</h2>
 

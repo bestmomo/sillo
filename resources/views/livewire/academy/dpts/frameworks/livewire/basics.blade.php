@@ -3,8 +3,8 @@ include_once 'basics.php';
 ?>
 
 <div>
-	<x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Bases de Livewire" shadow separator progress-indicator/>
-
+	<livewire:academy.components.page-title title='Bases de Livewire'/>
+	
 	<h1>Simples exemples</h1>
 
 	<livewire:academy.dpts.frameworks.livewire.hello-world/>

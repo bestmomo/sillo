@@ -11,7 +11,7 @@ new #[Title('Basics')] #[Layout('components.layouts.academy')] class extends Com
 <div>
     <script src="/assets/js/helpers.js"></script>
     
-    <x-header title="Basics AlpineJS" shadow separator progress-indicator></x-header>
+    <livewire:academy.components.page-title title="Bases d'Alpine.JS" />
 
     <div x-data="{
         search: 'ba',
@@ -89,5 +89,5 @@ new #[Title('Basics')] #[Layout('components.layouts.academy')] class extends Com
             <strong x-text="count"></strong></x-button>
     </div>
     <hr>
-    <h1 x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
+    <h1 class='text-right' x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
 </div>

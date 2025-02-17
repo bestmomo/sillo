@@ -19,11 +19,11 @@ class extends Component
     <script src="/assets/js/helpers.js"></script>
     @section('styles')
         <style>
-            {{ file_get_contents(resource_path('views/livewire/academy/frameworks/alpinejs/pets/styles.css')) }}
+            {{ file_get_contents(resource_path('views/livewire/academy/dpts/frameworks/alpinejs/pets/styles.css')) }}
         </style>
     @endsection
 
-    <x-header title="Pets" shadow separator progress-indicator></x-header>
+    <livewire:academy.components.page-title title='Animaux domestiques'/>
 
     <div x-data="{
         pets: [],

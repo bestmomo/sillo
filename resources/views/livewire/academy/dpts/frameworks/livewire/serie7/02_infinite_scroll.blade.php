@@ -16,8 +16,8 @@ include_once '02_infinite-scroll.php';
                                 wire:model.live.debounce.300ms="search" placeholder="Search..." required />
                         </div>
                         <p class="flex items-center justify-end mr-5 italic">
-                            <span>Owner:</span>
-                            <x-heroicon-s-heart class="h-6 w-6 text-red-600 mx-2" />
+                            <span>I</span>
+                            <x-heroicon-s-heart class="h-4 w-4 text-red-600 mx-2" />
                             <span>{{ $name }}</span>
                         </p>
 

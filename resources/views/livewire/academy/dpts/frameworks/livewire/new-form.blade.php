@@ -5,11 +5,10 @@ include_once 'new-form.php';
 <div>
 
 	@php
-        $maxChars = env('APP_MAX_NUMBER_OF_CHARS_IN_COMMENTS_FORM');
-    @endphp
-
-	<x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Nouveau Formulaire" shadow separator progress-indicator/>
-
+		$maxChars = env('APP_MAX_NUMBER_OF_CHARS_IN_COMMENTS_FORM');
+	@endphp
+	
+	<livewire:academy.components.page-title title='Nouveau Formulaire'/>
 
 	{{-- DOC --}}
 	{{--
@@ -37,7 +36,7 @@ include_once 'new-form.php';
 			<small>Characters:
 				<span x-text="$wire.content.length + ' / ' + {{ $maxChars }}"></span>
 				-
-				                Words:
+												                Words:
 				<span x-text="$wire.content.split(' ').length -1"></span>
 			</small>
 		</div>

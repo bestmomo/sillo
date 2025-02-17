@@ -43,7 +43,7 @@ new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends C
 }; ?>
 
 <div>
-    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Formulaire" shadow separator progress-indicator />
+		<livewire:academy.components.page-title title='Formulaire'/>
 
     <p>Titre actuel en majuscules : <span x-text="$wire.title.toUpperCase()"></span></p>
 

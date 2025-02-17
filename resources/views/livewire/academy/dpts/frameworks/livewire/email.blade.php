@@ -59,7 +59,7 @@ class extends Component
 
 			$this->message = 'Email sent successfully!';
 
-			$this->success('Refresh and email re-sent successfully!');
+			$this->success('Refresh all and email re-sent successfully!');
 
 			// $this->reset(['destinataire', 'sujet', 'contenu']);
 		}
@@ -69,7 +69,7 @@ class extends Component
 
 			if (false !== strpos($e, 'Unable to connect to localhost:1025'))
 			{
-				$possibleCase = '<div class="mt-2 text-yellow-500 italic text-center font-bold">Are you sure MailHog is running ?</div>';
+				$possibleCase = '<div class="mt-2 text-yellow-500 italic text-center font-bold">Are you sure MailHog or other is running on port #1025?</div>';
 			}
 
 			$this->message = '<div class="mb-3">Erreur lors de l\'envoi de l\'email :</div>' . $e->getMessage() . $possibleCase;
@@ -89,7 +89,7 @@ class extends Component
 }; ?>
 
 <div>
-    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Email" shadow separator progress-indicator />
+    <livewire:academy.components.page-title title='Email'/>
 
     <div>
         @if (!$dev)
@@ -108,8 +108,8 @@ class extends Component
         <div class="border p-5 rounded-lg mt-3">
             {!! $emailContent !!}
         </div>
-        You can see it too on: <a class="link" href="http://localhost:8025" target="_blank">http://localhost:8025</a> (If
-        you've run MailHog...)
+        <span class='text-right'>You can see it too on: <a class="link" href="http://localhost:8025" target="_blank"><b>http://localhost:8025</b></a> <x-ext-link /> <i>(If
+        you run MailHog or other (on port 1025)...)</i></span>
     @else
         <p class="text-red-400 font-bold">{!! $message !!}</p>
     @endif
@@ -151,7 +151,7 @@ class extends Component
             <tr>
                 <td>This last button do the 2 actions</td>
                 <td>
-                    <x-button wire:click='sendMail' class='btn-primary btn-sm w-full'>Refresh &<br>
+                    <x-button wire:click='sendMail' class='btn-primary btn-sm w-full'>Refresh all &<br>
                         Resend email</x-button>
                 </td>
             </tr>
@@ -159,7 +159,7 @@ class extends Component
     </table>
     
     @php
-        echo $dev;
+        echo 'Mode '.($dev?' dev':' prod');
     @endphp
-
+    
 </div>
