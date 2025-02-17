@@ -72,7 +72,7 @@ new class () extends Component {
             <x-menu-separator />
             <x-menu-item icon="m-arrow-right-end-on-rectangle" title="{{ __('Go on site') }}" link="/"/>
             <x-menu-separator />
-            <x-menu-item class='text-black justify-evenly bg-green-600 font-new' icon="o-academic-cap" title="{{ __('Academy access') }} → " link="{{ route('academy') }}"/>
+            <x-menu-item class='text-black justify-evenly bg-green-600 font-new' icon="o-academic-cap" title="{{ __('Academy access') }} → " link="{{ route('academy.academy') }}"/>
         {{-- @endif --}}
         
     </x-menu>

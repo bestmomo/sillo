@@ -90,7 +90,7 @@ new class() extends Component
                         class="w-7 h-7" /></a>
             @endif
             @if ($user->isStudent)
-                <a title="{{ __('Academy access') }}" href="{{ route('academy') }}"><x-icon name="o-academic-cap"
+                <a title="{{ __('Academy access') }}" href="{{ route('academy.academy') }}"><x-icon name="o-academic-cap"
                         class="w-7 h-7 hover:text-green-400" /></a>
             @endif
             <a title="{{ __('Chat') }}" href="{{ route('chat') }}"><x-icon name="o-chat-bubble-oval-left"

@@ -29,7 +29,8 @@ if (!function_exists('getAcademyFrameworksRoutes'))
 			{
 				if ('chats' !== $link)
 				{
-					Volt::route("/{$framework}/{$link}", "academy.dpts.frameworks.{$framework}.{$link}")->name("{$framework}.{$link}");
+					Volt::route("/{$framework}/{$link}", 
+						"academy.dpts.frameworks.{$framework}.{$link}")->name("academy.frameworks.{$framework}.{$link}");
 				}
 			}
 		}

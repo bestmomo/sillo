@@ -17,12 +17,12 @@ Volt::route('/', 'index')->name('home');
 Route::middleware(IsStudent::class)->group(function ()
 {
 	// Raccourci pour un test provisoire en cours
-	Volt::route('/t', 'academy.dpts.test.in-progress')->name('test.in-progress');
+	Volt::route('/t', 'academy.dpts.test.in-progress')->name('academy.test.in-progress');
 
 	// L'Académie
 	Route::prefix('/academy')->group(function ()
 	{
-		Volt::route('/', 'academy.home')->name('academy');
+		Volt::route('/', 'academy.home')->name('academy.academy');
 
 		// Les FrameWorks
 		Volt::route('/frameworks', 'academy.dpts.frameworks.frameworks')->name('academy.frameworks');

@@ -10,16 +10,17 @@ use Illuminate\Support\Facades\Route;
 function CssClass ($k)
 {
 	$currRoute = Route::currentRouteName();
-	Debugbar::info($k);
-	Debugbar::info($currRoute);
-	return $k == $currRoute ? 'text-green-400 disabled' : '';
+	Debugbar::addMessage($k, '$k');
+	Debugbar::addMessage($currRoute, '$currRoute');
+
+	return 0 === strpos( $currRoute, $k) ? 'text-green-400 disabled' : '';
 }
 
 $btns = [
 	'Académie' => [
 		'title'     => 'Accueil Académie',
 		'icon'      => 'o-academic-cap',
-		'routeLink' => 'academy',
+		'routeLink' => 'academy.academy',
 	],
 	'Frameworks' => [
 		'title'     => 'Livewire & AlpineJS',
@@ -34,13 +35,15 @@ $btns = [
 	'Test' => [
 		'title'     => 'Test rapide',
 		'icon'      => 'o-beaker',
-		'routeLink' => 'test.in-progress',
+		'routeLink' => 'academy.test.in-progress',
 	],
 ];
 
-$btns = array_map(function($btn) {
-    $btn['css'] = CssClass($btn['routeLink']);
-    return $btn;
+$btns = array_map(function($btn)
+{
+	$btn['css'] = CssClass($btn['routeLink']);
+
+	return $btn;
 }, $btns);
 
 // Debugbar::info($btns);
