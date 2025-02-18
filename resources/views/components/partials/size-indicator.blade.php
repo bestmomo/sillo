@@ -6,4 +6,3 @@
 	<div class="hidden sm:hidden md:hidden lg:hidden xl:block 2xl:hidden text-5xl">xl</div>
 	<div class="hidden sm:hidden md:hidden lg:hidden xl:hidden 2xl:block text-6xl">2xl</div>
 </div>
-
