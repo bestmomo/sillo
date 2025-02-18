@@ -34,6 +34,7 @@ foreach ($breakpoints as $i => $breakpoint) {
 		// $code .= ind() . $i . ' ' .$bsInCode.' '. $breakpoint . "\n";
 	}
 }
+$code.='</div>';
 
 echo $code;
 
