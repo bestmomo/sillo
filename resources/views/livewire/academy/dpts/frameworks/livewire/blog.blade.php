@@ -31,9 +31,8 @@ class extends Component
 	}
 }; ?>
 
-<div>
-    @section('title', $title = 'Articles')
-    <livewire:academy.components.page-title :title=$title />
+<div>    
+    <livewire:academy.components.page-title title='Articles' />
     
     <h2 class="mb-2 text-xl">{{ $posts->count() }} article{{ $posts->count() > 1 ? 's' : '' }} / {{ $posts->total() }}</h2>
 

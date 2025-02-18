@@ -1,11 +1,10 @@
 <?php
 
-use Livewire\Attributes\{Layout, Title};
+use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new
 #[Layout('components.layouts.academy')] 
-#[Title('Compteurs')]
 class extends Component
 {
 	public $count = 100;
@@ -27,21 +26,18 @@ class extends Component
 	}
 }; ?>
 
-<div class="mt-1">
-    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Compteurs" shadow separator progress-indicator />
-
-    <div>
-
-        <p>Counter: {{ $count }} (Pure LiveWire)<br>
-            {{-- <x-button class="btn-primary mt-1" wire:click="increment">+</x-button> --}}
-            {{-- <x-button class="btn-primary mt-1" wire:mouseenter="increment">+</x-button> --}}
-            {{-- <x-button class="btn-primary mt-1" wire:click.window="increment">+</x-button> --}}
-            {{-- <x-button class="btn-primary mt-1" wire:click.throttle.3000ms="increment">+</x-button> --}}
-            {{-- <x-button class="btn-primary mt-1" wire:click.debounce.0ms="increment(5)">+</x-button> --}}
-            <x-button class="btn-primary mt-1 text-2xl" wire:click.debounce.0ms="increment(2)"><b>+ 2</b></x-button>
-            <x-button class="btn-primary mt-1 text-2xl px-5" wire:click.debounce.0ms="decrement"><b>- 1</b></x-button>
-        </p>
-    </div>
+<div>
+	<livewire:academy.components.page-title title='Compteurs' />
+    
+    <p>Counter: {{ $count }} (Pure LiveWire)<br>
+        {{-- <x-button class="btn-primary mt-1" wire:click="increment">+</x-button> --}}
+        {{-- <x-button class="btn-primary mt-1" wire:mouseenter="increment">+</x-button> --}}
+        {{-- <x-button class="btn-primary mt-1" wire:click.window="increment">+</x-button> --}}
+        {{-- <x-button class="btn-primary mt-1" wire:click.throttle.3000ms="increment">+</x-button> --}}
+        {{-- <x-button class="btn-primary mt-1" wire:click.debounce.0ms="increment(5)">+</x-button> --}}
+        <x-button class="btn-primary mt-1 text-2xl" wire:click.debounce.0ms="increment(2)"><b>+ 2</b></x-button>
+        <x-button class="btn-primary mt-1 text-2xl px-5" wire:click.debounce.0ms="decrement"><b>- 1</b></x-button>
+    </p>
 
     <div class="border-t mt-5 pt-3">
         <h2 class="mb-3">Counter with AlpineJS (Src <a href="http://www.penguinui.com/components/counter"
@@ -73,11 +69,8 @@ class extends Component
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
                 </button>
-
             </div>
-
         </div>
-
     </div>
 
     <div class="border-t mt-5 pt-3">
@@ -125,6 +118,5 @@ class extends Component
                 </button>
             </div>
         </div>
-
     </div>
 </div>

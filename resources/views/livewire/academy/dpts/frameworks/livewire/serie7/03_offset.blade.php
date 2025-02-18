@@ -8,66 +8,62 @@ use App\Models\AcademyUser;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new class() extends Component
-{
-	use WithPagination;
+new class () extends Component {
+    use WithPagination;
 
-	public $name;
-	public $subtitle = 'Offset';
-	public $offset   = 0;
-	public $limit    = 15;
-	public $users;
-	public $loadMore;
-	public $search        = '';
-	public $sortColumn    = 'id';
-	public $sortDirection = 'ASC';
+    public $name;
+    public $subtitle = 'Offset';
+    public $offset = 0;
+    public $limit = 15;
+    public $users;
+    public $loadMore;
+    public $search = '';
+    public $sortColumn = 'id';
+    public $sortDirection = 'ASC';
 
-	public function mount($loadMore = true, $offset = 0)
-	{
-		$this->name = 'GC7';
-		if (0 == $offset)
-		{
-			$this->dispatch('update-subtitle', newSubtitle: $this->subtitle);
-			logger('Dispatching update-subtitle event');
-		}
+    public function mount($loadMore = true, $offset = 0)
+    {
+        $this->name = 'You !';
+        if (0 == $offset) {
+            $this->dispatch('update-subtitle', newSubtitle: $this->subtitle);
+            logger('Dispatching update-subtitle event');
+        }
 
-		$this->loadMore = $loadMore;
-		$this->offset   = $offset;
-	}
+        $this->loadMore = $loadMore;
+        $this->offset = $offset;
+    }
 
-	public function doSort($column)
-	{
-		$this->sortColumn = $column;
-		if ($this->sortColumn === $column)
-		{
-			$this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
+    public function doSort($column)
+    {
+        $this->sortColumn = $column;
+        if ($this->sortColumn === $column) {
+            $this->sortDirection = 'ASC' == $this->sortDirection ? 'DESC' : 'ASC';
 
-			return;
-		}
-		$this->sortColumn    = $column;
-		$this->sortDirection = 'ASC';
-	}
+            return;
+        }
+        $this->sortColumn = $column;
+        $this->sortDirection = 'ASC';
+    }
 
-	public function updatingSearch()
-	{
-		$this->resetPage();
-	}
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
 
-	public function with(): array
-	{
-		if ($this->loadMore)
-		{
-			$this->users = AcademyUser::offset($this->offset)
-				->orderBy($this->sortColumn, $this->sortDirection)
-				->search($this->search)
-				->limit($this->limit)
-				->get();
-		}
+    public function with(): array
+    {
+        if ($this->loadMore) {
+            $this->users = AcademyUser::offset($this->offset)
+                ->orderBy($this->sortColumn, $this->sortDirection)
+                ->search($this->search)
+                ->limit($this->limit)
+                ->get();
+        }
 
-		return [
-			'users' => $this->users,
-		];
-	}
+        return [
+            'users' => $this->users,
+        ];
+    }
 }; ?>
 
 <div>
@@ -77,27 +73,24 @@ new class() extends Component
 
     {{-- <section class="mt-5"> --}}
     @if ($offset == 0)
-        <section class="mt-3">
-            <div class="max-auto max-w-screen-3xl px-4 lg:px-12 mx-auto">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden">
-                    <div class="flex items">
-                        <div class="max-auto w-full px-4 lg:px-12">
-                            <div class="bg-white dark:bg-gray-800 overflow-hidden">
-                                <div class="flex items-center justify-between my-4">
-                                    <div class="flex w-5/6 justify-between items-center">
-                                        <div class="relative x-full">
-                                            <x-input type="text" class="bg-gray-700 border border-gray-300"
-                                                wire:model.live.debounce.300ms="search" placeholder="Search..."
-                                                required />
-                                        </div>
-                                        <div class="flex items-center justify-end">
-                                            <span class="italic">Owner:</span>
-                                            <x-heroicon-s-heart class="h-6 w-6 text-red-600 mx-2" />
-                                            <span>{{ $name }}</span>
-                                        </div>
-
-                                    </div>
-                                </div>
+                                <section class="mt-3">
+                                    <div class="max-auto max-w-screen-3xl px-4 lg:px-12 mx-auto">
+                                        <div class="bg-white dark:bg-gray-800 overflow-hidden">
+                                            <div class="flex items">
+                                                <div class="max-auto w-full px-4 lg:px-12">
+                                                    <div class="bg-white dark:bg-gray-800 overflow-hidden">
+                                                        <div class="flex items-center justify-between my-4">
+                                                            <div class="flex w-5/6 justify-between items-center">
+                                                                <div class="relative x-full">
+                                                                    <x-input type="text" class="bg-gray-700 border border-gray-300"
+                                                                        wire:model.live.debounce.300ms="search" placeholder="Search..."
+                                                                        required />
+                                                                </div>
+                                                                <div class="flex items-center justify-end italic">
+                                                                    <span>I</span><x-heroicon-s-heart class="h-4 w-4 text-red-600 mx-2"/><span>{{ $name }}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
     @endif
     @if ($loadMore)
         <div class="overflow-x-auto rounded">

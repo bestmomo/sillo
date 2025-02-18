@@ -3,13 +3,11 @@ include_once 'new-form.php';
 ?>
 
 <div>
+	<livewire:academy.components.page-title title='Nouveau Formulaire'/>
 
 	@php
-$maxChars = env('APP_MAX_NUMBER_OF_CHARS_IN_COMMENTS_FORM');
+		$maxChars = env('APP_MAX_NUMBER_OF_CHARS_IN_COMMENTS_FORM');
 	@endphp
-
-	@section('title', $title = 'Nouveau Formulaire')
-	<livewire:academy.components.page-title title='Nouveau Formulaire'/>
 
 	{{-- DOC --}}
 	{{--
@@ -20,14 +18,13 @@ $maxChars = env('APP_MAX_NUMBER_OF_CHARS_IN_COMMENTS_FORM');
     Current title: <span x-text="$wire.title.toUpperCase()"></span> 
     <x-button class='btn-primary ml-3' x-on:click="$wire.title=''">Clear title</x-button>
     <x-button type="button" class='btn-primary ml-3' x-on:click="$wire.save()">Submit form</x-button>
-    --}}
-
+	--}}
+		
 	<form wire:submit="save">
 
 		<label for="title">
 			<span>Sujet</span>
-<x-input class="mt-1 mb-2" type="text" wire:model='title' placeholder='Écrivez votre sujet ici...'></x-input>
-
+			<x-input class="mt-1 mb-2" type="text" wire:model='title' placeholder='Écrivez votre sujet ici...'></x-input>
 		</label>
 
 		<label for="content">

@@ -45,8 +45,7 @@ class extends Component
 }; ?>
 
 <div>
-		@section('title', $title = 'Formulaire')
-    <livewire:academy.components.page-title :title=$title />
+		<livewire:academy.components.page-title title='Formulaire' />
 
     <p>Titre actuel en majuscule(s) : <span x-text="$wire.title.toUpperCase()"></span></p>
 
@@ -72,7 +71,7 @@ class extends Component
                 wire:model.live='content' maxlength="{{ $maxChars }}" placeholder='Saisissez votre texte ici...' >
 						</x-textarea>
         </label>
-        <span x-text="'{{ trans_choice($messageKey, $contentLength, ['n' => $contentLength, 'm' => $maxChars]) }}'"></span>
+        <span x-text="'{{ trans_choice($messageKey, $contentLength, ['n' => bigR($contentLength), 'm' => bigR($maxChars)]) }}'"></span>
 
         <div class="text-right w-full">
             <x-button type="submit" class="btn-primary mt-2 mr-5" disabled>Enregistrer</x-button>

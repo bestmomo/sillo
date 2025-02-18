@@ -9,7 +9,7 @@ new
 class extends Component
 {
 	public $btns         = ['Users', 'Infinite_Scroll', 'Offset', 'Api', 'Test'];
-	public $btnToClick   = 'Users'; // btn de la liste ci-dessus à auto cliquer
+	public $btnToClick   = 'Test'; // btn de la liste ci-dessus à auto cliquer
 	public $subtitle     = 'Chargement...';
 	protected $listeners = ['update-subtitle' => 'updateSubtitle'];
 

@@ -6,11 +6,12 @@
 
 use App\Mail\MyEmail;
 use Illuminate\Support\Facades\Mail;
-use Livewire\Attributes\{Layout, Title};
+use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Envoi Email')] #[Layout('components.layouts.academy')]
+new
+#[Layout('components.layouts.academy')]
 class extends Component
 {
 	use Toast;
@@ -89,7 +90,7 @@ class extends Component
 }; ?>
 
 <div>
-    <livewire:academy.components.page-title title='Email'/>
+	<livewire:academy.components.page-title title='Envoi Emails' />
 
     <div>
         @if (!$dev)

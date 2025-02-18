@@ -1,11 +1,10 @@
 <?php
-use Livewire\Attributes\{Layout, Rule, Title};
+use Livewire\Attributes\{Layout, Rule};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
 new
 #[Layout('components.layouts.academy')]
-#[Title('À faire')]
 class extends Component
 {
 	use Toast;
@@ -37,8 +36,9 @@ class extends Component
 }; ?>
 
 <div>
-    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="À faire" shadow separator progress-indicator />
+		<livewire:academy.components.page-title title='À faire' />
 
+		<br>
     <form wire:submit='add'>
         <div class="flex items-end my-3">
             <x-input type="text" wire:model="todo" placeholder="Nouvelle tâche ici..." focus></x-input>
