@@ -17,7 +17,7 @@
 		<link rel="stylesheet" href="{{ asset('storage/css/prism.css') }}">
 
 		@php
-$isHomePage = request()->is('/') || Str::startsWith(request()->fullUrl(), url('/?page='));
+			$isHomePage = request()->is('/') || Str::startsWith(request()->fullUrl(), url('/?page='));
 		@endphp
 
 		@if(request()->is('surveys/show/*'))
@@ -34,27 +34,38 @@ $isHomePage = request()->is('/') || Str::startsWith(request()->fullUrl(), url('/
 		<div class="min-h-[35vw] hero" style="background-image: url({{ asset('storage/hero.jpg') }});">
 			<div class="bg-opacity-60 hero-overlay"></div>
 
-			<x-partials.size-indicator />
+			<x-partials.size-indicator/>
 
 			<a href="{{ '/' }}">
 				<div class="text-center hero-content text-neutral-content flex justify-center">
 
-					<div class="flex flex-col justify-center items-center border-2 border-blue-400">
-						<div class="flex justify-center items-center mb-3">
+					<div class="flex flex-col justify-center items-center border-2 border-blue-400
+							
+						{{-- sm:w-[500px]
+						md:w-[500px] --}}
+						lg:w-[520px]
+						xl:w-[530px]
+						2xl:w-[550px]
 
-							<div class="mr-3 border-0 border-white">
+						mx-auto">
 
-								<x-icon-laravelmark class='inline-block w-12 sm:w-10 md:w-12 lg:w-48 xl:w-48'/>
+
+						<div class="border-2 border-white w-full h-3/6">
+
+							<div class='border-2 border-cyan-500 flex justify-center gap-6 items-center px-auto w-auto'>
+
+								<x-icon-laravelmark class='border-2 text-center border-red-500 w-2/12 h-full'/>
+
+								<h1 class="!font-shadow border-2 border-green-500">
+									<div style="font-size: clamp(1rem, 7vw, 7rem);" class='pb-2 text-[#ff2d20] text-left'>LARAVEL</div>
+								</h1>
+
 							</div>
 
-							<h1 class="mb-5 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl !font-shadow inline-block">
-								<div class='text-[#f9322c]'>LARAVEL</div>
-							</h1>
-
 						</div>
 
-						<div class="text-center mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-[#eee]">Un framework qui rend heureux
-						</div>
+						{{-- <div class="text-center mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-[#eee]">Un framework qui rend heureux
+						</div> --}}
 						{{-- <div
 							class="text-center mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-[#eee] !text-[3rem] sm:!text-[4rem] md:!text-[5rem] lg:!text-[6rem] xl:!text-[2.5rem]">Un framework qui rend heureux
 						</div> --}}
