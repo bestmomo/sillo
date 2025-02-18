@@ -7,10 +7,9 @@
 use Mary\Traits\Toast;
 use App\Models\AcademyPost;
 use Livewire\Volt\Component;
-use Livewire\Attributes\{Layout, Rule, Title};
+use Livewire\Attributes\{Layout, Rule};
 
 new
-#[Title('Nouveau Formulaire')]
 #[Layout('components.layouts.academy')]
 class extends Component
 {
