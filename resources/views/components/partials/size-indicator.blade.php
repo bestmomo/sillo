@@ -41,7 +41,7 @@ echo $code;
 // echo '<b>Code issu du script</b><br>';
 // echo '<pre>' . htmlspecialchars($code) . '</pre>';
 
-// echo '<hr class="my-6"><b>Code à obtenir</b><br><pre>' . htmlspecialchars('
+// echo '<hr class="my-6"><b>Code généré</b><br><pre>' . htmlspecialchars('
 // <div class="text-yellow-400 text-4xl z-10 font-bold">
 // 	<div class="block sm:hidden text-xl"><i><a title="Is not a real TailwindCSS \'s breakpoint">xs</a></i></div>
 // 	<div class="hidden sm:block md:hidden lg:hidden xl:hidden 2xl:hidden text-2xl">sm</div>

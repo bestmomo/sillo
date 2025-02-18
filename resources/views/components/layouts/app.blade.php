@@ -34,12 +34,14 @@
 		<div class="min-h-[35vw] hero" style="background-image: url({{ asset('storage/hero.jpg') }});">
 			<div class="bg-opacity-60 hero-overlay"></div>
 
-			<x-partials.size-indicator/>
+			{{-- <x-partials.size-indicator/> --}}
 
 			<a href="{{ '/' }}">
 				<div class="text-center hero-content text-neutral-content flex justify-center">
 
-					<div class="flex flex-col justify-center items-center border-2 border-blue-400
+					{{-- Ci-dessous, si on veut optimiser encore cet affichage, le partial size-indicator est juste
+					à décommenter, et les cadres des élements sont laissés.. Mettre border-2 partout pour les voir. --}}
+					<div class="flex flex-col justify-center items-center border-0 border-blue-400
 							
 						{{-- sm:w-[500px]
 						md:w-[500px] --}}
@@ -50,13 +52,13 @@
 						mx-auto">
 
 
-						<div class="border-2 border-white w-full h-3/6">
+						<div class="border-0 border-white w-full h-3/6">
 
-							<div class='border-2 border-cyan-500 flex justify-center gap-6 items-center px-auto w-auto'>
+							<div class='border-0 border-cyan-500 flex justify-center gap-6 items-center px-auto w-auto'>
 
-								<x-icon-laravelmark class='border-2 text-center border-red-500 w-2/12 h-full'/>
+								<x-icon-laravelmark class='border-0 text-center border-red-500 w-2/12 h-full'/>
 
-								<h1 class="!font-shadow border-2 border-green-500">
+								<h1 class="!font-shadow border-0 border-green-500">
 									<div style="font-size: clamp(1rem, 7vw, 7rem);" class='pb-2 text-[#ff2d20] text-left'>LARAVEL</div>
 								</h1>
 
@@ -64,11 +66,8 @@
 
 						</div>
 
-						{{-- <div class="text-center mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-[#eee]">Un framework qui rend heureux
-						</div> --}}
-						{{-- <div
-							class="text-center mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-[#eee] !text-[3rem] sm:!text-[4rem] md:!text-[5rem] lg:!text-[6rem] xl:!text-[2.5rem]">Un framework qui rend heureux
-						</div> --}}
+						<div class="font bold text-center mb-5 text-sm sm:text-md md:text-2xl lg:text-3xl xl:text-4xl text-[#ccc]">Un framework qui rend heureux
+						</div>
 
 					</div>
 
