@@ -7,6 +7,7 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 
 		<title>{!! (isset($title) ? $title . ' | ' : (View::hasSection('title') ? View::getSection('title') . ' | ' : '')) . config('app.name') !!}</title>
+
 		<meta name="description" content="@yield('description')">
 		<meta
 		name="keywords" content="@yield('keywords')">
@@ -16,32 +17,50 @@
 		<link rel="stylesheet" href="{{ asset('storage/css/prism.css') }}">
 
 		@php
-            $isHomePage = request()->is('/') || Str::startsWith(request()->fullUrl(), url('/?page='));
-        @endphp
+$isHomePage = request()->is('/') || Str::startsWith(request()->fullUrl(), url('/?page='));
+		@endphp
 
 		@if(request()->is('surveys/show/*'))
-            <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-        @elseif ($isHomePage)
-            <script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.js"></script>
-            <link
-            href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.css" rel="stylesheet">
-        @endif
+			<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+		@elseif ($isHomePage)
+			<script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.js"></script>
+			<link
+			href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.css" rel="stylesheet">
+		@endif
 	</head>
 
 	<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
 		{{-- HERO --}}
 		<div class="min-h-[35vw] hero" style="background-image: url({{ asset('storage/hero.jpg') }});">
 			<div class="bg-opacity-60 hero-overlay"></div>
+
+			<x-partials.size-indicator />
+
 			<a href="{{ '/' }}">
-				<div class="text-center hero-content text-neutral-content">
-					<div>
-						<h1
-							class="mb-5 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl !font-shadow">{{ strtoupper(config('app.title')) }}
-						</h1>
-						<p
-							class="mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">{{ config('app.subTitle') }}
-						</p>
+				<div class="text-center hero-content text-neutral-content flex justify-center">
+
+					<div class="flex flex-col justify-center items-center border-2 border-blue-400">
+						<div class="flex justify-center items-center mb-3">
+
+							<div class="mr-3 border-0 border-white">
+
+								<x-icon-laravelmark class='inline-block w-12 sm:w-10 md:w-12 lg:w-48 xl:w-48'/>
+							</div>
+
+							<h1 class="mb-5 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl !font-shadow inline-block">
+								<div class='text-[#f9322c]'>LARAVEL</div>
+							</h1>
+
+						</div>
+
+						<div class="text-center mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-[#eee]">Un framework qui rend heureux
+						</div>
+						{{-- <div
+							class="text-center mb-5 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-[#eee] !text-[3rem] sm:!text-[4rem] md:!text-[5rem] lg:!text-[6rem] xl:!text-[2.5rem]">Un framework qui rend heureux
+						</div> --}}
+
 					</div>
+
 				</div>
 			</a>
 		</div>
