@@ -12,10 +12,46 @@ new #[Title('Chats')] #[Layout('components.layouts.academy')] class extends Comp
 	{
 		$this->subtitle = $newSubtitle;
 	}
+    
+    public function isReverbServerRunning ($url = 'http://localhost:8080') {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FAILONERROR, false);
+
+        curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        return $httpcode >= 100 && $httpcode < 600;
+    }
 }; ?>
 
 <div class="relative w-full h-screen">
+@php
+    // function isServerRunning($url)
+    // {
+    //     $ch = curl_init($url);
+    //     curl_setopt($ch, CURLOPT_NOBODY, true);
+    //     curl_setopt($ch, CURLOPT_TIMEOUT, 2);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //     curl_setopt($ch, CURLOPT_FAILONERROR, false);
 
+    //     curl_exec($ch);
+    //     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    //     curl_close($ch);
+
+    //     return $httpcode >= 100 && $httpcode < 600; // Any HTTP status code indicates the server is responding
+    // }
+
+    // $server_url = 'http://localhost:8080';
+    // if (isServerRunning($server_url)) {
+    //     echo "Le serveur est en cours d'exécution.";
+    // } else {
+    //     echo "Le serveur ne fonctionne pas.";
+    // }
+@endphp
     @if (config('app.env') === 'production')
         <livewire:academy.components.page-title title="Chat... Mais...?"/>
         <p class='text-center text-green-400 font-new font-bold text-xl mt-6'>... À se demander comment vous êtes arrivé là ?!?</p>
@@ -54,24 +90,27 @@ new #[Title('Chats')] #[Layout('components.layouts.academy')] class extends Comp
             }
         </script>
     @else
-    LOCAL
-    
-    si dev 👌 sinon  pas encore installé en réel... equipe sille.
-    
-    
-    <livewire:academy.components.page-title title="Chat...: {{ $subtitle ?? '' }}"/>
-    
-    @php
-        $nochoice = '<div class="absolute" x-cloak x-transition.opacity.duration.777ms x-show="choice != &quot;V1&quot; && choice !=&quot;V2&quot;">
-    <h1>Choose v1 or v2, please !</h1><hr>You need start the Broadcasting channel server:<br><b>php .\artisan reverb:start</b><hr>To see events in the CLI: resources/js/echo.js</div>';
-    @endphp
 
-    @livewire('academy.helpers.chats-submenu', ['nochoice' => $nochoice, 'btns' => ['V1', 'V2']])
+        @if (!$this->isReverbServerRunning())
 
-    <hr>
-    
-    Note: You need :
-    
-    php .\artisan reverb:start
+            <livewire:academy.components.page-title title="Chat...: Vous devez démarrer le serveur 'reverb' !"/>
+
+                <p class='text-italic text-white mt-6'>Pour lancer le serveur, en CLI :</p>
+                <p class='font-bold mt-6 border-2 border-white rounded-lg text-center bg-red-500 text-black p-3'>
+                    php .\artisan reverb:start
+                </p>
+
+        @else    
+            <livewire:academy.components.page-title title="Chat...: {{ $subtitle ?? '' }}"/>
+
+            @php
+                $nochoice = '<div class="absolute" x-cloak x-transition.opacity.duration.777ms x-show="choice != &quot;V1&quot; && choice !=&quot;V2&quot;">
+                <h1>Choose v1 or v2, please !</h1>
+                <hr>To see events in the CLI: resources/js/echo.js</div>';
+            @endphp
+
+            @livewire('academy.helpers.chats-submenu', ['nochoice' => $nochoice, 'btns' => ['V1', 'V2']])
+
+        @endif
     @endif
 </div>

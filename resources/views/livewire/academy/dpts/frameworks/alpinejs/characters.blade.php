@@ -44,7 +44,7 @@ new #[Title('Characters')] #[Layout('components.layouts.academy')] class extends
                             <div class="section leading-none">
                                 <a :href="character.url" rel="noopener noreferrer" target="_blank"
                                     class="externalLink__ExternalLink-sc-1lixk38-0 ffGNdR">
-                                    <h2 id="nameTitle"><span x-text="character.name">Toooooooooooo</span><x-ext-link /></h2>
+                                    <h2 id="nameTitle"><span x-text="character.name">T</span><x-ext-link /></h2>
                                 </a>
 
                                 <div class="status mt-1">
