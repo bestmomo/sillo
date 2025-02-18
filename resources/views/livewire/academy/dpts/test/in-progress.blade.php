@@ -9,8 +9,6 @@ include_once 'in-progress.php';
 	<h1>Ready.</h1>
 
 	<x-partials.size-indicator/>
-	<hr class='my-3'>
-	<x-partials.size-indicator2/>
 
 	<hr class='my-3'>
 
