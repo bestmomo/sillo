@@ -1,12 +1,14 @@
 <?php
 
 use App\Models\AcademyPost;
-use Livewire\Attributes\{Layout, Title};
+use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new #[Title('Articles')] #[Layout('components.layouts.academy')] class extends Component
+new
+#[Layout('components.layouts.academy')] 
+class extends Component
 {
 	use WithPagination;
 	use Toast;
@@ -30,7 +32,8 @@ new #[Title('Articles')] #[Layout('components.layouts.academy')] class extends C
 }; ?>
 
 <div>
-    <livewire:academy.components.page-title title='Articles'/>
+    @section('title', $title = 'Articles')
+    <livewire:academy.components.page-title :title=$title />
     
     <h2 class="mb-2 text-xl">{{ $posts->count() }} article{{ $posts->count() > 1 ? 's' : '' }} / {{ $posts->total() }}</h2>
 

@@ -8,7 +8,7 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new
-#[Title('Accordion')]
+#[Title('Menus Accordéon')]
 #[Layout('components.layouts.academy')]
 class extends Component
 {

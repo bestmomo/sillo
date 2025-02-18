@@ -17,7 +17,7 @@ include_once 'accordion/accordion.php';
         ];
     @endphp
 
-    <livewire:academy.components.page-title title='Accordion'/>
+    <livewire:academy.components.page-title title='Menus Accordéon'/>
 
     <p class='text-green-400 font-bold'>Dynamic Accordion component:</p>
     <livewire:academy.dpts.frameworks.alpinejs.accordion.accordion_items :items=$items />

@@ -3,7 +3,8 @@ include_once 'basics.php';
 ?>
 
 <div>
-	<livewire:academy.components.page-title title='Bases de Livewire'/>
+	@section('title', $title = 'Bases de LiveWire')
+	<livewire:academy.components.page-title :title=$title />
 	
 	<h1>Simples exemples</h1>
 

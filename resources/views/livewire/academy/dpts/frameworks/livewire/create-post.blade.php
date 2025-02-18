@@ -7,9 +7,11 @@
 use Mary\Traits\Toast;
 use App\Models\AcademyPost;
 use Livewire\Volt\Component;
-use Livewire\Attributes\{Layout, Rule, Title};
+use Livewire\Attributes\{Layout, Rule};
 
-new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends Component
+new
+#[Layout('components.layouts.academy')] 
+class extends Component
 {
 	use Toast;
 
@@ -43,9 +45,10 @@ new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends C
 }; ?>
 
 <div>
-		<livewire:academy.components.page-title title='Formulaire'/>
+		@section('title', $title = 'Formulaire')
+    <livewire:academy.components.page-title :title=$title />
 
-    <p>Titre actuel en majuscules : <span x-text="$wire.title.toUpperCase()"></span></p>
+    <p>Titre actuel en majuscule(s) : <span x-text="$wire.title.toUpperCase()"></span></p>
 
     @php
         $contentLength = strlen($content);
@@ -59,14 +62,15 @@ new #[Title('New Post')] #[Layout('components.layouts.academy')] class extends C
         @enderror
 
         <label for="title">
-            <span>Titre</span>
-            <x-input class="mt-1 mb-2" type="text" wire:model='title'></x-input>
+            <span>Sujet</span>
+            <x-input class="mt-1 mb-2" type="text" wire:model='title' placeholder='Écrivez votre sujet ici...'></x-input>
         </label>
 
         <label for="content">
-            <span>Contenu (Caractères comptabilisés)</span>
+            <span>Votre message (Caractères comptabilisés)</span>
             <x-textarea class="mt-1" name="" id="" cols="30" rows="7"
-                wire:model.live='content' maxlength="{{ $maxChars }}"></x-textarea>
+                wire:model.live='content' maxlength="{{ $maxChars }}" placeholder='Saisissez votre texte ici...' >
+						</x-textarea>
         </label>
         <span x-text="'{{ trans_choice($messageKey, $contentLength, ['n' => $contentLength, 'm' => $maxChars]) }}'"></span>
 

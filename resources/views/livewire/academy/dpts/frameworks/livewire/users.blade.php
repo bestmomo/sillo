@@ -2,7 +2,9 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Title('Users'), Layout('components.layouts.academy')] class extends Component
+new
+#[Title('Utilisateurs'), Layout('components.layouts.academy')]
+class extends Component
 {
 };
 ?>

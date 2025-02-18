@@ -3,12 +3,15 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Title('Characters')] #[Layout('components.layouts.academy')] class extends Component
+new 
+#[Layout('components.layouts.academy')]
+class extends Component
 {
 }; ?>
 
 <div>
-
+    @section('title', $title='Personnages')
+    
     @section('styles')
         <style>
             {{ file_get_contents(resource_path('views/livewire/academy/dpts/frameworks/alpinejs/characters/styles.css')) }}
@@ -18,9 +21,8 @@ new #[Title('Characters')] #[Layout('components.layouts.academy')] class extends
     @section('scripts')
         <script src="/assets/js/characters/main.js"></script>
     @endsection
-
-    <x-header class="mb-0" title="Characters" shadow separator progress-indicator></x-header>
-
+    
+    <livewire:academy.components.page-title :title=$title />
     <div id="wrapper" x-data="characters">
         <div x-show="loading" x-transition.duration.1000ms class="spinner text-center">
             <span class="loading loading-spinner loading-lg"></span>
@@ -106,7 +108,7 @@ new #[Title('Characters')] #[Layout('components.layouts.academy')] class extends
                     </button>
                     <div class="flex items-center gap-10">
                         <div class="w-50 h-50 rounded-3xl overflow-hidden flex-schrink-0">
-                            <img :src="currentCharacter.image" alt="" class="w-full h-full object-cover">
+                            <img :src="currentCharacter.image" alt="Image character" class="w-full h-full object-cover">
                         </div>
 
                         <div class="text-3xl text-base-300 font-semibold leading-none px-2 pb-2"

@@ -11,7 +11,7 @@ include_once 'users-table.php';
         }
     </style>
 
-    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Académiciens - MaryUI" shadow separator progress-indicator/>
+    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Utilisateurs - MaryUI" shadow separator progress-indicator/>
     
     @dump($selected)
     

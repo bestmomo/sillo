@@ -3,7 +3,10 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Title('Serie7')] #[Layout('components.layouts.academy')] class extends Component
+new
+#[Title('Série 7')]
+#[Layout('components.layouts.academy')]
+class extends Component
 {
 	public $btns         = ['Users', 'Infinite_Scroll', 'Offset', 'Api', 'Test'];
 	public $btnToClick   = 'Users'; // btn de la liste ci-dessus à auto cliquer

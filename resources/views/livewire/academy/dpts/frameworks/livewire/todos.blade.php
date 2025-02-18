@@ -3,7 +3,10 @@ use Livewire\Attributes\{Layout, Rule, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Layout('components.layouts.academy')] #[Title('Todos')] class extends Component
+new
+#[Layout('components.layouts.academy')]
+#[Title('À faire')]
+class extends Component
 {
 	use Toast;
 
@@ -15,7 +18,7 @@ new #[Layout('components.layouts.academy')] #[Title('Todos')] class extends Comp
 	public function mount()
 	{
 		// dd('ok');
-		$this->todos = ['Take out trash', 'Do dishes'];
+		$this->todos = ['Vider la poubelle', 'Faire la vaisselle'];
 	}
 
 	public function updatedTodo($value)
@@ -34,12 +37,12 @@ new #[Layout('components.layouts.academy')] #[Title('Todos')] class extends Comp
 }; ?>
 
 <div>
-    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="ToDos" shadow separator progress-indicator />
+    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="À faire" shadow separator progress-indicator />
 
     <form wire:submit='add'>
         <div class="flex items-end my-3">
-            <x-input type="text" wire:model="todo" placeholder="Type todo here..." focus></x-input>
-            <x-button class="btn-primary ml-3 text-lg" type="submit" icon="o-bars-arrow-up" spinner>Add</x-button>
+            <x-input type="text" wire:model="todo" placeholder="Nouvelle tâche ici..." focus></x-input>
+            <x-button class="btn-primary ml-3 text-lg" type="submit" icon="o-bars-arrow-up" spinner>Ajouter une tâche</x-button>
             {{ $todo }}
         </div>
     </form>

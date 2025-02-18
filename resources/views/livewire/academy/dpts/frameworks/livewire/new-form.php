@@ -10,7 +10,7 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\{Layout, Rule, Title};
 
 new
-#[Title('New Form')]
+#[Title('Nouveau Formulaire')]
 #[Layout('components.layouts.academy')]
 class extends Component
 {

@@ -10,7 +10,7 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new #[Title('Basics')] #[Layout('components.layouts.academy')]
+new #[Title('Envoi Email')] #[Layout('components.layouts.academy')]
 class extends Component
 {
 	use Toast;
