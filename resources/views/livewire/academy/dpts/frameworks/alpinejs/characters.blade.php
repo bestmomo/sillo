@@ -11,7 +11,7 @@ new #[Title('Characters')] #[Layout('components.layouts.academy')] class extends
 
     @section('styles')
         <style>
-            {{ file_get_contents(resource_path('views/livewire/academy/frameworks/alpinejs/characters/styles.css')) }}
+            {{ file_get_contents(resource_path('views/livewire/academy/dpts/frameworks/alpinejs/characters/styles.css')) }}
         </style>
     @endsection
 
@@ -44,7 +44,7 @@ new #[Title('Characters')] #[Layout('components.layouts.academy')] class extends
                             <div class="section leading-none">
                                 <a :href="character.url" rel="noopener noreferrer" target="_blank"
                                     class="externalLink__ExternalLink-sc-1lixk38-0 ffGNdR">
-                                    <h2 id="nameTitle"><span x-text="character.name">T</span></h2>
+                                    <h2 id="nameTitle"><span x-text="character.name">Toooooooooooo</span><x-ext-link /></h2>
                                 </a>
 
                                 <div class="status mt-1">
@@ -62,7 +62,7 @@ new #[Title('Characters')] #[Layout('components.layouts.academy')] class extends
                                 <div class="section"><span class="text-gray">Last known location:</span><a
                                         :href="character.location.url" rel="noopener noreferrer" target="_blank"
                                         class="externalLink__ExternalLink-sc-1lixk38-0 ffGNdR"><span
-                                            x-text="character.location.name"></span></a>
+                                            x-text="character.location.name"></span><x-ext-link /></a>
                                 </div>
 
                                 <div x-show="character.episode1 && typeof character.episode1 !== 'undefined'"
@@ -70,7 +70,7 @@ new #[Title('Characters')] #[Layout('components.layouts.academy')] class extends
                                             x-text="character.episode1 ? character.episode1.episode : ''"></span></span>
                                     <a :href="character.episode[0]" rel="noopener noreferrer" target="_blank"
                                         class="externalLink__ExternalLink-sc-1lixk38-0 ffGNdR"><span
-                                            x-text="character.episode1 ? character.episode1.name : ''"></span>
+                                            x-text="character.episode1 ? character.episode1.name : ''"></span><x-ext-link />
                                     </a>
                                 </div>
 
