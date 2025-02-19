@@ -37,8 +37,8 @@ class extends Component
 
 <div>
 		<livewire:academy.components.page-title title='À faire' />
+    <x-header shadow separator progress-indicator/>
 
-		<br>
     <form wire:submit='add'>
         <div class="flex items-end my-3">
             <x-input type="text" wire:model="todo" placeholder="Nouvelle tâche ici..." focus></x-input>

@@ -4,6 +4,7 @@ include_once 'new-form.php';
 
 <div>
 	<livewire:academy.components.page-title title='Nouveau Formulaire'/>
+	<x-header shadow separator progress-indicator/>
 
 	@php
 		$maxChars = env('APP_MAX_NUMBER_OF_CHARS_IN_COMMENTS_FORM');
@@ -19,7 +20,7 @@ include_once 'new-form.php';
     <x-button class='btn-primary ml-3' x-on:click="$wire.title=''">Clear title</x-button>
     <x-button type="button" class='btn-primary ml-3' x-on:click="$wire.save()">Submit form</x-button>
 	--}}
-		
+
 	<form wire:submit="save">
 
 		<label for="title">
@@ -33,7 +34,10 @@ include_once 'new-form.php';
 
 		</label>
 		<div class="text-right italic">
-			<small>Caractères: <span x-text="$wire.content.length + ' / ' + {{ $maxChars }}"></span> - Mots: <span x-text="$wire.content.split(' ').length -1"></span>
+			<small>Caractères:
+				<span x-text="$wire.content.length + ' / ' + {{ $maxChars }}"></span>
+				- Mots:
+				<span x-text="$wire.content.split(' ').length -1"></span>
 			</small>
 		</div>
 

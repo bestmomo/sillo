@@ -29,6 +29,7 @@ new #[Title('Chats')] #[Layout('components.layouts.academy')] class extends Comp
 }; ?>
 
 <div class="relative w-full h-screen">
+
 @php
     // function isServerRunning($url)
     // {
@@ -94,6 +95,7 @@ new #[Title('Chats')] #[Layout('components.layouts.academy')] class extends Comp
         @if (!$this->isReverbServerRunning())
 
             <livewire:academy.components.page-title title="Chat...: Vous devez démarrer le serveur 'reverb' !"/>
+            <x-header shadow separator progress-indicator />
 
                 <p class='text-italic text-white mt-6'>Pour lancer le serveur, en CLI :</p>
                 <p class='font-bold mt-6 border-2 border-white rounded-lg text-center bg-red-500 text-black p-3'>
@@ -102,6 +104,7 @@ new #[Title('Chats')] #[Layout('components.layouts.academy')] class extends Comp
 
         @else    
             <livewire:academy.components.page-title title="Chat...: {{ $subtitle ?? '' }}"/>
+            <x-header shadow separator progress-indicator/>
 
             @php
                 $nochoice = '<div class="absolute" x-cloak x-transition.opacity.duration.777ms x-show="choice != &quot;V1&quot; && choice !=&quot;V2&quot;">

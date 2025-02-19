@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
 use Livewire\Volt\Component;
@@ -9,7 +9,6 @@ use Livewire\Volt\Component;
 new class() extends Component
 {
 	public $subtitle = 'Test';
-	public $limit    = 5;
 
 	public function mount($loadMore = true, $offset = 0)
 	{

@@ -3,15 +3,17 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new 
-#[Layout('components.layouts.academy')]
-class extends Component
-{
-}; ?>
+new
+#[Layout('components.layouts.academy')] 
+class extends Component {}; 
+?>
 
 <div>
-    @section('title', $title='Personnages')
-    
+    <livewire:academy.components.page-title title='Personnages' />
+    <x-header shadow separator progress-indicator />
+
+    @section('title', $title = 'Personnages')
+
     @section('styles')
         <style>
             {{ file_get_contents(resource_path('views/livewire/academy/dpts/frameworks/alpinejs/characters/styles.css')) }}
@@ -21,8 +23,7 @@ class extends Component
     @section('scripts')
         <script src="/assets/js/characters/main.js"></script>
     @endsection
-    
-    <livewire:academy.components.page-title :title=$title />
+
     <div id="wrapper" x-data="characters">
         <div x-show="loading" x-transition.duration.1000ms class="spinner text-center">
             <span class="loading loading-spinner loading-lg"></span>

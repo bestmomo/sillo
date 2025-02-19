@@ -28,6 +28,7 @@ class extends Component
 
 <div>
 	<livewire:academy.components.page-title title='Compteurs' />
+    <x-header shadow separator progress-indicator/>
     
     <p>Counter: {{ $count }} (Pure LiveWire)<br>
         {{-- <x-button class="btn-primary mt-1" wire:click="increment">+</x-button> --}}

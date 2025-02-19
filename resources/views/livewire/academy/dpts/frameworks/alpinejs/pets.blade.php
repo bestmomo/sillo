@@ -16,6 +16,9 @@ class extends Component
 }; ?>
 
 <div>
+    <livewire:academy.components.page-title title='Animaux domestiques'/>
+    <x-header shadow separator progress-indicator/>
+    
     <script src="/assets/js/helpers.js"></script>
     @section('styles')
         <style>
@@ -23,7 +26,6 @@ class extends Component
         </style>
     @endsection
 
-    <livewire:academy.components.page-title title='Animaux domestiques'/>
 
     <div x-data="{
         pets: [],

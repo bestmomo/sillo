@@ -4,12 +4,11 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new
-#[Title('Série 7')]
-#[Layout('components.layouts.academy')]
+#[Title('Série 7'), Layout('components.layouts.academy')]
 class extends Component
 {
 	public $btns         = ['Users', 'Infinite_Scroll', 'Offset', 'Api', 'Test'];
-	public $btnToClick   = 'Test'; // btn de la liste ci-dessus à auto cliquer
+	public $btnToClick   = 'Test'; // btn de la liste ci-dessus à auto cliquer - Défaut: Test
 	public $subtitle     = 'Chargement...';
 	protected $listeners = ['update-subtitle' => 'updateSubtitle'];
 

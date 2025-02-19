@@ -2,7 +2,9 @@
 include_once 'users-table.php';
 ?>
 
-<div class="w-full" x-data="{selected: @entangle('selection').defer}">
+<div class="w-full" x-data="{ selected: @entangle('selection').defer }">
+    <livewire:academy.components.page-title title='Utilisateurs - MaryUI' />
+    <x-header shadow separator progress-indicator />
 
     <style>
         .t3>thead>tr>th {
@@ -11,13 +13,11 @@ include_once 'users-table.php';
         }
     </style>
 
-    <x-header class="pb-0 mb-[-14px] font-new text-green-400" title="Utilisateurs - MaryUI" shadow separator progress-indicator/>
-    
     @dump($selected)
-    
+
     {{-- <span x-html="JSON.stringify($wire.selected)"></span> --}}
     <span x-html="$wire.selected"></span>
-    
+
     {{-- @dump($queryStringOutput)
 
     <div class="mb-3 font-bold" id="queryString">
@@ -41,21 +41,15 @@ include_once 'users-table.php';
     </div>
 
     @if (count($users))
-    
-    <x-button x-cloak class="mb-3 btn btn-sm btn-error" x-show="$wire.selected.length > 0" wire:click="deleteSelectedUsers" spinner>Supprimer <span x-html="$wire.selected"></span></x-button>
-    
+
+        <x-button x-cloak class="mb-3 btn btn-sm btn-error" x-show="$wire.selected.length > 0"
+            wire:click="deleteSelectedUsers" spinner>Supprimer <span x-html="$wire.selected"></span></x-button>
+
         {{-- You can use any `$wire.METHOD` on `@row-click` --}}
-        <x-table 
-            :headers="$headers" 
-            :rows="$users" 
-            :sort-by="$sortBy" 
-            striped link="#"
-            wire:model="selected"
+        <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" striped link="#" wire:model="selected"
             selectable
             @row-selection="console.log($event.detail.row.id, ($event.detail.selected ? 'selected': 'unselected'))"
-            {{-- @row-selection="console.log($event.detail)" --}}
-            with-pagination
-        >
+            {{-- @row-selection="console.log($event.detail)" --}} with-pagination>
 
             @scope('cell_id', $user)
                 <div class="!text-right">

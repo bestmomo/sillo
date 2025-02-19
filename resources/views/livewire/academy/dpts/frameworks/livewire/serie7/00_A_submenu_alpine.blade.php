@@ -23,8 +23,6 @@ new class() extends Component
 }; ?>
 
 <div x-data="{ choice: @entangle('choice') }">
-    {{-- <x-header class="mb-0 pt-3" title="Série 7 - Btns" shadow separator progress-indicator /> --}}
-
     <div class="mb-3">
         <h2 class="text-center text-2xl mb-3 font-bold">Sub MENU AlpineJS (À dev...)</h2>
         {{-- //2do subMenu AlpineJS --}}

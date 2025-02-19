@@ -4,7 +4,6 @@ use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new
-#[Title('Bases Alpine.JS ')]
 #[Layout('components.layouts.academy')]
 class extends Component
 {
@@ -12,12 +11,14 @@ class extends Component
 }; ?>
 
 <div>
+    <livewire:academy.components.page-title title="Bases Alpine.JS" />
+    <x-header shadow separator progress-indicator/>
+    
     <script src="/assets/js/helpers.js"></script>
     
-    <livewire:academy.components.page-title title="Bases d'Alpine.JS" />
 
     <div x-data="{
-        search: 'ba',
+        search: 'ba', // ba
         searchDone: false,
     
         items: ['foo', 'bar', 'baz'],
@@ -26,7 +27,7 @@ class extends Component
         listLength: 0,
     
         logSearch: function() {
-            console.log('RECHERCHE de ' + this.search);
+            console.log('Search: ' + this.search);
         },
     
         get filteredItems() {
@@ -44,25 +45,25 @@ class extends Component
         get searchMessage() {
             if (this.search.length > 0) {
                 console.log(this.search + this.filteredItems.length)
-                return this.search + ' → ' + this.listLength + ' answer' + (this.listLength > 1 ? 's' : '');
+                let plur = this.listLength > 1 ? 's' : '';
+                return this.search + ' → ' + this.listLength + ' réponse' + plur + ((this.listLength != 1) ? ' trouvée' + plur:'');
             } else {
                 console.log('Nothing yet');
-                return 'Nothing yet (All ' + this.listLength + ' answers are possible).';
+                return 'Aucune, toutes les réponses (Soit ' + this.listLength + ') sont possibles.';
             }
         }
     
     }" x-init="$watch('search', value => searchDone = false)">
 
-        <div x-text="search"></div>
-        <div x-text="listLength"></div>
-        <x-input x-model="search" placeholder="Search..." />
+        <p class='mt-3 font-bold'>Recherche actuelle : <span x-text='searchMessage'></span></p>    
+        <x-input class='my-3' x-model="search" placeholder="Recherche..." />
 
         <ul>
             <template x-for="item in filteredItems" :key="item">
                 <li x-transition.duration.7000ms x-text="item"></li>
             </template>
         </ul>
-        <p>Actual search: <span x-text='searchMessage'></span></p>
+        <p></p>
     </div>
 
     <hr>
@@ -88,8 +89,7 @@ class extends Component
     <hr>
 
     <div x-data="{ count: 0 }" class='my-3'>
-        <x-button class="btn-primary" @click.window="count++">Increment
-            <strong x-text="count"></strong></x-button>
+        <x-button class="btn-primary" @click.window="count++;">Clics sur la page <strong x-text="count"></strong></x-button>
     </div>
     <hr>
     <h1 class='text-right' x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>

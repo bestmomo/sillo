@@ -26,6 +26,7 @@ include_once 'chat-v2.php';
                 @endforeach
             </div>
             <div>
+                <x-header shadow separator progress-indicator />
                 <form wire:submit.prevent="addMessage" class="flex gap-2">
                     <x-input wire:model="message" x-ref="messageInput" name="message" id="message"
                         class="block w-full" input="v2" />

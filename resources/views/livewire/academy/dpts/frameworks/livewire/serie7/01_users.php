@@ -8,9 +8,7 @@ use App\Models\AcademyUser;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new // #[Title('Serie7')]
-// #[Layout('components.layouts.academy')]
-class() extends Component
+new class() extends Component
 {
 	use WithPagination;
 

@@ -8,12 +8,13 @@ use Livewire\Volt\Component;
 // Autre src: Multifiles Drag And Drop
 // https://pqina.nl/filepond/#multi-file-code → https://codepen.io/rikschennink/pen/WXavEx
 
-new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Component
-{
-}; ?>
+new
+#[Layout('components.layouts.academy')]
+class extends Component {}; ?>
 
 <div>
-    <x-header title="Divers" shadow separator progress-indicator></x-header>
+    <livewire:academy.components.page-title title='Drag and Drop' />
+    <x-header shadow separator progress-indicator />
 
     <p id="p1" @click="console.log($event.target)">Ready.</p>
 
@@ -47,9 +48,8 @@ new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Com
 
 @section('scripts')
     <script>
-        
         dev = <?php echo json_encode(app()->environment()); ?> == 'local'
-        
+
         function fileUpload() {
             return {
                 dragover: false,
@@ -69,7 +69,7 @@ new #[Title('Divers')] #[Layout('components.layouts.academy')] class extends Com
                     }
                     reader.readAsDataURL(file);
 
-                    if(dev) this.saveImage(file);
+                    if (dev) this.saveImage(file);
                 },
 
                 saveImage(file) {

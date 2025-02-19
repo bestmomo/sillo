@@ -1,17 +1,24 @@
 <?php
-  include_once 'basics.php';
+include_once 'basics.php';
 ?>
 
 <div>
-  <livewire:academy.components.page-title title='Bases de LiveWire' />
+	<livewire:academy.components.page-title title='Bases de Livewire'/>
+	<x-header shadow separator progress-indicator/>
 
-  <h1>Simples exemples</h1>
+		
+	{{-- <livewire:academy.components.page-title title='Bases de LiveWire' /> --}}
 
-  <livewire:academy.dpts.frameworks.livewire.hello-world />
-  <livewire:academy.dpts.frameworks.livewire.counter />
+	<h1>Simples exemples</h1>
 
-  {{-- <livewire:academy.dpts.frameworks.livewire.counter by=3/> --}}
+	<livewire:academy.dpts.frameworks.livewire.hello-world/>
+	<livewire:academy.dpts.frameworks.livewire.counter/>
 
-  <livewire:academy.dpts.frameworks.livewire.Todos />
+	{{-- <livewire:academy.dpts.frameworks.livewire.counter by=3/> --}}
+
+  <div class="mt-6">
+    <livewire:academy.dpts.frameworks.livewire.Todos />
+  </div>
 
 </div>
+

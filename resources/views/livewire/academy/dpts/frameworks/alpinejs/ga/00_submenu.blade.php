@@ -15,22 +15,22 @@
 
     <hr class="mt-1 w-full">
 
-    {{-- <div class="border h-80 relative border-red-500 b-2 z-index:99"> --}}
+    {{-- <div class="border h-80 reladpts.tive border-red-500 b-2 z-index:99"> --}}
     <div class="relative">
 
         <div class="absolute top-1" x-cloak x-transition.opacity.duration.1400ms x-show="choice == 'Spoiler'">
-            @include('livewire.academy.frameworks.alpinejs.ga.01_bases')
+            @include('livewire.academy.dpts.frameworks.alpinejs.ga.01_bases')
         </div>
 
         <div class="absolute top-3  w-full mx-0" x-cloak x-transition.opacity.duration.1400ms
             x-show="choice == 'TabsOri'">
             <div>
-                @include('livewire.academy.frameworks.alpinejs.ga.02_tabs_ori')
+                @include('livewire.academy.dpts.frameworks.alpinejs.ga.02_tabs_ori')
             </div>
         </div>
 
         <div class="absolute top-3 mx-0" x-cloak x-transition.opacity.duration.1400ms x-show="choice == 'Tabs'">
-            @include('livewire.academy.frameworks.alpinejs.ga.02_bases')
+            @include('livewire.academy.dpts.frameworks.alpinejs.ga.02_bases')
         </div>
 
     </div>

@@ -6,7 +6,7 @@ new class () extends Component {
 };
 ?>
 <div>
-  @section('title', $title=$title)
-	<x-header class="pb-0 mb-[-14px] font-new text-green-400" title="{!! $title !!}" shadow separator progress-indicator/>
+  @section('title', $title)
+	<x-header class="pb-0 mb-[-14px] font-new text-green-400" title="{!! $title !!}" />
 </div>
 

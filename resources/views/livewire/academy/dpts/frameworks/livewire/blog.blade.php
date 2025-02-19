@@ -31,8 +31,9 @@ class extends Component
 	}
 }; ?>
 
-<div>    
+<div>
     <livewire:academy.components.page-title title='Articles' />
+    <x-header shadow separator progress-indicator />
     
     <h2 class="mb-2 text-xl">{{ $posts->count() }} article{{ $posts->count() > 1 ? 's' : '' }} / {{ $posts->total() }}</h2>
 

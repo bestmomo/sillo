@@ -2,17 +2,18 @@
 
 use Livewire\Volt\Component;
 
-new class() extends Component
-{
-	public $name = '';
+new class () extends Component {
+    public $name = '';
 
-	public function mount()
-	{
-		$this->name = 'You';
-	}
+    public function mount()
+    {
+        $this->name = 'You';
+    }
 }; ?>
 
 <div>
+    <x-header shadow separator progress-indicator/>
+
     <h2>Hello World, <b>{{ $name }}</b>!</h2>
     <hr>
     The current time is {{ time() }} seconds since 1/1/1970.<br>

@@ -17,7 +17,7 @@ include_once '01_users.php';
                         </div>
                         <div class="relative flex-grow mx-3">
                             <x-input type="text" class="bg-gray-700 border border-gray-300"
-                                wire:model.live.debounce.300ms="search" placeholder="Search..." required />
+                                wire:model.live.debounce.300ms="search" placeholder="Search..." clearable />
                         </div>
                         <p class="flex-shrink-0 flex items-center justify-end italic text-sm">
                             <span>(Student color cyan)</span>

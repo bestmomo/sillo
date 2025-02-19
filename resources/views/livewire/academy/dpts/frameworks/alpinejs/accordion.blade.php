@@ -3,21 +3,18 @@ include_once 'accordion/accordion.php';
 ?>
 
 <div>
+    <livewire:academy.components.page-title title='Menus Accordéon' />
+    <x-header shadow separator progress-indicator />
+
     <style>
         .collapse-arrow>.collapse-title.rotate::after {
             --tw-rotate: -135deg;
         }
     </style>
-    
-    @php
-        $items = [
-            ['Sujet 1', 'Tatati1'],
-            ['Sujet 2', 'Tatati2'],
-            ['Sujet 3', 'Tatati3']
-        ];
-    @endphp
 
-    <livewire:academy.components.page-title title='Menus Accordéon'/>
+    @php
+        $items = [['Sujet 1', 'Tatati1'], ['Sujet 2', 'Tatati2'], ['Sujet 3', 'Tatati3']];
+    @endphp
 
     <p class='text-green-400 font-bold'>Dynamic Accordion component:</p>
     <livewire:academy.dpts.frameworks.alpinejs.accordion.accordion_items :items=$items />

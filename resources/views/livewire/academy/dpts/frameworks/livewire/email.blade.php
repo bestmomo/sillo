@@ -91,6 +91,7 @@ class extends Component
 
 <div>
 	<livewire:academy.components.page-title title='Envoi Emails' />
+	<x-header shadow separator progress-indicator/>
 
     <div>
         @if (!$dev)

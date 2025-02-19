@@ -46,6 +46,7 @@ class extends Component
 
 <div>
 		<livewire:academy.components.page-title title='Formulaire' />
+		<x-header shadow separator progress-indicator/>
 
     <p>Titre actuel en majuscule(s) : <span x-text="$wire.title.toUpperCase()"></span></p>
 
