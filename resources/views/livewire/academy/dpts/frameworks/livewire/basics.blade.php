@@ -3,6 +3,7 @@ include_once 'basics.php';
 ?>
 
 <div>
+	{{-- <livewire:academy.components.page-title title='Bases de Livewire'/> --}}
 	<livewire:academy.components.page-title title='Bases de Livewire'/>
 	<x-header shadow separator progress-indicator/>
 

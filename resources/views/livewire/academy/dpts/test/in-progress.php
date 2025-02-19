@@ -12,22 +12,24 @@ new
 #[Layout('components.layouts.acaLight')]
 class() extends Component
 {
-	
-	public $activeTests = [];
+	public $activeTests=[];
 
 	public function mount()
 	{
 		// Dé-commenter cette ligne pour voir les tests
-		// $this->showTests();
+		$this->showTests();
+		
+		
 	}
 
 	public function showTests()
 	{
-		$this->activeTests =  ['stats-users'];
+		// $this->activeTests[] = 'stats-users';
+		$this->activeTests[] = 'normalize';
 	}
+
 	public function with(): mixed
 	{
 		return [];
 	}
-
 };

@@ -1,19 +1,8 @@
-<?php
+<?php include_once 'cases.php'; ?>
 
-use Barryvdh\Debugbar\Facades\Debugbar;
-include_once 'cases.php'; ?>
-
-@section('title', __('Test'))
 <div class="container mx-auto">
-
-    <x-header class='font-shadow text-green-400' title="TOUS LES CAS" separator progress-indicator>
-        <x-slot:actions>
-            {{-- <x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce.300ms="search" clearable
-                icon="o-magnifying-glass" /> --}}
-            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden font-new"
-                link="{{ route('admin') }}" />
-        </x-slot:actions>
-    </x-header>
+    <livewire:academy.components.dpt-title title='Tous les Cas' />
+    <x-header shadow separator progress-indicator/>
 
     <x-card separator class="mb-6 border-2 shadow-xl">
 

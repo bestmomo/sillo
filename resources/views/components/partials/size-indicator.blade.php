@@ -6,7 +6,7 @@
 
 $breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 
-$code = "<div class=\"text-yellow-500 text-4xl z-10 font-bold\">\n";
+$code = "<div style=\"z-index: 99999999\" class='fixed bottom-12 right-5 opacity-50'>Ton écran actuel :<div class=\"text-yellow-500 text-4xl z-10 font-bold text-center\">\n";
 
 function ind() // indentation
 {
@@ -34,7 +34,7 @@ foreach ($breakpoints as $i => $breakpoint) {
 		// $code .= ind() . $i . ' ' .$bsInCode.' '. $breakpoint . "\n";
 	}
 }
-$code.='</div>';
+$code.='</div></div>';
 
 echo $code;
 
