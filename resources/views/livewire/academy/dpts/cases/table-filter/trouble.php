@@ -1,15 +1,16 @@
 <?php
 
 /**
- * (ɔ) Sillo-Shop - 2024-2025
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
-use App\Models\Product;
+use App\Models\AcademyUser;
 use Livewire\Attributes\{Layout};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new #[Layout('components.layouts.admin')] class extends Component {
+new #[Layout('components.layouts.acaLight')] class extends Component
+{
 	use WithPagination;
 
 	public $search         = '';
@@ -17,12 +18,14 @@ new #[Layout('components.layouts.admin')] class extends Component {
 
 	public function with(): array
 	{
-		$items = Product::query()
-			->when($this->search, function ($query) {
+		$users = AcademyUser::query()
+			->when($this->search, function ($query)
+			{
 				$query->where('name', 'like', "%{$this->search}%");
 			})
-			->paginate(2, ['name']);
+			// ->where('role', true)
+			->paginate(3, ['firstname']);
 
-		return ['items' => $items];
+		return ['users' => $users];
 	}
 };

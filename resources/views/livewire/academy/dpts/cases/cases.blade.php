@@ -12,7 +12,7 @@
                     {{-- {{ Debugbar::info($subject) }} --}}
                     <x-badge value="{{ ucfirst(strtolower($subject['state'])) }}"
                         class="text-black badge-{{ $subject['stateColor'] }}" />
-                </x-slot:avatar> <x-slot:sub-value class='truncable-none overflow-visible'> {{ $subject['description'] }}
+                </x-slot:avatar> <x-slot:sub-value class='truncable-none overflow-visible'> {!!  $subject['description'] !!}
                     <hr class="my-3">
                     <p class="text-lg font-bold">Situation actuelle :</p>
                     <a href="{{ route($subject['actual'][1]) }}" class="link">

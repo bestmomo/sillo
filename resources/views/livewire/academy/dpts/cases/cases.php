@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (ɔ) Sillo-Shop - 2024-2025
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -10,7 +10,8 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
 new #[Layout('components.layouts.acaLight')]
-class extends Component {
+class extends Component
+{
 	use WithPagination;
 
 	public $subjects         = [];
@@ -30,7 +31,8 @@ class extends Component {
 
 	public function updating($name, $value)
 	{
-		if ('search' === $name) {
+		if ('search' === $name)
+		{
 			$this->oldSearch = $this->search;
 			// $this->resetPage();
 			Debugbar::info('Ancienne valeur: ' . $this->search);
@@ -47,32 +49,37 @@ class extends Component {
 
 	public function subjects()
 	{
-        // 'actual'      => ['Avec le problème de resultats pas visibles', 'tableFilter.actual'],
+		// 'actual'      => ['Avec le problème de resultats pas visibles', 'tableFilter.actual'],
 		$subjects = [
 			[
 				'state'       => 'Ouvert',
 				'title'       => 'Problème de liste après filtrages',
 				'description' => 'Tatati...',
-				'actual'      => ['Avec le problème de resultats pas visibles','case.table-filter.trouble'],
+				'actual'      => ['Avec le problème de resultats existants mais non visibles', 'case.table-filter.trouble'],
 				'proposed'    => [
 					['Avec raffraichissement n°1 (Non adoptable)', 'case.table-filter.soluce1'],
 					['Soluce n°2 (À trouver !!!)', 'case.table-filter.soluce2'],
 				],
 			],
-			// [
-			// 	'state'       => 'ready',
-			// 	'title'       => 'For a next another trouble to solve...',
-			// 	'description' => 'John Doe',
-			// 	'actual'      => '5yH6y@example.com',
-			// 	'proposeds'    => ['5yH6y@example.com'],
-			// ],
-			// [
-			// 	'state'       => 'cloSed',
-			// 	'title'       => '(Exemple provisoire) For a trouble resolved.',
-			// 	'description' => 'John Doe',
-			// 	'actual'      => '5yH6y@example.com',
-			// 	'proposeds'    => ['5yH6y@example.com'],
-			// ],
+			[
+				'state'       => 'ready',
+				'title'       => 'For a next another trouble to solve...',
+				'description' => '<p class="text-orange-500 italic">PAS DE BADGE COLORÉ, car le statut READY n\'existe pas \'en vrai\'</p>',
+				'actual'      => ['5yH6y@example.com', 'case.table-filter.trouble'],
+				'proposed'    => [
+					['Juste pour un exemple...', 'case.table-filter.soluce1'],
+					['Juste pour un second exemple...', 'case.table-filter.soluce2'],
+				],
+			],
+			[
+				'state'       => 'ferMé',
+				'title'       => '(Exemple provisoire) For a trouble resolved.',
+				'description' => 'John Doe',
+				'actual'      => ['5yH6y@example.com', 'case.table-filter.trouble'],
+				'proposed'    => [
+					['Juste pour un exemple...', 'case.table-filter.soluce1'],
+				],
+			],
 		];
 
 		return array_map(fn ($subject) => array_merge($subject, ['stateColor' => $this->setStateColor($subject['state'])]), $subjects);
@@ -80,6 +87,6 @@ class extends Component {
 
 	private function setStateColor($state)
 	{
-		return $state=='Ouvert' ? 'error': ($state=='ready' ? 'info' : 'success');
+		return 'Ouvert' == $state ? 'error' : ('ready' == $state ? 'info' : 'success');
 	}
 };

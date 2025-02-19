@@ -36,11 +36,10 @@ Route::middleware(IsStudent::class)->group(function ()
 		Volt::route('/cases', componentName: 'academy.dpts.cases.cases')->name('academy.cases');
 		Route::prefix('/case')->group(function ()
 		{
-			// Volt::route('/case', 'admin.tests.tests')->name('admin.tests'); //2see if toujrs interessant à avoir
 			// 2do factorise routes
-			Volt::route('/case/table-filter/trouble', 'admin.dpts.cases.table-filter.trouble')->name('case.table-filter.trouble');
-			Volt::route('/case/table-filter/soluce1', 'admin.dpts.cases.tableFilter.soluce1')->name('case.table-filter.soluce1');
-			Volt::route('/case/table-filter/soluce2', 'admin.dpts.cases.tableFilter.soluce2')->name('case.table-filter.soluce2');
+			Volt::route('/table-filter/trouble', 'academy.dpts.cases.table-filter.trouble')->name('case.table-filter.trouble');
+			Volt::route('/table-filter/soluce1', 'academy.dpts.cases.tableFilter.soluce1')->name('case.table-filter.soluce1');
+			Volt::route('/table-filter/soluce2', 'academy.dpts.cases.tableFilter.soluce2')->name('case.table-filter.soluce2');
 		});
 	});
 });
