@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
 namespace Database\Factories;
@@ -44,11 +44,11 @@ class AcademyUserFactory extends Factory
 		{
 			$role = (fake()->numberBetween(1, 10) <= 9) ? 'student' : 'tutor';
 		}
-		
+
 		// 2fix: parr pris au hazard parmi les users déjà enregistrés, si n'a pas déjà 7 filleuls
 		// Pour l'heure, le parrain est le précédent enregistré
 		$parr = abs($parrId);
-		
+
 		//2do list($firstname, $name, $email) = $this->uniqueUserNameAndEmail($gender);
 
 		// 2fix: Calcul des bornes left et droite au fur et à mesure des enregistrements
@@ -76,23 +76,23 @@ class AcademyUserFactory extends Factory
 			'email_verified_at' => null,
 		]);
 	}
-	public function uniqueUserNameAndEmail($gender) {
-		static $names;
 
-		$name = fake('fr_FR')->lastname();
-		// $name = $this->fakeFakes();
-		
-		
-					// 'firstname'      => ('male' == $gender) ? fake()->firstNameMale() : (('female' == $gender) ? fake()->firstNameFemale() : fake()->firstName()),
-		
-		
-		
-		
-		if (!isset($names[$name])) {
-			$names[$name] = 1;
+	public function uniqueUserNameAndEmail($gender)
+	{
+		static $emails;
+
+		$name      = fake()->lastname();
+		$firstname = ('male' == $gender) ? fake()->firstNameMale() : (('female' == $gender) ? fake()->firstNameFemale() : fake()->firstName());
+		$email          = 'a' . 'b';
+
+		if (!isset($names[$name]))
+		{
+			$email[$email] = 1;
 
 			self::$users[] = $pseudo = $name;
-		} else {
+		}
+		else
+		{
 			$names[$name]++;
 			$pseudo = self::$users[] = $name . '-' . ($names[$name] - 1);
 		}
