@@ -179,19 +179,14 @@ new #[Title('Images')] #[Layout('components.layouts.admin')] class extends Compo
         </x-table>
     </x-card>
     <script>
-        function copyUrl(button) {
+        async function copyUrl(button) {
             const url = button.getAttribute('data-url');
-            const textArea = document.createElement('textarea');
-            textArea.value = url;
-            document.body.appendChild(textArea);
-            textArea.select();
             try {
-                document.execCommand('copy');
+                await navigator.clipboard.writeText(url);
                 alert('URL copiée: ' + url);
             } catch (err) {
                 console.error('Erreur lors de la copie de l\'URL: ', err);
             }
-            document.body.removeChild(textArea);
         }
     </script>
 

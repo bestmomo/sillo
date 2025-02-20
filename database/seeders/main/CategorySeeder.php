@@ -20,7 +20,7 @@ class CategorySeeder extends Seeder
 	public function run()
 	{
 		$data               = [];
-		$numberOfCategories = 3; // Utiliser une constante pour le nombre de catégories
+		$numberOfCategories = 3;
 
 		for ($i = 1; $i <= $numberOfCategories; ++$i)
 		{

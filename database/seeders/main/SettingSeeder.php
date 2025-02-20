@@ -24,6 +24,7 @@ class SettingSeeder extends Seeder
 			['key' => 'subTitle', 'value' => 'Un framework qui rend heureux'],
 			['key' => 'flash', 'value' => ''],
 			['key' => 'newPost', 'value' => 4],
+			['key' => 'alertValue', 'value' => 'alert-info'],
 		];
 
 		// Insérer les données dans la table settings

@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
 namespace App\Models;
@@ -29,6 +29,11 @@ class AcademyUser extends Authenticatable
 	 * @var array<int, string>
 	 */
 	protected $hidden = ['password', 'remember_token'];
+
+	public function isStudent(): bool
+	{
+		return 'student' === $this->role;
+	}
 
 	/**
 	 * Scope a query to search for a specific value in the 'name', 'firstname', or 'email' columns.

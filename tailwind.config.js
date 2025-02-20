@@ -13,17 +13,23 @@ export default {
   ],
   safelist: [
     {
-      pattern: /(!)?bg-(red|green|yellow|blue|indigo|purple|pink|orange|teal|lime|cyan|amber|fuchsia|emerald|rose|sky|violet)-200/,
+      pattern:
+        /(!)?bg-(red|green|yellow|blue|indigo|purple|pink|orange|teal|lime|cyan|amber|fuchsia|emerald|rose|sky|violet)-200/,
     },
-    'bg-red-300',
-    'alert-success',
-    'alert-info',
-    'alert-warning',
+    "bg-red-300",
+    "alert-success",
+    "alert-info",
+    "alert-warning",
   ],
   theme: {
     extend: {
       colors: {
         beige: "beige",
+      },
+      fontFamily: {
+        comic: ['"Comic Sans MS"', "cursive", "sans-serif"],
+        new: ['"Courier new"', "cursive", "sans-serif"],
+        shadow: ['"shadow"', "sans-serif"],
       },
       transitionTimingFunction: {
         gentle: "cubic-bezier(0.38, 0, 0.25, 0.99)",
@@ -31,10 +37,11 @@ export default {
     },
   },
   daisyui: {
-    themes: ["light", "dark"],
+    themes: ["light", "dark", "cupcake"],
   },
   corePlugins: {
     backgroundOpacity: false,
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
 };
+

@@ -87,6 +87,8 @@ new class() extends Component
 			])
 			->latest()
 			->get();
+
+        $this->dispatch('prism-highlight');
 	}
 
 	// Méthode pour mettre l'article en favoris
@@ -121,7 +123,7 @@ new class() extends Component
     @section('keywords', $post->meta_keywords)
 
     <!-- Actions disponibles pour les utilisateurs authentifiés -->
-    <div id="top" class="flex justify-end gap-4">
+    <div id="top" class="flex gap-4 justify-end">
         @auth
             <x-popover>
                 <x-slot:trigger>
@@ -201,7 +203,7 @@ new class() extends Component
         size="text-2xl sm:text-3xl md:text-4xl" />
 
     <!-- Contenu du post -->
-    <div class="relative items-center w-full py-5 mx-auto prose md:px-12 max-w-7xl">
+    <div class="relative items-center py-5 mx-auto w-full max-w-7xl prose md:px-12">
         @if ($post->image)
             <div class="flex flex-col items-center mb-4">
                 <img src="{{ asset('storage/photos/' . $post->image) }}" />
@@ -257,7 +259,7 @@ new class() extends Component
     @endif
 
     <!-- Section des commentaires -->
-    <div id="bottom" class="relative items-center w-full py-5 mx-auto md:px-12 max-w-7xl">
+    <div id="bottom" class="relative items-center py-5 mx-auto w-full max-w-7xl md:px-12">
         @if ($listComments)
             <!-- Afficher les commentaires -->
             <x-card title="{{ __('Comments') }}" shadow separator>
@@ -288,7 +290,7 @@ new class() extends Component
     </div>
 
     <!-- Bouton pour défiler en haut du post -->
-    <div id="bottom" class="relative flex justify-end w-full py-5 mx-auto md:px-12 max-w-7xl">
+    <div id="bottom" class="flex relative justify-end py-5 mx-auto w-full max-w-7xl md:px-12">
         <x-popover>
             <x-slot:trigger>
                 <a href="#top"><x-icon name="c-arrow-long-up" />
@@ -300,7 +302,7 @@ new class() extends Component
     </div>
 
     <!-- Section des quizzes -->
-    <div class="relative items-center w-full px-5 py-5 mx-auto md:px-12 max-w-7xl">
+    <div class="relative items-center px-5 py-5 mx-auto w-full max-w-7xl md:px-12">
         @if ($post->quiz)
             <div class="flex justify-center">
                 @if (Auth::check())

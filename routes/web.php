@@ -1,25 +1,49 @@
 <?php
 
 /**
- *  (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
 use App\Http\Controllers\ImageController;
 use App\Http\Middleware\{IsAdmin, IsAdminOrRedac, IsStudent};
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 // Routes publiques
-Volt::route('/', 'index');
+Volt::route('/', 'index')->name('home');
 
 // Volt::route('/doc', 'doc.memo')->name('doc.memo');
 
-Volt::route('/academy', 'academy.academy')->name('academy.academy');
-Volt::route('/t', 'academy.abc.aaa_test')->name('academy.test');
-Volt::route('/frameworks', 'academy.frameworks');
-Route::prefix('/framework')->group(function ()
+Volt::route('/table-filter', 'academy.dpts.cases.table-filter.trouble')->name('table-filter');
+
+Route::middleware(IsStudent::class)->group(function ()
 {
-	getAcademyFrameworksRoutes();
+	// Raccourci pour un test rapide et provisoire en cours, isolé
+	Volt::route('/t', 'academy.dpts.tests.in-progress')->name('academy.tests.in-progress');
+
+	// L'Académie
+	Route::prefix('/academy')->group(function ()
+	{
+		Volt::route('/', 'academy.home')->name('academy.academy');
+
+		// Les FrameWorks
+		Volt::route('/frameworks', 'academy.dpts.frameworks.frameworks')->name('academy.frameworks');
+		Route::prefix('/framework')->group(function ()
+		{
+			getAcademyFrameworksRoutes();
+		});
+
+		// Les Cas
+		Volt::route('/cases', componentName: 'academy.dpts.cases.cases')->name('academy.cases');
+		Route::prefix('/case')->group(function ()
+		{
+			// 2do factorise routes
+			Volt::route('/table-filter/trouble', 'academy.dpts.cases.table-filter.trouble')->name('academy.case.table-filter.trouble');
+			Volt::route('/table-filter/soluce1', 'academy.dpts.cases.table-filter.soluce1')->name('academy.case.table-filter.soluce1');
+			Volt::route('/table-filter/soluce2', 'academy.dpts.cases.table-filter.soluce2')->name('academy.case.table-filter.soluce2');
+		});
+	});
 });
 
 Route::post('/upload-image', [ImageController::class, 'upload']);
@@ -106,14 +130,11 @@ Route::middleware('auth')->group(function ()
 
 Route::fallback(function ()
 {
-	$path         = request()->path();
-	$redirectPath = '/posts/' . $path;
-
-	return redirect(url($redirectPath));
+	return abort(404, json_encode([request()->path(), request()->url()]));
 });
 
 //2see : Develop a component for all topics in 'LaDOC', and group the related routes
-// À faire : Développer un composant pour toutes les thématiques de 'LaDOC', et regrouper les routes correspondantes
+// = À faire : Développer un composant pour toutes les thématiques de 'LaDOC', et regrouper les routes correspondantes
 Route::get('/doc/laravel', function ()
 {
 	return view('docs.laravel');

@@ -124,6 +124,7 @@ new #[Title('Profile')] #[Layout('components.layouts.auth')] class extends Compo
             <x-popover>
                 <x-slot:trigger>
                     <x-checkbox label="{{ __('Academy access') }}" wire:model="isStudent" />
+										{{-- //2do here btn pour accès direct academy si coché  --}}
                 </x-slot:trigger>
                 <x-slot:content class="pop-small">
                     @lang('Gives access to numerous helping scripts, spaces to test...')
