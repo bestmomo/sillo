@@ -38,6 +38,16 @@ $btns = [
 		'icon'      => 'o-beaker',
 		'routeLink' => 'academy.test.in-progress',
 	],
+	'Académie2' => [
+		'title'     => 'Accueil Académie',
+		'icon'      => 'o-academic-cap',
+		'routeLink' => 'academy.academy',
+	],
+	'Frameworks2' => [
+		'title'     => 'Livewire & AlpineJS',
+		'icon'      => 'o-building-library',
+		'routeLink' => 'academy.frameworks',
+	],
 ];
 
 $btns = array_map(function($btn)

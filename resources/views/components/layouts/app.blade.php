@@ -59,14 +59,15 @@
 								<x-icon-laravelmark class='border-0 text-center border-red-500 w-2/12 h-full'/>
 
 								<h1 class="!font-shadow border-0 border-green-500">
-									<div style="font-size: clamp(1rem, 7vw, 7rem);" class='pb-2 text-[#ff2d20] text-left'>LARAVEL</div>
+									<div style="font-size: clamp(1rem, 7vw, 7rem);" class='pb-2 text-[#ff2d20] text-left tracking-wider'>{{ strtoupper(config('app.title')) }}
+									</div>
 								</h1>
 
 							</div>
 
 						</div>
 
-						<div class="font bold text-center mb-5 text-sm sm:text-md md:text-2xl lg:text-3xl xl:text-4xl text-[#ccc]">Un framework qui rend heureux
+						<div class="font bold text-center mb-5 text-[12px] sm:text-md md:text-xl lg:text-2xl xl:text-3xl text-[#ccc] tracking-wider">{{ config('app.subTitle') }}
 						</div>
 
 					</div>
