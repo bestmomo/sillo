@@ -12,10 +12,13 @@ include_once 'in-progress.php';
     <hr class='my-3'>
 
     @if (in_array('stats-users', $activeTests))
-        @livewire('academy.dpts.test.stats-users', ['testsNames' => $activeTests])
+        @livewire('academy.dpts.tests.stats-users', ['testsNames' => $activeTests])
     @endif
     @if (in_array('normalize', $activeTests))
-        @livewire('academy.dpts.test.normalize', ['testsNames' => $activeTests])
+        @livewire('academy.dpts.tests.normalize', ['testsNames' => $activeTests])
+    @endif
+    @if (in_array('faker', $activeTests))
+        @livewire('academy.dpts.tests.faker', ['testsNames' => $activeTests])
     @endif
     @if ($activeTests)
         {{-- Autre 'vieux' test --}}

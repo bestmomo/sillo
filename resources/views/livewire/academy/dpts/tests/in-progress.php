@@ -26,6 +26,7 @@ class() extends Component
 	{
 		// $this->activeTests[] = 'stats-users';
 		// $this->activeTests[] = 'normalize';
+		$this->activeTests[] = 'faker';
 	}
 
 	public function with(): mixed
