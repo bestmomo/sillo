@@ -1,28 +1,16 @@
 <?php
-use App\Models\AcademyUser;
-use Livewire\Volt\Component;
-
-new class extends Component {
-    public $users;
-
-    public function mount()
-    {
-        $this->users = $this->with();
-    }
-
-    public function with()
-    {
-        return AcademyUser::limit(7)->get('firstname');
-    }
-};
+include_once 'faker.php';
 ?>
 
 <div>
-    @dump($users)
+    @dump($fake)
 
-    @forelse($users as $user)
-        <p>{{ $user->firstname }}</p>
-    @empty
-        <p>No users found</p>
-    @endforelse
+    <h2>{{ $var }} users, dont :</h2>
+    <ul>
+        @forelse($users as $user)
+            <li>- {{ $user->firstname }}</li>
+        @empty
+            <p>No users found</p>
+        @endforelse
+    </ul>
 </div>
