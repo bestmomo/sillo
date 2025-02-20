@@ -54,7 +54,7 @@ class extends Component
 			[
 				'state'       => 'Ouvert',
 				'title'       => 'Problème de liste après filtrages',
-				'description' => 'Tatati...',
+				'description' => '<i>Voir situation actuelle pour découvrir le contexte</i>',
 				'actual'      => ['Avec le problème de resultats existants mais non visibles', 'academy.case.table-filter.trouble'],
 				'proposed'    => [
 					['Avec raffraichissement n°1 (Non adoptable)', 'academy.case.table-filter.soluce1'],

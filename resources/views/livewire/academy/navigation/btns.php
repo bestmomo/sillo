@@ -12,8 +12,8 @@ function CssClass ($k)
 	$k         = mb_substr($k, 0, -1);
 	$currRoute = Route::currentRouteName();
 
-	$vars = "{$k} // {$currRoute}";
-	Debugbar::addMessage($vars, addslashes('$k // $currRoute'));
+	// $vars = "{$k} // {$currRoute}";
+	// Debugbar::addMessage($vars, addslashes('$k // $currRoute'));
 
 	return 0 === strpos( $currRoute, $k) ? 'text-green-400 disabled' : '';
 }
@@ -34,10 +34,10 @@ $btns = [
 		'icon'      => 'o-wallet',
 		'routeLink' => 'academy.cases',
 	],
-	'Test' => [
-		'title'     => 'Test rapide',
+	'Tests' => [
+		'title'     => 'Tests rapides',
 		'icon'      => 'o-beaker',
-		'routeLink' => 'academy.test.in-progress',
+		'routeLink' => 'academy.tests.in-progress',
 	],
 ];
 

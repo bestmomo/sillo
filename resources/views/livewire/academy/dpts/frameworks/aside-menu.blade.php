@@ -22,7 +22,7 @@
 
             <a href="/academy/frameworks">FRAMEWORKS</a>
         </div>
-        <div class='x-auto w-full text-center mb-4 pr-3 font-bold'><small><a href="/t">Test</a></small></div>
+        <div class='x-auto w-full text-center mb-4 pr-3 font-bold'><small><a href="/t">Tests</a></small></div>
 
         @foreach ($frameworksLinks as $framework => $links)
                         <div class="{{ $loop->index ? 'mt-4' : '' }}">{{ strtoupper($framework) }}</div>

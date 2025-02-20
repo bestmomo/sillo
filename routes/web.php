@@ -15,10 +15,12 @@ Volt::route('/', 'index')->name('home');
 
 // Volt::route('/doc', 'doc.memo')->name('doc.memo');
 
+Volt::route('/table-filter', 'academy.dpts.cases.table-filter.trouble')->name('table-filter');
+
 Route::middleware(IsStudent::class)->group(function ()
 {
 	// Raccourci pour un test rapide et provisoire en cours, isolé
-	Volt::route('/t', 'academy.dpts.test.in-progress')->name('academy.test.in-progress');
+	Volt::route('/t', 'academy.dpts.tests.in-progress')->name('academy.tests.in-progress');
 
 	// L'Académie
 	Route::prefix('/academy')->group(function ()
