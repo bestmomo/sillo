@@ -8,7 +8,8 @@ class extends Component
 {
 };
 ?>
-<div>
+
+<div class='mx-6'>
     <livewire:academy.dpts.frameworks.livewire.components.users.users-table />
     
     {{-- @php

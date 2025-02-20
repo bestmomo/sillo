@@ -12,7 +12,7 @@ new
 #[Layout('components.layouts.academy')]
 class extends Component {}; ?>
 
-<div>
+<div class='mx-6'>
     <livewire:academy.components.page-title title='Drag and Drop' />
     <x-header shadow separator progress-indicator />
 
@@ -22,10 +22,10 @@ class extends Component {}; ?>
         <h1 class="text-center font-bold text-xl md:text-4xl my-10">
             Drag and drop file upload
         </h1>
-        <div class="my-5">
+        <div class="my-5 border-red-500">
 
-            <div x-data="fileUpload()" class="max-w-ful mx-auto">
-                <input type="file" @change="handleFileUpload" class="hidden" x-ref="fileInput" accept="images/*">
+            <div x-data="fileUpload()" class="max-w-full mx-auto">
+                <input type="file" @change="handleFileUpload" class="hsidden" x-ref="fileInput" accept="images/*">
 
 
                 <div x-show="!imageUrl"

@@ -2,7 +2,7 @@
 include_once 'test.php';
 ?>
 
-<div>
+<div class='mx-6'>
     <livewire:academy.components.page-title title='Test' />
     <x-header shadow separator progress-indicator />
 

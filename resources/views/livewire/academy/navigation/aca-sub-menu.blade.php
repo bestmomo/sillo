@@ -21,7 +21,7 @@
                     link="{{ route($btn['routeLink']) }}" @class(['btn-ghost btn-sm font-new text-lg', $btn['css']]) responsive />
             @endforeach
 
-            @if (auth()->user()->isAdmin())
+            @if (auth()?->user()?->isAdmin())
                 <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="ml-6 btn-outline font-new"
                     link="{{ route('admin') }}" />
             @endif

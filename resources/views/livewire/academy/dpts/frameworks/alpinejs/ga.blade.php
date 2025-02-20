@@ -7,7 +7,7 @@ new #[Title('GA')] #[Layout('components.layouts.academy')] class extends Compone
 {
 }; ?>
 
-<div>
+<div class='mx-6'>
     @php
         $btns = ['Spoiler', 'TabsOri', 'Tabs'];
     @endphp

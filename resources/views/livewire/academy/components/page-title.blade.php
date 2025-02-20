@@ -5,4 +5,6 @@ new class extends Component {
     public $title;
 };
 ?>
-<livewire:academy.components.titles :title="$title" />
+<div>
+    <livewire:academy.components.titles :title="$title" :dpt=false />
+</div>

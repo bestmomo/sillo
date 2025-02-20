@@ -2,7 +2,7 @@
 include_once 'accordion/accordion.php';
 ?>
 
-<div>
+<div class='mx-6'>
     <livewire:academy.components.page-title title='Menus Accordéon' />
     <x-header shadow separator progress-indicator />
 

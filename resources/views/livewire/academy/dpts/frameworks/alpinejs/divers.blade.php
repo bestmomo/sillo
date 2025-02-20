@@ -6,7 +6,7 @@ use Livewire\Volt\Component;
 new #[Layout('components.layouts.academy')] class extends Component {};
 ?>
 
-<div class="w-full h-screen">
+<div class='mx-6'>
     <livewire:academy.components.page-title title='Divers' />
     <x-header shadow separator progress-indicator />
 

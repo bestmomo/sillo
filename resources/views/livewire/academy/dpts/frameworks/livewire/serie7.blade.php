@@ -18,13 +18,14 @@ class extends Component
 		logger('Subtitle updated to: ' . $newSubtitle);
 	}
 }; ?>
+
 <div x-data="{ choice: 'menuLivewire' }" class="w-full">
 
     @section('styles')
         <style>
-            .drawer-content {
+            /* .drawer-content {
                 padding: 0;
-            }
+            } */
 
             .btn-menu {
                 color: #ccc;
@@ -42,7 +43,7 @@ class extends Component
         </style>
     @endsection
     
-    <x-header class="mx-auto pb-0 mb-[-14px] font-new text-green-400 w-[95%]" title="Série 7  - {{ $subtitle }}" shadow separator progress-indicator />
+    <x-header class="mx-6 pb-0 mb-[-14px] mt-3 font-new text-green-400 w-[95%]" title="Série 7  - {{ $subtitle }}" shadow separator progress-indicator />
 
     {{-- Subtitle: {{ $subtitle }} --}}
 

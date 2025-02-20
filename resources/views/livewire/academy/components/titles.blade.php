@@ -2,16 +2,24 @@
 use Livewire\Volt\Component;
 
 new class extends Component {
-    public $title;
+    public $title='Titre Indéfini';
     public $dpt;
-    public $font;
+    public $font='new';
+    
     public function mount()
     {
-        $this->font=($this->dpt) ? 'shadow':'new';
+        $this->font= $this->dpt  ? 'shadow':'new';
         // Debugbar::info($this->font);
     }
-}; ?>
+}; 
 
-<x-header class="pb-0 mb-[-14px] font-{{ $font }} text-green-400" title="{!! $title !!}">
+// {{-- <x-header class="pb-0 mb-[-14px] mt-2 font-{{ $font }} text-green-400" title="{!! $title !!}" /> --}}
+
+?>
+
+<div>
     @section('title', $title)
-</x-header>
+    {{-- <x-header class="pb-0 mb-[-14px] mt-2 font-{{ $font }} text-green-400" title="{!! $title !!}" /> --}}
+    <p class="pb-0 mb-[-14px] mt-2 font-{{ $font }} text-green-400 text-3xl tracking-wider font-semibold">{!! $title !!}</p>
+    
+</div>

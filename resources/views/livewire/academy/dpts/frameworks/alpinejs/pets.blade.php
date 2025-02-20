@@ -15,7 +15,7 @@ class extends Component
 	// https://learnwebcode.github.io/json-example/pets-data.json
 }; ?>
 
-<div>
+<div class='mx-6'>
     <livewire:academy.components.page-title title='Animaux domestiques'/>
     <x-header shadow separator progress-indicator/>
     

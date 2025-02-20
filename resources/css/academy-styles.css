@@ -43,6 +43,12 @@ p {
     margin-bottom: 10px;
 }
 
+            .drawer-content {
+                padding: 0;
+                /* padding: 30px; */
+                
+            }
+
 /* body {
     display: flex;
     justify-content: start;

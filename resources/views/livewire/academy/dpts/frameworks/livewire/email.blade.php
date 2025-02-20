@@ -89,7 +89,7 @@ class extends Component
 	}
 }; ?>
 
-<div>
+<div class='mx-6'>
 	<livewire:academy.components.page-title title='Envoi Emails' />
 	<x-header shadow separator progress-indicator/>
 

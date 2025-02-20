@@ -31,7 +31,7 @@ class extends Component
 	}
 }; ?>
 
-<div>
+<div class='mx-6'>
     <livewire:academy.components.page-title title='Articles' />
     <x-header shadow separator progress-indicator />
     

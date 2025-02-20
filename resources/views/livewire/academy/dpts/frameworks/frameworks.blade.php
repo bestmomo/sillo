@@ -2,11 +2,11 @@
 include_once 'frameworks.php';
 ?>
 
-<div>
+<div class='mx-6'>
     <livewire:academy.components.dpt-title title='Frameworks' />
     <x-header shadow separator progress-indicator />
 
-    <p class='text-center'>Counter: {{ $count }}<br>
+    <p class='  text-center'>Counter: {{ $count }}<br>
         <x-button class="btn-primary mt-1 text-2xl" wire:click.debounce.0ms="increment"><b>+</b></x-button>
         <x-button class="btn-primary mt-1 text-2xl px-5" wire:click.debounce.0ms="decrement"><b>-</b></x-button>
     </p>

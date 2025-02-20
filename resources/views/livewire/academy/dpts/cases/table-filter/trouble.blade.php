@@ -10,17 +10,16 @@ include_once 'trouble.php'; ?>
     {{-- <livewire:academy.components.page-title title="{{ $title }}" /> --}}
     {{-- <x-header shadow separator progress-indicator /> --}}
 
-    <x-header class="mt-2 pb-0 mb-[-15px] font-new text-green-400" title="{{ $title }}" separator
-        progress-indicator>
-        <x-slot:actions class='flex justify-evenly'>
+    <x-header class="pb-0 mb-[-15px] font-new text-green-400" title="{{ $title }}" separator progress-indicator>
+        <x-slot:actions class='pt-5'>
             <x-input class='text-white font-arial' placeholder="{{ __('Search...') }}"
-                wire:model.live.debounce.300ms="search" clearable icon="o-magnifying-glass" focus />
+                wire:model.live.debounce.300ms="search" clearable icon="o-magnifying-glass" x-init="$el.focus()" />
         </x-slot:actions>
     </x-header>
 
     {{-- @include('livewire.admin.tests.tableFilter.submenu') --}}
 
-		<p class='text-center text-xl'>Listing des utilisateurs <small>(Issus de la table <i>academy_users</i>)</small></p>
+    <p class='text-center text-xl'>Listing des utilisateurs <small>(Issus de la table <i>academy_users</i>)</small></p>
 
     <div class="mt-4 !px-24 ml-12">
         <div class="grid gap-4">
@@ -46,9 +45,13 @@ include_once 'trouble.php'; ?>
 
         <article class='text-justify space-y-3'>
 
-            <p>Pour un cas d'étude, nous simplifions tout au maximum... En conséquence, ici, nous limitons le nombre de champs, et de composants présents. Nous ne gardons donc que le form de recherche, la liste des noms et la pagination.</p>
-            
-						<p>Voici donc notre liste d'utilisateurs affichés 3 par 3 (Au passage, notons le 1<sup>er</sup> : <b>'Pier'</b> 😉).</p>
+            <p>Pour un cas d'étude, nous simplifions tout au maximum... En conséquence, ici, nous limitons le nombre de
+                champs, et de composants présents. Nous ne gardons donc que le form de recherche, la liste des noms et
+                la pagination.</p>
+
+            <p>Voici donc notre liste d'utilisateurs affichés 3 par 3 (Au passage, notons le 1<sup>er</sup> :
+                <b>'Pier'</b> 😉).
+            </p>
 
 
             <p>Comme nous avons au moins 6 items, vous avez en barre de pagination 3 voire plus, comme dernière

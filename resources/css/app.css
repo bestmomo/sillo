@@ -35,6 +35,7 @@ html {
     src: url('../assets/fonts/BlockShadow-Bold.ttf') format('truetype');
 }
 
-.shadow-tr { /* Top Right */
-    box-shadow: 2px -1px 5px 1px rgba(0,255,0,.7);
+.shadow-tr {
+    /* Top Right */
+    box-shadow: 7px -1px 4px 3px rgba(0, 255, 0, .7);
 }

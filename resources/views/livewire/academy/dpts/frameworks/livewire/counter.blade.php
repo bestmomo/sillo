@@ -3,33 +3,30 @@
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new
-#[Layout('components.layouts.academy')] 
-class extends Component
-{
-	public $count = 100;
-	public $by;
+new #[Layout('components.layouts.academy')] class extends Component {
+    public $count = 100;
+    public $by;
 
-	public function mount($by = 1)
-	{
-		$this->by = (int) $by;
-	}
+    public function mount($by = 1)
+    {
+        $this->by = (int) $by;
+    }
 
-	public function increment($by = 1)
-	{
-		$this->count += $by ?? $this->by;
-	}
+    public function increment($by = 1)
+    {
+        $this->count += $by ?? $this->by;
+    }
 
-	public function decrement()
-	{
-		$this->count -= $this->by;
-	}
+    public function decrement()
+    {
+        $this->count -= $this->by;
+    }
 }; ?>
 
-<div>
-	<livewire:academy.components.page-title title='Compteurs' />
-    <x-header shadow separator progress-indicator/>
-    
+<div class='mx-6'>
+    <livewire:academy.components.page-title title='Compteurs' />
+    <x-header shadow separator progress-indicator />
+
     <p>Counter: {{ $count }} (Pure LiveWire)<br>
         {{-- <x-button class="btn-primary mt-1" wire:click="increment">+</x-button> --}}
         {{-- <x-button class="btn-primary mt-1" wire:mouseenter="increment">+</x-button> --}}

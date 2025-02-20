@@ -10,7 +10,7 @@ class extends Component
 	// https://alpinejs.dev/start-here
 }; ?>
 
-<div>
+<div class='mx-6'>
     <livewire:academy.components.page-title title="Bases Alpine.JS" />
     <x-header shadow separator progress-indicator/>
     
