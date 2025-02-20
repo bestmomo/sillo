@@ -7,6 +7,8 @@ new class extends Component {
     {
         $this->title = mb_convert_case($this->title, MB_CASE_UPPER);
     }
-};
-?>
-<livewire:academy.components.titles :title=$title :dpt=true />
+}; ?>
+
+<div>
+    <livewire:academy.components.titles :title=$title :dpt=true />
+</div>

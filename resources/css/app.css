@@ -34,3 +34,7 @@ html {
     font-family: 'shadow';
     src: url('../assets/fonts/BlockShadow-Bold.ttf') format('truetype');
 }
+
+.shadow-tr { /* Top Right */
+    box-shadow: 2px -1px 5px 1px rgba(0,255,0,.7);
+}

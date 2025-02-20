@@ -9,4 +9,20 @@ use Livewire\Volt\Component;
 
 new
 #[Layout('components.layouts.academy')]
-class extends Component{};
+class extends Component{	public $count = 100;
+	public $by;
+
+	public function mount($by = 1)
+	{
+		$this->by = (int) $by;
+	}
+
+	public function increment($by = 1)
+	{
+		$this->count += $by ?? $this->by;
+	}
+
+	public function decrement()
+	{
+		$this->count -= $this->by;
+	}};

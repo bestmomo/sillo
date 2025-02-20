@@ -3,7 +3,7 @@
 @endphp
 
 {{-- <x-nav sticky full-width class='flex w-full !justify-items-stretch !my-0 !py-0 border border-blue-500 gap-0'> --}}
-<x-nav sticky full-width class=''>
+<x-nav sticky full-width class='shadow-tr shadow-white !py-0'>
 
     <x-slot:brand class="mr-6">
         <div>
