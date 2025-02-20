@@ -4,7 +4,6 @@
  *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
-// use faker;
 use App\Models\AcademyUser;
 use Livewire\Volt\Component;
 
