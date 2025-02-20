@@ -5,6 +5,7 @@
  */
 
 use App\Models\AcademyUser;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Livewire\Attributes\{Layout};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
@@ -16,6 +17,15 @@ new #[Layout('components.layouts.acaLight')] class extends Component
 	public $search         = '';
 	protected $queryString = ['search'];
 
+	public function mount()
+	{
+		$var = 'lionelo';
+
+		$var = mb_substr($var, 0, -1);
+
+		Debugbar::info($var);
+	}
+
 	public function with(): array
 	{
 		$users = AcademyUser::query()
@@ -23,7 +33,6 @@ new #[Layout('components.layouts.acaLight')] class extends Component
 			{
 				$query->where('name', 'like', "%{$this->search}%");
 			})
-			// ->where('role', true)
 			->paginate(3, ['firstname']);
 
 		return ['users' => $users];

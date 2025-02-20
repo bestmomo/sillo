@@ -15,8 +15,6 @@ include_once 'trouble.php'; ?>
         <x-slot:actions class='flex justify-evenly'>
             <x-input class='text-white font-arial' placeholder="{{ __('Search...') }}"
                 wire:model.live.debounce.300ms="search" clearable icon="o-magnifying-glass" focus />
-            <x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline"
-                link="{{ route('admin') }}" />
         </x-slot:actions>
     </x-header>
 

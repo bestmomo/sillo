@@ -37,9 +37,9 @@ Route::middleware(IsStudent::class)->group(function ()
 		Route::prefix('/case')->group(function ()
 		{
 			// 2do factorise routes
-			Volt::route('/table-filter/trouble', 'academy.dpts.cases.table-filter.trouble')->name('case.table-filter.trouble');
-			Volt::route('/table-filter/soluce1', 'academy.dpts.cases.tableFilter.soluce1')->name('case.table-filter.soluce1');
-			Volt::route('/table-filter/soluce2', 'academy.dpts.cases.tableFilter.soluce2')->name('case.table-filter.soluce2');
+			Volt::route('/table-filter/trouble', 'academy.dpts.cases.table-filter.trouble')->name('academy.case.table-filter.trouble');
+			Volt::route('/table-filter/soluce1', 'academy.dpts.cases.table-filter.soluce1')->name('academy.case.table-filter.soluce1');
+			Volt::route('/table-filter/soluce2', 'academy.dpts.cases.table-filter.soluce2')->name('academy.case.table-filter.soluce2');
 		});
 	});
 });

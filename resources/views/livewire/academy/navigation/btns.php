@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Route;
 
 function CssClass ($k)
 {
+	$k         = mb_substr($k, 0, -1);
 	$currRoute = Route::currentRouteName();
 
-	// $vars = "{$k} // {$currRoute}";
-	// Debugbar::addMessage($vars, addslashes('$k // $currRoute'));
+	$vars = "{$k} // {$currRoute}";
+	Debugbar::addMessage($vars, addslashes('$k // $currRoute'));
 
 	return 0 === strpos( $currRoute, $k) ? 'text-green-400 disabled' : '';
 }

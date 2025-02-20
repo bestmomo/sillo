@@ -4,12 +4,12 @@
  * (ɔ) Sillo-Shop - 2024-2025
  */
 
-use App\Models\Product;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Pagination\{Paginator};
-use Livewire\Attributes\{Layout};
+use App\Models\AcademyUser;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\{Layout};
+use Illuminate\Pagination\{Paginator};
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 new #[Layout('components.layouts.admin')] class extends Component {
 	use WithPagination;
@@ -46,11 +46,11 @@ new #[Layout('components.layouts.admin')] class extends Component {
 
 	public function with(): array
 	{
-		$items = Product::query()
+		$items = AcademyUser::query()
 			->when($this->search, function ($query) {
 				$query->where('name', 'like', "%{$this->search}%");
 			})
-			->paginate(2, ['name']);
+			->paginate(3, ['name']);
 		// $items = $products['items']->getCollection();
 		// $items = $products['items'];
 
@@ -62,7 +62,7 @@ new #[Layout('components.layouts.admin')] class extends Component {
 		if ($lastPg < $currPg) {
 			Debugbar::addMessage('yes');
 			$items->needRefresh = true;
-			redirect()->route('tableFilter.soluce1', ['page' => $lastPg, 'search' => $this->search]);
+			redirect()->route('academy.case.tableFilter.soluce1', ['page' => $lastPg, 'search' => $this->search]);
 		}
 		// Debugbar::addMessage($items);
 
