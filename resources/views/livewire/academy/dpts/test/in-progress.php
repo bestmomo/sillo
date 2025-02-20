@@ -25,7 +25,7 @@ class() extends Component
 	public function showTests()
 	{
 		// $this->activeTests[] = 'stats-users';
-		$this->activeTests[] = 'normalize';
+		// $this->activeTests[] = 'normalize';
 	}
 
 	public function with(): mixed

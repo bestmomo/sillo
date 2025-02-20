@@ -12,14 +12,16 @@ include_once 'in-progress.php';
     <hr class='my-3'>
 
     @if (in_array('stats-users', $activeTests))
-        @livewire('academy.dpts.test.stats-users', ['testName' => $activeTests])
-    @elseif (in_array('normalize', $activeTests))
-        @livewire('academy.dpts.test.normalize', ['testName' => $activeTests])
-    @elseif (0)
+        @livewire('academy.dpts.test.stats-users', ['testsNames' => $activeTests])
+    @endif
+    @if (in_array('normalize', $activeTests))
+        @livewire('academy.dpts.test.normalize', ['testsNames' => $activeTests])
+    @endif
+    @if ($activeTests)
         {{-- Autre 'vieux' test --}}
     @else
-        {{-- !flex !flex-none text-center !m-0 !p-0 --}}<i><x-header class="flex font-shadow text-primary !justify-center text-center"
-                title="PAS UN SEUL VIEUX TEST DEMANDE" icon="o-check" shadow separator progress-indicator /> </i>
+        <i><p class="font-shadow text-cyan-300 text-center text-4xl m-3">PAS UN SEUL VIEUX TEST DEMANDE*</p>
+            <p>* : Dé-commenter une ou des lignes dans la fonction <b>showTests()</b> du fichier <b>academy/dpts/test/in-progress.php</b></p></i>
     @endif
 
     <hr class='my-3'>

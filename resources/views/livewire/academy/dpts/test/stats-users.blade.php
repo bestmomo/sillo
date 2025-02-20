@@ -3,7 +3,7 @@ use App\Models\AcademyUser;
 use Livewire\Volt\Component;
 
 new class () extends Component {
-  public $testName;
+  public $testsNames=[];
 
   public $roleCounts = [];
   public $studentCounts;
@@ -35,7 +35,7 @@ new class () extends Component {
 <div>
 	{{-- Ne pas supprimer ce fichier tant que pas mis dans un dossier adapté --}}
 	{{-- //2do (Tableau de cumuls d'users - Role/Student/Total - en 1 seule requête) → Lui trouver sa place dans academy ! --}}
- <p class="text-right">Nom du test : <b>{{ $testName }}</b></p> 
+ <p class="text-right">Nom du test : <b>{{ $testsNames[0] }}</b></p> 
   
     <p class="my-3 font-bold text-xl">Users (1 DB request) :</p>
 

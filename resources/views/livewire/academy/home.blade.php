@@ -14,7 +14,7 @@ class extends Component {
 <div class='text-lg'>
 	<livewire:academy.components.dpt-title title="Academie" />
 
-    <x-partials.size-indicator />
+    {{-- <x-partials.size-indicator /> --}}
 
 	<x-header shadow separator progress-indicator/>
 

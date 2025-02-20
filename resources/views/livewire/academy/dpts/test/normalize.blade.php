@@ -48,5 +48,5 @@ new class extends Component {
 ?>
 
 <div>
-    Test pour ôter accents, cédilles, etc... Ready.
+    //2do Test pour ôter accents, cédilles, etc... Ready.
 </div>
