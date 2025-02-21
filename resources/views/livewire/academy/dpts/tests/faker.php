@@ -5,14 +5,13 @@
  */
 
 use App\Models\AcademyUser;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Livewire\Volt\Component;
 
 new class() extends Component
 {
-	public const NB = 1000;
+	public const NB = 10;
 
 	public $data;
 	public $nb;	
@@ -28,7 +27,7 @@ new class() extends Component
 
 	public function with()
 	{
-		$users = $this->makeNbUsers();
+		// $users = $this->makeNbUsers();
 
 		//2do // Affectation des dates cohérentes
 		// 
@@ -48,13 +47,14 @@ new class() extends Component
 		return [
 			// 'users' => AcademyUser::limit(7)->get('firstname'),
 			// 'var'   => $this->usersCount(),
-			'users' => $users,
-			'fakes' => array_map(function ($user)
-			{
-				return $user->getAttributes();
-			}, $users),
+			'users' => $users ?? null,
+			'fakes' => $this->generateDates(),
+			// 'fakes' => array_map(function ($user)
+			// {
+			// 	return $user->getAttributes();
+			// }, $users),
 		];
-	}
+	}	
 
 	public function normalize($str)
 	{
@@ -94,8 +94,18 @@ new class() extends Component
 
 	private function generateDates()
 	{
-		$start = Carbon::now()->subYears(3);  // Il y a 3 ans
-		$end   = Carbon::now()->addYear(); // Dans 1 an
+		// faker php générer une date entre il y a 3 ans et maintenant
+		for ($i = 0; $i < 10; $i++)
+		{
+			$date1 = fake()->dateTimeBetween('2012-07-07', 'now');
+			// $date1 = fake()->dateTimeBetween('2012-07-07', '+1 year');
+			// $date2 = fake()->dateTimeBetween($date1, '+1 year');
+			$msg            = $date1->format('Y')=='2025' ? 'oooooooooooooooooooo':null;
+			// echo $date1->format('Y-m-d H:i:s') . ' → ' . $date2->format('Y-m-d H:i:s') . '<br>';
+			// echo $i . ' → ' . $date. '<br>';		
+			dump($date1, $msg);}
+
+		return [];
 	}
 
 	private function podium()
@@ -152,6 +162,7 @@ new class() extends Component
 	 * À contrario, la boucle qui remplace les doublons ne jamais aboutir...
 	 * 
 	 * Si vous souhaitez un nombre énorme d'users, préférer un algo qui rajoutera un index aux doubles 😉 !
+	 * (Et d'utiliser par ailleurs, utiliser un @yield au lieu d'un array...)
 	 * 
 	 * @return array ($us)
 	 */
@@ -177,13 +188,13 @@ new class() extends Component
 		echo self::NB . ' → Final: ' . count($us) . '<hr>';
 	}
 
-	private function replaceDuplicated($us)
+	private function replaceDuplicated($i, $us)
 	{
 		$n = count($us);
 		while ($n < self::NB - 5)
 		{
 			echo '*<br>';
-			$us[] = $this->fakeUser();
+			$us[] = $this->fakeUser($i);
 			$us   = [...array_values(array_unique($us))];
 			$n    = count($us);
 		}
@@ -194,7 +205,7 @@ new class() extends Component
 	private function mainUsersMaker()
 	{
 		$us = [];
-		
+
 		$derId = self::NB - 5;
 
 		for ($i = 0; $i < $derId; $i++)
