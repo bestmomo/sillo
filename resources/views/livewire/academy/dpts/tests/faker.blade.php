@@ -25,7 +25,7 @@ include_once 'faker.php';
                 <th>Genre</th>
                 <th>Parr</th>
                 <th>Email</th>
-                <th>Académie</th>
+                {{-- <th>Académie</th> --}}
                 <th>Rôle</th>
                 {{-- <th>PassWord</th>
                 <th>Remember TK</th> --}}
@@ -36,17 +36,19 @@ include_once 'faker.php';
 
         <tbody>
             @forelse($users as $user)
-                <tr class='space-x-2 gap-2'>
+                <tr
+                    class="space-x-2 gap-2 {{ $user->role === 'student' ? 'text-cyan-500' : ($user->role === 'tutor' ? 'text-red-500' : '') }}">
                     <td class='text-right'>{{ $loop->iteration }}</td>
                     <td class='text-right'>{{ $user->id }}</td>
                     <td>{{ $user->gender == 'female' ? 'Mme' : 'M' }}.</td>
                     <td>{{ $user->firstname }}</td>
-                    <td>{{ $user->name }}</td>
+                    <td>{{ strtoupper($user->name) }}</td>
                     <td class='text-center'>{{ $user->gender === 'male' ? 'H' : 'F' }}.</td>
-                    <td class='text-center'>{{ $user->parr ??'-'}}</td>
+                    <td class='text-center'>{{ $user->parr ?? '-' }}</td>
                     <td>{{ $user->email }}</td>
-                    <td class='text-center'>{{ $user->academyAccess ?'Oui': 'Non' }}</td>
-                    <td>{{ ucfirst($user->role) }}</td>
+                    {{-- <td class='text-center'>{{ $user->academyAccess ? 'Oui' : 'Non' }}</td> --}}
+                    <td>{{ mb_ucfirst($user->role === 'student' ? 'étudiant' : ($user->role === 'tutor' ? 'tuteur' : 'aucun')) }}
+                    </td>
                     {{-- <td>{{ $user->password }}</td>
                     <td>{{ $user->remember_token }}</td> --}}
                     <td>{{ $user->created_at }}</td>

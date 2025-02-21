@@ -12,7 +12,7 @@ use Livewire\Volt\Component;
 
 new class() extends Component
 {
-	public const NB = 5;
+	public const NB = 1000;
 
 	public $data;
 	public $nb;	
@@ -42,6 +42,8 @@ new class() extends Component
 		// {
 			//	$u->save();
 		//}
+
+		//2do Penser à invalider user #6
 
 		return [
 			// 'users' => AcademyUser::limit(7)->get('firstname'),
@@ -124,6 +126,7 @@ new class() extends Component
 			if (1 == $u->id)
 			{
 				$u->parr = null;
+				$u->role = 'tutor';
 			}
 			elseif (5 == $u->id)
 			{
@@ -177,7 +180,7 @@ new class() extends Component
 	private function replaceDuplicated($us)
 	{
 		$n = count($us);
-		while ($n < self::NB)
+		while ($n < self::NB - 5)
 		{
 			echo '*<br>';
 			$us[] = $this->fakeUser();
@@ -191,8 +194,10 @@ new class() extends Component
 	private function mainUsersMaker()
 	{
 		$us = [];
+		
+		$derId = self::NB - 5;
 
-		for ($i = 0; $i < self::NB; $i++)
+		for ($i = 0; $i < $derId; $i++)
 		{
 			// $us[] = $this->fakeUser();
 			$us[] = $this->fakeUser($i);
