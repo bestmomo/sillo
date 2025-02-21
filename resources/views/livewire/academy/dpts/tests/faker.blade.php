@@ -18,6 +18,7 @@ include_once 'faker.php';
             <tr>
 
                 <th>Id</th>
+                <th>IdDb</th>
                 <th>Civilité</th>
                 <th>Prénom</th>
                 <th>Nom</th>
@@ -37,14 +38,15 @@ include_once 'faker.php';
             @forelse($users as $user)
                 <tr class='space-x-2 gap-2'>
                     <td class='text-right'>{{ $loop->iteration }}</td>
+                    <td class='text-right'>{{ $user->id }}</td>
                     <td>{{ $user->gender == 'female' ? 'Mme' : 'M' }}.</td>
                     <td>{{ $user->firstname }}</td>
                     <td>{{ $user->name }}</td>
-                    <td>{{ $user->gender }}</td>
-                    <td>{{ $user->parr }}</td>
+                    <td class='text-center'>{{ $user->gender === 'male' ? 'H' : 'F' }}.</td>
+                    <td class='text-center'>{{ $user->parr ??'-'}}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->academyAccess }}</td>
-                    <td>{{ $user->role }}</td>
+                    <td class='text-center'>{{ $user->academyAccess ?'Oui': 'Non' }}</td>
+                    <td>{{ ucfirst($user->role) }}</td>
                     {{-- <td>{{ $user->password }}</td>
                     <td>{{ $user->remember_token }}</td> --}}
                     <td>{{ $user->created_at }}</td>

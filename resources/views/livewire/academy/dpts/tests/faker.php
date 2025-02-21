@@ -4,15 +4,15 @@
  *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
-use Carbon\Carbon;
 use App\Models\AcademyUser;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Livewire\Volt\Component;
-use Illuminate\Support\Facades\Hash;
 
 new class() extends Component
 {
-	public const NB = 10;
+	public const NB = 5;
 
 	public $data;
 	public $nb;	
@@ -28,7 +28,7 @@ new class() extends Component
 
 	public function with()
 	{
-		$users = $this->makeNUsers();
+		$users = $this->makeNbUsers();
 
 		//2do // Affectation des dates cohérentes
 		// 
@@ -92,6 +92,47 @@ new class() extends Component
 
 	private function generateDates()
 	{
+		$start = Carbon::now()->subYears(3);  // Il y a 3 ans
+		$end   = Carbon::now()->addYear(); // Dans 1 an
+	}
+
+	private function podium()
+	{
+		$users = [
+			['firstname' => 'Marc', 'name' => 'Hautpolo'],
+			['firstname' => 'Pier', 'name' => 'Kiroule'],
+			['firstname' => 'Pol', 'name' => 'Hauchon'],
+			['firstname' => 'Jack', 'name' => 'Haddi'],
+			['firstname' => 'Lionel', 'name' => 'Sillowebsite'],
+		];
+
+		foreach ($users as $i => $user)
+		{
+			// dump($user);
+			$u                 = new AcademyUser();
+			$u->id             = $i + 1;
+			$u->gender         = 'male';
+			$u->name           = $user['name'];
+			$u->firstname      = $user['firstname'];
+			$u->email          = $this->normalize(mb_strtolower($user['firstname'] . '.' . $user['name'])) . '@example.com';
+			$u->academyAccess  = 1;
+			$u->role           = 'student';
+			$u->parr           = 1;
+			$u->password       = Hash::make('password');		
+			$u->remember_token = Str::random(10);
+			// dump($u->getAttributes());
+			if (1 == $u->id)
+			{
+				$u->parr = null;
+			}
+			elseif (5 == $u->id)
+			{
+				$u->parr = 1;
+			}
+			$podium[] = $u;
+		}
+
+		return $podium;
 	}
 
 	/**
@@ -111,12 +152,10 @@ new class() extends Component
 	 * 
 	 * @return array ($us)
 	 */
-	private function makeNUsers()
+	private function makeNbUsers()
 	{
-		$start = Carbon::now()->subYears(3);  // Il y a 3 ans
-		$end   = Carbon::now()->addYear(); // Dans 1 an
-
-		$us = $this->mainUsersMaker($start, $end); // us = users
+		$us = array_merge($this->podium(), $this->mainUsersMaker());
+		// $us = $this->mainUsersMaker(); // us = users
 		$this->showCount($us);
 		// $us = $this->replaceDuplicated($us, $start, $end);
 
@@ -152,10 +191,11 @@ new class() extends Component
 	private function mainUsersMaker()
 	{
 		$us = [];
+
 		for ($i = 0; $i < self::NB; $i++)
 		{
 			// $us[] = $this->fakeUser();
-			$us[] = $this->fakeUser();
+			$us[] = $this->fakeUser($i);
 			// $u->save();
 		}
 
@@ -172,11 +212,8 @@ new class() extends Component
 		return fake()->name();
 	}
 
-	private function fakeUser()
+	private function fakeUser($i)
 	{
-		/**
-		 *  (ɔ) LARAVEL.Sillo.org - 2012-2025
-		 */
 		static $parrId = 1;
 		--$parrId;
 		$gender    = fake()->randomElement(['unknown', 'female', 'male']);
@@ -191,20 +228,22 @@ new class() extends Component
 
 		// 2fix: parr pris au hazard parmi les users déjà enregistrés, si n'a pas déjà 7 filleuls
 		// Pour l'heure, le parrain est le précédent enregistré
-		$parr = abs($parrId);
+		$parr = abs($parrId) + 2;
 
 		// 2fix: Calcul des bornes left et right au fur et à mesure des enregistrements
 
-		$u                = new AcademyUser();
-		$u->gender        = $gender;
-		$u->name          = fake()->lastName();
-		$u->firstname     = $firstName;
-		$u->email         = $this->normalize(mb_strtolower($u->firstname . '.' . $u->name)) . '@example.com';
-		$u->academyAccess = $academyAccess;
-		$u->role          = $role ?? 'none';
-		$u->parr          = $parr;
-		$u->password = Hash::make('password');		
-		$u->remember_token = Str::random(10);	
+		$u                 = new AcademyUser();
+		$u->id             = $i + 6;
+		$u->gender         = $gender;
+		$u->name           = fake()->lastName();
+		$u->firstname      = $firstName;
+		$u->email          = $this->normalize(mb_strtolower($u->firstname . '.' . $u->name)) . '@example.com';
+		$u->academyAccess  = $academyAccess;
+		$u->role           = $role ?? 'none';
+		$u->parr           = $parr;
+		$u->password       = Hash::make('password');		
+		$u->remember_token = Str::random(10);
+
 		return $u;
 	}
 };
