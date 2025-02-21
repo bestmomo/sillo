@@ -4,25 +4,55 @@
  *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
+use Carbon\Carbon;
 use App\Models\AcademyUser;
+use Illuminate\Support\Str;
 use Livewire\Volt\Component;
+use Illuminate\Support\Facades\Hash;
 
 new class() extends Component
 {
+	public const NB = 10;
+
 	public $data;
-	public $nb;
+	public $nb;	
+	private $dates;
 
 	public function mount()
 	{
-		$this->nb = 1e3;
+		// $email = $this->normalize(mb_strtolower('ÉléänaÏs' . '.' . 'de La CÔTE')) . '@example.com';
+		// echo $email,'<hr>';
+
+		$this->nb = self::NB;
 	}
 
 	public function with()
 	{
+		$users = $this->makeNUsers();
+
+		// Affectation des dates cohérentes
+		// 
+		// $users = array_map(function ($user) {
+		//$user->password = Hash::make('password');		
+		//$user->remember_token = Str::random(10);		
+		// $user->created_at =...
+		// $user->updated_at =...
+		// 	return $user->getAttributes();
+		// }, $users);
+
+		// foreach ($users as $u)
+		// {
+			//	$u->save();
+		//}
+
 		return [
 			// 'users' => AcademyUser::limit(7)->get('firstname'),
 			// 'var'   => $this->usersCount(),
-			'fake' => $this->makeNUsers(),
+			'users' => $users,
+			'fakes' => array_map(function ($user)
+			{
+				return $user->getAttributes();
+			}, $users),
 		];
 	}
 
@@ -56,9 +86,14 @@ new class() extends Component
 			'ü' => 'u',
 			'ý' => 'y',
 			'ÿ' => 'y',
+			' ' => '-',
 		];
 
 		return strtr($str, $transliteration);
+	}
+
+	private function generateDates()
+	{
 	}
 
 	/**
@@ -80,26 +115,32 @@ new class() extends Component
 	 */
 	private function makeNUsers()
 	{
-		$us = $this->mainUsersMaker(); // us = users
+		$start = Carbon::now()->subYears(3);  // Il y a 3 ans
+		$end   = Carbon::now()->addYear(); // Dans 1 an
+
+		$us = $this->mainUsersMaker($start, $end); // us = users
 		$this->showCount($us);
-		$us = $this->replaceDuplicated($us);
+		// $us = $this->replaceDuplicated($us, $start, $end);
 
-		sort($us);
+		// sort($us);
 
 		$this->showCount($us);
 
+		// $fakes = array_map(function ($u) {
+		// 	return $u->getAttributes();
+		// }, $us);
 		return $us;
 	}
 
 	private function showCount($us)
 	{
-		echo $this->nb . ' → Final: ' . count($us) . '<hr>';
+		echo self::NB . ' → Final: ' . count($us) . '<hr>';
 	}
 
 	private function replaceDuplicated($us)
 	{
 		$n = count($us);
-		while ($n < $this->nb)
+		while ($n < self::NB)
 		{
 			echo '*<br>';
 			$us[] = $this->fakeUser();
@@ -113,10 +154,10 @@ new class() extends Component
 	private function mainUsersMaker()
 	{
 		$us = [];
-		for ($i = 0; $i < $this->nb; $i++)
+		for ($i = 0; $i < self::NB; $i++)
 		{
 			// $us[] = $this->fakeUser();
-			$us[] = $this->fakeName();
+			$us[] = $this->fakeUser();
 			// $u->save();
 		}
 
@@ -135,15 +176,37 @@ new class() extends Component
 
 	private function fakeUser()
 	{
-		// return fake()->firstNameFemale();
-		$u            = new AcademyUser();
-		$u->firstname = fake()->firstNameMale();
-		$u->name      = fake()->lastName();
-		$u->email     = $this->normalize(strtolower($u->firstname . '.' . $u->name)) . '@example.com';
-		$u->role      = 'student';
-		$u->valid     = true;
+		/**
+		 *  (ɔ) LARAVEL.Sillo.org - 2012-2025
+		 */
+		static $parrId = 1;
+		--$parrId;
+		$gender    = fake()->randomElement(['unknown', 'female', 'male']);
+		$firstName = ('male' == $gender) ? fake()->firstNameMale() : (('female' == $gender) ? fake()->firstNameFemale() : fake()->firstName());
+		// accessAcademy: 0=non (70%), 1=oui (25%)
+		$academyAccess = (fake()->numberBetween(1, 10) <= 7) ? 0 : 1;
+		// role: none: pour les 70% ci-dessus, tutor: 7% des 25%, student: le reste
+		if ($academyAccess)
+		{
+			$role = (fake()->numberBetween(1, 10) <= 9) ? 'student' : 'tutor';
+		}
 
-		// $u->save();
+		// 2fix: parr pris au hazard parmi les users déjà enregistrés, si n'a pas déjà 7 filleuls
+		// Pour l'heure, le parrain est le précédent enregistré
+		$parr = abs($parrId);
+
+		// 2fix: Calcul des bornes left et right au fur et à mesure des enregistrements
+
+		$u                = new AcademyUser();
+		$u->gender        = $gender;
+		$u->name          = fake()->lastName();
+		$u->firstname     = $firstName;
+		$u->email         = $this->normalize(mb_strtolower($u->firstname . '.' . $u->name)) . '@example.com';
+		$u->academyAccess = $academyAccess;
+		$u->role          = $role ?? 'none';
+		$u->parr          = $parr;
+		$u->password = Hash::make('password');		
+		$u->remember_token = Str::random(10);	
 		return $u;
 	}
 };
