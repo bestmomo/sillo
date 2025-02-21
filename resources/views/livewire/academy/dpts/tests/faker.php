@@ -30,11 +30,9 @@ new class() extends Component
 	{
 		$users = $this->makeNUsers();
 
-		// Affectation des dates cohérentes
+		//2do // Affectation des dates cohérentes
 		// 
 		// $users = array_map(function ($user) {
-		//$user->password = Hash::make('password');		
-		//$user->remember_token = Str::random(10);		
 		// $user->created_at =...
 		// $user->updated_at =...
 		// 	return $user->getAttributes();
