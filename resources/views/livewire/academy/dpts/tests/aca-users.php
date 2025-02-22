@@ -12,55 +12,26 @@ use Livewire\Volt\Component;
 new class() extends Component
 {
 	//2do trouver limite
-	public const NB = 100;
+
+	// Définir nombres d'users souhaités (Les 5 premiers sont forcés)
+	// ATTENTION: Compter env. 10 'pour 3 000 !
+	public const NB = 10; 
 	//2do cf mesure du temps avec debugbar
 
 	public $data;
 	public $nb;	
-	private $dates;
+	public $dates;
 
 	public function mount()
 	{
-		// $email = $this->normalize(mb_strtolower('ÉléänaÏs' . '.' . 'de La CÔTE')) . '@example.com';
-		// echo $email,'<hr>';
-
 		$this->nb = self::NB;
 	}
 
 	public function with()
 	{
-		start_measure('render', 'Time for generating users');
-		$users = $this->makeNbUsers();
-		stop_measure('render users');
-		
-		start_measure('render', 'Time for generating dates');
-		$dates = $this->generateDates();
-		stop_measure('render dates');
-
-		//2do // Affectation des dates cohérentes
-		// 
-		// $users = array_map(function ($user) {
-		// $user->created_at =...
-		// $user->updated_at =...
-		// 	return $user->getAttributes();
-		// }, $users);
-
-		// foreach ($users as $u)
-		// {
-			//	$u->save();
-		//}
-
-		//2do Penser à invalider user #6
-
 		return [
-			// 'users' => AcademyUser::limit(7)->get('firstname'),
-			// 'var'   => $this->usersCount(),
-			'users' => $users ?? null,
-			'fakes' => $dates ?? null,
-			// 'fakes' => array_map(function ($user)
-			// {
-			// 	return $user->getAttributes();
-			// }, $users),
+			'users' => $this->makeNbUsers(),
+			// 'fakes' => $this->dates,
 		];
 	}	
 
@@ -137,7 +108,6 @@ new class() extends Component
 
 		foreach ($users as $i => $user)
 		{
-			// dump($user);
 			$u                 = new AcademyUser();
 			$u->id             = $i + 1;
 			$u->gender         = 'male';
@@ -166,61 +136,52 @@ new class() extends Component
 	}
 
 	/**
-	 * Fait "$this->nb" fake users, en éliminant les doublons, en les triant, puis en affichant les compteurs
-	 * (Nombre demandés, et obtenus, une fois l'arr dédoublonné), et ce en 2 temps :
-	 * 
-	 * 1ère étape: Fait le gros de la liste
-	 * 2ème étape: remplace les doublons tant qu'on a pas le nombre demandé.
+	 * Fait "$this->nb" fake academy_users
 	 * 
 	 * ATTENTION - ATTENTION - ATTENTION - ATTENTION - ATTENTION - ATTENTION - ATTENTION :
 	 * Algo optimisé pour avoir une liste presque 'naturelle' de users bien nommés.
-	 * (Au passage,possible de remplacer: APP_FAKER_LOCALE=fr_FR par APP_FAKER_LOCALE=it_IT ou de_DE, etc...)
-	 * En contre-partie, le nombre demandé doit rester 'petit' (Ici, 1e3).
-	 * À contrario, la boucle qui remplace les doublons ne jamais aboutir...
+	 * (Au passage, remplacer: APP_FAKER_LOCALE=fr_FR par APP_FAKER_LOCALE=it_IT ou de_DE, etc...)
 	 * 
-	 * Si vous souhaitez un nombre énorme d'users, préférer un algo qui rajoutera un index aux doubles 😉 !
-	 * (Et d'utiliser par ailleurs, utiliser un @yield au lieu d'un array...)
+	 * En contre-partie, le nombre demandé doit rester 'petit' (Ici, 777).
+	 * À contrario, la boucle qui génère les users pourrait prendre beaucoup de temps...
+	 * 
+	 * Si vous souhaitez un nombre énorme d'users, préférer un algo qui utilisera un iterator,
+	 * (Avec l'usage de @yield au lieu d'un array...)
+	 * et rajouter un index aux doubles 😉 !
 	 * 
 	 * @return array ($us)
 	 */
 	private function makeNbUsers()
 	{
-		$us = array_merge($this->podium(), $this->mainUsersMaker()); // us = users
-		$this->showCount($us, 'Génération majeure dédoublonnée');
+		start_measure('render dates', 'Time for generating dates');
+		$dates = $this->generateDates();
+		stop_measure('render dates');
 
-		// $us = $this->replaceDuplicated($us);
-		// $this->showCount($us, 'Après remplacement des doublons');
+		// us = users
+		$us = array_merge($this->podium(), $this->mainUsersMaker());
 
-		// dump(...array_map(function ($u){ return $u->getAttributes(); }, $us));
+		// dump(...array_map(function ($u) { return $u->getAttributes(); }, $us));
 
 		// sort($us);
 
 		// $fakes = array_map(function ($u) {
 		// 	return $u->getAttributes();
 		// }, $us);
-		return $us;
-	}
 
-	private function showCount($us, $msg = null)
-	{
-		if ($msg)
-		{
-			$msg = " ({$msg})";
-		} 
-		echo  'Demandés: ' . self::NB . ' → Obtenus: ' . count($us) . '<i>' . $msg . '</i>' . '<hr>';
-	}
+		$us = array_map(function ($u, $i) use ($dates){
+			$u->id = $i + 1;
+			$u->created_at = $dates[$i]->created;
+			$u->updated_at = $dates[$i]->updated;
+		// $u->updated_at =...
+			return $u;
+		}, $us, array_keys($us));
 
-	private function replaceDuplicated($us)
-	{
-		$n = count($us);
-		dump($n);
-		while ($n < self::NB)
-		{
-			echo '*<br>';
-			$us[] = $this->fakeUser();
-			$us   = [...array_values(array_unique($us))];
-			$n    = count($us);
-		}
+		// foreach ($users as $u)
+		// {
+			//	$u->save();
+		//}
+
+		//2do Penser à invalider user #6
 
 		return $us;
 	}
@@ -240,27 +201,15 @@ new class() extends Component
 			}
 		}
 
-		//2ar faux doubles
-		// $us[2]          = $us[0]; // on créée 1 faux double pour test
-		// $us[3]          = $us[2]; // on créée 1 faux double pour test
-
 		// foreach ($us as $u) {
 		// 		dump($u->getAttributes());
 		// } // <=> :
 		// dump(...array_map(function ($u) { return $u->getAttributes(); }, $us));
 
-		// Le arr récupéré est réindexé :-)
-		return [...array_values(array_unique($us))];
-	}
-
-	// private function usersCount()
-	// {
-	// 	return AcademyUser::count();
-	// }
-
-	private function fakeName()
-	{
-		return fake()->name();
+		// Le arr ci-dessous récupéré est dédoublonné et réindexé :-)
+		// Mais plus utile ici
+		// return [...array_values(array_unique($us))];
+		return $us;
 	}
 
 	private function fakeUser()
