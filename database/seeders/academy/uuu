@@ -18,7 +18,7 @@ class AcademyUserSeeder extends Seeder
 	// Définir NB, nombres d'users à crééer
 	// (Les 5 premiers sont forcés)
 	// ATTENTION: Compter env. 10' pour 3 000 users générés...
-	public const NB = 1; 
+	public const NB = 10; 
 
 	public $data;
 	public $nb;	
@@ -110,8 +110,8 @@ class AcademyUserSeeder extends Seeder
 	private function makeNbUsers()
 	{
 		// us = users
-		// 2ar $us = array_merge($this->podium(), $this->mainUsersMaker());
-		$us = $this->podium();
+		$us = array_merge($this->podium(), $this->mainUsersMaker());
+		// $us = $this->podium();
 
 		// start_measure('render dates', 'Time for generating dates');
 		$dates = $this->generateDates(max(count($us), $this->nb));
@@ -184,9 +184,8 @@ class AcademyUserSeeder extends Seeder
 			$dates[] = $date;
 		}
 
-		// var_dump(self::NB);
 		sort($dates);
-		// var_dump($dates);
+		var_dump($dates);
 
 		return array_map(function ($date)
 		{

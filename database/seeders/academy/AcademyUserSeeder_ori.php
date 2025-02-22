@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AcademyUserSeeder extends Seeder
+class AcademyUserSeeder_ori extends Seeder
 {
 	use WithoutModelEvents;
 
