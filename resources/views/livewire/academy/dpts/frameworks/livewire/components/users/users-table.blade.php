@@ -59,7 +59,7 @@ include_once 'users-table.php';
 
             @scope('cell_name', $user)
                 <span class="font-bold">
-                    {{ $user->name }} {{ $user->firstname }}
+                    {{ $user->firstname }} {{ $user->name }}
                 </span><br>
                 {{ $user->email }}
             @endscope
