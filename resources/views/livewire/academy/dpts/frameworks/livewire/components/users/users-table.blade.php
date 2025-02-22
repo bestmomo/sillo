@@ -13,7 +13,7 @@ include_once 'users-table.php';
         }
     </style>
 
-    @dump($selected)
+    {{-- @dump($selected) --}}
 
     {{-- <span x-html="JSON.stringify($wire.selected)"></span> --}}
     <span x-html="$wire.selected"></span>
@@ -95,7 +95,7 @@ include_once 'users-table.php';
 
         </x-table>
     @else
-        <p>No users with these criteria</p>
+        <p>Pas d'utilisateurs avec ces critères</p>
     @endif
     <br>
 

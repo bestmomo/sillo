@@ -11,12 +11,9 @@ use Livewire\Volt\Component;
 
 new class() extends Component
 {
-	//2do trouver limite
-
 	// Définir nombres d'users souhaités (Les 5 premiers sont forcés)
 	// ATTENTION: Compter env. 10 'pour 3 000 !
 	public const NB = 15; 
-	//2do cf mesure du temps avec debugbar
 
 	public $data;
 	public $nb;	

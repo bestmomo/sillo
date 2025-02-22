@@ -156,7 +156,7 @@ new class() extends Component
 	{
 		$users = AcademyUser::search($this->search)
 			->orderBy(...array_values($this->sortBy))
-			->paginate(4);
+			->paginate(8);
 
 		return [
 			'users' => $users,

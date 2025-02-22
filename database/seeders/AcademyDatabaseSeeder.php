@@ -23,7 +23,9 @@ class AcademyDatabaseSeeder extends Seeder
 	public function run()
 	{
 		$namespace = 'Database\\Seeders\\Academy\\';
-		$items     = ['User', 'Post'];
+		//2ar all aca models (User & Post)
+		// $items     = ['User', 'Post'];
+		$items     = ['Post'];
 
 		foreach ($items as $item)
 		{
