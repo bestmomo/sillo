@@ -17,8 +17,8 @@ include_once 'in-progress.php';
     @if (in_array('normalize', $activeTests))
         @livewire('academy.dpts.tests.normalize', ['testsNames' => $activeTests])
     @endif
-    @if (in_array('faker', $activeTests))
-        @livewire('academy.dpts.tests.faker', ['testsNames' => $activeTests])
+    @if (in_array('aca-users', $activeTests))
+        @livewire('academy.dpts.tests.aca-users', ['testsNames' => $activeTests])
     @endif
     @if ($activeTests)
         {{-- Autre 'vieux' test --}}

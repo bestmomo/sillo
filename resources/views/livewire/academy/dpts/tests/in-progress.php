@@ -26,7 +26,7 @@ class() extends Component
 	{
 		// $this->activeTests[] = 'stats-users';
 		// $this->activeTests[] = 'normalize'; // Abandonné car développé  dans le test suivant... Sera prochaînement complètement effacé d'ici
-		$this->activeTests[] = 'faker';
+		$this->activeTests[] = 'aca-users';
 	}
 
 	public function with(): mixed

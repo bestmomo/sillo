@@ -1,9 +1,9 @@
 <?php
-include_once 'faker.php';
+include_once 'aca-users.php';
 ?>
 
 <div>
-    @dump($fakes ?? '')
+    {{-- @dump($fakes ?? '') --}}
 
     @if ($users)
         <style>
@@ -20,7 +20,7 @@ include_once 'faker.php';
                 <tr>
 
                     <th>Id</th>
-                    <th>IdDb</th>
+                    {{-- <th>IdDb</th> --}}
                     <th>Civilité</th>
                     <th>Prénom</th>
                     <th>Nom</th>
@@ -40,8 +40,9 @@ include_once 'faker.php';
                 @forelse($users as $user)
                     <tr
                         class="space-x-2 gap-2 {{ $user->role === 'student' ? 'text-cyan-500' : ($user->role === 'tutor' ? 'text-red-500' : '') }}">
+                        
                         <td class='text-right'>{{ $loop->iteration }}</td>
-                        <td class='text-right'>{{ $user->id }}</td>
+                        {{-- <td class='text-right'>{{ $user->id }}</td> --}}
                         <td>{{ $user->gender == 'female' ? 'Mme' : 'M' }}.</td>
                         <td>{{ $user->firstname }}</td>
                         <td>{{ strtoupper($user->name) }}</td>
@@ -55,6 +56,7 @@ include_once 'faker.php';
                     <td>{{ $user->remember_token }}</td> --}}
                         <td>{{ $user->created_at }}</td>
                         <td>{{ $user->updated_at }}</td>
+                        
                     </tr>
                 @empty
                     <p>No users found</p>

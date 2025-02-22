@@ -11,7 +11,9 @@ use Livewire\Volt\Component;
 
 new class() extends Component
 {
-	public const NB = 10;
+	//2do trouver limite
+	public const NB = 100;
+	//2do cf mesure du temps avec debugbar
 
 	public $data;
 	public $nb;	
@@ -27,7 +29,13 @@ new class() extends Component
 
 	public function with()
 	{
-		// $users = $this->makeNbUsers();
+		start_measure('render', 'Time for generating users');
+		$users = $this->makeNbUsers();
+		stop_measure('render users');
+		
+		start_measure('render', 'Time for generating dates');
+		$dates = $this->generateDates();
+		stop_measure('render dates');
 
 		//2do // Affectation des dates cohérentes
 		// 
@@ -48,7 +56,7 @@ new class() extends Component
 			// 'users' => AcademyUser::limit(7)->get('firstname'),
 			// 'var'   => $this->usersCount(),
 			'users' => $users ?? null,
-			'fakes' => $this->generateDates(),
+			'fakes' => $dates ?? null,
 			// 'fakes' => array_map(function ($user)
 			// {
 			// 	return $user->getAttributes();
@@ -94,18 +102,27 @@ new class() extends Component
 
 	private function generateDates()
 	{
-		// faker php générer une date entre il y a 3 ans et maintenant
-		for ($i = 0; $i < 10; $i++)
+		define ('SILLO_DOB', '2012-07-07');
+		$dates = [];
+		for ($i = 0; $i < self::NB; $i++)
 		{
-			$date1 = fake()->dateTimeBetween('2012-07-07', 'now');
-			// $date1 = fake()->dateTimeBetween('2012-07-07', '+1 year');
-			// $date2 = fake()->dateTimeBetween($date1, '+1 year');
-			$msg            = $date1->format('Y')=='2025' ? 'oooooooooooooooooooo':null;
-			// echo $date1->format('Y-m-d H:i:s') . ' → ' . $date2->format('Y-m-d H:i:s') . '<br>';
-			// echo $i . ' → ' . $date. '<br>';		
-			dump($date1, $msg);}
+			$date = new StdClass();
+			// $date->created = fake()->dateTimeBetween(SILLO_DOB, 'now');
+			$date->created = fake()->dateTimeBetween(SILLO_DOB, '+1 year');
 
-		return [];
+			$dates[] = $date;
+		}
+
+		sort($dates);
+
+		return array_map(function ($date)
+		{
+			$date->updated = fake()->dateTimeBetween($date->created, '+1 year');
+
+			return $date;
+		}, $dates);
+
+		// dump($dates);
 	}
 
 	private function podium()
@@ -168,14 +185,15 @@ new class() extends Component
 	 */
 	private function makeNbUsers()
 	{
-		$us = array_merge($this->podium(), $this->mainUsersMaker());
-		// $us = $this->mainUsersMaker(); // us = users
-		$this->showCount($us);
-		// $us = $this->replaceDuplicated($us, $start, $end);
+		$us = array_merge($this->podium(), $this->mainUsersMaker()); // us = users
+		$this->showCount($us, 'Génération majeure dédoublonnée');
+
+		// $us = $this->replaceDuplicated($us);
+		// $this->showCount($us, 'Après remplacement des doublons');
+
+		// dump(...array_map(function ($u){ return $u->getAttributes(); }, $us));
 
 		// sort($us);
-
-		$this->showCount($us);
 
 		// $fakes = array_map(function ($u) {
 		// 	return $u->getAttributes();
@@ -183,18 +201,23 @@ new class() extends Component
 		return $us;
 	}
 
-	private function showCount($us)
+	private function showCount($us, $msg = null)
 	{
-		echo self::NB . ' → Final: ' . count($us) . '<hr>';
+		if ($msg)
+		{
+			$msg = " ({$msg})";
+		} 
+		echo  'Demandés: ' . self::NB . ' → Obtenus: ' . count($us) . '<i>' . $msg . '</i>' . '<hr>';
 	}
 
-	private function replaceDuplicated($i, $us)
+	private function replaceDuplicated($us)
 	{
 		$n = count($us);
-		while ($n < self::NB - 5)
+		dump($n);
+		while ($n < self::NB)
 		{
 			echo '*<br>';
-			$us[] = $this->fakeUser($i);
+			$us[] = $this->fakeUser();
 			$us   = [...array_values(array_unique($us))];
 			$n    = count($us);
 		}
@@ -206,29 +229,41 @@ new class() extends Component
 	{
 		$us = [];
 
-		$derId = self::NB - 5;
+		$wantedNumber = self::NB - 5;
 
-		for ($i = 0; $i < $derId; $i++)
+		for ($i = 0; $i < $wantedNumber; $i++)
 		{
-			// $us[] = $this->fakeUser();
-			$us[] = $this->fakeUser($i);
-			// $u->save();
+			$newUser = $this->fakeUser();
+			if (!in_array($newUser, $us))
+			{
+				$us[] = $newUser;
+			}
 		}
 
+		//2ar faux doubles
+		// $us[2]          = $us[0]; // on créée 1 faux double pour test
+		// $us[3]          = $us[2]; // on créée 1 faux double pour test
+
+		// foreach ($us as $u) {
+		// 		dump($u->getAttributes());
+		// } // <=> :
+		// dump(...array_map(function ($u) { return $u->getAttributes(); }, $us));
+
+		// Le arr récupéré est réindexé :-)
 		return [...array_values(array_unique($us))];
 	}
 
-	private function usersCount()
-	{
-		return AcademyUser::count();
-	}
+	// private function usersCount()
+	// {
+	// 	return AcademyUser::count();
+	// }
 
 	private function fakeName()
 	{
 		return fake()->name();
 	}
 
-	private function fakeUser($i)
+	private function fakeUser()
 	{
 		static $parrId = 1;
 		--$parrId;
@@ -248,8 +283,8 @@ new class() extends Component
 
 		// 2fix: Calcul des bornes left et right au fur et à mesure des enregistrements
 
-		$u                 = new AcademyUser();
-		$u->id             = $i + 6;
+		$u = new AcademyUser();
+		// $u->id             = $i + 6;
 		$u->gender         = $gender;
 		$u->name           = fake()->lastName();
 		$u->firstname      = $firstName;
