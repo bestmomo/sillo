@@ -6,35 +6,34 @@
 
 $breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 
-$code = "<div style=\"z-index: 99999999\" class='fixed bottom-12 right-5 opacity-50'>Taille écran :<div class=\"text-yellow-500 text-4xl z-10 font-bold text-center\">\n";
+$code = "<div style=\"z-index: 99999999\" class='fixed bottom-12 right-5 opacity-50 border p-1 rounded-lg'>Taille écran :<div class=\"text-yellow-500 text-4xl z-10 font-bold text-center\">\n";
 
-function ind() // indentation
+function ind()
 {
-	return str_repeat(' ', 4);
+    // indentation
+    return str_repeat(' ', 4);
 }
 
 $brks = [];
 foreach (array_slice($breakpoints, 1) as $brk) {
-	$brks[$brk] = 'hidden';
+    $brks[$brk] = 'hidden';
 }
 
 foreach ($breakpoints as $i => $breakpoint) {
-	if (!$i) {
-		$code .= ind() . "<div class=\"block sm:hidden text-xl\"><i><a title=\"Is not a real TailwindCSS 's breakpoint\">{$breakpoint}</a></i></div>\n";
-	} else {
-		$bsInCode = '';
-		foreach ($brks as $k => $j) {
-			$brks[$breakpoint] = 'block';
-			$bsInCode .= $k . ':' . $brks[$k] . ' ';
-			$brks[$breakpoint] = 'hidden';
-		}
-		;
-
-		$code .= ind() . "<div class='hidden " . $bsInCode . 'text-' . ($i + 1) . "xl'>{$breakpoint}</div>\n";
-		// $code .= ind() . $i . ' ' .$bsInCode.' '. $breakpoint . "\n";
-	}
+    if (!$i) {
+        $code .= ind() . "<div class=\"block sm:hidden text-xl\"><i><a title=\"Is not a real TailwindCSS 's breakpoint\">{$breakpoint}</a></i></div>\n";
+    } else {
+        $bsInCode = '';
+        foreach ($brks as $k => $j) {
+            $brks[$breakpoint] = 'block';
+            $bsInCode .= $k . ':' . $brks[$k] . ' ';
+            $brks[$breakpoint] = 'hidden';
+        }
+        $code .= ind() . "<div class='hidden " . $bsInCode . 'text-' . ($i + 1) . "xl'>{$breakpoint}</div>\n";
+        // $code .= ind() . $i . ' ' .$bsInCode.' '. $breakpoint . "\n";
+    }
 }
-$code.='</div></div>';
+$code .= '</div></div>';
 
 echo $code;
 

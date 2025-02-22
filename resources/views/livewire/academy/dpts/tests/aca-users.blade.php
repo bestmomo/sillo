@@ -53,7 +53,7 @@ include_once 'aca-users.php';
                             : ($user->gender === 'female'
                                 ? '♀️'
                                 : "<span class='text-gray-500'>?</span>") !!}</td>
-                        <td class='text-center'>{{ $user->parr ?? '-' }}</td>
+                        <td class='text-right'>{{ $user->parr ?? '-' }}</td>
                         <td>{{ $user->email }}</td>
                         {{-- <td class='text-center'>{{ $user->academyAccess ? 'Oui' : 'Non' }}</td> --}}
                         <td>{{ mb_ucfirst($user->role === 'student' ? 'étudiant' : ($user->role === 'tutor' ? 'tuteur' : 'aucun')) }}
