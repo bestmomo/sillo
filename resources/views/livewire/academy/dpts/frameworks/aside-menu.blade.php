@@ -11,7 +11,7 @@
 
 <nav class="flex-col ml-2 border-r border-gray-500">
 
-    <div class="mt-5 w-[99px]">
+    <div class="mt-5 w-[99px] mb-6">
 
         <div
             class="mt-4 ml-0 mr-1 py-1 pl-2 pr-3 text-base font-bold text-left rounded {{ request()->is('academy') ? 'bg-gray-700 text-green-500' : '' }}">

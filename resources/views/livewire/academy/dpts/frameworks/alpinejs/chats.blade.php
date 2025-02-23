@@ -53,7 +53,7 @@ new #[Title('Chats')] #[Layout('components.layouts.academy')] class extends Comp
         //     echo "Le serveur ne fonctionne pas.";
         // }
     @endphp
-    @if (config('app.env') === 'production')
+    @if (config('app.env') !== 'dev')
         <livewire:academy.components.page-title title="Chat... Mais...?" />
         <p class='text-center text-green-400 font-new font-bold text-xl mt-6'>... À se demander comment vous êtes arrivé
             là ?!?</p>
