@@ -28,7 +28,7 @@ new #[Title('Chats')] #[Layout('components.layouts.academy')] class extends Comp
     }
 }; ?>
 
-<div class='relative w-full h-screen mx-6'>
+<div class='relative w-95% h-screen mx-6'>
 
     @php
         // function isServerRunning($url)

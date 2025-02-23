@@ -2,7 +2,7 @@
 include_once 'chat-v1.php';
 ?>
 
-<div class="relative -mt-6"
+<div class="relative mt-6"
     x-data="{
         scrollToBottom() {
             this.$nextTick(() => {
