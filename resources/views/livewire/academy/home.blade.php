@@ -21,8 +21,8 @@ class extends Component {
     <p class='text-justify font-bold text-xl'>L'académie est un espace d'Études, de Travaux Pratiques et de Test.</p><br>
 
     <p class='text-justify'>
-        Conseil: Quelque soient vos développements, n'y utilisez pas les tables de base du projet. Préférez utiliser
-        celles commençant par '<b>academy_</b>' ou créez les vôtres selon le même début de nom.<br>
+        Conseil: Quelque soient vos développements, n'y utilisez pas les tables de base du projet Laravel. Préférez utiliser
+        celles commençant par '<b>academy_</b>' ou créez les vôtres selon un même début de nom séparatif.<br>
         En effet, si vous <i>' push ' *</i> votre code au <a class='link' href="https://github.com/bestmomo/sillo"
             target='_blank'>projet officiel</a> <x-ext-link />, de vrais utilisateurs auront accès à ces données...
     </p><br>
@@ -30,17 +30,17 @@ class extends Component {
     <p>Pour l'heure, voici les 2 départements (dpts/) ouverts :</p><br>
 
     <ul class="ml-3 list-disc list-inside">
-        <p class='font-bold'>I / Étude de FrameWorks :</p>//2do link
-        <li><a href="https://livewire.laravel.com/docs/quickstart" title="Doc. officielle LiveWire"
+        <p class='font-bold'>I / Étude de FrameWorks :</p>
+        <li><a class='link' href="https://livewire.laravel.com/docs/quickstart" title="Doc. officielle LiveWire"
                 target="_blank">LiveWire</a><x-ext-link /></li>
-        <li><a href="https://alpinejs.dev/start-here" title="Doc. officielle AlpineJS"
+        <li><a class='link' href="https://alpinejs.dev/start-here" title="Doc. officielle AlpineJS"
                 target="_blank">AlpineJS</a><x-ext-link /></li>
     </ul>
     <p>→ Jouez ad'libitum avec ces parties !</p>
     <br>
     <ul class="ml-3 list-disc list-inside">
-        <p class='font-bold'>II / Études (Études de Cas - Travaux Pratiques) :</p>//2do link
-        <li>Cas 1: Problème //** sélection & tri et affichage d'une liste*</li>
+        <p class='font-bold'>II / Études (Études de Cas - Travaux Pratiques) :</p>
+        <li><a class='link' href="{{  route('academy.case.table-filter.trouble') }}" title="Découvre-en les détails">Cas 1: Problème //** sélection & tri et affichage d'une liste</a></li>
         <li>Cas 2: À venir...</li>
         <li>Cas 3: Un cas résolu (Juste pour l'exemple pour le moment...)</li>
     </ul>

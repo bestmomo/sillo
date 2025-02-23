@@ -11,6 +11,8 @@ use Livewire\Volt\Component;
 
 new class() extends Component
 {
+	public $test;
+	
 	// Définir nombres d'users souhaités (Les 5 premiers sont forcés)
 	// ATTENTION: Compter env. 10 'pour 3 000 !
 	public const NB = 15; 
@@ -21,6 +23,7 @@ new class() extends Component
 
 	public function mount()
 	{
+		$this->test = ucfirst($this->test);
 		$this->nb = self::NB;
 	}
 
@@ -243,4 +246,5 @@ new class() extends Component
 
 		return $u;
 	}
+	
 };

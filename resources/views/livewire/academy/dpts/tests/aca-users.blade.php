@@ -15,6 +15,7 @@ include_once 'aca-users.php';
                 padding: 2px 10px;
             }
         </style>
+        <p class="text-right">Nom du test : <b>{{ $test ?? 'Nom du test indéfini' }}</b></p>
         <h2 class='font-bold text-lg'>{{ count($users) }} academy_users :</h2>
         <table class='mt-3 mx-auto'>
 

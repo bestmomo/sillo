@@ -5,6 +5,7 @@
  */
 
 use Livewire\Attributes\{Layout, Title};
+use Livewire\Livewire;
 use Livewire\Volt\Component;
 
 new
@@ -12,25 +13,45 @@ new
 #[Layout('components.layouts.acaLight')]
 class() extends Component
 {
-	public $activeTests=[];
+	public $activeTests = [];
 
 	public function mount()
 	{
 		// Dé-commenter cette ligne pour voir les tests
 		$this->showTests();
-		
-		
 	}
 
 	public function showTests()
 	{
-		// $this->activeTests[] = 'stats-users';
-		// $this->activeTests[] = 'normalize'; // Abandonné car développé  dans le test suivant... Sera prochaînement complètement effacé d'ici
-		$this->activeTests[] = 'aca-users';
+		$activeTests = [];
+
+		// Ou choisir vos tests parmis ci-dessous: 
+		
+		// $activeTests[] = 'ready';
+		// $activeTests[] = 'stats-users';
+		// $activeTests[] = 'aca-users';
+
+		// $this->renderTestsHtml($activeTests);
+		$this->activeTests = $activeTests;
 	}
 
-	public function with(): mixed
+	public function renderTestsHtml($tests = [])
 	{
-		return [];
+		/*
+			@if (in_array('stats-users', $activeTests))
+				@livewire('academy.dpts.tests.stats-users', ['testsNames' => $activeTests])
+	@endif
+			@if (in_array('ready', $activeTests))
+				@livewire('academy.dpts.tests.ready')
+	@endif
+		@if (in_array('aca-users', $activeTests))
+		@livewire('academy.dpts.tests.aca-users', ['testsNames' => $activeTests])
+	@endif --}}
+		 */
 	}
+
+	// public function with(): mixed
+	// {
+	// 	return [];
+	// }
 };
