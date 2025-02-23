@@ -21,44 +21,42 @@ new #[Layout('components.layouts.academy')] class extends Component {};
         }
     </style>
     <div class="border-0 border-white">
-        <p>Ready.</p>
-        <hr>
-        <div class="text-justify mt-2 mr-2 space-y-5">
+        <p>Astuces et conseils :</p>
 
-            <div class="my-5 border px-5 py-4 rounded-b-xl mx-3">
+        <div class="text-justify mt-2 space-y-5">
+
+            <div class="my-5 border px-5 py-4 rounded-b-xl">
                 <h2 class="text-lg text-white">Quelques commandes usuelles (À copier/coller en CLI) :</h2>
-                <p class='border rounded-xl bg-black p-2 m-2'>
+                <p class='code'>
                     php artisan cache:clear<br>
                     php artisan config:clear<br>
                     php artisan route:clear<br>
                     php artisan view:clear<br>
                     php artisan optimize:clear<br>
                     php artisan optimize<br>
-
-                    composer dump-autoload<br class='fontt-bold'>OU, pour tout reset :<br>
-                    composer dump-autoload & php artisan migrate:refresh --seed
+                    composer dump-autoload<br>
                 </p>
-
                 <h3 class='font-semibold'>Mais, souvent, en dev :</h3>
 
                 <ul>
                     <li>- Pour un reset complet :
                         <p class='code'>
-                            php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan
-                            optimize:clear && php artisan optimize && composer dump-autoload && php artisan migrate:refresh
+                            php artisan cache:clear && php artisan config:clear && php artisan route:clear && php
+                            artisan view:clear && php artisan
+                            optimize:clear && php artisan optimize && composer dump-autoload && php artisan
+                            migrate:refresh
                             --seed
                         </p>
                     </li>
-                    <li>- Et dès qu'on joue avec des "choses sensibles", alors (Et c'est + rapide) :
+                    <li>- Ou dès qu'on joue avec des "choses sensibles", alors (Et c'est + rapide) :
                         <p class='code'>
-                            php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear
+                            php artisan cache:clear && php artisan config:clear && php artisan route:clear && php
+                            artisan view:clear
                         </p>
                     </li>
                 </ul>
 
             </div>
-
-            <hr>
 
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam veniam blanditiis rem
                 recusandae laudantium aspernatur nesciunt? Dolorem corporis blanditiis perspiciatis, vel error cum odit
