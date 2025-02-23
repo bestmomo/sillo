@@ -8,6 +8,7 @@ namespace Database\Seeders\Academy;
 
 use App\Models\AcademyUser;
 use Carbon\Carbon;
+use Database\Factories\AcademyUserFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,7 +19,7 @@ class AcademyUserSeeder extends Seeder
 	// Définir NB, nombres d'users à crééer
 	// (Les 5 premiers sont forcés)
 	// ATTENTION: Compter env. 10' pour 3 000 users générés...
-	public const NB = 10; 
+	public const NB = 1777; 
 
 	public $data;
 	public $nb;	
@@ -32,7 +33,14 @@ class AcademyUserSeeder extends Seeder
 
 		$us = $this->makeNbUsers();
 
-		AcademyUser::factory()->createMany($us);
+		AcademyUserFactory::$totalCount = count($us);
+
+		printf("\n" . '%s%s%s', str_repeat(' ', 2), $this->nb, " academy_users are going to be generated...\n\n");
+		
+		AcademyUser::factory()->createMany($us, count($us));
+		
+		printf("\n\n" . '%s%s%s', str_repeat(' ', 2), $this->nb, " academy_users have been generated.\n\n");
+		// AcademyUser::factory($us)->create();
 
 		// $unValidUser        = AcademyUser::find(4);
 		// $unValidUser->valid = false;
@@ -185,7 +193,7 @@ class AcademyUserSeeder extends Seeder
 		}
 
 		sort($dates);
-		var_dump($dates);
+		// var_dump($dates);
 
 		return array_map(function ($date)
 		{
@@ -230,5 +238,50 @@ class AcademyUserSeeder extends Seeder
 		}
 
 		return $podium;
+	}
+
+	private function fakeUser()
+	{
+		static $parrId = 1;
+		--$parrId;
+		$gender    = fake()->randomElement(['unknown', 'female', 'male']);
+		$firstName = ('male' == $gender) ? fake()->firstNameMale() : (('female' == $gender) ? fake()->firstNameFemale() : fake()->firstName());
+		$name      = fake()->lastName();
+		// accessAcademy: 0=non (70%), 1=oui (25%)
+		$academyAccess = (fake()->numberBetween(1, 10) <= 7) ? 0 : 1;
+		// role: none: pour les 70% ci-dessus, tutor: 7% des 25%, student: le reste
+		if ($academyAccess)
+		{
+			$role = (fake()->numberBetween(1, 10) <= 9) ? 'student' : 'tutor';
+		}
+
+		// 2fix: parr pris au hazard parmi les users déjà enregistrés, si n'a pas déjà 7 filleuls
+		// Pour l'heure, le parrain est le précédent enregistré
+		$parr = abs($parrId) + 2;
+
+		// 2fix: Calcul des bornes left et right au fur et à mesure des enregistrements
+
+		// $u = new AcademyUser();
+		// // $u->id             = $i + 6;
+		// $u->gender         = $gender;
+		// $u->name           = fake()->lastName();
+		// $u->firstname      = $firstName;
+		// $u->email          = $this->normalize(mb_strtolower($u->firstname . '.' . $u->name)) . '@example.com';
+		// $u->academyAccess  = $academyAccess;
+		// $u->role           = $role ?? 'none';
+		// $u->parr           = $parr;
+
+		$u = [
+			// 'id'            => $i + 1,
+			'gender'        => $gender,
+			'name'          => $name,
+			'firstname'     => $firstName,
+			'email'         => $this->normalize(mb_strtolower($firstName . '.' . $name)) . '@example.com',
+			'academyAccess' => $academyAccess,
+			'role'          => $role ?? 'none',
+			'parr'          => $parr,
+		];
+
+		return $u;
 	}
 }
