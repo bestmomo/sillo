@@ -57,7 +57,7 @@ class extends Component
 				'description' => '<i>Voir situation actuelle pour découvrir le contexte</i>',
 				'actual'      => ['Avec le problème de resultats existants mais non visibles', 'academy.case.table-filter.trouble'],
 				'proposed'    => [
-					['Avec raffraichissement n°1 (Non adoptable)', 'academy.case.table-filter.soluce1'],
+					['Avec raffraichissement n°1 (Non adoptable...)', 'academy.case.table-filter.soluce1'],
 					['Soluce n°2 (À trouver !!!)', 'academy.case.table-filter.soluce2'],
 				],
 			],

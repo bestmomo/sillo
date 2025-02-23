@@ -1,51 +1,47 @@
 <?php
-include_once 'soluce1.php'; ?>
+include_once 'soluce2.php'; ?>
 
 @php
     $title = 'Soluce 2';
 @endphp
+
 @section('title', $title)
 <div class="container mx-auto">
+    <x-header class="pb-0 mb-[-15px] font-new text-green-400" title="{{ $title }}" separator progress-indicator>
+        <x-slot:actions class='pt-5'>
+            <x-input class='text-white font-arial' placeholder="{{ __('Search...') }}"
+                wire:model.live.debounce.300ms="search" clearable icon="o-magnifying-glass" x-init="$el.focus()" />
+        </x-slot:actions>
+    </x-header>
 
-	<x-header title="{{ $title }}" separator progress-indicator>
-		<x-slot:actions>
-			<x-input placeholder="{{ __('Search...') }}" wire:model.live.debounce.300ms="search" clearable icon="o-magnifying-glass"/>
-			<x-button icon="s-building-office-2" label="{{ __('Dashboard') }}" class="btn-outline lg:hidden" link="{{ route('admin') }}"/>
-		</x-slot:actions>
-	</x-header>
-
-    @include('livewire.admin.tests.tableFilter.submenu')
-
-	{{-- <img src="{{ asset('storage/imgs/test-tube-icon.svg') }}" alt="Description de l'image"> --}}
-	{{-- <img src="{{ asset('storage/photos/test-icon.svg') }}" alt="Description de l'image"> --}}
-
-	{{-- <x-icon test-tube-icon /> --}}
-
-	<div
-		class="mt-4 !px-24 ml-12">
-		@if ($items->count())
-            <div
-                class="grid gap-4">
-                @foreach ($items as $item)
-                    <div
-                        class="text-lg p-4 bg-base-100 rounded shadow">{{ $item->name }}
+    <div class="mt-4 !px-24 ml-12">
+        @if ($users ?? null)
+            <div class="grid gap-4">
+                @forelse ($users as $user)
+                    <div class="text-lg p-3 px-5 bg-base-100 rounded shadow">{{ $user->firstname }}
                     </div>
-                @endforeach
+                @empty
+                    <tr>
+                        <td class="px-4 py-3" colspan="4">Aucun résultat !</td>
+                    </tr>
+                @endforelse
             </div>
 
-            <div
-                class="mt-4">{{ $items->links() }}
+            <div class="mt-4">{{ $users->links() }}
             </div>
-        @else
-            <p>@if ($items->needRefresh)
-                {{ __('Please wait... Opening a valid page...') }}
-            @else
-                    {{ __('No result') }}
-                .
-            @endif
-            </p>
-
         @endif
-	</div>
-</div>
+    </div>
 
+    <hr class='my-6'>
+
+    <div class='text-lg'>
+
+        <h2 class='text-xl font-bold mb-3'>À vous d'jouer !</h2>
+
+        <article class='text-justify space-y-3'>
+            <p>Expliquez ici... Puis Commit, push, et P.R. ! ;-)</p>
+        </article>
+
+    </div>
+
+</div>
