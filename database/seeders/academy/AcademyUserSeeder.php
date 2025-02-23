@@ -19,7 +19,7 @@ class AcademyUserSeeder extends Seeder
 	// Définir NB, nombres d'users à crééer
 	// (Les 5 premiers sont forcés)
 	// ATTENTION: Compter env. 10' pour 3 000 users générés...
-	public const NB = 1777; 
+	public const NB = 300; 
 
 	public $data;
 	public $nb;	
@@ -31,15 +31,15 @@ class AcademyUserSeeder extends Seeder
 
 		$this->nb = self::NB;
 
+		printf("\n" . '%s%s%s', str_repeat(' ', 2), $this->nb, " academy_users are going to be registered...\n\n");
+
 		$us = $this->makeNbUsers();
-
+		
 		AcademyUserFactory::$totalCount = count($us);
-
-		printf("\n" . '%s%s%s', str_repeat(' ', 2), $this->nb, " academy_users are going to be generated...\n\n");
 		
 		AcademyUser::factory()->createMany($us, count($us));
-		
-		printf("\n\n" . '%s%s%s', str_repeat(' ', 2), $this->nb, " academy_users have been generated.\n\n");
+
+		printf("\n\n" . '%s%s%s', str_repeat(' ', 2), $this->nb, " academy_users have been registered.\n\n");
 		// AcademyUser::factory($us)->create();
 
 		// $unValidUser        = AcademyUser::find(4);
@@ -120,10 +120,11 @@ class AcademyUserSeeder extends Seeder
 		// us = users
 		$us = array_merge($this->podium(), $this->mainUsersMaker());
 		// $us = $this->podium();
-
+		
+		
 		// start_measure('render dates', 'Time for generating dates');
 		$dates = $this->generateDates(max(count($us), $this->nb));
-		// stop_measure('render dates');
+		// stop_measure('render dates'); // only web app not CLI
 
 		// dump(...array_map(function ($u) { return $u->getAttributes(); }, $us));
 
@@ -155,16 +156,22 @@ class AcademyUserSeeder extends Seeder
 
 	private function mainUsersMaker()
 	{
-		$us = [];
+		$us     = [];
+		$emails = [];
 
 		$wantedNumber = self::NB - 5;
 
 		for ($i = 0; $i < $wantedNumber; $i++)
 		{
 			$newUser = $this->fakeUser();
-			if (!in_array($newUser, $us))
+			if (!in_array($newUser['email'], $emails))
 			{
-				$us[] = $newUser;
+				$us[]     = $newUser;
+				$emails[] = $newUser['email'];
+			}
+			else
+			{
+				$i--;
 			}
 		}
 
