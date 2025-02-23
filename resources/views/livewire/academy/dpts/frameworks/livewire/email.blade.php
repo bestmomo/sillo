@@ -10,92 +10,107 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
 
-new
-#[Layout('components.layouts.academy')]
-class extends Component
-{
-	use Toast;
+new #[Layout('components.layouts.academy')] class extends Component {
+    use Toast;
 
-	public $dev;
-	public $name         = '';
-	public $to           = 'Tartempion@example.com';
-	public $subject      = 'Salut !';
-	public $content      = 'Tatati...';
-	public $emailSubject = '';
-	public $emailContent = '';
-	public $message      = '';
+    public bool $dev;
+    public bool $isLocalMailServerRunning;
+    public $name = '';
+    public $to = 'Tartempion@example.com';
+    public $subject = 'Salut !';
+    public $content = 'Tatati...';
+    public $emailSubject = '';
+    public $emailContent = '';
+    public $message = '';
 
-	public function mount()
-	{
-		$this->dev  = app()->environment('local');
-		$this->name = auth()->user()->name ?? 'Friend !';
-		$this->sendMail();
-	}
+    public function mount()
+    {
+        $this->dev = config('app.env') === 'dev';
+        $this->isLocalMailServerRunning = $this->isLocalMailServerRunning();
+        // dump('DEV : ' . $this->tf($this->dev), 'LocalMailServer : ' . $this->tf($this->isLocalMailServerRunning));
 
-	public function refresh()
-	{
-		$this->success('Livewire block refreshed');
-	}
+        $this->name = auth()->user()->name ?? 'Friend !';
+        $this->sendMail();
+    }
+    public function tf($b)
+    {
+        return $b ? 'true' : 'false';
+    }
+    public function isLocalMailServerRunning($url = 'http://localhost:8025')
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FAILONERROR, false);
 
-	public function sendMail()
-	{
-		try
-		{
-			$email = new MyEmail(
-				$this->subject,
-				$this->content,
-				$this->name
-			);
+        curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
 
-			// dd($email);
-			// Capture le contenu de l'email
-			$this->emailSubject = $email->sujet;
-			$this->emailContent = $email->render();
+        return $httpcode >= 100 && $httpcode < 600;
+    }
+    public function refresh()
+    {
+        $this->success('Livewire block refreshed');
+    }
 
-			// Envoie l'email
-			if ($this->dev)
-			{
-				Mail::to($this->to)->send($email);
-			}
+    public function sendMail()
+    {
+        
+        if ($this->dev)
+        {   if (!$this->isLocalMailServerRunning) {
+                $this->message = '<div class="mt-2 text-yellow-400 text-xl font-new text-center font-bold">Please start a local mail server (Listening on port #1025) !</div>';
+                $this->error('Unable to send email ! Local Mail Server is not running');
+            } else {
+                try {
+                    $email = new MyEmail($this->subject, $this->content, $this->name);
 
-			$this->message = 'Email sent successfully!';
+                    // dd($email);
+                    // Capture le contenu de l'email
+                    $this->emailSubject = $email->sujet;
+                    $this->emailContent = $email->render();
 
-			$this->success('Refresh all and email re-sent successfully!');
+                    // Envoie l'email
+                    if ($this->dev) {
+                        Mail::to($this->to)->send($email);
+                    }
 
-			// $this->reset(['destinataire', 'sujet', 'contenu']);
-		}
-		catch (Exception $e)
-		{
-			$possibleCase = '';
+                    $this->message = 'Email sent successfully!';
 
-			if (false !== strpos($e, 'Unable to connect to localhost:1025'))
-			{
-				$possibleCase = '<div class="mt-2 text-yellow-500 italic text-center font-bold">Are you sure MailHog or other is running on port #1025?</div>';
-			}
+                    $this->success('Refresh all and email re-sent successfully!');
+                    // $this->reset(['destinataire', 'sujet', 'contenu']);
+                } catch (Exception $e) {
+                    $possibleCase = '';
 
-			$this->message = '<div class="mb-3">Erreur lors de l\'envoi de l\'email :</div>' . $e->getMessage() . $possibleCase;
-			// . $e->getTraceAsString();
-		}
-	}
+                    if (false !== strpos($e, 'Unable to connect to localhost:1025')) {
+                        $possibleCase = '<div class="mt-2 text-orange-400 italic text-center font-new text-xl font-bold">Are you sure MailHog, MailPit or other is running on port #1025?</div>';
+                    }
 
-	public function sendMailOnly()
-	{
-		if ($this->dev)
-		{
-			$this->sendMail();
-		}
-		$this->success('Email re-sent successfully!');
-		$this->skipRender();
-	}
+                    $this->message = '<div class="mb-3 text-red-500 text-xl font-bold">Sending email error:</div>' . $e->getMessage() . $possibleCase;
+                    // . $e->getTraceAsString();
+                    
+                    $this->error('Unable to send email ! Probably local Mail Server is not running...');
+                }
+            }
+        }
+    }
+
+    public function sendMailOnly()
+    {
+        $this->sendMail();
+        // $this->success('Email re-sent successfully!');
+        $this->skipRender();
+    }
 }; ?>
 
 <div class='mx-6'>
-	<livewire:academy.components.page-title title='Envoi Emails' />
-	<x-header shadow separator progress-indicator/>
+    <livewire:academy.components.page-title title='Envoi Emails' />
+    <x-header shadow separator progress-indicator />
 
     <div>
-        @if (!$dev)
-        <h2 class="text-center text-red-500 text-xl font-bold">Envoi des emails simulé</h2>
+        @if (!$this->dev)
+            <h2 class="text-center text-red-500 text-xl font-bold">Envoi des emails simulé</h2>
         @endif
 
         @if (!empty($this->notifications))
@@ -110,8 +125,9 @@ class extends Component
         <div class="border p-5 rounded-lg mt-3">
             {!! $emailContent !!}
         </div>
-        <span class='text-right'>You can see it too on: <a class="link" href="http://localhost:8025" target="_blank"><b>http://localhost:8025</b></a> <x-ext-link /> <i>(If
-        you run MailHog or other (on port 1025)...)</i></span>
+        <span class='text-right'>You can see it too on: <a class="link" href="http://localhost:8025"
+                target="_blank"><b>http://localhost:8025</b></a> <x-ext-link /> <i>(If
+                you run MailHog or other (on port 1025)...)</i></span>
     @else
         <p class="text-red-400 font-bold">{!! $message !!}</p>
     @endif
@@ -159,9 +175,9 @@ class extends Component
             </tr>
         </tbody>
     </table>
-    
+
     @php
-        echo 'Mode '.($dev?' dev':' prod');
+        echo 'Mode ' . ($dev ? ' dev' : ' prod');
     @endphp
-    
+
 </div>

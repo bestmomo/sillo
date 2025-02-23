@@ -18,7 +18,7 @@ include_once 'basics.php';
 
 	{{-- <livewire:academy.dpts.frameworks.livewire.counter by=3/> --}}
 
-  <div class="mt-6">
+  <div class="my-6">
     <livewire:academy.dpts.frameworks.livewire.Todos />
   </div>
 
