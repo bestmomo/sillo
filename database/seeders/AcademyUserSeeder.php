@@ -6,6 +6,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AcademyUser;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,12 +20,14 @@ class AcademyUserSeeder extends Seeder
 
 	/**
 	 * Reseed que la table academy_users
+	 * 
 	 * Lancer :
 	 * php artisan db:seed --class=AcademyUserSeeder
-	 * ( Penser à décommenter : AcademyUser::truncate(); )
+	 * 
 	 */
 	public function run()
 	{
+		AcademyUser::truncate();
 		$this->call('Database\\Seeders\\Academy\\AcademyUserSeeder');
 	}
 }

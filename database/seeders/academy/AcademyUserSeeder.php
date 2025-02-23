@@ -19,7 +19,7 @@ class AcademyUserSeeder extends Seeder
 	// Définir NB, nombres d'users à crééer
 	// (Les 5 premiers sont forcés)
 	// ATTENTION: Compter env. 10' pour 3 000 users générés...
-	public const NB = 300; 
+	public const NB = 777; 
 
 	public $data;
 	public $nb;	
@@ -27,7 +27,7 @@ class AcademyUserSeeder extends Seeder
 
 	public function run()
 	{
-		AcademyUser::truncate();
+		// AcademyUser::truncate();
 
 		$this->nb = self::NB;
 
