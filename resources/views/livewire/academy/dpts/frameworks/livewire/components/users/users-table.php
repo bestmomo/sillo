@@ -47,7 +47,7 @@ new class() extends Component
 
 		$this->roles = [
 			'tutor'   => ['Tutor',   'error'],
-			'student' => ['Student', 'warning'],
+			'student' => ['Student', 'primary'],
 			'none'    => ['None'],
 		];
 
@@ -156,7 +156,7 @@ new class() extends Component
 	{
 		$users = AcademyUser::search($this->search)
 			->orderBy(...array_values($this->sortBy))
-			->paginate(8);
+			->paginate(7);
 
 		return [
 			'users' => $users,
