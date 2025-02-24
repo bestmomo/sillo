@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
 use App\Models\AcademyUser;
@@ -59,12 +59,11 @@ new class() extends Component
 
 	public function deleteSelectedUsers()
 	{
-		sleep(3);
+		sleep(2);
 		sort($this->selected);
-		// dump('Devrait effacer: ' . json_encode($this->selected, JSON_PRETTY_PRINT));
-		// 2fix ATTENTION: Filtrer pour éviter de supprimer l'user en cours qui devrait être à minima admin ;-) !
 		// User::destroy($this->selected);
-		$this->error(json_encode($this->selected) . ' deleted (SIMU) !');
+		Debugbar::info('Aurait dû effacer: ' . json_encode($this->selected, JSON_PRETTY_PRINT));
+		$this->info(json_encode($this->selected) . ' deleted (SIMU) !');
 		$this->selected = [];
 	}
 
