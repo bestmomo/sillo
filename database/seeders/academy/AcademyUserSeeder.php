@@ -134,7 +134,8 @@ class AcademyUserSeeder extends Seeder
 		// 	return $u->getAttributes();
 		// }, $us);
 
-		//2do Penser à invalider user #6
+		// Invalide user #6
+		$us[5]['valid'] = false;
 
 		return array_map(function ($u, $i) use ($dates)
 		{

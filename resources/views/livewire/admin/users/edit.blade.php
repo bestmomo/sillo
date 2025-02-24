@@ -63,7 +63,6 @@ new #[Title('Edit User'), Layout('components.layouts.admin')] class extends Comp
     </x-header>
     <x-card>
         <x-form wire:submit="save">
-            {{-- // 2fix input group for name --}}
             <x-input label="{{ __('Name') }}" wire:model="name" icon="o-user" inline />
             <x-input label="{{ __('E-mail') }}" wire:model="email" icon="o-envelope" inline />
             <br>
