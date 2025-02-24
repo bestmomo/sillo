@@ -150,8 +150,7 @@ class PostRepository
 			'pgsql'  => 'substring(body from 1 for 700)',
 		];
 
-		// 2fix use config instead of env()
-		$usedDbSystem = env('DB_CONNECTION', 'mysql');
+		$usedDbSystem = config('database.default', 'mysql');
 
 		if (!isset($specificReqs[$usedDbSystem]))
 		{
