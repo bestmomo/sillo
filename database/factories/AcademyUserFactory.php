@@ -26,14 +26,14 @@ class AcademyUserFactory extends Factory
 	public function definition()
 	{
 		static $iConsole = 0;
-		
-		$modulo         = self::$totalCount / 100;
+
 		$iConsole++;
+		$pct = round(1e2 * $iConsole / self::$totalCount);
 		// if (0 == $iConsole++ % $modulo) 
-			printf('%s%s%s', str_repeat(' ', 2), $iConsole . ' / ', self::$totalCount);
-			
-			// printf ("\r2%s", str_repeat(' ', 2));
-			printf ("\r");
+		printf('%s %s%s / %s', str_repeat(' ', 1), $pct. ' % : ', $iConsole, self::$totalCount);
+
+		// printf ("\r2%s", str_repeat(' ', 2));
+		printf ("\r");
 		// }
 
 		return [

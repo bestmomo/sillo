@@ -262,11 +262,11 @@ class AcademyUserSeeder extends Seeder
 			$role = (fake()->numberBetween(1, 10) <= 9) ? 'student' : 'tutor';
 		}
 
-		// 2fix: parr pris au hazard parmi les users déjà enregistrés, si n'a pas déjà 7 filleuls
+		// 2see: parr pris au hazard parmi les users déjà enregistrés, si n'a pas déjà 7 filleuls
 		// Pour l'heure, le parrain est le précédent enregistré
 		$parr = abs($parrId) + 2;
 
-		// 2fix: Calcul des bornes left et right au fur et à mesure des enregistrements
+		// 2see: Calcul des bornes left et right au fur et à mesure des enregistrements
 
 		// $u = new AcademyUser();
 		// // $u->id             = $i + 6;
