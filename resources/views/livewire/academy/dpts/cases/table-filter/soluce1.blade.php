@@ -43,7 +43,7 @@ include_once 'soluce1.php'; ?>
 
         @endif
     </div>
-    
+
     <hr class='my-6'>
 
     <div class='text-lg'>
@@ -52,20 +52,25 @@ include_once 'soluce1.php'; ?>
 
         <article class='text-justify space-y-3'>
             <p>Re-produisons exactements les mêmes actions !</p>
-            
-            <i>Pour les 'poissons rouges'... : Go Page 10, puis 'Pi' dans le moteur de recherche interne.</i>
-            
-            <p class='text-green-400'>→ Cette fois, super ! : On a un (ou +) résultats, et on se retrouve page <i>3 (Vous, là encore, c'est p't'être bien différent...)</i> mais en tout cas, pas page 1 :-) !</p>
-            
-            <p>Par contre, snifff, on a observé un raffraîchissement de la page :-(...Et perdons du coup, les avantages initiaux de LiveWire.</p>
-            
-            <p class='font-semibold text-xl text-white'>Alors... : Qui va écrire en premier... <span class='link'><a href="{{  route('academy.case.table-filter.soluce2') }}">La Soluce 2</a></span> 😉 ?</p>
-            
-            <p>Rappel: Dans l'idéal, on n'utilise que la techno LiveWire, pas de JS pur, et donc, on évite ce satané de dsfgd...sfds de rafraichissement ! ;-)</p>
-            
+
+            <i>Pour les 'poissons rouges'... : Go Page 10, puis 'pi' dans le moteur de recherche interne.</i>
+
+            <p class='text-green-400'>→ Cette fois, super ! : On a un (ou +) résultats, et on se retrouve page <i>3
+                    (Vous, là encore, c'est p't'être bien différent...)</i><br>
+                mais en tout cas, pas page 1 (<i>Enfin... Peu de chance</i>...) 😃 !</p>
+
+            <p>Par contre, snifff, on a observé un raffraîchissement de la page 😥 ...Et perdons du coup, les avantages
+                initiaux de LiveWire 😭.</p>
+
+            <p class='font-semibold text-xl text-white'>Alors... : Qui va écrire en premier... <span class='link'><a
+                        href="{{ route('academy.case.table-filter.soluce2') }}">La Soluce 2</a></span> 😉 ?</p>
+
+            <p>Rappel: Dans l'idéal, on n'utilise que la techno LiveWire, pas de JS pur, et donc, on cherhce à éviter ce satané de
+                dsfgd...sfds de rafraichissement ! ;-)</p>
+
         </article>
-        
+
     </div>
-    
-    
+
+
 </div>

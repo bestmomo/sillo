@@ -5,11 +5,12 @@
  */
 
 use App\Models\AcademyUser;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Pagination\{Paginator};
-use Livewire\Attributes\{Layout};
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\{Layout};
+use App\Services\AcademyTestsCommons;
+use Illuminate\Pagination\{Paginator};
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 new #[Layout('components.layouts.acaLight')] class extends Component
 {
@@ -48,13 +49,7 @@ new #[Layout('components.layouts.acaLight')] class extends Component
 
 	public function with(): array
 	{
-		$users = AcademyUser::query()
-			->where('id', '!=', 1)
-			->when($this->search, function ($query)
-			{
-				$query->where('firstname', 'like', "%{$this->search}%");
-			})
-			->paginate(3, ['firstname']);
+		$users = (new AcademyTestsCommons())->getUsers4Tests($this->search);
 
 		// $items = $products['items']->getCollection();
 		// $items = $products['items'];

@@ -3,23 +3,23 @@ include_once 'trouble.php'; ?>
 
 @php
     $title = 'Filtres / tableau';
-    
-    @endphp
+
+@endphp
 
 @section('title', $title)
 <div class="container mx-auto">
     {{-- <livewire:academy.components.page-title title="{{ $title }}" /> --}}
     {{-- <x-header shadow separator progress-indicator /> --}}
-    
+
     <x-header class="pb-0 mb-[-15px] font-new text-green-400" title="{{ $title }}" separator progress-indicator>
         <x-slot:actions class='pt-5'>
             <x-input class='text-white font-arial' placeholder="{{ __('Search...') }}"
-            wire:model.live.debounce.300ms="search" clearable icon="o-magnifying-glass" x-init="$el.focus()" />
+                wire:model.live.debounce.300ms="search" clearable icon="o-magnifying-glass" x-init="$el.focus()" />
         </x-slot:actions>
     </x-header>
-    
+
     <p class='text-center text-xl'>Listing des utilisateurs <small>(Issus de la table <i>academy_users</i>)</small></p>
-    
+
     <div class="mt-4 !px-24 ml-12">
         <div class="grid gap-4">
             @forelse ($users as $user)
@@ -54,12 +54,12 @@ include_once 'trouble.php'; ?>
             </p>
 
 
-            <p>Comme nous avons beaucoup d'items, vous avez une barre de pagination, et comme dernière
+            <p>Comme nous avons beaucoup d'items, nous avons à disposition une barre de pagination, et comme dernière
                 page...<br>
-                <b>Et qu'importe : Cliquons sur le 10!</b>
+                <b>... mais qu'importe ! Cliquons sur le 10 !</b>
             </p>
 
-            <p>→ Vous voyez maintenant 3 autres users... Normal ! 😃</p>
+            <p>→ Arrivé page 10, nous voyons maintenant 3 autres users... Normal ! 😃</p>
 
             <p>Maintenant... Tiens ? Pas de 'Pier'...! Admettons ! Et si nous souhaitions afficher TOUS les users ayant
                 'Pier' dans leur nom...?<br>

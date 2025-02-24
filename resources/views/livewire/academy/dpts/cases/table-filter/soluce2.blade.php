@@ -39,7 +39,7 @@ include_once 'soluce2.php'; ?>
         <h2 class='text-xl font-bold mb-3'>À vous d'jouer !</h2>
 
         <article class='text-justify space-y-3'>
-            <p>Expliquez ici... Puis Commit, push, et P.R. ! ;-)</p>
+            <p>Codez 🖥️, trouvez une soluce 💪, expliquez ici 🎙️... Puis ⏩ Commit, push, et P.R. 😃 !</p>
         </article>
 
     </div>
