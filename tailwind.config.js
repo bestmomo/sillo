@@ -31,7 +31,7 @@ export default {
     },
   },
   daisyui: {
-    themes: ["light", "dark"],
+    themes: ["light", "dark", "cupcake"],
   },
   corePlugins: {
     backgroundOpacity: false,
