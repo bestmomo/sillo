@@ -3,17 +3,16 @@
 use Illuminate\Support\Facades\{Auth, Session};
 use Livewire\Volt\Component;
 
-new class() extends Component
-{
-	public function logout(): void
-	{
-		Auth::guard('web')->logout();
+new class () extends Component {
+    public function logout(): void
+    {
+        Auth::guard('web')->logout();
 
-		Session::invalidate();
-		Session::regenerateToken();
+        Session::invalidate();
+        Session::regenerateToken();
 
-		$this->redirect('/');
-	}
+        $this->redirect('/');
+    }
 }; ?>
 
 <div>
@@ -65,9 +64,16 @@ new class() extends Component
             <x-menu-item icon="s-pencil-square" title="{{ __('Contacs') }}" link="{{ route('contacts.index') }}" />
             <x-menu-item icon="m-cog-8-tooth" title="{{ __('Settings') }}" link="{{ route('settings') }}" :class="App::isDownForMaintenance() ? 'bg-red-300' : ''" />
         @endif
-        <x-menu-item icon="m-arrow-right-end-on-rectangle" title="{{ __('Go on site') }}" link="/" />
+
         <x-menu-item>
             <x-theme-toggle />
         </x-menu-item>
+        {{-- @if ($user->isStudent) --}}
+            <x-menu-separator />
+            <x-menu-item icon="m-arrow-right-end-on-rectangle" title="{{ __('Go on site') }}" link="/"/>
+            <x-menu-separator />
+            <x-menu-item class='text-black justify-evenly bg-green-600 font-new' icon="o-academic-cap" title="{{ __('Academy access') }} → " link="{{ route('academy.academy') }}"/>
+        {{-- @endif --}}
+        
     </x-menu>
 </div>

@@ -120,6 +120,11 @@ class User extends Authenticatable
 		return 'admin' === $this->role || 'redac' === $this->role;
 	}
 
+	public function isStudent(): bool
+	{
+		return $this->isStudent;
+	}
+	
 	/**
 	 * Scope a query to search for a specific value in the 'name', 'firstname', or 'email' columns.
 	 *
@@ -132,7 +137,7 @@ class User extends Authenticatable
 	{
 		$query
 			->where('name', 'like', "%{$value}%")
-			->orWhere('firstname', 'like', "%{$value}%")
+			// ->orWhere('firstname', 'like', "%{$value}%")
 			->orWhere('email', 'like', "%{$value}%");
 	}
 

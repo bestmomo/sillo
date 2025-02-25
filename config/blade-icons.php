@@ -11,6 +11,7 @@ return [
 		'default' => [
 			'path'   => 'resources/images/icons',
 			'prefix' => 'icon',
+			'fallback'=>'cake',
 		],
 	],
 ];

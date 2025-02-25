@@ -1,14 +1,14 @@
 <?php
 
 /**
- *  (ɔ) LARAVEL.Sillo.org - 2012-2024
+ *  (ɔ) LARAVEL.Sillo.org - 2012-2025
  */
 
 namespace App\Providers;
 
 use App\Models\{Menu, Setting};
 use App\Services\AcademyFrameworksLinksService;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\{Blade, Schema};
 use Illuminate\Support\{Facades, ServiceProvider};
 use Illuminate\View\View;
 
@@ -40,15 +40,18 @@ class AppServiceProvider extends ServiceProvider
 				}])->orderBy('order')->get()
 			);
 		});
-
-		// Vérifiez si la table 'settings' existe
-		if (!$this->app->runningInConsole() && Schema::hasTable('settings'))
+		Blade::directive(name: 'langL', handler: function ($expression): string
 		{
-			$settings = Setting::all();
-			foreach ($settings as $setting)
-			{
-				config(['app.' . $setting->key => $setting->value]);
-			}
-		}
-	}
+			return "<?= transL({$expression}); ?>";
+});
+// Vérifiez si la table 'settings' existe
+if (!$this->app->runningInConsole() && Schema::hasTable('settings'))
+{
+$settings = Setting::all();
+foreach ($settings as $setting)
+{
+config(['app.' . $setting->key => $setting->value]);
+}
+}
+}
 }

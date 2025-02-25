@@ -86,8 +86,6 @@
 
 ## Built
 
-//2do Build:
-
 npm install laravel-mix --save-dev
 
 Cela compilera votreFichier.css du répertoire resources/assets/css vers public/css.

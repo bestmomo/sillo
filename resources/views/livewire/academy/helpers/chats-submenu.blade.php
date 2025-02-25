@@ -59,7 +59,7 @@ window.addEventListener('focus', () => focusInput(choice || 'v1'));">
     @foreach ($btns as $btn)
         <div x-cloak x-transition.opacity.duration.700ms x-show="choice === '{{ $btn }}'">
             <div wire:key="chat-title-component-{{ $btn }}">
-                @livewire('academy.frameworks.alpinejs.chats.chat-title', ['btn' => $btn, key('chat-' . $btn)])
+                @livewire('academy.dpts.frameworks.alpinejs.chats.chat-title', ['btn' => $btn, key('chat-' . $btn)])
             </div>
         </div>
     @endforeach
@@ -71,13 +71,11 @@ window.addEventListener('focus', () => focusInput(choice || 'v1'));">
                 x-effect="if (isVisible('{{ $btn }}')) { focusInput() }">
 
                 <div class="h-full overflow-y-auto" wire:key="chat-component-{{ $btn }}">
-                    @livewire('academy.frameworks.alpinejs.chats.chat-' . strtolower($btn), key('chat-' . $btn))
+                    @livewire('academy.dpts.frameworks.alpinejs.chats.chat-' . strtolower($btn), key('chat-' . $btn))
                 </div>
             </li>
         @endforeach
     </ul>
-
-</div>
 
 <script>
     window.onload = function() {
