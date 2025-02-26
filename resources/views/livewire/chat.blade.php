@@ -58,8 +58,9 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
 				// Décodage de la réponse et récupération du contenu
 				$answer = json_decode($response->body())->choices[0]->message->content;
 
-				// Affectez la réponse formatée à la variable Livewire
-				$this->answer = $answer;
+				// Affecte la réponse formatée à la variable Livewire
+				$parsedown = new Parsedown();
+				$this->answer = $parsedown->text($answer);
 
 				// Sauvegarde dans la base de données
 				auth()->user()->chats()->create([
@@ -98,6 +99,6 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
         </x-form>
     </x-card>
 	<x-card title="{{ __('Your answer') }}" shadow separator progress-indicator>
-		{!! nl2br(e($answer)) !!}
+		{!! $answer !!}
 	</x-card>
 </div>
