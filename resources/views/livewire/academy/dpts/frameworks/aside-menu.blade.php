@@ -15,7 +15,7 @@
 
         <div
             class="mt-4 ml-0 mr-1 py-1 pl-2 pr-3 text-base font-bold text-left rounded {{ request()->is('academy') ? 'bg-gray-700 text-green-500' : '' }}">
-            <a href="/academy" title="v{{ env('ACA_LV') ?? '1.0.0' }}">ACADEMY</a>
+            <a href="/academy">ACADEMY</a>
         </div>
         <div class="mt-4 ml-0 pt-1 px-1 text-xs text-left rounded mr-3
 {{ request()->is('academy/frameworks') ? 'bg-gray-700 text-green-500' : '' }}">

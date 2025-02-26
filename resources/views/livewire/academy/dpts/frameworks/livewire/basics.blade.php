@@ -9,7 +9,7 @@ include_once 'basics.php';
 
 	<h1>Simples exemples</h1>
 
-	{{-- <livewire:academy.dpts.frameworks.livewire.hello-world/> //2fix ← certainly here --}}
+	<livewire:academy.dpts.frameworks.livewire.hello-world/> //2fix ← certainly here
 	
 	<livewire:academy.dpts.frameworks.livewire.counter/>
 
