@@ -20,6 +20,9 @@ new class extends Component {
 <div>
     @section('title', $title)
     {{-- <x-header class="pb-0 mb-[-14px] mt-2 font-{{ $font }} text-green-400" title="{!! $title !!}" /> --}}
-    <p class="pb-0 mb-[-14px] mt-2 font-{{ $font }} text-green-400 text-3xl tracking-wider font-semibold">{!! $title !!}</p>
+    <div class="flex justify-between">
+        <p class="pb-0 mb-[-14px] mt-2 font-{{ $font }} text-green-400 text-3xl tracking-wider font-semibold">{!! $title !!}</p>
+        <p>{{ config('app.version') }}</p>
+    </div>
     
 </div>
