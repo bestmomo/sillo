@@ -16,6 +16,7 @@ class AcademyPostSeeder extends Seeder
 
 	public function run()
 	{
+		AcademyPost::truncate();
 		AcademyPost::factory()->count(9)->create();
 	}
 }

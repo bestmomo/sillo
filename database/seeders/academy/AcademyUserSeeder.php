@@ -27,7 +27,7 @@ class AcademyUserSeeder extends Seeder
 
 	public function run()
 	{
-		// AcademyUser::truncate();
+		AcademyUser::truncate();
 
 		$this->nb = self::NB;
 
