@@ -65,7 +65,7 @@ include_once 'soluce1.php'; ?>
             <p class='font-semibold text-xl text-white'>Alors... : Qui va écrire en premier... <span class='link'><a
                         href="{{ route('academy.case.table-filter.soluce2') }}">La Soluce 2</a></span> 😉 ?</p>
 
-            <p>Rappel: Dans l'idéal, on n'utilise que la techno LiveWire, pas de JS pur, et donc, on cherhce à éviter ce satané de
+            <p>Rappel: Dans l'idéal, on n'utilise que la techno LiveWire, pas de JS pur, et donc, on cherche à éviter ce satané de
                 dsfgd...sfds de rafraichissement ! ;-)</p>
 
         </article>
