@@ -22,6 +22,7 @@
         "livewire/volt": "^1.6",
         "mews/purifier": "^3.4",
         "robsontenorio/mary": "^1.41",
+        "secondnetwork/blade-tabler-icons": "^3.30",
         "spatie/laravel-sitemap": "^7.2",
         "tinymce/tinymce": "^7.5"
     },
