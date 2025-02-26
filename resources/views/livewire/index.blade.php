@@ -295,4 +295,5 @@ new class() extends Component
             <x-calendar :events="$upcoming_events" months="3" locale="{{ env('APP_CALENDAR_LOCALE') }}" />
         </x-card>
     @endif
-    {{-- //2do Test A/B // Header (Tradi Vs NewLook) --}}
+</div>
+{{-- //2do Test A/B // Header (Tradi Vs NewLook) --}}
