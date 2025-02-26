@@ -127,6 +127,8 @@ new class() extends Component
 			{
 				// Décodage de la réponse et récupération du contenu
 				$this->chatAnswer = json_decode($response->body())->choices[0]->message->content;
+				$parsedown = new Parsedown();
+				$this->chatAnswer = $parsedown->text($this->chatAnswer);
 				$this->myModal    = true;
 			}
 			else
@@ -149,7 +151,7 @@ new class() extends Component
     <div class="w-full max-w-xl px-4 py-8 prose rounded-lg shadow-lg">
 
         <x-modal wire:model="myModal">
-            <p>{{ $this->chatAnswer }}</p>
+            {!! $this->chatAnswer !!}
         </x-modal>
 
         <x-header 
