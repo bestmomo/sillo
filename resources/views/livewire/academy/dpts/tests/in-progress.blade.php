@@ -25,5 +25,4 @@ include_once 'in-progress.php';
         </i>
     @endif
 
-    <x-partials.size-indicator />
 </div>

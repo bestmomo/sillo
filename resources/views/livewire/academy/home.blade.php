@@ -12,8 +12,6 @@ new #[Layout('components.layouts.acaLight')] class// #[Title('Académie')]
 <div class='text-lg'>
     <livewire:academy.components.dpt-title title="Academie" />
 
-    {{-- <x-partials.size-indicator /> --}}
-
     <x-header shadow separator progress-indicator />
 
     <p class='text-justify font-bold text-xl'>L'académie est un espace d'Études, de Travaux Pratiques et de Test.</p><br>
