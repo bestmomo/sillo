@@ -59,7 +59,7 @@ new #[Layout('components.layouts.academy')] class extends Component {
     {
         
         if ($this->dev)
-        { if (!$this->isLocalMailServerRunning) {
+        {   if (!$this->isLocalMailServerRunning) {
                 $this->message = '<div class="mt-2 text-yellow-400 text-xl font-new text-center font-bold">Please start a local mail server (Listening on port #1025) !</div>';
                 $this->error('Unable to send email ! Local Mail Server is not running');
             } else {
