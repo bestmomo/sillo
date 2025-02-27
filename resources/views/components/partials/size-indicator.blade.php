@@ -6,7 +6,7 @@
 
 $breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 
-$code = "<div style=\"z-index: 99999999\" class='fixed bottom-12 right-5 opacity-50 border p-1 rounded-lg bg-black'>Taille écran :<div class=\"text-yellow-500 text-4xl z-10 font-bold text-center\">\n";
+$code = "<div style=\"z-index: 99999999\" class='fixed bottom-12 right-5 opacity-50 border p-1 rounded-lg bg-black'>Taille écran<div class=\"text-yellow-500 text-4xl z-10 font-bold text-center\">\n";
 
 function ind()
 {
