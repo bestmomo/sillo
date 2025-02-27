@@ -7,7 +7,7 @@ include_once 'new-form.php';
     <x-header shadow separator progress-indicator />
 
     @php
-        $maxChars = env('APP_MAX_NUMBER_OF_CHARS_IN_COMMENTS_FORM');
+        $maxChars = env('APP_MAX_NUMBER_OF_CHARS_IN_COMMENTS_FORM') ?? 1000;
     @endphp
 
     {{-- DOC --}}

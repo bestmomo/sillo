@@ -56,7 +56,7 @@ class extends Component
         $messageKey = $contentLength >= $maxChars ? 'All chars used :m' : 'Chars2 used: :n :m';
     @endphp
 
-    <form wire:submit="save">
+    {{-- <form wire:submit="save">
         @error('title')
             Attention: <em>{{ $message }}</em><br>
         @enderror
@@ -77,5 +77,5 @@ class extends Component
         <div class="text-right w-full">
             <x-button type="submit" class="btn-primary mt-2 mr-5" disabled>Enregistrer</x-button>
         </div>
-    </form>
+    </form> --}}
 </div>

@@ -17,7 +17,7 @@ if (!function_exists('getAcademyFrameworksLinks'))
 			'alpinejs' => ['basics', 'test', 'pets', 'accordion', 'ga', 'characters', 'chats', 'drag-drop', 'kanboard', 'divers'],
 		];
 
-		Debugbar::addMessage(config('app.env'), 'env1');
+		Debugbar::addMessage(config('app.env'), 'env');
 		if (!'dev' === config('app.env'))
 		{
 			unset($links['alpinejs'][array_search('chats', $links['alpinejs'])]);
