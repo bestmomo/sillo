@@ -18,19 +18,14 @@ include_once 'frameworks.php';
     <p>LW / Basics: ← Err 500<br>
         → Essai de retrait du bloc suspect (hello-world)
         car les autres (counter et todo) fonctionne bien dans leurs points de menu respectifs...
-        → Nouvelle tentative: Autres codes isolés
-    </p>
-    <hr>
-    
-    <p>LW / New Post: Err 500<br>
-        → Code du form commenté, pour voir si erreur persiste et est avant le form...OK
-        → Repose du form car erreor sans doute lié à env('APP_MAX_NUMBER_OF_CHARS_IN_COMMENTS_FORM') pas forcément défini
+        → Nouvelle tentative: Autres codes isolés OK
+        → //2ar Nouvelle tentative: Les 3 composants re-activés
     </p>
     <hr>
 
     <p>ALPINE / GA: Err 500<br>
         → 1ère isolation de code pour voir si encore et 'déjà' erreur...OK</p>
-        → Activation d'un autre code...</p>
+        → //2ar Activation du dernier tab...</p>
     <hr>
     
     <li>
