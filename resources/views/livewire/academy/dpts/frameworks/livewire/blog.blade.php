@@ -6,43 +6,43 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-new
+new 
 #[Layout('components.layouts.academy')] 
-class extends Component
-{
-	use WithPagination;
-	use Toast;
+class extends Component {
+    use WithPagination;
+    use Toast;
 
-	protected $listeners = ['refreshPosts'];
+    protected $listeners = ['refreshPosts'];
 
-	public function delete(AcademyPost $post)
-	{
-		$postId = $post->id;
-		
-        $mode='';
-        if(config('app.env') === 'dev' || $postId > 9) {
+    public function delete(AcademyPost $post)
+    {
+        $postId = $post->id;
+
+        if (config('app.env') === 'dev' || $postId > 9) {
+            $mode = '';
             $post->delete();
         } else {
-            $mode=' (SIMULATION)';
+            $mode = ' (SIMULATION)';
         }
-        
-		$this->info("Article n° {$postId} effacé {$mode} !");
-		$this->dispatch('refreshPosts');
-	}
 
-	public function render(): mixed
-	{
-		return view('livewire.academy.dpts.frameworks.livewire.blog', [
-			'posts' => AcademyPost::orderBy('id', 'desc')->paginate(10),
-		]);
-	}
+        $this->info("Article n° {$postId} effacé {$mode} !");
+        $this->dispatch('refreshPosts');
+    }
+
+    public function render(): mixed
+    {
+        return view('livewire.academy.dpts.frameworks.livewire.blog', [
+            'posts' => AcademyPost::orderBy('id', 'desc')->paginate(10),
+        ]);
+    }
 }; ?>
 
 <div class='mx-6'>
     <livewire:academy.components.page-title title='Articles' />
     <x-header shadow separator progress-indicator />
-    
-    <h2 class="mb-2 text-xl">{{ $posts->count() }} article{{ $posts->count() > 1 ? 's' : '' }} / {{ $posts->total() }}</h2>
+
+    <h2 class="mb-2 text-xl">{{ $posts->count() }} article{{ $posts->count() > 1 ? 's' : '' }} / {{ $posts->total() }}
+    </h2>
 
     {{-- {{ dd($posts, $posts->withQueryString() )}} --}}
 
@@ -67,9 +67,7 @@ class extends Component
                         <td>{{ str($post->content)->words(2) }}</td>
                         <td class='p-0 text-center' style='max-width:100px!important;'>
                             <a href='/t/post/edit'>
-                                <x-button type='button' icon="s-pencil"
-                                {{-- wire:click='edit({{ $post->id }})'  --}}
-                                disabled/>
+                                <x-button type='button' icon="s-pencil" {{-- wire:click='edit({{ $post->id }})'  --}} disabled />
                             </a>
                             <x-button type='button' icon="o-trash" wire:click='delete({{ $post->id }})'
                                 wire:confirm="Êtes-vous sûr de vouloir efacer l'article n°{{ $post->id }} ?
