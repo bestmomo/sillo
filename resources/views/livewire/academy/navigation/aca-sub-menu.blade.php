@@ -7,8 +7,9 @@
 
     <x-slot:brand class="mr-6">
         <div>
-            <a class='font-shadow text-2xl text-gray-300 tracking-wider' href="{{ route('home') }}"
-                title=" {{ __('Public Home') }} ">{{ strtoupper(__('Home')) }}</a>
+            <span><a class='font-shadow text-2xl text-gray-300 tracking-wider' href="{{ route('home') }}"
+                title=" {{ __('Public Home') }} ">{{ strtoupper(__('Home')) }}</a></span>
+            <div class='text-sm text-gray-400 text-center md:inline md:text-right md:ml-3'>v.{{ config('app.version') }}</div>
         </div>
     </x-slot:brand>
 
@@ -28,5 +29,5 @@
 
         </div>
     </x-slot:actions>
-
 </x-nav>
+<x-partials.size-indicator />

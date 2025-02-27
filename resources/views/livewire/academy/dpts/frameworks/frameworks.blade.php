@@ -12,4 +12,28 @@ include_once 'frameworks.php';
     </p>
 
     <h1 class='h-[280px] flex items-center'>← Choix dans le menu ci-contre</h1>
+    
+    
+    //2fix Errors on real server :
+    <ul>
+        <li>
+            LW / Basics: ← Err 500 on real server is certainly here --}}
+        </li>
+        <li>
+            LW / Blog: Faire pour réel SIMU des deletes<br>
+        </li>
+        <li>
+            LW / New Post: Err 500<br>
+        </li>
+        <li>
+            LW / NesForm: En réel, pas de calcul des caractères<br>
+        </li>
+        <li>
+            ALPINE / GA: Err 500<br>
+        </li>
+        <li>
+            ALPINE / Chats : Le point de menu n'est pas sensé apparaître en réel<br>
+        </li>
+    </ul>
+    
 </div>
