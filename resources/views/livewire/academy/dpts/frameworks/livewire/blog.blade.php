@@ -20,7 +20,7 @@ class extends Component
 		$postId = $post->id;
 		
         $mode='';
-        if(config('app.env') === 'dev') {
+        if(config('app.env') === 'dev' || $postId > 9) {
             $post->delete();
         } else {
             $mode=' (SIMULATION)';
