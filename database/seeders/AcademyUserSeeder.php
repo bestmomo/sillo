@@ -27,7 +27,6 @@ class AcademyUserSeeder extends Seeder
 	 */
 	public function run()
 	{
-		AcademyUser::truncate();
 		$this->call('Database\\Seeders\\Academy\\AcademyUserSeeder');
 	}
 }
