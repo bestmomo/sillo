@@ -25,12 +25,12 @@
         <div class="absolute top-3  w-full mx-0" x-cloak x-transition.opacity.duration.1400ms
             x-show="choice == 'TabsOri'">
             <div>
-                {{-- @include('livewire.academy.dpts.frameworks.alpinejs.ga.02_tabs_ori') --}}
+                @include('livewire.academy.dpts.frameworks.alpinejs.ga.02_tabs_ori')
             </div>
         </div>
 
         <div class="absolute top-3 mx-0" x-cloak x-transition.opacity.duration.1400ms x-show="choice == 'Tabs'">
-            {{-- @include('livewire.academy.dpts.frameworks.alpinejs.ga.02_bases') --}}
+            //2ar {{-- @include('livewire.academy.dpts.frameworks.alpinejs.ga.02_bases') --}}
         </div>
 
     </div>
