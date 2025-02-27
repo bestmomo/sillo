@@ -3,11 +3,13 @@ include_once 'basics.php';
 ?>
 
 <div class='mx-6'>
-    {{-- <livewire:academy.components.page-title title='Bases de Livewire'/> --}}
     <livewire:academy.components.page-title title='Bases de Livewire' />
     <x-header shadow separator progress-indicator />
 
     <h1>Simples exemples</h1>
+    
+    //2ar dès que fixé hello-world
+    {{-- <livewire:academy.dpts.frameworks.livewire.hello-world/> --}}
 
     <livewire:academy.dpts.frameworks.livewire.counter />
 

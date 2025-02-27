@@ -18,8 +18,15 @@ class extends Component
 	public function delete(AcademyPost $post)
 	{
 		$postId = $post->id;
-		$post->delete();
-		$this->info("Article n° {$postId} effacé !");
+		
+        $mode='';
+        if(config('app.env') === 'dev') {
+            $post->delete();
+        } else {
+            $mode=' (SIMULATION)';
+        }
+        
+		$this->info("Article n° {$postId} effacé {$mode} !");
 		$this->dispatch('refreshPosts');
 	}
 
