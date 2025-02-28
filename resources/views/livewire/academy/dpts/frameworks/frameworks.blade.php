@@ -19,13 +19,15 @@ include_once 'frameworks.php';
         → Essai de retrait du bloc suspect (hello-world)
         car les autres (counter et todo) fonctionne bien dans leurs points de menu respectifs...
         → Nouvelle tentative: Autres codes isolés OK
-        → //2ar Nouvelle tentative: Les 3 composants re-activés
+        {{-- → //2ar Nouvelle tentative: Les 3 composants re-activés --}}
     </p>
     <hr>
 
     <p>ALPINE / GA: Err 500<br>
         → 1ère isolation de code pour voir si encore et 'déjà' erreur...OK</p>
-        → //2ar Activation du dernier tab...</p>
+        → //2ar Activation du dernier tab... Err500
+        → Re comment der tab
+    </p>
     <hr>
     
     <li>

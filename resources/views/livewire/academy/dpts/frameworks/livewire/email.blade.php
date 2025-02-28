@@ -60,7 +60,7 @@ new #[Layout('components.layouts.academy')] class extends Component {
         
         if ($this->dev)
         { if (!$this->isLocalMailServerRunning) {
-                $this->message = '<div class="mt-2 text-yellow-400 text-xl font-new text-center font-bold">Please start a local mail server (Listening on port #1025) !</div>';
+                $this->message = '<div class="mt-2 text-yellow-400 text-xl font-new text-center font-bold">Please start a local mail server (Listening on port #1025)&nbsp;!</div>';
                 $this->error('Unable to send email ! Local Mail Server is not running');
             } else {
                 try {
@@ -109,16 +109,16 @@ new #[Layout('components.layouts.academy')] class extends Component {
     <x-header shadow separator progress-indicator />
 
     <div>
-        @if (!$this->dev)
+        @if (!$dev)
             <h2 class="text-center text-red-500 text-xl font-bold">Envoi des emails simulé</h2>
         @endif
 
-        @if (!empty($this->notifications))
+        @if (!empty($notifications))
             <div id="notifications" wire:ignore></div>
         @endif
     </div>
 
-    @if ($this->message == 'Email sent successfully!')
+    @if ($message == 'Email sent successfully!')
         <p class="text-green-400 font-bold">{!! $message !!}</p>
         <b>Here's the preview (HTML):</b>
         <p>Subject: <b>{{ $emailSubject }}</b></p>
@@ -141,7 +141,7 @@ new #[Layout('components.layouts.academy')] class extends Component {
         The complete current date is <b>{{ date('Y-m-d H:i:s', time()) }}</b>.
     </div>
 
-    <x-header class="pb-0 mb-[-14px]" title="" shadow separator progress-indicator />
+    <x-header class="pb-0 mb-[-14px]" shadow separator progress-indicator />
 
     <table>
         <thead>
