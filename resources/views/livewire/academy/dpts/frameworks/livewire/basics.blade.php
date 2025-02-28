@@ -8,7 +8,7 @@ include_once 'basics.php';
 
     <h1>Simples exemples</h1>
     
-    <livewire:academy.dpts.frameworks.livewire.hello-world/>
+    {{-- <livewire:academy.dpts.frameworks.livewire.hello-world/> --}}
 
     <livewire:academy.dpts.frameworks.livewire.counter />
 
