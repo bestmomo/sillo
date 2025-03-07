@@ -13,8 +13,6 @@
     <meta name="description" content="@yield('description')">
     <meta name="keywords" content="@yield('keywords')">
 
-    {{-- //2do link icons --}}
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
