@@ -1,7 +1,6 @@
 <x-card>
     <x-form wire:submit.prevent="save">
-        <x-input type="text" wire:model="title" label="{{ __('Title') }}"
-            placeholder="{{ __('Enter the title') }}" />
+        <x-input type="text" wire:model="title" label="{{ __('Title') }}" placeholder="{{ __('Enter the title') }}" />
         <x-input type="text" wire:model="description" label="{{ __('Description') }}"
             placeholder="{{ __('Enter the description') }}" />
         <x-choices label="{{ __('Post') }}" wire:model="post_id" :options="$postsSearchable" option-label="title"
@@ -27,7 +26,7 @@
                     placeholder="{{ __('Enter the answer text') }}" />
                 <x-checkbox wire:model="questions.{{ $qIndex }}.answers.{{ $aIndex }}.is_correct"
                     label="{{ __('Is Correct') }}" />
-                @if ($aIndex > 1)
+                @if ($aIndex > 2 && $aIndex == count($question['answers']) - 1)
                     <x-button label="{{ __('Remove Answer') }} {{ $aIndex + 1 }}"
                         wire:click.prevent="removeAnswer({{ $qIndex }}, {{ $aIndex }})"
                         class="btn-warning" />
@@ -48,4 +47,3 @@
         </x-slot:actions>
     </x-form>
 </x-card>
-

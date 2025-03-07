@@ -57,6 +57,7 @@ trait ManageQuiz
 					['answer_text' => '', 'is_correct' => false],
 					['answer_text' => '', 'is_correct' => false],
 					['answer_text' => '', 'is_correct' => false],
+					['answer_text' => '', 'is_correct' => false],
 				],
 			];
 		}
