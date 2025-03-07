@@ -23,7 +23,7 @@ new #[Layout('components.layouts.academy')] class extends Component {
     }
 }; ?>
 
-<div class='mx-6'>
+<div>
     <livewire:academy.components.page-title title='Compteurs' />
     <x-header shadow separator progress-indicator />
 

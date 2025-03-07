@@ -6,7 +6,7 @@
             {{ Storage::get(resource_path('views/livewire/academy/dpts/frameworks/alpinejs/ga/02_css.css')) }}
         </style>
     @endsection
-
+<!--
     <script>
         // document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener("alpine:init", () => {
@@ -155,5 +155,5 @@
 
         </div>
     </div>
-
+-->
 </div>

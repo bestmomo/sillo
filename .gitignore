@@ -3,7 +3,7 @@
 /public/build
 /public/hot
 /public/temp/*
-/public/storage
+# /public/storage
 /public/sitemap.xml
 /vendor
 .env
@@ -24,3 +24,4 @@ package-lock.json
 /storage/app/purifier/HTML/*.*
 composer.phar
 composer.lock
+.rnd
