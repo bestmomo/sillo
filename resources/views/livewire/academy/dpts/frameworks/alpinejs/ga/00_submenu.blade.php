@@ -30,7 +30,7 @@
         </div>
 
         <div class="absolute top-3 mx-0" x-cloak x-transition.opacity.duration.1400ms x-show="choice == 'Tabs'">
-            {{-- @include('livewire.academy.dpts.frameworks.alpinejs.ga.02_bases') --}}
+            @include('livewire.academy.dpts.frameworks.alpinejs.ga.02_bases')
         </div>
 
     </div>

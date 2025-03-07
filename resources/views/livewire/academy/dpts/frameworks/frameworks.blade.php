@@ -19,17 +19,16 @@ include_once 'frameworks.php';
             distant en cours de résolution :</span>
     </div>
 
-    <li>LW / Basics => Err 500<br>
+    <li><b>LW / Basics => Err 500</b><br>
         → 1.00.04 : Nouvelle tentative: Suppression d'un x-header en trop (Les 3 composants re-activés)<br>
         → 1.00.03 : Essai de retrait du bloc suspect (hello-world) car les autres (counter et todo) fonctionne bien dans leurs points de menu respectifs...
     </li>
     
     <hr class='my-3'>
 
-    <li>ALPINE / GA: Activation du dernier tab => Err 500<br>
-        → Re comment der tab
-        → //2ar Activation du dernier tab... Err500<br>
-        → 1ère isolation de code pour voir si encore et 'déjà' erreur...OK<br>
+    <li><b>ALPINE / GA: Activation du dernier tab => Err 500</b><br>
+        → 1.00.04 : Activation du dernier tab, mais n'est laissé que l'import des fichiers CSS<br>
+        → 1.00.03 : 1ère isolation de code pour voir si encore et 'déjà' erreur... 3ème tab (Tabs) => Err 500<br>
     </li>
     
     <hr class='my-3'>
