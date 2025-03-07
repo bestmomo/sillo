@@ -3,7 +3,9 @@
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
-new #[Layout('components.layouts.acaLight')] class// #[Title('Académie')]
+new
+#[Layout('components.layouts.acaLight')]
+class
  extends Component {
     //2do ranger dans MM: git reset --soft HEAD~1
 // → Annule le dernier commit en gardant les changements
@@ -16,13 +18,13 @@ new #[Layout('components.layouts.acaLight')] class// #[Title('Académie')]
 
     <p class='text-justify font-bold text-xl'>L'académie est un espace d'Études, de Travaux Pratiques et de Test.</p><br>
 
+    <p>Bien-sûr, <i>toute cette partie est davantage appréciable après un ' clone ' *** du projet en local</i>...</p><br>
+
     <p class='text-justify'>
         Conseil: Quelque soient vos développements, n'y utilisez pas les tables de base du projet Laravel. Préférez
-        utiliser
-        celles commençant par '<b>academy_</b>' ou créez les vôtres selon un même début de nom séparatif.<br>
+        utiliser celles commençant par '<b>academy_</b>' ou créez les vôtres selon un même début de nom séparatif.<br>
         En effet, si plus tard, vous <i>' push ' *</i> votre code au <a class='link' href="https://github.com/bestmomo/sillo"
-            target='_blank'>projet officiel</a> <x-ext-link />, de vrais utilisateurs auront accès à ces données...
-    </p><br>
+            target='_blank'>projet officiel</a> <x-ext-link />, de vrais utilisateurs auront accès à ces données...</p><br>
 
     <p>Pour l'heure, voici les 2 départements (dpts/) ouverts :</p><br>
 
