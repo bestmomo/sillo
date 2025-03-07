@@ -34,7 +34,7 @@ include_once 'frameworks.php';
     <hr class='my-3'>
 
     <li><b>ALPINE / Chats : Le point de menu n'est pas sensé apparaître en réel</b><br>
-        1.00.04 : <br>
+        1.00.04 : Refactorisation du test // APP_ENV via, impératif: config('app.env')<br>
         1.00.03 : .env ou config bien non défini à 'dev' mais menu toujours présent :-(
     </li>
 
