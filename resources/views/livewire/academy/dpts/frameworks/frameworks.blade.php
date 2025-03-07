@@ -14,26 +14,36 @@ include_once 'frameworks.php';
 
     <h1 class='h-[280px] flex items-center'>← Choix dans le menu ci-contre</h1>
 
-    //2fixing <b>Errors on real server :</b><br><br>
-    <p>LW / Basics: ← Err 500<br>
-        → Essai de retrait du bloc suspect (hello-world)
-        car les autres (counter et todo) fonctionne bien dans leurs points de menu respectifs...
-        → Nouvelle tentative: Autres codes isolés OK
-        {{-- → //2ar Nouvelle tentative: Les 3 composants re-activés --}}
-    </p>
-    <hr>
+    <div class='mb-6'>
+        <span class="hidden">//2fixing</span><span class='text-red-600 text-xl font-bold'>Erreurs sur le serveur
+            distant en cours de résolution :</span>
+    </div>
 
-    <p>ALPINE / GA: Err 500<br>
-        → 1ère isolation de code pour voir si encore et 'déjà' erreur...OK</p>
-        → //2ar Activation du dernier tab... Err500
-        → Re comment der tab
-    </p>
-    <hr>
+    <li>LW / Basics => Err 500<br>
+        → 1.00.04 : Nouvelle tentative: Suppression d'un x-header en trop (Les 3 composants re-activés)<br>
+        → 1.00.03 : Essai de retrait du bloc suspect (hello-world) car les autres (counter et todo) fonctionne bien dans leurs points de menu respectifs...
+    </li>
     
+    <hr class='my-3'>
+
+    <li>ALPINE / GA: Activation du dernier tab => Err 500<br>
+        → Re comment der tab
+        → //2ar Activation du dernier tab... Err500<br>
+        → 1ère isolation de code pour voir si encore et 'déjà' erreur...OK<br>
+    </li>
+    
+    <hr class='my-3'>
+
     <li>
         ALPINE / Chats : Le point de menu n'est pas sensé apparaître en réel<br>
         → Devrait fonctionner si .env ou config n'est pas défini à 'dev' mais à prod ou autre.
         //2ar dès que vérifié OK
     </li>
 
+    <hr class='my-3'>
+
+    <li>
+        Test / Listing fake academy_users no same as academy_users ?!?
+    </li>
+    <br>
 </div>
