@@ -20,7 +20,7 @@ include_once 'frameworks.php';
     </div>
 
     <li><b>LW / Basics => Err 500</b><br>
-        → 1.00.04 : Nouvelle tentative: Suppression d'un x-header en trop (Les 3 composants re-activés)<br>
+        → 1.00.04 : Nouvelle tentative: Suppression d'un x-header en trop (Tous les (3) composants re-activés) et respect de la casse pour l'appel du dernier composant.<br>
         → 1.00.03 : Essai de retrait du bloc suspect (hello-world) car les autres (counter et todo) fonctionne bien dans leurs points de menu respectifs...
     </li>
     
@@ -33,16 +33,17 @@ include_once 'frameworks.php';
     
     <hr class='my-3'>
 
-    <li>
-        ALPINE / Chats : Le point de menu n'est pas sensé apparaître en réel<br>
-        → Devrait fonctionner si .env ou config n'est pas défini à 'dev' mais à prod ou autre.
-        //2ar dès que vérifié OK
+    <li><b>ALPINE / Chats : Le point de menu n'est pas sensé apparaître en réel</b><br>
+        1.00.04 : <br>
+        1.00.03 : .env ou config bien non défini à 'dev' mais menu toujours présent :-(
     </li>
 
     <hr class='my-3'>
 
     <li>
-        Test / Listing fake academy_users no same as academy_users ?!?
+        <b>Tests / Listing fake academy_users pas conforme à academy_users ?!?</b></br>
+        1.00.04 : Sans doute supprimer la table 'academy_users_4_tests'/ BestMomo... Ce qui la fera se re-générer lors du prochain appel de la page.<br>
+        (C'est la même que 'academy_users', sauf que l'id 1 (Marc Hautpolo) est relayé à l'id 777, et tous les autres sont ré-indexés)
     </li>
     <br>
 </div>

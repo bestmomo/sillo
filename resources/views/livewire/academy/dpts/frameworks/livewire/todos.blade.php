@@ -35,7 +35,7 @@ class extends Component
 	}
 }; ?>
 
-<div class='mx-6'>
+<div class='my-6'>
 		<livewire:academy.components.page-title title='À faire' />
     <x-header shadow separator progress-indicator/>
 
