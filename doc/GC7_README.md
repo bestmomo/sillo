@@ -4,7 +4,7 @@
 
 ### TALL
 
-//2do Complete TALL Stack Tuto
+//2do Complete TALL Stack Tutos
 
 1) [FROM NOTHING TO PROD (Tailwind, Alpine, Laravel, Livewire & More)](https://www.youtube.com/watch?v=Ul3sfSDEt9U&pp=ygURYWxwaW5lanMgdnMgcmVhY3Q%3D) - 3h40 2024
 
@@ -18,7 +18,7 @@
 
 4) [Tutoriel JavaScript : Découvert d'Alpine.js](https://www.youtube.com/watch?v=BRCwRhAcLJA&t=208s) - 35' GA 2024 FR
 
-5) [use API - Animal crossing database](https://www.youtube.com/watch?v=iBg6XNy2XWc) Série - 4 parts 2023
+5) [Use API - Animal crossing database](https://www.youtube.com/watch?v=iBg6XNy2XWc) Série - 4 parts 2023
 
 6) [Designing a customer dashboard interface with TailwindCSS and AlpineJS](https://www.youtube.com/watch?v=U4P3CLuFz0M&pp=ygUIYWxwaW5lanM%3D) 2' 2024 (Just show what he done with AlpineJs)
 
@@ -34,53 +34,43 @@
 
 <div style="text-align: center;">En cours:</div>
 
-
 1) [Chat V3: Real Time Chat With Laravel Reverb - Laravel 11, Livewire 3 Volt, AlpineJS and TailwindCSS](https://www.youtube.com/watch?v=yLGCxxwiygc&pp=ygUIYWxwaW5lanM%3D) - 22'
 
-2) [Chat V4: Laracon EU 2024 Reverb](https://www.youtube.com/watch?v=yrL5eCMpqtc) - 35' - Laravel Reverb for Real-Time Laravel
+2) [Kanboard](https://www.youtube.com/playlist?list=PLgsruFcRiyk27mlSSi8GDQ6n687v3oACD) - 6 episodes 7 H - 2024
 
-//2do doc AlpineJS
+3) [Chat V4: Laracon EU 2024 Reverb](https://www.youtube.com/watch?v=yrL5eCMpqtc) - 35' - Laravel Reverb for Real-Time Laravel
 
-1) [Kanboard](https://www.youtube.com/playlist?list=PLgsruFcRiyk27mlSSi8GDQ6n687v3oACD) - 6 episodes 7 H - 2024
-
-
-3) [Doc AlpineJS](https://alpinejs.dev/start-here)
+4) [Doc AlpineJS](https://alpinejs.dev/start-here)
 
 ### Livewire
-
 
 1) [Découverte Livewire](https://www.youtube.com/watch?v=zPNdejemUtg) - 52' GA FR
 
 <div style="text-align: center">En cours:</div>
 
-1) [Série free](https://livewire.laravel.com/screencast/getting_started/installation) -  11 épisodes (Fait 7)
-
 //2do doc Livewire
 
+1) [Série free](https://livewire.laravel.com/screencast/getting_started/installation) -  11 épisodes (Fait 7)
+
 2) [Serie 16](https://www.youtube.com/watch?v=m10TZpWKAVI&list=PLkZU2rKh1mT-Gx1PhzO5Cj83ntdZRmcbo) - 16 épisodes 2023
-   
+
 3) [Super serie](https://www.youtube.com/watch?v=dz6_RFrJQlo&list=PLqDySLfPKRn71KGwiS3JGf9aAseh6Gghz) - Série - 64 épisodes 2024
-   
+
 4) [A kit of resources, and tuto too](https://github.com/livewire/awesome-tall-stack?tab=readme-ov-file) A kit of resources, and tuto too - GH 2022
-   
+
 5) [Laravel Livewire v3 Full Tutorial 2024](https://www.youtube.com/watch?v=2tOgn2HydKE) 4H20' - 2024
 
 6) [Livewire Doc laravel](https://livewire.laravel.com/docs/)
 
 ### Volt
 
-//2do doc volt
-
-
-2) [Volt Doc laravel](https://livewire.laravel.com/docs/volt)
+1) //2do doc volt [Volt Doc laravel](https://livewire.laravel.com/docs/volt)
 
 ### Autres
 
 1. [All LARACON](https://www.youtube.com/@LaraconEU) (8 videos - See 2024)
 2. [17 méthodes pour optimiser les performances de Laravel](https://kinsta.com/fr/blog/methodes-optimisation-performances-laravel) - Article
-3. 
-
-[Resource de codes tailwind & AlpineJS](https://www.penguinui.com/components/table)
+3. [Resource de codes tailwind & AlpineJS](https://www.penguinui.com/components/table)
 
 ---
 
@@ -101,18 +91,19 @@ SINON:
 Dans le Layout:
 <head>
     <!-- Autres balises head ici -->
-
     @yield('styles')
 </head>
 
 Dans la Vue:
-```
+
+```html
 @section('styles')
     <style>
         {{ file_get_contents(resource_path('views/chemin/vers/votre/fichier.css')) }}
     </style>
 @endsection
 ```
+
 Note: Idem pour les scripts JS
 
 ---
@@ -127,18 +118,16 @@ https://www.youtube.com/watch?v=ORQvQViO1v4&ab_channel=Grafikart.fr) - GA 2024 1
 
 - [10 meilleurs générateurs Synthèse vocale](https://www.codeur.com/blog/generateur-voix-ia/) - Article
 
-
 https://www.youtube.com/watch?v=5MzhGQ8WL70&ab_channel=Algomius
 
 2see: https://www.youtube.com/watch?v=-XXRlMn04Dk
 (CSS 2024 - 12' - FR)
 
-
 ### Pour mémoire:
 
-#### Commande pour avoir tous ces template de barre de pagination de Laravel:
+#### Commande pour avoir tous ces template de barre de pagination de Laravel
 
-```
+```php
 php artisan vendor:publish --tag=laravel-pagination
 ```
 
