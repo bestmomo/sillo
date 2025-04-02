@@ -17,9 +17,10 @@ if (!function_exists('getAcademyFrameworksLinks'))
 			'alpinejs' => ['basics', 'test', 'pets', 'accordion', 'ga', 'characters', 'chats', 'drag-drop', 'kanboard', 'divers'],
 		];
 
-		Debugbar::addMessage(config('app.env'), 'env');
-		if (!'dev' === config('app.env'))
+		Debugbar::addMessage(config('app.env'), 'env aca_helpers');
+		if ('dev' !== config('app.env'))
 		{
+			Debugbar::addMessage('On retire Chats', 'env aca_helpers');
 			unset($links['alpinejs'][array_search('chats', $links['alpinejs'])]);
 		}
 
