@@ -12,7 +12,8 @@ new class () extends Component {
 }; ?>
 
 <div>
-    <x-header shadow separator progress-indicator/>
+    <livewire:academy.components.page-title title='Hello-World' />
+    <x-header shadow separator progress-indicator />
 
     <h2>Hello World, <b>{{ $name }}</b>!</h2>
     <hr>

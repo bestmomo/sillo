@@ -27,7 +27,7 @@
 
         @foreach ($frameworksLinks as $framework => $links)
             <div class="{{ $loop->index ? 'mt-4' : '' }}">{{ strtoupper($framework) }}</div>
-            <hr>
+            <hr class='bg-gray-500'>
             @foreach ($links as $link)
                 <div class="my-1">
                     <a href="/academy/framework/{{ $framework }}/{{ $link }}"
@@ -38,4 +38,9 @@
         @endforeach
 
     </div>
+
+    <hr class='bg-red-500 border-green-500'>
+
+    <p class="text-sm text-center text-gray-500">Mode: <b class="text-gray-400">{{ strtoupper(config('app.env')) }}</b></p>
+
 </nav>
