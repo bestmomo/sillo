@@ -1,5 +1,5 @@
 <x-form wire:submit="saveSubmenu({{ $menu->id ?? 'null' }})">
-    <x-radio :options="$subOptions" wire:model="subOption" wire:change="$refresh" />
+    <x-group :options="$subOptions" wire:model="subOption" wire:change="$refresh" />
     @if ($subOption == 1)
         <x-choices label="{{ __('Post') }}" wire:model="subPost" :options="$postsSearchable" option-label="title"
             hint="{{ __('Select a post, type to search') }}" debounce="300ms" min-chars="2"
