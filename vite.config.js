@@ -1,21 +1,14 @@
-import { defineConfig } from "vite";
-import laravel from "laravel-vite-plugin";
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import tailwindcss from '@tailwindcss/vite';
+
 export default defineConfig({
   plugins: [
     laravel({
-      input: ["resources/css/app.css", 'resources/css/academy-styles.css', "resources/js/app.js"],
-      refresh: [
-        ".env",
-        "public/assets/**",
-        "resources/**/*",
-        "resources/routes/**",
-        "resources/views/**",
-        "routes/**",
-        "app/**",
-        "lang/**",
-        "config/**",
-      ],
+      input: ['resources/css/app.css', 'resources/css/academy-styles.css', 'resources/js/app.js'],
+      refresh: true,
     }),
+    tailwindcss(),
   ],
 });
-//# sourceMappingURL=vite.config.min.js.map
+

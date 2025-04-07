@@ -345,7 +345,7 @@ new #[Title('Edit Image'), Layout('components.layouts.admin')] class extends Com
                     <x-badge value="{{ $this->height }}px" class="badge-primary" /><br>
                     @lang('Width') :
                     <x-badge value="{{ $this->width }}px" class="badge-primary" /><br><br>
-                    <x-radio inline label="{{ __('Select a rescale value') }}" :options="$selectValues"
+                    <x-group inline label="{{ __('Select a rescale value') }}" :options="$selectValues"
                         wire:model="imageScale" wire:change="$refresh" />
                 </x-slot:content>
             </x-collapse>
