@@ -6,14 +6,15 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@tailwindcss/typography": "^0.5.16",
         "@tailwindcss/vite": "^4.1.1",
         "axios": "^1.8.2",
         "concurrently": "^9.0.1",
         "daisyui": "^5.0.12",
+        "laravel-echo": "^1.17.0",
         "laravel-vite-plugin": "^1.2.0",
-        "tailwindcss": "^4.1.1",
-        "vite": "^6.0.11",
         "pusher-js": "^8.4.0-rc2",
-        "laravel-echo": "^1.17.0"
+        "tailwindcss": "^4.1.1",
+        "vite": "^6.0.11"
     }
 }
