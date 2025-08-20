@@ -24,7 +24,7 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
 		$token = env('GPT_API_KEY');
 
 		// Récupération du modèle GPT depuis l'environnement
-		$gptModel = env('GPT_MODEL', 'gpt-3.5-turbo'); // Utilisation par défaut si la clé n'est pas définie
+		$gptModel = env('GPT_MODEL', 'deepseek-chat'); // Utilisation par défaut si la clé n'est pas définie
 
 		// Définition du prompt
 		$prompt = __("You're an expert in the Laravel framework, renowned for your ability to explain every concept clearly and patiently. Your aim is to provide detailed and understandable explanations, adapted to all skill levels.");
@@ -41,16 +41,19 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
 					'content' => $messageContent,
 				],
 			],
+			"stream" => false
 		];
 
-		// Envoi de la requête à l'API OpenAI
+		// Envoi de la requête à l'API DeepSeek
+		$response = null;
 		try
 		{
 			$response = Http::withToken($token)
+				->timeout(60)
 				->withHeaders([
 					'Content-Type' => 'application/json',
 				])
-				->post('https://api.openai.com/v1/chat/completions', $payload);
+				->post('https://api.deepseek.com/v1/chat/completions', $payload);
 
 			// Vérification du statut de la réponse
 			if ($response->successful())
@@ -76,10 +79,18 @@ new #[Title('Chat')] #[Layout('components.layouts.app')] class extends Component
 		}
 		catch (Exception $e)
 		{
-			$erreur_obj = json_decode($response->body());
-			$error_code = $erreur_obj->error->code;
-			Log::error('Failed to get answer from OpenAI: ' . $e->getMessage());
-			$this->answer = __('An error occurred while trying to retrieve the answer') . ' (' . __($error_code) . ')' . "\n";
+			Log::error('Failed to get answer from DeepSeek: ' . $e->getMessage());
+
+			$errorMessage = __('An error occurred while trying to retrieve the answer');
+
+			if ($response) {
+				$errorBody = json_decode($response->body());
+				if ($errorBody && isset($errorBody->error->code)) {
+					$errorMessage .= ' (' . __($errorBody->error->code) . ')';
+				}
+			}
+
+			$this->answer = $errorMessage . "\n";
 		}
 	}
 }; ?>
