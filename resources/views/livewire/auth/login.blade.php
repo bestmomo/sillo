@@ -82,7 +82,7 @@ class extends Component
     <x-card class="flex items-center justify-center h-screen" title="{{ __('Log In') }}" shadow separator progress-indicator>
         <x-form wire:submit="login" >
             <x-input label="{{ __('Your e-mail') }}" wire:model="email" icon="o-envelope" type="email" required />
-            <x-input label="{{ __('Your password') }}" wire:model="password" type="password" icon="o-key" type="password" required />
+            <x-password label="{{ __('Your password') }}" wire:model="password" clearable required />
             <x-checkbox label="{{ __('Remain identified for a few days') }}" wire:model="remember" />
             <p class="text-xs text-gray-500"><span class="text-red-600">*</span> @lang('Required information')</p>
             <x-slot:actions>

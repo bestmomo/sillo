@@ -24,7 +24,7 @@
     <x-main full-width>
 
         {{-- SIDEBAR --}}
-        <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100">
+        <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100" collapse-text="{{ __('Collapse') }}">
             <livewire:admin.sidebar />
         </x-slot:sidebar>
 
