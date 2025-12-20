@@ -154,9 +154,9 @@ new class() extends Component
 
     <!-- Affichage du titre en fonction de la catégorie, de la série ou du paramètre de recherche -->
     @if ($category)
-        <x-header title="{{ __('Posts for category ') }} {{ $category->title }}" size="text-2xl sm:text-3xl md:text-4xl" />
+        <x-header title="{{ __('Posts for category ') }} {!! $category->title !!}" size="text-2xl sm:text-3xl md:text-4xl" />
     @elseif($serie)
-        <x-header title="{{ __('Posts for serie ') }} {{ $serie->title }}" size="text-2xl sm:text-3xl md:text-4xl" />
+        <x-header title="{{ __('Posts for serie ') }} {!! $serie->title !!}" size="text-2xl sm:text-3xl md:text-4xl" />
     @elseif($param !== '')
         <x-header title="{{ __('Posts for search ') }} '{{ $param }}'" size="text-2xl sm:text-3xl md:text-4xl" />
     @elseif($favorites)
@@ -210,7 +210,7 @@ new class() extends Component
                         <div class="flex flex-col items-end space-y-2 sm:items-start sm:flex-row sm:space-y-0 sm:space-x-2">
                             <x-popover>
                                 <x-slot:trigger>
-                                    <x-button label="{{ $post->category->title }}"
+                                    <x-button label="{!! $post->category->title !!}"
                                         link="{{ url('/category/' . $post->category->slug) }}" class="mt-1 btn-outline btn-sm" />
                                 </x-slot:trigger>
                                 <x-slot:content class="pop-small">
@@ -221,7 +221,7 @@ new class() extends Component
                             @if ($post->serie)
                                 <x-popover>
                                     <x-slot:trigger>
-                                        <x-button label="{{ $post->serie->title }}"
+                                        <x-button label="{!! $post->serie->title !!}"
                                             link="{{ url('/serie/' . $post->serie->slug) }}" class="mt-1 btn-outline btn-sm" />
                                     </x-slot:trigger>
                                     <x-slot:content class="pop-small">
