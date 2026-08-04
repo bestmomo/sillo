@@ -166,7 +166,7 @@ new class() extends Component
 
     <!-- Pagination supérieure -->
     <div class="mb-4 mary-table-pagination">
-        <div class="mb-5 border border-t-0 border-x-0 border-b-1 border-b-base-300"></div>
+        <div class="mb-5 border border-t-0 border-x-0 border-b border-b-base-300"></div>
         {{ $posts->links() }}
     </div>
 
@@ -175,7 +175,7 @@ new class() extends Component
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse($posts as $post)
                 <x-card
-                    class="w-full transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
+                    class="w-full min-w-0 overflow-hidden transition duration-500 ease-in-out shadow-md shadow-gray-500 hover:shadow-xl hover:shadow-gray-500"
                     title="{!! $post->title !!}">
     
                     <div class="text-justify">{!! str(strip_tags($post->excerpt))->words(config('app.excerptSize')) !!}</div>
@@ -188,7 +188,7 @@ new class() extends Component
                     @if($post->image)
                         <x-slot:figure>
                             <a href="{{ url('/posts/' . $post->slug) }}">
-                                <img src="{{ asset('storage/photos/' . $post->image) }}" alt="{{ $post->title }}" />
+                                <img src="{{ asset('storage/photos/' . $post->image) }}" alt="{{ $post->title }}" class="max-w-full h-auto" />
                             </a>
                         </x-slot:figure>
                     @endif
@@ -254,12 +254,12 @@ new class() extends Component
 
     <!-- Pagination inférieure -->
     <div class="mb-4 mary-table-pagination">
-        <div class="mb-5 border border-t-0 border-x-0 border-b-1 border-b-base-300"></div>
+        <div class="mb-5 border border-t-0 border-x-0 border-b border-b-base-300"></div>
         {{ $posts->links() }}
     </div>
 
     @if (request()->is('/') && $comments->isNotEmpty())
-        <x-card title="{{ __('Recent Comments') }}" shadow separator class="mt-2">
+        <x-card title="{{ __('Recent Comments') }}" shadow separator class="mt-2 w-full overflow-x-hidden">
             @foreach ($comments as $comment)
                 <x-list-item :item="$comment" no-separator no-hover>
                     <x-slot:avatar>
@@ -270,7 +270,7 @@ new class() extends Component
                         </x-avatar>
                     </x-slot:avatar>
                     <x-slot:value>
-                        @lang ('in post:') {{ $comment->post->title }}
+                        <span class="truncate">@lang ('in post:') {{ $comment->post->title }}</span>
                     </x-slot:value>
                     <x-slot:actions>
                         <x-popover position="top-start">
@@ -284,15 +284,17 @@ new class() extends Component
                         </x-popover>
                     </x-slot:actions>
                 </x-list-item>
-                <p class="ml-16">{!! Str::words(nl2br($comment->body), 20, ' ...') !!}</p>
+                <div class="w-full pl-4 pr-4 break-words overflow-x-hidden"><div class="max-w-full">{!! Str::words(nl2br($comment->body), 20, ' ...') !!}</div></div>
                 <br>
             @endforeach
         </x-card>
     @endif
 
     @if(!empty($upcoming_events))
-        <x-card title="{{ __('Upcoming events') }}" shadow separator class="flex items-center justify-center mt-4">
-            <x-calendar :events="$upcoming_events" months="3" locale="{{ env('APP_CALENDAR_LOCALE') }}" />
+        <x-card title="{{ __('Upcoming events') }}" shadow separator class="flex items-center justify-center mt-4 w-full">
+            <div class="w-full overflow-x-auto">
+                <x-calendar :events="$upcoming_events" months="3" locale="{{ env('APP_CALENDAR_LOCALE') }}" />
+            </div>
         </x-card>
     @endif
 </div>
