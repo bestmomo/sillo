@@ -22,6 +22,7 @@ yarn-error.log
 .php-cs-fixer.cache
 package-lock.json
 /storage/app/purifier/HTML/*.*
+/storage/app/public/photos
 composer.phar
 composer.lock
 .rnd
